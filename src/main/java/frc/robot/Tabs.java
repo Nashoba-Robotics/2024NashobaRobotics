@@ -58,12 +58,32 @@ public class Tabs {
           return -0.001768;
      }
 
-     // public static SimpleWidget putBoolean(String tabName, String label, boolean bool){
-     //      return Shuffleboard.getTab(tabName).add(label, bool);
-     // }
+     public static SimpleWidget putBoolean(String tabName, String label, boolean bool){
+          HashSet<String> names;
+          if(tabNames.containsKey(tabName)) names = tabNames.get(tabName);
+          else return null;//<-- TODO: Need a better solution
+          
+          String newName = getEntryName(tabName, label);
+          if(names.contains(label)){
+               SimpleWidget widget = widgets.get(newName);
+               widget.getEntry().setBoolean(bool);
+               return widget;
+          }
 
-     // public static boolean getBool(String tabName, String label){
-     //      GenericEntry entry = Shuffleboard.getTab("tabName").add("label", 0).getEntry();
-     //      return entry.getBoolean(false);
-     // }
+          names.add(label);
+          
+          SimpleWidget widget = addTab(tabName).add(label, 0);
+          widget.getEntry().setBoolean(bool);
+          widgets.put(newName, widget);
+          return widget;
+     }
+
+     public static boolean getBool(String tabName, String label){
+          HashSet<String> names = tabNames.get(tabName);
+          String newName = getEntryName(tabName, label);
+          if(names.contains(label)){
+               return widgets.get(newName).getEntry().getBoolean(false);
+          }
+          return false;
+     }
 }

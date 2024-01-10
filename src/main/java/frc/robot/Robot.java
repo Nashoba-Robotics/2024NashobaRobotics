@@ -80,15 +80,11 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    Tabs.addTab("Test");
-    Tabs.putNumber("Test", "Test", 1);
-    Tabs.putNumber("Ben", "Sucks", 1);
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    SmartDashboard.putNumber("Hi", Tabs.getNumber("Test", "Test"));
   }
 
   @Override
