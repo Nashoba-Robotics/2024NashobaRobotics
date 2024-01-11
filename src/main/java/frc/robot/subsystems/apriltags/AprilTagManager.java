@@ -35,7 +35,7 @@ public class AprilTagManager extends SubsystemBase{
     boolean exists = true;
 
     public AprilTagManager(){
-        camera = new PhotonCamera("Yi's Little buddy");//TODO: Figure out a fail-safe if "Photonvision doesn't exist"
+        camera = new PhotonCamera("Yi's_Little_Buddy");//TODO: Figure out a fail-safe if "Photonvision doesn't exist"
         // PhotonPipelineResult x = camera.getLatestResult();
          Transform3d kRobotToCam = new Transform3d(new Translation3d(Units.inchesToMeters(13.0), 0.0, 0.0), new Rotation3d(0, 0, 0));
 
