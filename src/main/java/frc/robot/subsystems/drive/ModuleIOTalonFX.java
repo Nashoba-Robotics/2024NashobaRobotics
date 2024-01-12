@@ -18,13 +18,14 @@ public class ModuleIOTalonFX implements ModuleIO {
     
     private TalonFX moveMotor;
     private TalonFX turnMotor;
-
     private CANcoder encoder;
     
      public ModuleIOTalonFX(SwerveModuleConstants constants, String canbusName) {
         module = new SwerveModule(constants, canbusName);
+
         position = module.getCachedPosition();// TODO: test latency compensation getPosition()
         state = module.getCurrentState();
+
         moveMotor = module.getDriveMotor();
         turnMotor = module.getSteerMotor();
         encoder = module.getCANcoder();
@@ -55,6 +56,10 @@ public class ModuleIOTalonFX implements ModuleIO {
 
     public SwerveModulePosition getPosition() {
         return position;
+    }
+
+    public SwerveModuleState getState() {
+        return state;
     }
 
 }

@@ -5,6 +5,7 @@ import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -12,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.lib.math.NRUnits;
 import frc.robot.lib.math.SwerveMath;
-import frc.robot.lib.util.JoystickValues;
 
 public class DriveSubsystem extends SubsystemBase{
 
@@ -40,10 +40,10 @@ public class DriveSubsystem extends SubsystemBase{
         odometry = new SwerveDriveOdometry(Constants.Drive.KINEMATICS, Rotation2d.fromRadians(getGyroAngle()), getSwerveModulePositions());
     }
 
-    public void set(Translation2d move, Rotation2d turn) {
-        double x = move.getX();
-        double y = move.getY();
-        double omega = turn.getRadians();
+    public void set(ChassisSpeeds chassisSpeeds) {
+        double x = chassisSpeeds.vxMetersPerSecond;
+        double y = chassisSpeeds.vyMetersPerSecond;
+        double omega = chassisSpeeds.omegaRadiansPerSecond;
 
         if(fieldCentric) {
             double angleDiff = Math.atan2(y, x) - getGyroAngle(); //difference between input angle and gyro angle gives desired field relative angle

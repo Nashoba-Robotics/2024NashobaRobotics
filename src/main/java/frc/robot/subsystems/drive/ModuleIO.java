@@ -27,5 +27,6 @@ public interface ModuleIO {
 
     public default void set(SwerveModuleState state) {}
     public SwerveModulePosition getPosition();
+    public SwerveModuleState getState();
 
 }

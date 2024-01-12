@@ -5,7 +5,6 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.ClosedLoopOutputType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants.SteerFeedbackType;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -38,104 +37,104 @@ public class Constants {
       public static final double MAX_ROTATION_VELOCITY = 0; // RadPS
 
       public static final SwerveModuleConstants MOD0_CONSTANTS = new SwerveModuleConstants()
-      .withCANcoderId(0)
-      .withCANcoderOffset(0)
-      .withCouplingGearRatio(0)
-      .withDriveFrictionVoltage(0)
-      .withDriveInertia(0)
-      .withDriveMotorClosedLoopOutput(null)
-      .withDriveMotorGains(new Slot0Configs())
-      .withDriveMotorGearRatio(0)
-      .withDriveMotorId(0)
-      .withDriveMotorInverted(false)
-      .withFeedbackSource(SteerFeedbackType.FusedCANcoder)  //<-- We're probably doing this
-      .withLocationX(0)
-      .withLocationY(0)
-      .withSlipCurrent(0)
-      .withSpeedAt12VoltsMps(0)
-      .withSteerFrictionVoltage(0)
-      .withSteerInertia(0)
-      .withSteerMotorClosedLoopOutput(ClosedLoopOutputType.Voltage) //IDK Test later
-      .withSteerMotorGains(new Slot0Configs())
-      .withSteerMotorGearRatio(0)
-      .withSteerMotorId(0)
-      .withSteerMotorInverted(false)
-      .withWheelRadius(0);
+        .withCANcoderId(0)
+        .withCANcoderOffset(0)
+        .withCouplingGearRatio(0)
+        .withDriveFrictionVoltage(0)
+        .withDriveInertia(0)
+        .withDriveMotorClosedLoopOutput(null)
+        .withDriveMotorGains(new Slot0Configs())
+        .withDriveMotorGearRatio(0)
+        .withDriveMotorId(0)
+        .withDriveMotorInverted(false)
+        .withFeedbackSource(SteerFeedbackType.FusedCANcoder)  //<-- We're probably doing this
+        .withLocationX(0)
+        .withLocationY(0)
+        .withSlipCurrent(0)
+        .withSpeedAt12VoltsMps(0)
+        .withSteerFrictionVoltage(0)
+        .withSteerInertia(0)
+        .withSteerMotorClosedLoopOutput(ClosedLoopOutputType.Voltage) //IDK Test later
+        .withSteerMotorGains(new Slot0Configs())
+        .withSteerMotorGearRatio(0)
+        .withSteerMotorId(0)
+        .withSteerMotorInverted(false)
+        .withWheelRadius(0);
 
       public static final SwerveModuleConstants MOD1_CONSTANTS = new SwerveModuleConstants()
-      .withCANcoderId(0)
-      .withCANcoderOffset(0)
-      .withCouplingGearRatio(0)
-      .withDriveFrictionVoltage(0)
-      .withDriveInertia(0)
-      .withDriveMotorClosedLoopOutput(null)
-      .withDriveMotorGains(new Slot0Configs())
-      .withDriveMotorGearRatio(0)
-      .withDriveMotorId(0)
-      .withDriveMotorInverted(false)
-      .withFeedbackSource(SteerFeedbackType.FusedCANcoder)  //<-- We're probably doing this
-      .withLocationX(0)
-      .withLocationY(0)
-      .withSlipCurrent(0)
-      .withSpeedAt12VoltsMps(0)
-      .withSteerFrictionVoltage(0)
-      .withSteerInertia(0)
-      .withSteerMotorClosedLoopOutput(ClosedLoopOutputType.Voltage) //IDK Test later
-      .withSteerMotorGains(new Slot0Configs())
-      .withSteerMotorGearRatio(0)
-      .withSteerMotorId(0)
-      .withSteerMotorInverted(false)
-      .withWheelRadius(0);
+        .withCANcoderId(0)
+        .withCANcoderOffset(0)
+        .withCouplingGearRatio(0)
+        .withDriveFrictionVoltage(0)
+        .withDriveInertia(0)
+        .withDriveMotorClosedLoopOutput(null)
+        .withDriveMotorGains(new Slot0Configs())
+        .withDriveMotorGearRatio(0)
+        .withDriveMotorId(0)
+        .withDriveMotorInverted(false)
+        .withFeedbackSource(SteerFeedbackType.FusedCANcoder)  //<-- We're probably doing this
+        .withLocationX(0)
+        .withLocationY(0)
+        .withSlipCurrent(0)
+        .withSpeedAt12VoltsMps(0)
+        .withSteerFrictionVoltage(0)
+        .withSteerInertia(0)
+        .withSteerMotorClosedLoopOutput(ClosedLoopOutputType.Voltage) //IDK Test later
+        .withSteerMotorGains(new Slot0Configs())
+        .withSteerMotorGearRatio(0)
+        .withSteerMotorId(0)
+        .withSteerMotorInverted(false)
+        .withWheelRadius(0);
       
       public static final SwerveModuleConstants MOD2_CONSTANTS = new SwerveModuleConstants()
-      .withCANcoderId(0)
-      .withCANcoderOffset(0)
-      .withCouplingGearRatio(0)
-      .withDriveFrictionVoltage(0)
-      .withDriveInertia(0)
-      .withDriveMotorClosedLoopOutput(null)
-      .withDriveMotorGains(new Slot0Configs())
-      .withDriveMotorGearRatio(0)
-      .withDriveMotorId(0)
-      .withDriveMotorInverted(false)
-      .withFeedbackSource(SteerFeedbackType.FusedCANcoder)  //<-- We're probably doing this
-      .withLocationX(0)
-      .withLocationY(0)
-      .withSlipCurrent(0)
-      .withSpeedAt12VoltsMps(0)
-      .withSteerFrictionVoltage(0)
-      .withSteerInertia(0)
-      .withSteerMotorClosedLoopOutput(ClosedLoopOutputType.Voltage) //IDK Test later
-      .withSteerMotorGains(new Slot0Configs())
-      .withSteerMotorGearRatio(0)
-      .withSteerMotorId(0)
-      .withSteerMotorInverted(false)
-      .withWheelRadius(0);
+        .withCANcoderId(0)
+        .withCANcoderOffset(0)
+        .withCouplingGearRatio(0)
+        .withDriveFrictionVoltage(0)
+        .withDriveInertia(0)
+        .withDriveMotorClosedLoopOutput(null)
+        .withDriveMotorGains(new Slot0Configs())
+        .withDriveMotorGearRatio(0)
+        .withDriveMotorId(0)
+        .withDriveMotorInverted(false)
+        .withFeedbackSource(SteerFeedbackType.FusedCANcoder)  //<-- We're probably doing this
+        .withLocationX(0)
+        .withLocationY(0)
+        .withSlipCurrent(0)
+        .withSpeedAt12VoltsMps(0)
+        .withSteerFrictionVoltage(0)
+        .withSteerInertia(0)
+        .withSteerMotorClosedLoopOutput(ClosedLoopOutputType.Voltage) //IDK Test later
+        .withSteerMotorGains(new Slot0Configs())
+        .withSteerMotorGearRatio(0)
+        .withSteerMotorId(0)
+        .withSteerMotorInverted(false)
+        .withWheelRadius(0);
       
       public static final SwerveModuleConstants MOD3_CONSTANTS = new SwerveModuleConstants()
-      .withCANcoderId(0)
-      .withCANcoderOffset(0)
-      .withCouplingGearRatio(0)
-      .withDriveFrictionVoltage(0)
-      .withDriveInertia(0)
-      .withDriveMotorClosedLoopOutput(null)
-      .withDriveMotorGains(new Slot0Configs())
-      .withDriveMotorGearRatio(0)
-      .withDriveMotorId(0)
-      .withDriveMotorInverted(false)
-      .withFeedbackSource(SteerFeedbackType.FusedCANcoder)  //<-- We're probably doing this
-      .withLocationX(0)
-      .withLocationY(0)
-      .withSlipCurrent(0)
-      .withSpeedAt12VoltsMps(0)
-      .withSteerFrictionVoltage(0)
-      .withSteerInertia(0)
-      .withSteerMotorClosedLoopOutput(ClosedLoopOutputType.Voltage) //IDK Test later
-      .withSteerMotorGains(new Slot0Configs())
-      .withSteerMotorGearRatio(0)
-      .withSteerMotorId(0)
-      .withSteerMotorInverted(false)
-      .withWheelRadius(0);
+        .withCANcoderId(0)
+        .withCANcoderOffset(0)
+        .withCouplingGearRatio(0)
+        .withDriveFrictionVoltage(0)
+        .withDriveInertia(0)
+        .withDriveMotorClosedLoopOutput(null)
+        .withDriveMotorGains(new Slot0Configs())
+        .withDriveMotorGearRatio(0)
+        .withDriveMotorId(0)
+        .withDriveMotorInverted(false)
+        .withFeedbackSource(SteerFeedbackType.FusedCANcoder)  //<-- We're probably doing this
+        .withLocationX(0)
+        .withLocationY(0)
+        .withSlipCurrent(0)
+        .withSpeedAt12VoltsMps(0)
+        .withSteerFrictionVoltage(0)
+        .withSteerInertia(0)
+        .withSteerMotorClosedLoopOutput(ClosedLoopOutputType.Voltage) //IDK Test later
+        .withSteerMotorGains(new Slot0Configs())
+        .withSteerMotorGearRatio(0)
+        .withSteerMotorId(0)
+        .withSteerMotorInverted(false)
+        .withWheelRadius(0);
     }
 
     public static final class Joystick {
