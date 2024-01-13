@@ -21,14 +21,14 @@ public class DriveSubsystem extends SubsystemBase{
     private Module[] modules;
 
     private GyroIO gyroIO;
-    private GyroIOInputsAutoLogged gyroInputs;
+    private GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
 
     private boolean fieldCentric;
 
     public DriveSubsystem() {
         gyroIO = new GyroIOPigeon2();
 
-        fieldCentric = true;
+        fieldCentric = false;
 
         modules = new Module[] {
             new Module(0, Constants.Drive.CANBUS),
@@ -37,7 +37,7 @@ public class DriveSubsystem extends SubsystemBase{
             new Module(3, Constants.Drive.CANBUS)
         };
 
-        odometry = new SwerveDriveOdometry(Constants.Drive.KINEMATICS, Rotation2d.fromRadians(getGyroAngle()), getSwerveModulePositions());
+        odometry = new SwerveDriveOdometry(Constants.Drive.KINEMATICS, getGyroAngle(), getSwerveModulePositions());
     }
 
     public void set(ChassisSpeeds chassisSpeeds) {
@@ -46,7 +46,7 @@ public class DriveSubsystem extends SubsystemBase{
         double omega = chassisSpeeds.omegaRadiansPerSecond;
 
         if(fieldCentric) {
-            double angleDiff = Math.atan2(y, x) - getGyroAngle(); //difference between input angle and gyro angle gives desired field relative angle
+            double angleDiff = Math.atan2(y, x) - getGyroAngle().getRadians(); //difference between input angle and gyro angle gives desired field relative angle
             double r = Math.sqrt(x*x + y*y); //magnitude of translation vector
             x = r * Math.cos(angleDiff);
             y = r * Math.sin(angleDiff);
@@ -80,6 +80,10 @@ public class DriveSubsystem extends SubsystemBase{
         }
     }
 
+    public void set(SwerveModuleState state, int modIndex) {
+        modules[modIndex].set(state);
+    }
+
     private boolean resetting = false;
     public void resetOdometry(Pose2d pose, Rotation2d angle) {
         resetting = true;
@@ -93,6 +97,14 @@ public class DriveSubsystem extends SubsystemBase{
             positions[i] = modules[i].getPosition();
         }
         return positions;
+    }
+
+    public SwerveModuleState[] getSwerveModuleStates() {
+        SwerveModuleState[] states = new SwerveModuleState[modules.length];
+        for(int i = 0; i < modules.length; i++) {
+            states[i] = modules[i].getState();
+        }
+        return states;
     }
 
     public void setStates(SwerveModuleState[] states) {
@@ -123,20 +135,20 @@ public class DriveSubsystem extends SubsystemBase{
         return odometry.getPoseMeters();
     }
 
-    public double getGyroAngle() {
-        return NRUnits.constrainDeg(getYaw()) * Constants.TAU / 360;
+    public Rotation2d getGyroAngle() {
+        return Rotation2d.fromRadians(NRUnits.constrainRad(getYaw().getRadians()) * Constants.TAU / 360);
     }
 
-    public double getYaw(){
-        return gyroInputs.yaw;
+    public Rotation2d getYaw(){
+        return Rotation2d.fromRadians(gyroInputs.yaw);
     }
 
-    public double getPitch(){
-        return gyroInputs.pitch;
+    public Rotation2d getPitch(){
+        return Rotation2d.fromRadians(gyroInputs.pitch);
     }
 
-    public double getRoll(){
-        return gyroInputs.roll;
+    public Rotation2d getRoll(){
+        return Rotation2d.fromRadians(gyroInputs.roll);
     }
 
     @Override
@@ -148,7 +160,7 @@ public class DriveSubsystem extends SubsystemBase{
             module.periodic();
         }
 
-        if(!resetting) odometry.update(Rotation2d.fromRadians(getGyroAngle()), getSwerveModulePositions());
+        if(!resetting) odometry.update(getGyroAngle(), getSwerveModulePositions());
         Pose2d pose = odometry.getPoseMeters();
 
         Logger.recordOutput("Drive/Odometry/X", pose.getX());

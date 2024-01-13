@@ -13,7 +13,7 @@ public class Module {
     public int modIndex;
  
     private ModuleIO io;
-    private ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
+    public ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
 
     public void periodic() {
         io.updateInputs(inputs);

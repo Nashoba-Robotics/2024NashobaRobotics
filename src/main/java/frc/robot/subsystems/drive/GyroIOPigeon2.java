@@ -13,7 +13,7 @@ public class GyroIOPigeon2 implements GyroIO {
     private Pigeon2Configuration gyroConfig;
 
     public GyroIOPigeon2() {
-        gyro = new Pigeon2(Constants.Misc.GYRO_PORT, "drivet");
+        gyro = new Pigeon2(Constants.Misc.GYRO_PORT, "rio");
         gyroConfigurator = gyro.getConfigurator();
         config();
 

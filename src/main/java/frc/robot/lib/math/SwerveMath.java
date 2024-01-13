@@ -1,6 +1,7 @@
 package frc.robot.lib.math;
 
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.Constants;
 
 public class SwerveMath {
     
@@ -12,7 +13,7 @@ public class SwerveMath {
             max = state.speedMetersPerSecond > max ? state.speedMetersPerSecond : max;
         }
 
-        if(max > 1) {
+        if(max > Constants.Drive.MAX_VELOCITY) {
             for(SwerveModuleState state : states) {
                 state.speedMetersPerSecond /= max;
             }
