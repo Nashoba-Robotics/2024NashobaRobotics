@@ -13,7 +13,7 @@ public class Module {
     public int modIndex;
  
     private ModuleIO io;
-    private ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
+    public ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
 
     public void periodic() {
         io.updateInputs(inputs);
@@ -53,6 +53,10 @@ public class Module {
 
     public SwerveModulePosition getPosition() {
         return io.getPosition();
+    }
+
+    public SwerveModuleState getState() {
+        return io.getState();
     }
 
 }

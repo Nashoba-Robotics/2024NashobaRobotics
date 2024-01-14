@@ -13,7 +13,7 @@ public class GyroIOPigeon2 implements GyroIO {
     private Pigeon2Configuration gyroConfig;
 
     public GyroIOPigeon2() {
-        gyro = new Pigeon2(Constants.Misc.GYRO_PORT, "drivet");
+        gyro = new Pigeon2(Constants.Misc.GYRO_PORT, "rio");
         gyroConfigurator = gyro.getConfigurator();
         config();
 
@@ -28,9 +28,9 @@ public class GyroIOPigeon2 implements GyroIO {
     }
 
     public void updateInputs(GyroIOInputs inputs) {
-        inputs.yaw = gyro.getYaw().getValue();
-        inputs.pitch = gyro.getPitch().getValue();
-        inputs.roll = gyro.getRoll().getValue();
+        inputs.yaw = gyro.getYaw().getValue() * Constants.TAU/360;
+        inputs.pitch = gyro.getPitch().getValue() * Constants.TAU/360;
+        inputs.roll = gyro.getRoll().getValue() * Constants.TAU/360;
     }
 
     public void setYaw(double angle) {

@@ -2,17 +2,25 @@ package frc.robot.subsystems.drive;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.lib.math.NRUnits;
 import frc.robot.lib.math.SwerveMath;
-import frc.robot.lib.util.JoystickValues;
 
 public class DriveSubsystem extends SubsystemBase{
 
@@ -21,7 +29,7 @@ public class DriveSubsystem extends SubsystemBase{
     private Module[] modules;
 
     private GyroIO gyroIO;
-    private GyroIOInputsAutoLogged gyroInputs;
+    private GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
 
     private boolean fieldCentric;
 
@@ -37,16 +45,46 @@ public class DriveSubsystem extends SubsystemBase{
             new Module(3, Constants.Drive.CANBUS)
         };
 
-        odometry = new SwerveDriveOdometry(Constants.Drive.KINEMATICS, Rotation2d.fromRadians(getGyroAngle()), getSwerveModulePositions());
+        odometry = new SwerveDriveOdometry(Constants.Drive.KINEMATICS, getGyroAngle(), getSwerveModulePositions());
+
+        AutoBuilder.configureHolonomic(
+                this::getPose, // Robot pose supplier
+                this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+                this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+                this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+                new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+                        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
+                        4.5, // Max module speed, in m/s
+                        0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+                        new ReplanningConfig() // Default path replanning config. See the API for the options here
+                ),
+                () -> {
+                    // Boolean supplier that controls when the path will be mirrored for the red alliance
+                    // This will flip the path being followed to the red side of the field.
+                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
+                },
+                this // Reference to this subsystem to set requirements
+        );
     }
 
-    public void set(Translation2d move, Rotation2d turn) {
-        double x = move.getX();
-        double y = move.getY();
-        double omega = turn.getRadians();
+
+    public void set(ChassisSpeeds chassisSpeeds) {
+        double x = chassisSpeeds.vxMetersPerSecond;
+        double y = chassisSpeeds.vyMetersPerSecond;
+
+        double omega = chassisSpeeds.omegaRadiansPerSecond;
 
         if(fieldCentric) {
-            double angleDiff = Math.atan2(y, x) - getGyroAngle(); //difference between input angle and gyro angle gives desired field relative angle
+            double angleDiff = Math.atan2(y, x) - getGyroAngle().getRadians(); //difference between input angle and gyro angle gives desired field relative angle
+            SmartDashboard.putNumber("GyroAngle", getGyroAngle().getDegrees());
+            SmartDashboard.putNumber("AngleDiff", angleDiff * 360/Constants.TAU);
             double r = Math.sqrt(x*x + y*y); //magnitude of translation vector
             x = r * Math.cos(angleDiff);
             y = r * Math.sin(angleDiff);
@@ -80,6 +118,14 @@ public class DriveSubsystem extends SubsystemBase{
         }
     }
 
+    public void set(SwerveModuleState state, int modIndex) {
+        modules[modIndex].set(state);
+    }
+
+    public void resetPose(Pose2d pose) {
+        resetOdometry(pose, getGyroAngle());
+    }
+
     private boolean resetting = false;
     public void resetOdometry(Pose2d pose, Rotation2d angle) {
         resetting = true;
@@ -94,6 +140,23 @@ public class DriveSubsystem extends SubsystemBase{
         }
         return positions;
     }
+
+    public SwerveModuleState[] getSwerveModuleStates() {
+        SwerveModuleState[] states = new SwerveModuleState[modules.length];
+        for(int i = 0; i < modules.length; i++) {
+            states[i] = modules[i].getState();
+        }
+        return states;
+    }
+
+    public ChassisSpeeds getRobotRelativeSpeeds() {
+        return Constants.Drive.KINEMATICS.toChassisSpeeds(getSwerveModuleStates());
+    }
+
+    public void driveRobotRelative(ChassisSpeeds speeds) {
+        setStates(Constants.Drive.KINEMATICS.toSwerveModuleStates(speeds));
+    }
+
 
     public void setStates(SwerveModuleState[] states) {
         for(int i = 0; i < modules.length; i++) {
@@ -123,20 +186,20 @@ public class DriveSubsystem extends SubsystemBase{
         return odometry.getPoseMeters();
     }
 
-    public double getGyroAngle() {
-        return NRUnits.constrainDeg(getYaw()) * Constants.TAU / 360;
+    public Rotation2d getGyroAngle() {
+        return Rotation2d.fromRadians(NRUnits.constrainRad(getYaw().getRadians()));
     }
 
-    public double getYaw(){
-        return gyroInputs.yaw;
+    public Rotation2d getYaw(){
+        return Rotation2d.fromRadians(gyroInputs.yaw);
     }
 
-    public double getPitch(){
-        return gyroInputs.pitch;
+    public Rotation2d getPitch(){
+        return Rotation2d.fromRadians(gyroInputs.pitch);
     }
 
-    public double getRoll(){
-        return gyroInputs.roll;
+    public Rotation2d getRoll(){
+        return Rotation2d.fromRadians(gyroInputs.roll);
     }
 
     @Override
@@ -148,7 +211,7 @@ public class DriveSubsystem extends SubsystemBase{
             module.periodic();
         }
 
-        if(!resetting) odometry.update(Rotation2d.fromRadians(getGyroAngle()), getSwerveModulePositions());
+        if(!resetting) odometry.update(getGyroAngle(), getSwerveModulePositions());
         Pose2d pose = odometry.getPoseMeters();
 
         Logger.recordOutput("Drive/Odometry/X", pose.getX());
