@@ -24,7 +24,7 @@ public class ModuleIOTalonFX implements ModuleIO {
      public ModuleIOTalonFX(SwerveModuleConstants constants, String canbusName) {
         module = new SwerveModule(constants, canbusName);
 
-        position = module.getCachedPosition();// TODO: test latency compensation getPosition()
+        position = module.getPosition(true);// TODO: test latency compensation getPosition()
         state = module.getCurrentState();
 
         moveMotor = module.getDriveMotor();
@@ -33,7 +33,7 @@ public class ModuleIOTalonFX implements ModuleIO {
     }    
 
     public void updateInputs(ModuleIOInputs inputs) {
-        position = module.getCachedPosition();
+        position = module.getPosition(true);
         state = module.getCurrentState();
 
         inputs.movePosition = position.distanceMeters;
@@ -51,6 +51,13 @@ public class ModuleIOTalonFX implements ModuleIO {
     }
 
     public void set(SwerveModuleState state) {
+        if(state.speedMetersPerSecond == 0) {
+            module.apply(
+                new SwerveModuleState(0, module.getTargetState().angle),
+                DriveRequestType.Velocity,
+                SteerRequestType.MotionMagic
+            );
+        } else
         // TODO: test MotionMagicExpo
         module.apply(state, DriveRequestType.Velocity, SteerRequestType.MotionMagic);
     }

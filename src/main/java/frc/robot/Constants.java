@@ -32,15 +32,14 @@ public class Constants {
       public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
       
       public static final double MAX_VELOCITY = 4.23; // MPS
-      public static final double MAX_ROTATION_VELOCITY = 0; // RadPS
+      public static final double MAX_ROTATION_VELOCITY = 10; // RadPS
 
       private static final Slot0Configs steerGains = new Slot0Configs()
           .withKP(100).withKI(0).withKD(0)
           .withKS(0).withKV(2.7272).withKA(0);
       private static final Slot0Configs driveGains = new Slot0Configs()
-          .withKP(0.07).withKI(0).withKD(0.001)
+          .withKP(0.1).withKI(0).withKD(0.001)
           .withKS(0).withKV(0.1139).withKA(0);
-
 
       private static final ClosedLoopOutputType steerClosedLoopOutput = ClosedLoopOutputType.Voltage;
       private static final ClosedLoopOutputType driveClosedLoopOutput = ClosedLoopOutputType.Voltage;
@@ -71,12 +70,6 @@ public class Constants {
       private static final double kSteerFrictionVoltage = 0.25;
       private static final double kDriveFrictionVoltage = 0.25;
 
-
-      private static final SwerveDrivetrainConstants DrivetrainConstants = new SwerveDrivetrainConstants()
-              .withPigeon2Id(kPigeonId)
-              .withCANbusName(kCANbusName);
-
-
       private static final SwerveModuleConstantsFactory ConstantCreator = new SwerveModuleConstantsFactory()
               .withDriveMotorGearRatio(kDriveGearRatio)
               .withSteerMotorGearRatio(kSteerGearRatio)
@@ -99,7 +92,7 @@ public class Constants {
       private static final int kFrontLeftDriveMotorId = 1;
       private static final int kFrontLeftSteerMotorId = 5;
       private static final int kFrontLeftEncoderId = 1;
-      private static final double kFrontLeftEncoderOffset = 0.44677734375;
+      private static final double kFrontLeftEncoderOffset = 0.461914;
 
       private static final double kFrontLeftXPosInches = 10.375;
       private static final double kFrontLeftYPosInches = 10.375;
@@ -108,7 +101,7 @@ public class Constants {
       private static final int kFrontRightDriveMotorId = 0;
       private static final int kFrontRightSteerMotorId = 4;
       private static final int kFrontRightEncoderId = 0;
-      private static final double kFrontRightEncoderOffset = -0.0908203125;
+      private static final double kFrontRightEncoderOffset = -0.108887;
 
       private static final double kFrontRightXPosInches = 10.375;
       private static final double kFrontRightYPosInches = -10.375;
@@ -117,7 +110,7 @@ public class Constants {
       private static final int kBackLeftDriveMotorId = 2;
       private static final int kBackLeftSteerMotorId = 6;
       private static final int kBackLeftEncoderId = 2;
-      private static final double kBackLeftEncoderOffset = -0.443603515625;
+      private static final double kBackLeftEncoderOffset = -0.443848;
 
       private static final double kBackLeftXPosInches = -10.375;
       private static final double kBackLeftYPosInches = 10.375;
@@ -126,7 +119,7 @@ public class Constants {
       private static final int kBackRightDriveMotorId = 3;
       private static final int kBackRightSteerMotorId = 7;
       private static final int kBackRightEncoderId = 3;
-      private static final double kBackRightEncoderOffset = 0.212158203125;
+      private static final double kBackRightEncoderOffset = 0.209229;
 
       private static final double kBackRightXPosInches = -10.375;
       private static final double kBackRightYPosInches = -10.375;

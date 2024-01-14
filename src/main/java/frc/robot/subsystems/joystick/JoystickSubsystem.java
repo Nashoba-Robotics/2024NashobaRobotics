@@ -1,46 +1,51 @@
 package frc.robot.subsystems.joystick;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants;
 import frc.robot.lib.util.JoystickValues;
 
 public class JoystickSubsystem extends SubsystemBase{
-    private CommandJoystick rightJoystick;
-    private CommandJoystick leftJoystick;
 
-    private CommandJoystick operatorController;
+    private JoystickIO io;
+    private JoystickIOInputsAutoLogged inputs = new JoystickIOInputsAutoLogged();
+
+    @Override
+    public void periodic() {
+        io.updateInputs(inputs);
+        Logger.processInputs("Joysticks", inputs);
+    }
 
     public JoystickSubsystem() {
-        rightJoystick = new CommandJoystick(Constants.Joystick.RIGHT_JOYSTICK_PORT);
-        leftJoystick = new CommandJoystick(Constants.Joystick.LEFT_JOYSTICK_PORT);
-        operatorController = new CommandJoystick(Constants.Joystick.OPERATOR_PORT);
+        io = new JoystickIOThrustMaster();
     }
 
     public JoystickValues getRightJoystickValues() {
-        return new JoystickValues(rightJoystick.getX(), -rightJoystick.getY());
+        return new JoystickValues(inputs.rightJoystickX, inputs.rightJoystickY);
     }
 
     public JoystickValues getLeftJoystickValues() {
-        return new JoystickValues(leftJoystick.getX(), -leftJoystick.getY());
+        return new JoystickValues(inputs.leftJoystickX, inputs.leftJoystickY);
     }
 
     public CommandJoystick getRightJoystick() {
-        return rightJoystick;
+        return io.getRightJoystick();
     }
 
     public CommandJoystick getLeftJoystick() {
-        return leftJoystick;
+        return io.getLeftJoystick();
     }
 
     public boolean getLeftButtonValue(int index) {
-        return leftJoystick.button(index).getAsBoolean();
+        return getLeftJoystick().button(index).getAsBoolean();
     }
     public boolean getRightButtonValue(int index){
-        return rightJoystick.button(index).getAsBoolean();
+        return getRightJoystick().button(index).getAsBoolean();
     }
 
     public CommandJoystick getOperatorController(){
-        return operatorController;
+        return io.getOperatorController();
     }
 }

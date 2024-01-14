@@ -15,7 +15,7 @@ public class SwerveMath {
 
         if(max > Constants.Drive.MAX_VELOCITY) {
             for(SwerveModuleState state : states) {
-                state.speedMetersPerSecond /= max;
+                state.speedMetersPerSecond *= Constants.Drive.MAX_VELOCITY/max;
             }
         }
 
