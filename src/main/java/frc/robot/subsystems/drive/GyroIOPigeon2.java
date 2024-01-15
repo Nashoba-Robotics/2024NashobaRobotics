@@ -28,7 +28,7 @@ public class GyroIOPigeon2 implements GyroIO {
     }
 
     public void updateInputs(GyroIOInputs inputs) {
-        inputs.yaw = gyro.getYaw().getValue() * Constants.TAU/360;
+        inputs.yaw = gyro.getYaw().getValue() * Constants.TAU/360 + Constants.TAU/2;
         inputs.pitch = gyro.getPitch().getValue() * Constants.TAU/360;
         inputs.roll = gyro.getRoll().getValue() * Constants.TAU/360;
     }
