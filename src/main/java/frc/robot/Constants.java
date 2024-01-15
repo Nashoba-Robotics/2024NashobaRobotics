@@ -48,8 +48,8 @@ public class Constants {
 
       public static final double kSpeedAt12VoltsMps = 4.23;
 
-      // private static final double kCoupleRatio = 3.5714285714285716;
-      private static final double kCoupleRatio = 0;
+      private static final double kCoupleRatio = 3.5714285714285716;
+//       private static final double kCoupleRatio = 0;
 
       public static final double kDriveGearRatio = 8.142857142857142;
       public static final double kSteerGearRatio = 21.428571428571427;
@@ -85,7 +85,7 @@ public class Constants {
               .withSteerFrictionVoltage(kSteerFrictionVoltage)
               .withDriveFrictionVoltage(kDriveFrictionVoltage)
               .withFeedbackSource(SteerFeedbackType.FusedCANcoder)
-              // .withCouplingGearRatio(kCoupleRatio)
+              .withCouplingGearRatio(kCoupleRatio)
               .withSteerMotorInverted(kSteerMotorReversed);
 
       // Front Left

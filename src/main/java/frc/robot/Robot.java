@@ -3,15 +3,13 @@ package frc.robot;
 import java.io.IOException;
 import java.util.Optional;
 
-import org.photonvision.EstimatedRobotPose;
-
-import edu.wpi.first.wpilibj.TimedRobot;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+import org.photonvision.EstimatedRobotPose;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -61,7 +59,9 @@ public class Robot extends LoggedRobot {
   public void disabledPeriodic() {}
 
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    m_robotContainer.getAutoCommand().schedule();;
+  }
 
   @Override
   public void autonomousPeriodic() {}
@@ -77,18 +77,18 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void teleopPeriodic() {
-    try {
-            Optional<EstimatedRobotPose> pos = AprilTagManager.getInstance().getEstimatedGlobalPose();
-            Tabs.putBoolean("April Tags", "Has target", AprilTagManager.getInstance().hasTargets());
-            if(pos.isPresent()) {
-                EstimatedRobotPose estimatedPos = pos.get();
-                SmartDashboard.putNumber("X", estimatedPos.estimatedPose.getX());
+    // try {
+    //         Optional<EstimatedRobotPose> pos = AprilTagManager.getInstance().getEstimatedGlobalPose();
+    //         Tabs.putBoolean("April Tags", "Has target", AprilTagManager.getInstance().hasTargets());
+    //         if(pos.isPresent()) {
+    //             EstimatedRobotPose estimatedPos = pos.get();
+    //             SmartDashboard.putNumber("X", estimatedPos.estimatedPose.getX());
 
-            }
+    //         }
 
-        } catch (IOException e) {
-            Tabs.putBoolean("April Tags", "Threw", true);
-        }
+    //     } catch (IOException e) {
+    //         Tabs.putBoolean("April Tags", "Threw", true);
+    //     }
   }
 
   @Override

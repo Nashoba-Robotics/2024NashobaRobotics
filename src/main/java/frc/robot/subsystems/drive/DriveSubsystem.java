@@ -7,7 +7,8 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.PoseEstimator;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -16,7 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.lib.math.NRUnits;
@@ -24,7 +25,7 @@ import frc.robot.lib.math.SwerveMath;
 
 public class DriveSubsystem extends SubsystemBase{
 
-    private SwerveDriveOdometry odometry;
+    private SwerveDrivePoseEstimator odometry;
 
     private Module[] modules;
 
@@ -32,6 +33,7 @@ public class DriveSubsystem extends SubsystemBase{
     private GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
 
     private boolean fieldCentric;
+
 
     public DriveSubsystem() {
         gyroIO = new GyroIOPigeon2();
@@ -45,7 +47,7 @@ public class DriveSubsystem extends SubsystemBase{
             new Module(3, Constants.Drive.CANBUS)
         };
 
-        odometry = new SwerveDriveOdometry(Constants.Drive.KINEMATICS, getGyroAngle(), getSwerveModulePositions());
+        odometry = new SwerveDrivePoseEstimator(Constants.Drive.KINEMATICS, getGyroAngle(), getSwerveModulePositions(), new Pose2d(0, 0, getGyroAngle()));
 
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
@@ -76,38 +78,34 @@ public class DriveSubsystem extends SubsystemBase{
 
 
     public void set(ChassisSpeeds chassisSpeeds) {
-        // double x = chassisSpeeds.vxMetersPerSecond;
-        // double y = chassisSpeeds.vyMetersPerSecond;
+        double x = chassisSpeeds.vxMetersPerSecond;
+        double y = chassisSpeeds.vyMetersPerSecond;
 
-        // double omega = chassisSpeeds.omegaRadiansPerSecond;
+        double omega = chassisSpeeds.omegaRadiansPerSecond;
 
-        // if(fieldCentric) {
-        //     double angleDiff = Math.atan2(y, x) - getGyroAngle().getRadians(); //difference between input angle and gyro angle gives desired field relative angle
-        //     SmartDashboard.putNumber("GyroAngle", getGyroAngle().getDegrees());
-        //     SmartDashboard.putNumber("AngleDiff", angleDiff * 360/Constants.TAU);
-        //     double r = Math.sqrt(x*x + y*y); //magnitude of translation vector
-        //     x = r * Math.cos(angleDiff);
-        //     y = r * Math.sin(angleDiff);
-        // }
+        if(fieldCentric) {
+            double angleDiff = Math.atan2(y, x) - getGyroAngle().getRadians(); //difference between input angle and gyro angle gives desired field relative angle
+            double r = Math.sqrt(x*x + y*y); //magnitude of translation vector
+            x = r * Math.cos(angleDiff);
+            y = r * Math.sin(angleDiff);
+        }
         
         // //Repeated equations
-        // double a = omega * Constants.Drive.WIDTH/2;
-        // double b = omega * Constants.Drive.LENGTH/2;
+        double a = omega * Constants.Drive.WIDTH/2;
+        double b = omega * Constants.Drive.LENGTH/2;
 
-        // //The addition of the movement and rotational vector
-        // Translation2d[] t = new Translation2d[] {
-        //     new Translation2d(x-b, y-a),
-        //     new Translation2d(x+b, y-a),
-        //     new Translation2d(x+b, y+a),
-        //     new Translation2d(x-b, y+a),
-        // };
+        //The addition of the movement and rotational vector
+        Translation2d[] t = new Translation2d[] {
+            new Translation2d(x-b, y-a),
+            new Translation2d(x+b, y-a),
+            new Translation2d(x+b, y+a),
+            new Translation2d(x-b, y+a),
+        };
 
-        // SwerveModuleState[] setStates = new SwerveModuleState[t.length];
-        // for(int i = 0; i < t.length; i++) {
-        //     setStates[i] = new SwerveModuleState(t[i].getNorm(), t[i].getAngle());
-        // }
-
-        SwerveModuleState[] setStates = Constants.Drive.KINEMATICS.toSwerveModuleStates(chassisSpeeds);
+        SwerveModuleState[] setStates = new SwerveModuleState[t.length];
+        for(int i = 0; i < t.length; i++) {
+            setStates[i] = new SwerveModuleState(t[i].getNorm(), t[i].getAngle());
+        }
 
         setStates = SwerveMath.normalize(setStates);
 
@@ -197,7 +195,7 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
     public Pose2d getPose() {
-        return odometry.getPoseMeters();
+        return odometry.getEstimatedPosition();
     }
 
     public Rotation2d getGyroAngle() {
@@ -216,6 +214,10 @@ public class DriveSubsystem extends SubsystemBase{
         return Rotation2d.fromRadians(gyroInputs.roll);
     }
 
+    public void updateOdometryWithVision(Pose2d visionPose, double timeStamp) {
+        odometry.addVisionMeasurement(visionPose, timeStamp);
+    }
+
     @Override
     public void periodic(){
         gyroIO.updateInputs(gyroInputs);
@@ -225,9 +227,10 @@ public class DriveSubsystem extends SubsystemBase{
             module.periodic();
         }
 
-        if(!resetting) odometry.update(getGyroAngle(), getSwerveModulePositions());
-        Pose2d pose = odometry.getPoseMeters();
+        if(!resetting) odometry.updateWithTime(Timer.getFPGATimestamp(), getGyroAngle(), getSwerveModulePositions());
+        Pose2d pose = getPose();
 
+        Logger.recordOutput("Pose", pose);
         Logger.recordOutput("Drive/Odometry/X", pose.getX());
         Logger.recordOutput("Drive/Odometry/Y", pose.getY());
         Logger.recordOutput("Drive/Odometry/Angle", pose.getRotation().getDegrees());
