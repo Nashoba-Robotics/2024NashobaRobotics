@@ -26,7 +26,11 @@ public interface ModuleIO {
     public default void updateInputs(ModuleIOInputs inputs) {}
 
     public default void set(SwerveModuleState state) {}
-    public SwerveModulePosition getPosition();
-    public SwerveModuleState getState();
+    public abstract void setBoltage(double voltage);
+    public abstract void setTurn(double angle);
+    public abstract void disableCurrentLimit(); //TODO: Delete
+    public abstract void configMotionMagic();   //TODO: Delete
+    public abstract SwerveModulePosition getPosition();
+    public abstract SwerveModuleState getState();
 
 }

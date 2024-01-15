@@ -1,5 +1,9 @@
 package frc.robot.subsystems.drive;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
@@ -20,6 +24,9 @@ public class ModuleIOTalonFX implements ModuleIO {
     private TalonFX moveMotor;
     private TalonFX turnMotor;
     private CANcoder encoder;
+
+    private MotionMagicDutyCycle testTurnThingy;
+    private MotionMagicConfigs testThingyConfiggy;
     
      public ModuleIOTalonFX(SwerveModuleConstants constants, String canbusName) {
         module = new SwerveModule(constants, canbusName);
@@ -60,6 +67,39 @@ public class ModuleIOTalonFX implements ModuleIO {
         } else
         // TODO: test MotionMagicExpo
         module.apply(state, DriveRequestType.Velocity, SteerRequestType.MotionMagic);
+    }
+
+    public void setBoltage(double voltage){
+        module.getDriveMotor().setVoltage(voltage);
+    }
+
+    public void setTurn(double angle){
+        testTurnThingy.Position = angle;
+        testTurnThingy.Slot = 0;
+        module.getSteerMotor().setControl(testTurnThingy);
+    }
+
+    public void configMotionMagic(){
+        //TODO: Delete this
+        turnMotor.getConfigurator().apply(new MotionMagicConfigs().withMotionMagicAcceleration(0.1).withMotionMagicCruiseVelocity(1));
+        turnMotor.getConfigurator().apply(Constants.Drive.steerGains);
+        /*
+         * private static final Slot0Configs steerGains = new Slot0Configs()
+          .withKP(100).withKI(0).withKD(0)
+          .withKS(0).withKV(2.7272).withKA(0);
+         */
+        testTurnThingy = new MotionMagicDutyCycle(0);
+        // testThingyConfiggy.MotionMagicAcceleration = 1;
+        // testTurnThingy.  
+    }
+
+    public void disableCurrentLimit(){
+        moveMotor.getConfigurator().apply(new CurrentLimitsConfigs()
+        .withStatorCurrentLimitEnable(false)
+        // .withStatorCurrentLimit(10)
+        .withSupplyCurrentLimitEnable(false)
+        .withSupplyCurrentThreshold(1000)
+        );
     }
 
     public SwerveModulePosition getPosition() {

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SwerveTestCommand;
+import frc.robot.commands.test.TJTestCommand;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
 
@@ -27,9 +28,9 @@ public class RobotContainer {
     configureEvents();
 
     // Logging callback for target robot pose
-        PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
-            Logger.recordOutput("TargetPose", pose);
-        });
+      PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
+          Logger.recordOutput("TargetPose", pose);
+      });
 
     autoChooser = AutoBuilder.buildAutoChooser();
 

@@ -90,7 +90,7 @@ public class DriveSubsystem extends SubsystemBase{
             y = r * Math.sin(angleDiff);
         }
         
-        //Repeated equations
+        // //Repeated equations
         double a = omega * Constants.Drive.WIDTH/2;
         double b = omega * Constants.Drive.LENGTH/2;
 
@@ -106,8 +106,6 @@ public class DriveSubsystem extends SubsystemBase{
         for(int i = 0; i < t.length; i++) {
             setStates[i] = new SwerveModuleState(t[i].getNorm(), t[i].getAngle());
         }
-
-        // SwerveModuleState[] setStates = Constants.Drive.KINEMATICS.toSwerveModuleStates(chassisSpeeds);
 
         setStates = SwerveMath.normalize(setStates);
 
@@ -164,6 +162,18 @@ public class DriveSubsystem extends SubsystemBase{
         for(int i = 0; i < modules.length; i++) {
             // SmartDashboard.putNumber("SetAngle"+i, states[i].angle.getDegrees());
             modules[i].set(states[i]);
+        }
+    }
+
+    public void setVoltageStates(double voltage){
+        for(int i = 2; i < 4; i++){ //Setting only the back 2 motors
+            modules[i].setBoltage(voltage);
+        }
+    }
+
+    public void setTurnStates(double angle){
+        for(int i = 2; i < 4; i++){
+            modules[i].setTurn(angle);
         }
     }
 

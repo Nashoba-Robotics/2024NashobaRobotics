@@ -45,10 +45,20 @@ public class Module {
         }
         
         io = new ModuleIOTalonFX(constants, canBus);
+        io.disableCurrentLimit();
+        io.configMotionMagic();
     }
 
     public void set(SwerveModuleState state) {
         io.set(state);
+    }
+
+    public void setBoltage(double voltage){
+        io.setBoltage(voltage);
+    }
+
+    public void setTurn(double angle){
+        io.setTurn(angle);
     }
 
     public SwerveModulePosition getPosition() {

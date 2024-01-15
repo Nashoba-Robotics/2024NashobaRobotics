@@ -34,7 +34,7 @@ public class Constants {
       public static final double MAX_VELOCITY = 4.23; // MPS
       public static final double MAX_ROTATION_VELOCITY = 10; // RadPS
 
-      private static final Slot0Configs steerGains = new Slot0Configs()
+      public static final Slot0Configs steerGains = new Slot0Configs()
           .withKP(100).withKI(0).withKD(0)
           .withKS(0).withKV(2.7272).withKA(0);
       private static final Slot0Configs driveGains = new Slot0Configs()
@@ -44,7 +44,7 @@ public class Constants {
       private static final ClosedLoopOutputType steerClosedLoopOutput = ClosedLoopOutputType.Voltage;
       private static final ClosedLoopOutputType driveClosedLoopOutput = ClosedLoopOutputType.Voltage;
 
-      private static final double kSlipCurrentA = 300.0;
+      private static final double kSlipCurrentA = 3000000;
 
       public static final double kSpeedAt12VoltsMps = 4.23;
 
@@ -74,7 +74,7 @@ public class Constants {
               .withDriveMotorGearRatio(kDriveGearRatio)
               .withSteerMotorGearRatio(kSteerGearRatio)
               .withWheelRadius(kWheelRadiusInches)
-              // .withSlipCurrent(kSlipCurrentA)
+              .withSlipCurrent(kSlipCurrentA)
               .withSteerMotorGains(steerGains)
               .withDriveMotorGains(driveGains)
               .withSteerMotorClosedLoopOutput(steerClosedLoopOutput)
