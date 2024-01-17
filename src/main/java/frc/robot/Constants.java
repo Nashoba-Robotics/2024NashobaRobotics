@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.List;
+
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
@@ -7,6 +9,9 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.ClosedLoopOutputType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants.SteerFeedbackType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
 
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -32,7 +37,7 @@ public class Constants {
       public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
       
       public static final double MAX_VELOCITY = 4.23; // MPS
-      public static final double MAX_ROTATION_VELOCITY = 10; // RadPS
+      public static final double MAX_ROTATION_VELOCITY = 12; // RadPS
 
       public static final Slot0Configs steerGains = new Slot0Configs()
           .withKP(100).withKI(0).withKD(0)
@@ -60,9 +65,6 @@ public class Constants {
       private static final boolean kInvertLeftSide = false;
       private static final boolean kInvertRightSide = true;
 
-      private static final String kCANbusName = "rio";
-      private static final int kPigeonId = 0;
-
       // These are only used for simulation
       private static final double kSteerInertia = 0.00001;
       private static final double kDriveInertia = 0.001;
@@ -74,7 +76,7 @@ public class Constants {
               .withDriveMotorGearRatio(kDriveGearRatio)
               .withSteerMotorGearRatio(kSteerGearRatio)
               .withWheelRadius(kWheelRadiusInches)
-              .withSlipCurrent(kSlipCurrentA)
+        //       .withSlipCurrent(kSlipCurrentA)
               .withSteerMotorGains(steerGains)
               .withDriveMotorGains(driveGains)
               .withSteerMotorClosedLoopOutput(steerClosedLoopOutput)
@@ -85,7 +87,7 @@ public class Constants {
               .withSteerFrictionVoltage(kSteerFrictionVoltage)
               .withDriveFrictionVoltage(kDriveFrictionVoltage)
               .withFeedbackSource(SteerFeedbackType.FusedCANcoder)
-              .withCouplingGearRatio(kCoupleRatio)
+        //       .withCouplingGearRatio(kCoupleRatio)
               .withSteerMotorInverted(kSteerMotorReversed);
 
       // Front Left
