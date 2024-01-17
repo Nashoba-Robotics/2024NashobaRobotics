@@ -40,7 +40,7 @@ public class AprilTagManager extends SubsystemBase{
          Transform3d kRobotToCam = new Transform3d(new Translation3d(Units.inchesToMeters(13.0), 0.0, 0.0), new Rotation3d(0, 18/180*Math.PI, 0));
 
         try {
-            poseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024ChargedUp.m_resourceFile), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, kRobotToCam);
+            poseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, kRobotToCam);
             exists = true;
         } catch (IOException e) {
             exists = false;
