@@ -1,9 +1,11 @@
-package frc.robot.subsystsms.joystick;
+package frc.robot.subsystems.joystick;
+
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 
 public class JoystickIOSwitchController implements JoystickIO{
     private CommandJoystick controller;
 
-    public JoystickkIOSwitchController(){
+    public JoystickIOSwitchController(){
         controller = new CommandJoystick(2);
     }
 
@@ -13,5 +15,15 @@ public class JoystickIOSwitchController implements JoystickIO{
 
         inputs.rightJoystickX = controller.getZ();
         inputs.rightJoystickY = -controller.getTwist();
+    }
+
+    public CommandJoystick getLeftJoystick(){
+        return null;
+    }
+    public CommandJoystick getRightJoystick(){
+        return null;
+    }
+    public CommandJoystick getOperatorController(){
+        return null;
     }
 }

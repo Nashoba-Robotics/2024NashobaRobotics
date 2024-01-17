@@ -2,6 +2,7 @@ package frc.robot.subsystems.apriltags;
 
 import java.io.IOException;
 import java.nio.file.FileSystem;
+import java.nio.file.Files;
 import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
@@ -18,6 +19,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -41,15 +43,17 @@ public class AprilTagManager extends SubsystemBase{
         camera = new PhotonCamera("Yi's_Little_Buddy");//TODO: Figure out a fail-safe if "Photonvision doesn't exist"
         // PhotonPipelineResult x = camera.getLatestResult();
          Transform3d kRobotToCam = new Transform3d(new Translation3d(Units.inchesToMeters(13.0), 0.0, 0.0), new Rotation3d(0, 18/180*Math.PI, 0));
+        String filePath = Filesystem.getDeployDirectory().getPath() + "/TestPositions.json";
 
         try {
             poseEstimator = new PhotonPoseEstimator(
-                AprilTagFieldLayout.loadFromResource(Filesystem.getDeployDirectory().getAbsolutePath() + "/AprilTagPositions.JSON"),
+                new AprilTagFieldLayout(filePath),
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
                 camera,
                 kRobotToCam);
             exists = true;
         } catch (IOException e) {
+            DriverStation.reportError("Unable to open trajectory: " + filePath, e.getStackTrace());
             exists = false;
         }
     }
