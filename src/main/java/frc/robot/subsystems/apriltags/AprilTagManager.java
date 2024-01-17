@@ -1,6 +1,7 @@
 package frc.robot.subsystems.apriltags;
 
 import java.io.IOException;
+import java.nio.file.FileSystem;
 import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
@@ -9,6 +10,7 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 
+import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -16,6 +18,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -40,7 +43,11 @@ public class AprilTagManager extends SubsystemBase{
          Transform3d kRobotToCam = new Transform3d(new Translation3d(Units.inchesToMeters(13.0), 0.0, 0.0), new Rotation3d(0, 18/180*Math.PI, 0));
 
         try {
-            poseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, kRobotToCam);
+            poseEstimator = new PhotonPoseEstimator(
+                AprilTagFieldLayout.loadFromResource(Filesystem.getDeployDirectory().getAbsolutePath() + "/AprilTagPositions.JSON"),
+                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+                camera,
+                kRobotToCam);
             exists = true;
         } catch (IOException e) {
             exists = false;

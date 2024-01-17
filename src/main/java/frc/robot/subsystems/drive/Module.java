@@ -45,8 +45,6 @@ public class Module {
         }
         
         io = new ModuleIOTalonFX(constants, canBus);
-        io.disableCurrentLimit();
-        io.configMotionMagic();
     }
 
     public void set(SwerveModuleState state) {

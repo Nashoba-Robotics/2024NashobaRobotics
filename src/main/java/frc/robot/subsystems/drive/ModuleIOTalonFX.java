@@ -79,20 +79,6 @@ public class ModuleIOTalonFX implements ModuleIO {
         module.getSteerMotor().setControl(testTurnThingy);
     }
 
-    public void configMotionMagic(){
-        //TODO: Delete this
-        turnMotor.getConfigurator().apply(new MotionMagicConfigs().withMotionMagicAcceleration(0.1).withMotionMagicCruiseVelocity(1));
-        turnMotor.getConfigurator().apply(Constants.Drive.steerGains);
-        /*
-         * private static final Slot0Configs steerGains = new Slot0Configs()
-          .withKP(100).withKI(0).withKD(0)
-          .withKS(0).withKV(2.7272).withKA(0);
-         */
-        testTurnThingy = new MotionMagicDutyCycle(0);
-        // testThingyConfiggy.MotionMagicAcceleration = 1;
-        // testTurnThingy.  
-    }
-
     public void disableCurrentLimit(){
         moveMotor.getConfigurator().apply(new CurrentLimitsConfigs()
         .withStatorCurrentLimitEnable(false)

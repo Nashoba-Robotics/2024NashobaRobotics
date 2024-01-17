@@ -3,7 +3,6 @@ package frc.robot;
 import org.littletonrobotics.junction.Logger;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -11,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SwerveTestCommand;
-import frc.robot.commands.test.TJTestCommand;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
 
