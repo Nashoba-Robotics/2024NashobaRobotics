@@ -77,18 +77,18 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void teleopPeriodic() {
-    try {
-            Optional<EstimatedRobotPose> pos = AprilTagManager.getInstance().getEstimatedGlobalPose();
-            Tabs.putBoolean("April Tags", "Has target", AprilTagManager.getInstance().hasTargets());
-            if(pos.isPresent()) {
-                EstimatedRobotPose estimatedPos = pos.get();
-                SmartDashboard.putNumber("X", estimatedPos.estimatedPose.getX());
+    // try {
+    //         Optional<EstimatedRobotPose> pos = AprilTagManager.getInstance().getEstimatedGlobalPose();
+    //         Tabs.putBoolean("April Tags", "Has target", AprilTagManager.getInstance().hasTargets());
+    //         if(pos.isPresent()) {
+    //             EstimatedRobotPose estimatedPos = pos.get();
+    //             SmartDashboard.putNumber("X", estimatedPos.estimatedPose.getX());
 
-            }
+    //         }
 
-        } catch (IOException e) {
-            Tabs.putBoolean("April Tags", "Threw", true);
-        }
+    //     } catch (IOException e) {
+    //         Tabs.putBoolean("April Tags", "Threw", true);
+    //     }
   }
 
   @Override
