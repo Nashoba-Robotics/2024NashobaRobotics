@@ -46,7 +46,7 @@ public class DriveCommand extends Command{
 
         chassisSpeeds.vxMetersPerSecond = leftJoystickValues.x * Constants.Drive.MAX_VELOCITY;
         chassisSpeeds.vyMetersPerSecond = leftJoystickValues.y * Constants.Drive.MAX_VELOCITY;
-        chassisSpeeds.omegaRadiansPerSecond = rightJoystickValues.x * Constants.Drive.MAX_ROTATION_VELOCITY;
+        chassisSpeeds.omegaRadiansPerSecond = -rightJoystickValues.x * Constants.Drive.MAX_ROTATION_VELOCITY;
 
         drive.set(chassisSpeeds);
     }

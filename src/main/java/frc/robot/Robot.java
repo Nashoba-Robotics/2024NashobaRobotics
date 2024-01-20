@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 
 public class Robot extends LoggedRobot {
@@ -60,7 +61,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void autonomousInit() {
-    m_robotContainer.getAutoCommand().schedule();;
+    m_robotContainer.getAutoCommand().schedule();
   }
 
   @Override
@@ -73,6 +74,8 @@ public class Robot extends LoggedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
 
+    CommandScheduler.getInstance().cancelAll();
+    CommandScheduler.getInstance().setDefaultCommand(RobotContainer.drive, new DriveCommand());
   }
 
   @Override

@@ -50,29 +50,25 @@ public class DriveSubsystem extends SubsystemBase{
         odometry = new SwerveDrivePoseEstimator(Constants.Drive.KINEMATICS, getGyroAngle(), getSwerveModulePositions(), new Pose2d(0, 0, getGyroAngle()));
 
         AutoBuilder.configureHolonomic(
-                this::getPose, // Robot pose supplier
-                this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
-                this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-                new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
-                        4.5, // Max module speed, in m/s
-                        Constants.Drive.DIAGONAL, // Drive base radius in meters. Distance from robot center to furthest module.
-                        new ReplanningConfig() // Default path replanning config. See the API for the options here
+                this::getPose,
+                this::resetPose,
+                this::getRobotRelativeSpeeds,
+                this::driveRobotRelative,
+                new HolonomicPathFollowerConfig(
+                        new PIDConstants(0.0, 0.0, 0.0),
+                        new PIDConstants(5.0, 0.0, 0.0),
+                        Constants.Drive.MAX_VELOCITY,
+                        Constants.Drive.DIAGONAL,
+                        new ReplanningConfig()
                 ),
                 () -> {
-                    // Boolean supplier that controls when the path will be mirrored for the red alliance
-                    // This will flip the path being followed to the red side of the field.
-                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
                     var alliance = DriverStation.getAlliance();
                     if (alliance.isPresent()) {
                         return alliance.get() == DriverStation.Alliance.Red;
                     }
                     return false;
                 },
-                this // Reference to this subsystem to set requirements
+                this
         );
     }
 
@@ -96,10 +92,10 @@ public class DriveSubsystem extends SubsystemBase{
 
         //The addition of the movement and rotational vector
         Translation2d[] t = new Translation2d[] {
-            new Translation2d(x-b, y-a),
-            new Translation2d(x+b, y-a),
             new Translation2d(x+b, y+a),
             new Translation2d(x-b, y+a),
+            new Translation2d(x-b, y-a),
+            new Translation2d(x+b, y-a),
         };
 
         SwerveModuleState[] setStates = new SwerveModuleState[t.length];
@@ -123,11 +119,11 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
     public void resetPose(Pose2d pose) {
-        resetOdometry(pose, getGyroAngle());
+        resetOdometryManualAngle(pose, getGyroAngle());
     }
 
     private boolean resetting = false;
-    public void resetOdometry(Pose2d pose, Rotation2d angle) {
+    public void resetOdometryManualAngle(Pose2d pose, Rotation2d angle) {
         resetting = true;
         odometry.resetPosition(angle, getSwerveModulePositions(), pose);
         resetting = false;
@@ -160,7 +156,7 @@ public class DriveSubsystem extends SubsystemBase{
 
     public void setStates(SwerveModuleState[] states) {
         for(int i = 0; i < modules.length; i++) {
-            // SmartDashboard.putNumber("SetAngle"+i, states[i].angle.getDegrees());
+            Logger.recordOutput("Velocity/Mod"+i+"Velocity", states[i].speedMetersPerSecond);
             modules[i].set(states[i]);
         }
     }
@@ -168,12 +164,6 @@ public class DriveSubsystem extends SubsystemBase{
     public void setVoltageStates(double voltage){
         for(int i = 2; i < 4; i++){ //Setting only the back 2 motors
             modules[i].setBoltage(voltage);
-        }
-    }
-
-    public void setTurnStates(double angle){
-        for(int i = 2; i < 4; i++){
-            modules[i].setTurn(angle);
         }
     }
 
@@ -231,8 +221,6 @@ public class DriveSubsystem extends SubsystemBase{
         Pose2d pose = getPose();
 
         Logger.recordOutput("Pose", pose);
-        Logger.recordOutput("Drive/Odometry/X", pose.getX());
-        Logger.recordOutput("Drive/Odometry/Y", pose.getY());
-        Logger.recordOutput("Drive/Odometry/Angle", pose.getRotation().getDegrees());
+        Logger.recordOutput("GetGyroAngle", getGyroAngle().getRadians());
     }
 }

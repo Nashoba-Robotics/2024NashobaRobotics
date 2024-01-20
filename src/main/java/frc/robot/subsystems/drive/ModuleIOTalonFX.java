@@ -25,8 +25,6 @@ public class ModuleIOTalonFX implements ModuleIO {
     private TalonFX turnMotor;
     private CANcoder encoder;
 
-    private MotionMagicDutyCycle testTurnThingy;
-    private MotionMagicConfigs testThingyConfiggy;
     
      public ModuleIOTalonFX(SwerveModuleConstants constants, String canbusName) {
         module = new SwerveModule(constants, canbusName);
@@ -73,11 +71,6 @@ public class ModuleIOTalonFX implements ModuleIO {
         module.getDriveMotor().setVoltage(voltage);
     }
 
-    public void setTurn(double angle){
-        testTurnThingy.Position = angle;
-        testTurnThingy.Slot = 0;
-        module.getSteerMotor().setControl(testTurnThingy);
-    }
 
     public void disableCurrentLimit(){
         moveMotor.getConfigurator().apply(new CurrentLimitsConfigs()

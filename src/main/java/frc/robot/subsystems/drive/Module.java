@@ -55,9 +55,6 @@ public class Module {
         io.setBoltage(voltage);
     }
 
-    public void setTurn(double angle){
-        io.setTurn(angle);
-    }
 
     public SwerveModulePosition getPosition() {
         return io.getPosition();

@@ -27,7 +27,6 @@ public interface ModuleIO {
 
     public default void set(SwerveModuleState state) {}
     public abstract void setBoltage(double voltage);
-    public abstract void setTurn(double angle);
     public abstract SwerveModulePosition getPosition();
     public abstract SwerveModuleState getState();
 
