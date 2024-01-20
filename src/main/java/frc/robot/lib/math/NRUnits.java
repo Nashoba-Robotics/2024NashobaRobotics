@@ -6,11 +6,14 @@ public class NRUnits {
 
     // Constrains the given angle to [-180, 180] 
     public static double constrainDeg(double angle){
-        return (angle % 360 + 360) % 360 - 180;
+        return 360/Constants.TAU*constrainRad(angle*Constants.TAU/360);
     }
 
 
     public static double constrainRad(double angle) {
-        return (angle % Constants.TAU + Constants.TAU) % Constants.TAU - Constants.TAU/2;
+        double temp = (angle % Constants.TAU + Constants.TAU) % Constants.TAU;
+        if(temp <= Constants.TAU/2) return temp;
+        return temp - Constants.TAU;
+
     }
 }

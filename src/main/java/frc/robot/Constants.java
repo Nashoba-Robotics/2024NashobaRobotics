@@ -45,16 +45,18 @@ public class Constants {
       public static final double MAX_ROTATION_VELOCITY = 12; // RadPS
 
       public static final Slot0Configs steerGains = new Slot0Configs()
-          .withKP(100).withKI(0).withKD(0)
+          .withKP(90).withKI(0).withKD(0)
           .withKS(0).withKV(2.7272).withKA(0);
+
       private static final Slot0Configs driveGains = new Slot0Configs()
-          .withKP(0.1).withKI(0).withKD(0.001)
-          .withKS(0).withKV(0.1139).withKA(0);
+        //   .withKP(0.2).withKI(0).withKD(0.001)
+          .withKP(0.2).withKI(0).withKD(0)
+          .withKS(0).withKV(0.1165).withKA(0);
 
       private static final ClosedLoopOutputType steerClosedLoopOutput = ClosedLoopOutputType.Voltage;
       private static final ClosedLoopOutputType driveClosedLoopOutput = ClosedLoopOutputType.Voltage;
 
-      private static final double kSlipCurrentA = 3000000;
+      private static final double kSlipCurrentA = 60;
 
       public static final double kSpeedAt12VoltsMps = 4.23;
 
@@ -81,7 +83,7 @@ public class Constants {
               .withDriveMotorGearRatio(kDriveGearRatio)
               .withSteerMotorGearRatio(kSteerGearRatio)
               .withWheelRadius(kWheelRadiusInches)
-        //       .withSlipCurrent(kSlipCurrentA)
+              .withSlipCurrent(kSlipCurrentA)
               .withSteerMotorGains(steerGains)
               .withDriveMotorGains(driveGains)
               .withSteerMotorClosedLoopOutput(steerClosedLoopOutput)
@@ -92,7 +94,7 @@ public class Constants {
               .withSteerFrictionVoltage(kSteerFrictionVoltage)
               .withDriveFrictionVoltage(kDriveFrictionVoltage)
               .withFeedbackSource(SteerFeedbackType.FusedCANcoder)
-        //       .withCouplingGearRatio(kCoupleRatio)
+              .withCouplingGearRatio(kCoupleRatio)
               .withSteerMotorInverted(kSteerMotorReversed);
 
       // Front Left
@@ -150,7 +152,7 @@ public class Constants {
         public static final double MOVE_DEAD_ZONE = 0.18;
         public static final double TURN_DEAD_ZONE = 0.1;
     
-        public static final double ANGLE_DEAD_ZONE = Constants.TAU / 36;
+        public static final double ANGLE_DEAD_ZONE = Constants.TAU / 72;
     
         public static final double MOVE_SENSITIVITY = 1.5;
         public static final double TURN_SENSITIVITY = 1;

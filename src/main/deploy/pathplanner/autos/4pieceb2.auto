@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.89,
+      "y": 4.65
+    },
+    "rotation": 120.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "b2-p2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p2-p1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p1-p0"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Autos",
+  "choreoAuto": false
+}

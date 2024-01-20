@@ -18,7 +18,7 @@ public class TJTestCommand extends Command{
 
         drive.setGyro(Constants.TAU/2);
         // drive.set(new ChassisSpeeds(0, 0, 0));;
-        drive.setTurnStates(0);
+        // drive.setTurnStates(0);
 
         voltage = 0;
     }
@@ -28,7 +28,7 @@ public class TJTestCommand extends Command{
         // double v = SmartDashboard.getNumber("Volts", 0);
 
         drive.setVoltageStates(voltage);
-        drive.setTurnStates(0);
+        // drive.setTurnStates(0);
 
         SmartDashboard.putNumber("Voltage", voltage);
 

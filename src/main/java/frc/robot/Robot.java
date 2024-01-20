@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 
 public class Robot extends LoggedRobot {
@@ -63,7 +64,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void autonomousInit() {
-    m_robotContainer.getAutoCommand().schedule();;
+    m_robotContainer.getAutoCommand().schedule();
   }
 
   @Override
@@ -81,6 +82,7 @@ public class Robot extends LoggedRobot {
     // Tabs.putNumber("April Tags", "Has Target", AprilTagManager.hasTarget() ? 1 : 0);
 
 
+    CommandScheduler.getInstance().setDefaultCommand(RobotContainer.drive, new DriveCommand());
   }
 
   @Override

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2493009106388586,
-      "y": 5.501725086783507
+      "x": 1.5,
+      "y": 5.0
     },
-    "rotation": 180.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "b1_p1"
+            "pathName": "Test0"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Test",
   "choreoAuto": false
 }
