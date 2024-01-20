@@ -15,6 +15,7 @@ import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -23,72 +24,39 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.apriltags.AprilTagIO.AprilTagIOInputs;
 
 public class AprilTagManager extends SubsystemBase{
-    // PhotonCamera cam = new PhotonCamera("Yi's Little Buddy");
-    // //Is this correct?
-    // Transform3d robotToCam = new Transform3d(new Translation3d(Units.inchesToMeters(13), 0.0, 0.0), new Rotation3d(0,0,0));
-
-    //  public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
-    //     photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
-    //     return photonPoseEstimator.update();
-    // }
-    PhotonCamera camera;
-    PhotonPoseEstimator poseEstimator;
-    
-    double lastEstTimestamp = 0;
-    boolean exists = true;
+    private AprilTagIO io;
+    private static AprilTagIOInputs inputs = new AprilTagIOInputsAutoLogged();
 
     public AprilTagManager(){
-        camera = new PhotonCamera("Yi's_Little_Buddy");//TODO: Figure out a fail-safe if "Photonvision doesn't exist"
-        // PhotonPipelineResult x = camera.getLatestResult();
-         Transform3d kRobotToCam = new Transform3d(new Translation3d(Units.inchesToMeters(13.0), 0.0, 0.0), new Rotation3d(0, 18/180*Math.PI, 0));
-        String filePath = Filesystem.getDeployDirectory().getPath() + "/TestPositions.json";
-
-        try {
-            poseEstimator = new PhotonPoseEstimator(
-                new AprilTagFieldLayout(filePath),
-                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-                camera,
-                kRobotToCam);
-            exists = true;
-        } catch (IOException e) {
-            DriverStation.reportError("Unable to open trajectory: " + filePath, e.getStackTrace());
-            exists = false;
-        }
+        io = new AprilTagIOPhotonVision();
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putBoolean("Exists", exists);
+        io.updateInputs(inputs);
     }
 
-    private static AprilTagManager instance;
-    public static AprilTagManager getInstance() throws IOException{ 
-        if(instance == null) instance = new AprilTagManager();
-        return instance;
+    public static boolean hasTarget(){
+        return inputs.hasTarget;
+    }
+    public static double getTimestamp(){
+        return inputs.timeStamp;
     }
 
-    public boolean hasTargets(){
-        return getLatestResult().hasTargets();
+    public static Pose3d getRobotPos(){
+        return inputs.pos;
     }
 
-    public PhotonPipelineResult getLatestResult() {
-        return camera.getLatestResult();
+    public static double getRobotX(){
+        return inputs.x;
     }
-
-    // public Optional<EstimatedRobotPose> getEstimatePose(){
-    //     return poseEstimator.update();
-    // }
-    public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
-        // if(exists) 
-        return poseEstimator.update();
-
-        // double latestTimestamp = camera.getLatestResult().getTimestampSeconds();
-        // boolean newResult = Math.abs(latestTimestamp - lastEstTimestamp) > 1e-5;
-        // if (newResult) lastEstTimestamp = latestTimestamp;
-
-        // return Optional.empty();
-
+    public static double getRobotY(){
+        return inputs.y;
+    }
+    public static double getRobotZ(){
+        return inputs.z;
     }
 }
