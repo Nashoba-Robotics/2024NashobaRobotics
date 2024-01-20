@@ -15,6 +15,7 @@ public class Module {
     private ModuleIO io;
     public ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
 
+
     public void periodic() {
         io.updateInputs(inputs);
         Logger.processInputs("Drive/Module" + modIndex, inputs);

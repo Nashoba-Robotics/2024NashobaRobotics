@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.lib.math.NRUnits;
@@ -55,8 +56,8 @@ public class DriveSubsystem extends SubsystemBase{
                 this::getRobotRelativeSpeeds,
                 this::driveRobotRelative,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(0.0, 0.0, 0.0),
                         new PIDConstants(5.0, 0.0, 0.0),
+                        new PIDConstants(6.0, 0.0, 0.0),
                         Constants.Drive.MAX_VELOCITY,
                         Constants.Drive.DIAGONAL,
                         new ReplanningConfig()
@@ -105,7 +106,7 @@ public class DriveSubsystem extends SubsystemBase{
 
         setStates = SwerveMath.normalize(setStates);
 
-        set(setStates);
+        setStates(setStates);
     }
 
     public void set(SwerveModuleState[] states) {
@@ -157,6 +158,7 @@ public class DriveSubsystem extends SubsystemBase{
     public void setStates(SwerveModuleState[] states) {
         for(int i = 0; i < modules.length; i++) {
             Logger.recordOutput("Velocity/Mod"+i+"Velocity", states[i].speedMetersPerSecond);
+            Logger.recordOutput("Velocity/Mod"+i+"Angle", NRUnits.logConstrainRad(states[i].angle.getRadians()+Constants.TAU));
             modules[i].set(states[i]);
         }
     }

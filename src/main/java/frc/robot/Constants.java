@@ -36,16 +36,29 @@ public class Constants {
 
       public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
       
-      public static final double MAX_VELOCITY = 4.23; // MPS
+      public static final double MAX_VELOCITY = 3.93; // MPS
       public static final double MAX_ROTATION_VELOCITY = 12; // RadPS
 
-      public static final Slot0Configs steerGains = new Slot0Configs()
-          .withKP(90).withKI(0).withKD(0)
-          .withKS(0).withKV(2.7272).withKA(0);
+      public static final Slot0Configs steerGains0 = new Slot0Configs()
+          .withKP(10).withKI(0).withKD(0.0)
+          .withKS(0).withKV(2.615).withKA(0);
+
+      public static final Slot0Configs steerGains1 = new Slot0Configs()
+          .withKP(10).withKI(0).withKD(0.0)
+          .withKS(0).withKV(2.575).withKA(0);
+        
+      public static final Slot0Configs steerGains2 = new Slot0Configs()
+          .withKP(10).withKI(0).withKD(0.0)
+          .withKS(0).withKV(2.600).withKA(0);
+
+      public static final Slot0Configs steerGains3 = new Slot0Configs()
+          .withKP(10).withKI(0).withKD(0.0)
+          .withKS(0).withKV(2.680).withKA(0);
+
+
 
       private static final Slot0Configs driveGains = new Slot0Configs()
-        //   .withKP(0.2).withKI(0).withKD(0.001)
-          .withKP(0.2).withKI(0).withKD(0)
+          .withKP(0.22).withKI(0).withKD(0)
           .withKS(0).withKV(0.1165).withKA(0);
 
       private static final ClosedLoopOutputType steerClosedLoopOutput = ClosedLoopOutputType.Voltage;
@@ -74,12 +87,12 @@ public class Constants {
       private static final double kSteerFrictionVoltage = 0.25;
       private static final double kDriveFrictionVoltage = 0.25;
 
-      private static final SwerveModuleConstantsFactory ConstantCreator = new SwerveModuleConstantsFactory()
+      private static final SwerveModuleConstantsFactory ConstantCreator0 = new SwerveModuleConstantsFactory()
               .withDriveMotorGearRatio(kDriveGearRatio)
               .withSteerMotorGearRatio(kSteerGearRatio)
               .withWheelRadius(kWheelRadiusInches)
               .withSlipCurrent(kSlipCurrentA)
-              .withSteerMotorGains(steerGains)
+              .withSteerMotorGains(steerGains0)
               .withDriveMotorGains(driveGains)
               .withSteerMotorClosedLoopOutput(steerClosedLoopOutput)
               .withDriveMotorClosedLoopOutput(driveClosedLoopOutput)
@@ -88,8 +101,62 @@ public class Constants {
               .withDriveInertia(kDriveInertia)
               .withSteerFrictionVoltage(kSteerFrictionVoltage)
               .withDriveFrictionVoltage(kDriveFrictionVoltage)
-              .withFeedbackSource(SteerFeedbackType.FusedCANcoder)
-              .withCouplingGearRatio(kCoupleRatio)
+              .withFeedbackSource(SteerFeedbackType.SyncCANcoder)
+        //       .withCouplingGearRatio(kCoupleRatio)
+              .withSteerMotorInverted(kSteerMotorReversed);
+
+        private static final SwerveModuleConstantsFactory ConstantCreator1 = new SwerveModuleConstantsFactory()
+              .withDriveMotorGearRatio(kDriveGearRatio)
+              .withSteerMotorGearRatio(kSteerGearRatio)
+              .withWheelRadius(kWheelRadiusInches)
+              .withSlipCurrent(kSlipCurrentA)
+              .withSteerMotorGains(steerGains1)
+              .withDriveMotorGains(driveGains)
+              .withSteerMotorClosedLoopOutput(steerClosedLoopOutput)
+              .withDriveMotorClosedLoopOutput(driveClosedLoopOutput)
+              .withSpeedAt12VoltsMps(kSpeedAt12VoltsMps)
+              .withSteerInertia(kSteerInertia)
+              .withDriveInertia(kDriveInertia)
+              .withSteerFrictionVoltage(kSteerFrictionVoltage)
+              .withDriveFrictionVoltage(kDriveFrictionVoltage)
+              .withFeedbackSource(SteerFeedbackType.SyncCANcoder)
+        //       .withCouplingGearRatio(kCoupleRatio)
+              .withSteerMotorInverted(kSteerMotorReversed);
+        
+        private static final SwerveModuleConstantsFactory ConstantCreator2 = new SwerveModuleConstantsFactory()
+              .withDriveMotorGearRatio(kDriveGearRatio)
+              .withSteerMotorGearRatio(kSteerGearRatio)
+              .withWheelRadius(kWheelRadiusInches)
+              .withSlipCurrent(kSlipCurrentA)
+              .withSteerMotorGains(steerGains2)
+              .withDriveMotorGains(driveGains)
+              .withSteerMotorClosedLoopOutput(steerClosedLoopOutput)
+              .withDriveMotorClosedLoopOutput(driveClosedLoopOutput)
+              .withSpeedAt12VoltsMps(kSpeedAt12VoltsMps)
+              .withSteerInertia(kSteerInertia)
+              .withDriveInertia(kDriveInertia)
+              .withSteerFrictionVoltage(kSteerFrictionVoltage)
+              .withDriveFrictionVoltage(kDriveFrictionVoltage)
+              .withFeedbackSource(SteerFeedbackType.SyncCANcoder)
+        //       .withCouplingGearRatio(kCoupleRatio)
+              .withSteerMotorInverted(kSteerMotorReversed);
+
+        private static final SwerveModuleConstantsFactory ConstantCreator3 = new SwerveModuleConstantsFactory()
+              .withDriveMotorGearRatio(kDriveGearRatio)
+              .withSteerMotorGearRatio(kSteerGearRatio)
+              .withWheelRadius(kWheelRadiusInches)
+              .withSlipCurrent(kSlipCurrentA)
+              .withSteerMotorGains(steerGains3)
+              .withDriveMotorGains(driveGains)
+              .withSteerMotorClosedLoopOutput(steerClosedLoopOutput)
+              .withDriveMotorClosedLoopOutput(driveClosedLoopOutput)
+              .withSpeedAt12VoltsMps(kSpeedAt12VoltsMps)
+              .withSteerInertia(kSteerInertia)
+              .withDriveInertia(kDriveInertia)
+              .withSteerFrictionVoltage(kSteerFrictionVoltage)
+              .withDriveFrictionVoltage(kDriveFrictionVoltage)
+              .withFeedbackSource(SteerFeedbackType.SyncCANcoder)
+        //       .withCouplingGearRatio(kCoupleRatio)
               .withSteerMotorInverted(kSteerMotorReversed);
 
       // Front Left
@@ -128,13 +195,13 @@ public class Constants {
       private static final double kBackRightXPosInches = -10.375;
       private static final double kBackRightYPosInches = -10.375;
 
-      public static final SwerveModuleConstants MOD1_CONSTANTS = ConstantCreator.createModuleConstants(
+      public static final SwerveModuleConstants MOD1_CONSTANTS = ConstantCreator1.createModuleConstants(
               kFrontLeftSteerMotorId, kFrontLeftDriveMotorId, kFrontLeftEncoderId, kFrontLeftEncoderOffset, Units.inchesToMeters(kFrontLeftXPosInches), Units.inchesToMeters(kFrontLeftYPosInches), kInvertLeftSide);
-      public static final SwerveModuleConstants MOD0_CONSTANTS = ConstantCreator.createModuleConstants(
+      public static final SwerveModuleConstants MOD0_CONSTANTS = ConstantCreator0.createModuleConstants(
               kFrontRightSteerMotorId, kFrontRightDriveMotorId, kFrontRightEncoderId, kFrontRightEncoderOffset, Units.inchesToMeters(kFrontRightXPosInches), Units.inchesToMeters(kFrontRightYPosInches), kInvertRightSide);
-      public static final SwerveModuleConstants MOD2_CONSTANTS = ConstantCreator.createModuleConstants(
+      public static final SwerveModuleConstants MOD2_CONSTANTS = ConstantCreator2.createModuleConstants(
               kBackLeftSteerMotorId, kBackLeftDriveMotorId, kBackLeftEncoderId, kBackLeftEncoderOffset, Units.inchesToMeters(kBackLeftXPosInches), Units.inchesToMeters(kBackLeftYPosInches), kInvertLeftSide);
-      public static final SwerveModuleConstants MOD3_CONSTANTS = ConstantCreator.createModuleConstants(
+      public static final SwerveModuleConstants MOD3_CONSTANTS = ConstantCreator3.createModuleConstants(
               kBackRightSteerMotorId, kBackRightDriveMotorId, kBackRightEncoderId, kBackRightEncoderOffset, Units.inchesToMeters(kBackRightXPosInches), Units.inchesToMeters(kBackRightYPosInches), kInvertRightSide);
 
     }
