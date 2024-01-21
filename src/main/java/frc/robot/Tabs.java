@@ -2,9 +2,12 @@ package frc.robot;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 
@@ -43,7 +46,7 @@ public class Tabs {
 
           names.add(label);
           
-          SimpleWidget widget = addTab(tabName).add(label, 0);
+          SimpleWidget widget = addTab(tabName).addPersistent(label, 0);
           widget.getEntry().setDouble(number);
           widgets.put(newName, widget);
           return widget;
@@ -60,10 +63,12 @@ public class Tabs {
 
      public static SimpleWidget putBoolean(String tabName, String label, boolean bool){
           HashSet<String> names;
-          if(tabNames.containsKey(tabName)) names = tabNames.get(tabName);
-          else return null;//<-- TODO: Need a better solution
+          if(!tabNames.containsKey(tabName)) addTab(tabName);
+          names = tabNames.get(tabName);
           
           String newName = getEntryName(tabName, label);
+          DriverStation.reportError("AHH " + names.contains(label) + "******************", false);
+          DriverStation.reportError(widgets.toString(), bool);
           if(names.contains(label)){
                SimpleWidget widget = widgets.get(newName);
                widget.getEntry().setBoolean(bool);
@@ -71,14 +76,14 @@ public class Tabs {
           }
 
           names.add(label);
-          
-          SimpleWidget widget = addTab(tabName).add(label, 0);
+
+          SimpleWidget widget = addTab(tabName).add(label, false);
           widget.getEntry().setBoolean(bool);
           widgets.put(newName, widget);
           return widget;
      }
 
-     public static boolean getBool(String tabName, String label){
+     public static boolean getBoolean(String tabName, String label){
           HashSet<String> names = tabNames.get(tabName);
           String newName = getEntryName(tabName, label);
           if(names.contains(label)){

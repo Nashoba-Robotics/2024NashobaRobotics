@@ -1,6 +1,9 @@
 package frc.robot;
 
+import java.nio.file.FileSystem;
 import java.util.List;
+
+import javax.swing.filechooser.FileSystemView;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
@@ -12,9 +15,11 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Filesystem;
 
 public class Constants {
   
@@ -217,15 +222,28 @@ public class Constants {
     
         public static final double MOVE_SENSITIVITY = 1.5;
         public static final double TURN_SENSITIVITY = 1;
-    
-        public static final double MANUAL_EXTEND_DEADZONE = 0.1;
-        public static final double MANUAL_PIVOT_DEADZONE = 0.1;
-    
-        public static final double MANUAL_EXTEND_OUT_SENSITIVITY = 0.18;
-        public static final double MANUAL_EXTEND_IN_SENSITIVITY = 0.09;
-        public static final double MANUAL_PIVOT_UP_SENSITIVITY = 0.12;
-        public static final double MANUAL_PIVOT_DOWN_SENSITIVITY = 0.07;
-        public static final double MANUAL_WRIST_SENSITIVITY = 0.5;
+      }
+
+      public static final class AprilTags{
+        public static final String CAMERA1_NAME = "Yi's_Little_Buddy";
+        public static final String CAMERA2_NAME = "Ben's_Little_Buddy";
+
+        /*
+         *             ^ 
+         *             |
+         *             Z        
+         *      --------------
+         *      |            |
+         *      |            |
+         *<-- X |     *Y     |
+         *      |            |
+         *      |            |
+         *      --------------
+         */
+        public static final Transform3d ROBOT_TO_CAMERA1 = new Transform3d(0, 0, Units.inchesToMeters(13), new Rotation3d(0, -18./360*TAU, 0));
+        public static final Transform3d ROBOT_TO_CAMERA2 = new Transform3d(0,0,0, new Rotation3d());
+
+        public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/TestPositions.json";
       }
 
       public static final class Misc {

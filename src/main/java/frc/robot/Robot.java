@@ -13,6 +13,8 @@ import org.photonvision.EstimatedRobotPose;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DriveCommand;
@@ -44,6 +46,8 @@ public class Robot extends LoggedRobot {
     
     m_robotContainer = new RobotContainer();
     Tabs.addTab("April Tags");  
+
+    new AprilTagManager();
   }
 
   @Override
@@ -53,7 +57,6 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void disabledInit() {
-
   }
 
   @Override
@@ -75,23 +78,22 @@ public class Robot extends LoggedRobot {
     // this line or comment it out.
 
     CommandScheduler.getInstance().cancelAll();
+    // Shuffleboard.startRecording();
+    // Tabs.putNumber("April Tags", "Has Target", AprilTagManager.hasTarget() ? 1 : 0);
+
+
     CommandScheduler.getInstance().setDefaultCommand(RobotContainer.drive, new DriveCommand());
   }
 
   @Override
   public void teleopPeriodic() {
-    // try {
-    //         Optional<EstimatedRobotPose> pos = AprilTagManager.getInstance().getEstimatedGlobalPose();
-    //         Tabs.putBoolean("April Tags", "Has target", AprilTagManager.getInstance().hasTargets());
-    //         if(pos.isPresent()) {
-    //             EstimatedRobotPose estimatedPos = pos.get();
-    //             SmartDashboard.putNumber("X", estimatedPos.estimatedPose.getX());
+    Tabs.putNumber("April Tags", "Has Target", AprilTagManager.hasTarget() ? 1 : 0);
+    if(AprilTagManager.hasTarget()){
+      Tabs.putNumber("April Tags", "X", AprilTagManager.getRobotX());
+      Tabs.putNumber("April Tags", "Y", AprilTagManager.getRobotY());
+      Tabs.putNumber("April Tags", "Z", AprilTagManager.getRobotZ());
 
-    //         }
-
-    //     } catch (IOException e) {
-    //         Tabs.putBoolean("April Tags", "Threw", true);
-    //     }
+    }
   }
 
   @Override
