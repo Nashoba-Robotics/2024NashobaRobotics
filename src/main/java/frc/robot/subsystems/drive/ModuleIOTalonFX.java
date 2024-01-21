@@ -53,7 +53,7 @@ public class ModuleIOTalonFX implements ModuleIO {
         inputs.turnAbsolutePosition = NRUnits.logConstrainRad(encoder.getAbsolutePosition().getValue() * Constants.TAU);
         inputs.turnRotorPosition = NRUnits.logConstrainRad(position.angle.getRadians());
         inputs.turnVelocity = turnMotor.getVelocity().getValue() * Constants.TAU / Constants.Drive.kSteerGearRatio;
-        inputs.turnVoltage = turnMotor.getSupplyVoltage().getValue();
+        inputs.turnVoltage = turnMotor.getMotorVoltage().getValueAsDouble();
         inputs.turnStatorCurrent = turnMotor.getStatorCurrent().getValue();
         inputs.turnSupplyCurrent = turnMotor.getSupplyCurrent().getValue();
     }

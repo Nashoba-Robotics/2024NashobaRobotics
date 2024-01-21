@@ -40,20 +40,20 @@ public class Constants {
       public static final double MAX_ROTATION_VELOCITY = 12; // RadPS
 
       public static final Slot0Configs steerGains0 = new Slot0Configs()
-          .withKP(10).withKI(0).withKD(0.0)
-          .withKS(0).withKV(2.615).withKA(0);
+          .withKP(20).withKI(0).withKD(0.0)
+          .withKS(0.25).withKV(2.615).withKA(0);
 
       public static final Slot0Configs steerGains1 = new Slot0Configs()
-          .withKP(10).withKI(0).withKD(0.0)
-          .withKS(0).withKV(2.575).withKA(0);
+          .withKP(20).withKI(0).withKD(0.0)
+          .withKS(0.27).withKV(2.590).withKA(0);
         
       public static final Slot0Configs steerGains2 = new Slot0Configs()
-          .withKP(10).withKI(0).withKD(0.0)
-          .withKS(0).withKV(2.600).withKA(0);
+          .withKP(20).withKI(0).withKD(0.0)
+          .withKS(0.28).withKV(2.600).withKA(0);
 
       public static final Slot0Configs steerGains3 = new Slot0Configs()
-          .withKP(10).withKI(0).withKD(0.0)
-          .withKS(0).withKV(2.680).withKA(0);
+          .withKP(20).withKI(0).withKD(0.0)
+          .withKS(0.34).withKV(2.681).withKA(0);
 
 
 
@@ -66,10 +66,9 @@ public class Constants {
 
       private static final double kSlipCurrentA = 60;
 
-      public static final double kSpeedAt12VoltsMps = 4.23;
+      public static final double kSpeedAt12VoltsMps = MAX_VELOCITY;
 
       private static final double kCoupleRatio = 3.5714285714285716;
-//       private static final double kCoupleRatio = 0;
 
       public static final double kDriveGearRatio = 8.142857142857142;
       public static final double kSteerGearRatio = 21.428571428571427;
