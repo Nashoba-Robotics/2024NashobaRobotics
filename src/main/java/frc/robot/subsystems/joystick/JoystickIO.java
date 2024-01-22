@@ -13,6 +13,11 @@ public interface JoystickIO {
 
         public double rightJoystickX = 0;
         public double rightJoystickY = 0;
+
+        public double operatorJoystickLeftX = 0;
+        public double operatorJoystickLeftY = 0;
+        public double operatorJoystickRightX = 0;
+        public double operatorJoystickRightY = 0;
     }
 
     public default void updateInputs(JoystickIOInputs inputs) {}
