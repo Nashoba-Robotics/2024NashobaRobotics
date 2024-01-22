@@ -7,18 +7,17 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.lib.math.NRUnits;
@@ -48,7 +47,14 @@ public class DriveSubsystem extends SubsystemBase{
             new Module(3, Constants.Drive.CANBUS)
         };
 
-        odometry = new SwerveDrivePoseEstimator(Constants.Drive.KINEMATICS, getGyroAngle(), getSwerveModulePositions(), new Pose2d(0, 0, getGyroAngle()));
+        odometry = new SwerveDrivePoseEstimator(
+            Constants.Drive.KINEMATICS,
+            getGyroAngle(),
+            getSwerveModulePositions(),
+            new Pose2d(0, 0, getGyroAngle())
+            // VecBuilder.fill(0.1, 0.1, 0.0),
+            // VecBuilder.fill(5.0, 5.0, 100.0)
+            );
 
         AutoBuilder.configureHolonomic(
                 this::getPose,
@@ -220,6 +226,8 @@ public class DriveSubsystem extends SubsystemBase{
         }
 
         if(!resetting) odometry.updateWithTime(Timer.getFPGATimestamp(), getGyroAngle(), getSwerveModulePositions());
+        Logger.recordOutput("FPGATimestamp", Timer.getFPGATimestamp());
+
         Pose2d pose = getPose();
 
         Logger.recordOutput("Pose", pose);

@@ -64,7 +64,6 @@ public class ModuleIOTalonFX implements ModuleIO {
                 SteerRequestType.MotionMagicExpo
             );
         } else
-        // TODO: test MotionMagicExpo
         module.apply(state, DriveRequestType.Velocity, SteerRequestType.MotionMagicExpo);
     }
 

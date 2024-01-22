@@ -39,7 +39,7 @@ public class Constants {
         new Translation2d(-WIDTH/2, -LENGTH/2)
       );
 
-      public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
+      
       
       public static final double MAX_VELOCITY = 3.93; // MPS
       public static final double MAX_ROTATION_VELOCITY = 12; // RadPS
@@ -77,8 +77,11 @@ public class Constants {
 
       public static final double kDriveGearRatio = 8.142857142857142;
       public static final double kSteerGearRatio = 21.428571428571427;
-      private static final double kWheelRadiusInches = 2;
+//       private static final double kWheelRadiusInches = 1.840; //Direction of resistence
+        private static final double kWheelRadiusInches = 1.967; //Direction of less-resistence
+        // private static final double kWheelRadiusInches = 1.925; //Comp
 
+      public static final double WHEEL_RADIUS = Units.inchesToMeters(kWheelRadiusInches);
 
       private static final boolean kSteerMotorReversed = true;
       private static final boolean kInvertLeftSide = false;
@@ -243,7 +246,7 @@ public class Constants {
         public static final Transform3d ROBOT_TO_CAMERA1 = new Transform3d(0, 0, Units.inchesToMeters(13), new Rotation3d(0, -18./360*TAU, 0));
         public static final Transform3d ROBOT_TO_CAMERA2 = new Transform3d(0,0,0, new Rotation3d());
 
-        public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/TestPositions.json";
+        public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/AprilTagPositions.json";
       }
 
       public static final class Misc {
