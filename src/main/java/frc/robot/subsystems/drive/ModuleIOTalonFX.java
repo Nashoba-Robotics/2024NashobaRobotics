@@ -8,9 +8,13 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.SteerRequestType;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.lib.math.NRUnits;
 
 public class ModuleIOTalonFX implements ModuleIO {
 
@@ -23,7 +27,6 @@ public class ModuleIOTalonFX implements ModuleIO {
     private TalonFX turnMotor;
     private CANcoder encoder;
 
-    
      public ModuleIOTalonFX(SwerveModuleConstants constants, String canbusName) {
         module = new SwerveModule(constants, canbusName);
 
@@ -40,15 +43,15 @@ public class ModuleIOTalonFX implements ModuleIO {
         state = module.getCurrentState();
 
         inputs.movePosition = position.distanceMeters;
-        inputs.moveVelocity = module.getDriveMotor().getVelocity().getValueAsDouble() / Constants.Drive.kDriveGearRatio * Constants.TAU * Constants.Drive.WHEEL_RADIUS;
+        inputs.moveVelocity = Math.abs(module.getDriveMotor().getVelocity().getValueAsDouble() / Constants.Drive.kDriveGearRatio * Constants.TAU * Constants.Drive.WHEEL_RADIUS);
         inputs.moveVoltage = module.getDriveMotor().getMotorVoltage().getValueAsDouble();
         inputs.moveStatorCurrent = moveMotor.getStatorCurrent().getValue();
         inputs.moveSupplyCurrent = moveMotor.getSupplyCurrent().getValue();
 
-        inputs.turnAbsolutePosition = encoder.getAbsolutePosition().getValue() * 360;
-        inputs.turnRotorPosition = turnMotor.getRotorPosition().getValue();
-        inputs.turnVelocity = turnMotor.getVelocity().getValue();
-        inputs.turnVoltage = turnMotor.getSupplyVoltage().getValue();
+        inputs.turnAbsolutePosition = NRUnits.logConstrainRad(encoder.getAbsolutePosition().getValue() * Constants.TAU);
+        inputs.turnRotorPosition = NRUnits.logConstrainRad(position.angle.getRadians());
+        inputs.turnVelocity = turnMotor.getVelocity().getValue() * Constants.TAU / Constants.Drive.kSteerGearRatio;
+        inputs.turnVoltage = turnMotor.getMotorVoltage().getValueAsDouble();
         inputs.turnStatorCurrent = turnMotor.getStatorCurrent().getValue();
         inputs.turnSupplyCurrent = turnMotor.getSupplyCurrent().getValue();
     }
@@ -58,11 +61,10 @@ public class ModuleIOTalonFX implements ModuleIO {
             module.apply(
                 new SwerveModuleState(0, module.getTargetState().angle),
                 DriveRequestType.Velocity,
-                SteerRequestType.MotionMagic
+                SteerRequestType.MotionMagicExpo
             );
         } else
-        // TODO: test MotionMagicExpo
-        module.apply(state, DriveRequestType.Velocity, SteerRequestType.MotionMagic);
+        module.apply(state, DriveRequestType.Velocity, SteerRequestType.MotionMagicExpo);
     }
 
     public void setBoltage(double voltage){

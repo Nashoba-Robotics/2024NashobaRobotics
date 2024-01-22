@@ -17,17 +17,20 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.apriltags.AprilTagIO.AprilTagIOInputs;
 
-public class AprilTagManager extends SubsystemBase{
+public class AprilTagManager extends SubsystemBase {
     private AprilTagIO io;
     private static AprilTagIOInputsAutoLogged inputs = new AprilTagIOInputsAutoLogged();
 
@@ -38,7 +41,15 @@ public class AprilTagManager extends SubsystemBase{
     @Override
     public void periodic() {
         io.updateInputs(inputs);
+<<<<<<< HEAD
         Logger.processInputs("April Tags", inputs);
+=======
+        Logger.processInputs("Camera", inputs);
+        Logger.recordOutput("Ben stoopid", inputs.pos.toPose2d());
+
+        // RobotContainer.drive.updateOdometryWithVision(inputs.pos.toPose2d(), inputs.timeStamp);
+
+>>>>>>> 15ef341e6925d9badf45762a86b6360871cfe217
     }
 
     public static boolean hasTarget(){

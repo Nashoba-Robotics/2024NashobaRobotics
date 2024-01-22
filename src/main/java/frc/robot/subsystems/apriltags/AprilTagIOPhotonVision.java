@@ -10,6 +10,7 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -31,7 +32,9 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
         try{
             poseEstimator = new PhotonPoseEstimator(
                 new AprilTagFieldLayout(Constants.AprilTags.LAYOUT_PATH),
+                // AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile),
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+                // PoseStrategy.LOWEST_AMBIGUITY,
                 camera1,
                 Constants.AprilTags.ROBOT_TO_CAMERA1);
             exists = true;
