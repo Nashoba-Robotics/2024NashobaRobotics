@@ -33,6 +33,12 @@ public class JoystickIOThrustMaster implements JoystickIO {
 
         inputs.rightJoystickX = rightJoystick.getX();
         inputs.rightJoystickY = -rightJoystick.getY();
+
+        inputs.operatorJoystickLeftX = operatorController.getX();
+        inputs.operatorJoystickLeftY = -operatorController.getY();
+
+        inputs.operatorJoystickRightX = operatorController.getZ();
+        inputs.operatorJoystickRightY = operatorController.getTwist();
     }
     
 }

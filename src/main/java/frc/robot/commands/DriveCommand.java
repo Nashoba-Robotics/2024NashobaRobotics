@@ -6,6 +6,7 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.lib.util.JoystickValues;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.drive.DriveSubsystem.DriveState;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
 
 public class DriveCommand extends Command{
@@ -44,9 +45,26 @@ public class DriveCommand extends Command{
         rightJoystickValues = joysticks.getRightJoystickValues()
             .shape(Constants.Joystick.TURN_DEAD_ZONE, Constants.Joystick.TURN_SENSITIVITY);
 
+        // leftJoystickValues = joysticks.getLeftOperatorValues()
+        //     .shape(Constants.Joystick.MOVE_DEAD_ZONE, Constants.Joystick.TURN_SENSITIVITY)
+        //     .swap()
+        //     .applyAngleDeadzone(Constants.Joystick.ANGLE_DEAD_ZONE);
+        // rightJoystickValues = joysticks.getRightOperatorValues()
+        //     .shape(Constants.Joystick.TURN_DEAD_ZONE, Constants.Joystick.TURN_SENSITIVITY);
+
         chassisSpeeds.vxMetersPerSecond = leftJoystickValues.x * Constants.Drive.MAX_VELOCITY;
         chassisSpeeds.vyMetersPerSecond = leftJoystickValues.y * Constants.Drive.MAX_VELOCITY;
-        chassisSpeeds.omegaRadiansPerSecond = -rightJoystickValues.x * Constants.Drive.MAX_ROTATION_VELOCITY;
+
+        if(rightJoystickValues.x != 0) drive.setDriveState(DriveState.DRIVER);
+        switch(drive.getDriveState()){
+            case DRIVER:
+                chassisSpeeds.omegaRadiansPerSecond = -rightJoystickValues.x * Constants.Drive.MAX_ROTATION_VELOCITY;
+                break;
+            case AIM_TO_AMP:
+                break;
+            case AIM_TO_SPEAKER:
+                break;
+        }   
 
         drive.set(chassisSpeeds);
     }

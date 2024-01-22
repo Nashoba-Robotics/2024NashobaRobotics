@@ -34,6 +34,13 @@ public class DriveSubsystem extends SubsystemBase{
 
     private boolean fieldCentric;
 
+    public static enum DriveState{
+        DRIVER,
+        AIM_TO_SPEAKER,
+        AIM_TO_AMP
+    }
+    public DriveState state;
+
 
     public DriveSubsystem() {
         gyroIO = new GyroIOPigeon2();
@@ -70,6 +77,8 @@ public class DriveSubsystem extends SubsystemBase{
                 },
                 this
         );
+
+        state = DriveState.DRIVER;
     }
 
 
@@ -118,6 +127,10 @@ public class DriveSubsystem extends SubsystemBase{
         modules[modIndex].set(state);
     }
 
+    public void setDriveState(DriveState state){
+        this.state = state;
+    }
+
     public void resetPose(Pose2d pose) {
         resetOdometryManualAngle(pose, getGyroAngle());
     }
@@ -152,7 +165,6 @@ public class DriveSubsystem extends SubsystemBase{
     public void driveRobotRelative(ChassisSpeeds speeds) {
         setStates(Constants.Drive.KINEMATICS.toSwerveModuleStates(speeds));
     }
-
 
     public void setStates(SwerveModuleState[] states) {
         for(int i = 0; i < modules.length; i++) {
@@ -202,6 +214,10 @@ public class DriveSubsystem extends SubsystemBase{
 
     public Rotation2d getRoll(){
         return Rotation2d.fromRadians(gyroInputs.roll);
+    }
+
+    public DriveState getDriveState(){
+        return this.state;
     }
 
     public void updateOdometryWithVision(Pose2d visionPose, double timeStamp) {
