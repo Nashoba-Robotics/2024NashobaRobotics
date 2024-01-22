@@ -44,7 +44,7 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
     public void updateInputs(AprilTagIOInputs inputs){
         PhotonPipelineResult r = camera1.getLatestResult();
         inputs.hasTarget = r.hasTargets();
-        inputs.timeStamp = r.getTimestampSeconds()/1000;
+        inputs.timeStamp = r.getTimestampSeconds();
 
 
         Optional<EstimatedRobotPose> estimator = poseEstimator.update();

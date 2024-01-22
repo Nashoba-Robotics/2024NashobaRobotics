@@ -5,6 +5,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.util.Optional;
 
+import org.littletonrobotics.junction.Logger;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -28,7 +29,7 @@ import frc.robot.subsystems.apriltags.AprilTagIO.AprilTagIOInputs;
 
 public class AprilTagManager extends SubsystemBase{
     private AprilTagIO io;
-    private static AprilTagIOInputs inputs = new AprilTagIOInputsAutoLogged();
+    private static AprilTagIOInputsAutoLogged inputs = new AprilTagIOInputsAutoLogged();
 
     public AprilTagManager(){
         io = new AprilTagIOPhotonVision();
@@ -37,6 +38,7 @@ public class AprilTagManager extends SubsystemBase{
     @Override
     public void periodic() {
         io.updateInputs(inputs);
+        Logger.processInputs("April Tags", inputs);
     }
 
     public static boolean hasTarget(){
