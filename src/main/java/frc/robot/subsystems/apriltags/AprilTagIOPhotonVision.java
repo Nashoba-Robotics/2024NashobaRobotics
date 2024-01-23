@@ -1,6 +1,7 @@
 package frc.robot.subsystems.apriltags;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
@@ -8,6 +9,7 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -48,8 +50,13 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
         PhotonPipelineResult r = camera1.getLatestResult();
         inputs.hasTarget = r.hasTargets();
         inputs.timeStamp = r.getTimestampSeconds();
+        List<PhotonTrackedTarget> targets = r.getTargets();
+        for(PhotonTrackedTarget target : targets){
+            int id = target.getFiducialId()-1;
+            if(id < 4) inputs.ambiguities[id] = target.getPoseAmbiguity();
+        }
 
-
+        
         Optional<EstimatedRobotPose> estimator = poseEstimator.update();
         if(!exists){
             inputs.x = 17.68;

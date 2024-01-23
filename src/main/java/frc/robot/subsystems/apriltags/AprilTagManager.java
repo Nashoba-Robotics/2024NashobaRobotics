@@ -3,6 +3,7 @@ package frc.robot.subsystems.apriltags;
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.Optional;
 
 import org.littletonrobotics.junction.Logger;
@@ -11,6 +12,7 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -41,15 +43,15 @@ public class AprilTagManager extends SubsystemBase {
     @Override
     public void periodic() {
         io.updateInputs(inputs);
-<<<<<<< HEAD
-        Logger.processInputs("April Tags", inputs);
-=======
         Logger.processInputs("Camera", inputs);
-        Logger.recordOutput("Ben stoopid", inputs.pos.toPose2d());
+        Logger.recordOutput("RobotPos (Camera)", inputs.pos.toPose2d());
+        // List<PhotonTrackedTarget> targets = inputs.targets;
+        // for(PhotonTrackedTarget target : targets){
+        //     Logger.recordOutput(target.getFiducialId() + ": Tag Ambiguity", target.getPoseAmbiguity());
+        // }
 
         // RobotContainer.drive.updateOdometryWithVision(inputs.pos.toPose2d(), inputs.timeStamp);
 
->>>>>>> 15ef341e6925d9badf45762a86b6360871cfe217
     }
 
     public static boolean hasTarget(){
