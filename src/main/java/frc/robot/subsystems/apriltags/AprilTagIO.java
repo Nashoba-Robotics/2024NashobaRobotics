@@ -19,8 +19,10 @@ public interface AprilTagIO{
 
         public double timeStamp = 0;    //ms
         public boolean hasTarget = false;
+        public int tagsSeen = 0;
+        public double ambiguity = -1;    //ratio for ambiguity
 
-        public double[] ambiguities = new double[4];
+        public double yaw = 0;
     }
 
     public default void updateInputs(AprilTagIOInputs inputs) {}
