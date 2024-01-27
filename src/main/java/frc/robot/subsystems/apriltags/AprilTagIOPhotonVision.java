@@ -49,6 +49,9 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
         inputs.hasTarget = r.hasTargets();
         inputs.timeStamp = r.getTimestampSeconds();
 
+        if(inputs.hasTarget) inputs.yaw = r.getBestTarget().getYaw() * Constants.TAU/360;
+        // else inputs.yaw = 0;
+
 
         Optional<EstimatedRobotPose> estimator = poseEstimator.update();
         if(!exists){

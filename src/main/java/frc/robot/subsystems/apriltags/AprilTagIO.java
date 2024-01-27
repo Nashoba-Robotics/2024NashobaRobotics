@@ -15,6 +15,8 @@ public interface AprilTagIO{
 
         public double timeStamp = 0;    //ms
         public boolean hasTarget = false;
+
+        public double yaw = 0;  //radians
     }
 
     public default void updateInputs(AprilTagIOInputs inputs) {}

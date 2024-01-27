@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SwerveTestCommand;
+import frc.robot.commands.test.FreshmanTurnToTargetCommand;
 import frc.robot.commands.test.FreshmenTurnCommand;
 import frc.robot.commands.test.OnTheFlyTestCommand;
 import frc.robot.commands.test.OnTheFlytoPathCommand;
@@ -52,7 +53,8 @@ public class RobotContainer {
     // SmartDashboard.putData(new OnTheFlyTestCommand());
     // SmartDashboard.putData(new OnTheFlytoPathCommand());
     // SmartDashboard.putData(new ResetOdometryVision());
-    SmartDashboard.putData(new FreshmenTurnCommand());
+    //SmartDashboard.putData(new FreshmenTurnCommand());
+    SmartDashboard.putData(new FreshmanTurnToTargetCommand());
   }
 
   private void configureEvents() {

@@ -54,6 +54,9 @@ public class AprilTagManager extends SubsystemBase {
     public static double getTimestamp(){
         return inputs.timeStamp;
     }
+    public static double getTargetYaw(){
+        return inputs.yaw;
+    }
 
     public static Pose3d getRobotPos(){
         return inputs.pos;
