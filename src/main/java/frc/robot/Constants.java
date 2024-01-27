@@ -229,7 +229,7 @@ public class Constants {
         public static final String CAMERA1_NAME = "Yi's_Little_Buddy";
         public static final String CAMERA2_NAME = "Ben's_Little_Buddy";
 
-        /*
+        /* For PhotonEstimator
          *             ^ 
          *             |
          *             Z        
@@ -242,6 +242,7 @@ public class Constants {
          *      --------------
          */
         public static final Transform3d ROBOT_TO_CAMERA1 = new Transform3d(0, 0, Units.inchesToMeters(13), new Rotation3d(0, -18./360*TAU, 0));
+      //   public static final Transform3d ROBOT_TO_CAMERA1 = new Transform3d(0, 0, Units.inchesToMeters(0), new Rotation3d(0, 0, 0));
         public static final Transform3d ROBOT_TO_CAMERA2 = new Transform3d(0,0,0, new Rotation3d());
 
         public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/AprilTagPositions.json";

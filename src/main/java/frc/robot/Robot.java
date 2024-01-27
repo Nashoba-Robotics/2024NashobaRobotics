@@ -1,8 +1,5 @@
 package frc.robot;
 
-import java.io.IOException;
-import java.util.Optional;
-
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -15,6 +12,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.apriltags.AprilTagManager;
+import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class Robot extends LoggedRobot {
 
@@ -46,6 +44,11 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    if(AprilTagManager.hasTarget() 
+      && AprilTagManager.getAmbiguity() <= 0.2 
+      && AprilTagManager.getRobotPos() != null
+      )
+        RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getRobotPos().toPose2d(), AprilTagManager.getTimestamp());
   }
 
   @Override
@@ -66,9 +69,6 @@ public class Robot extends LoggedRobot {
   @Override
   public void teleopInit() {
     CommandScheduler.getInstance().cancelAll();
-    // Shuffleboard.startRecording();
-    // Tabs.putNumber("April Tags", "Has Target", AprilTagManager.hasTarget() ? 1 : 0);
-
 
     CommandScheduler.getInstance().setDefaultCommand(
       RobotContainer.drive,
@@ -78,13 +78,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void teleopPeriodic() {
-    Tabs.putNumber("April Tags", "Has Target", AprilTagManager.hasTarget() ? 1 : 0);
-    if(AprilTagManager.hasTarget()){
-      Tabs.putNumber("April Tags", "X", AprilTagManager.getRobotX());
-      Tabs.putNumber("April Tags", "Y", AprilTagManager.getRobotY());
-      Tabs.putNumber("April Tags", "Z", AprilTagManager.getRobotZ());
 
-    }
   }
 
   @Override

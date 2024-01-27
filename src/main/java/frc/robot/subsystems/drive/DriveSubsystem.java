@@ -88,6 +88,18 @@ public class DriveSubsystem extends SubsystemBase{
         state = DriveState.DRIVER;
     }
 
+    /*
+     * xSpeed: speed of the robot (Forward) (m/s)
+     * ySpeed: speed of the robot (Side) (m/s)
+     * omegaSpeed: speed of the rotation (Counterclockwise positive) (rad/s)
+     */
+    public void set(double xSpeed, double ySpeed, double omegaSpeed){
+        set(new ChassisSpeeds(xSpeed, ySpeed, omegaSpeed));
+    }
+
+    /*
+     * chassisSpeeds: Object that contains values for the Chassis Speeds
+     */
     public void set(ChassisSpeeds chassisSpeeds) {
         double x = chassisSpeeds.vxMetersPerSecond;
         double y = chassisSpeeds.vyMetersPerSecond;
@@ -180,6 +192,8 @@ public class DriveSubsystem extends SubsystemBase{
         }
     }
 
+
+    // True if the robot is field-centric, false for robot-centric
     public void setFieldCentric(boolean fieldCentric) {
         this.fieldCentric = fieldCentric;
     }
@@ -188,31 +202,37 @@ public class DriveSubsystem extends SubsystemBase{
         return this.fieldCentric;
     }
 
-    //radians
+    //Sets the angle of the robot in radians
     public void setGyro(double angle) {
         gyroIO.setYaw(angle * 180 / Math.PI);
     }
 
+    //Zeroes the yaw (Rotational direction)
     public void zeroYaw() {
         gyroIO.setYaw(0);
     }
 
+    //Gets estimated Robot Pose (Includes vision integration (located in robot))
     public Pose2d getPose() {
         return odometry.getEstimatedPosition();
     }
 
+    //Returns the Robot's yaw orientation in radians (Contstrained)
     public Rotation2d getGyroAngle() {
         return Rotation2d.fromRadians(NRUnits.constrainRad(getYaw().getRadians()));
     }
 
+    //Returns the gyro's yaw orientation in radians (Rotation Horizontal)
     public Rotation2d getYaw(){
         return Rotation2d.fromRadians(gyroInputs.yaw);
     }
 
+    //Returns the gyro's pitch (Front/backflips)
     public Rotation2d getPitch(){
         return Rotation2d.fromRadians(gyroInputs.pitch);
     }
 
+    //Returns the gyro's roll (Rolling over)
     public Rotation2d getRoll(){
         return Rotation2d.fromRadians(gyroInputs.roll);
     }
