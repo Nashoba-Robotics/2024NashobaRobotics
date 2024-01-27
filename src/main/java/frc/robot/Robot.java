@@ -1,28 +1,23 @@
 package frc.robot;
 
-import java.io.IOException;
-import java.util.Optional;
-
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
-import org.photonvision.EstimatedRobotPose;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.apriltags.AprilTagManager;
+import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class Robot extends LoggedRobot {
 
   private RobotContainer m_robotContainer;
+  private DriveSubsystem drive = RobotContainer.drive;
 
   @Override
   public void robotInit() {
@@ -53,6 +48,11 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    if(AprilTagManager.hasTarget() 
+      && AprilTagManager.getAmbiguity() <= 0.2 
+      && AprilTagManager.getRobotPos() != null
+      )
+        drive.updateOdometryWithVision(AprilTagManager.getRobotPos().toPose2d(), AprilTagManager.getTimestamp());
   }
 
   @Override
@@ -78,22 +78,13 @@ public class Robot extends LoggedRobot {
     // this line or comment it out.
 
     CommandScheduler.getInstance().cancelAll();
-    // Shuffleboard.startRecording();
-    // Tabs.putNumber("April Tags", "Has Target", AprilTagManager.hasTarget() ? 1 : 0);
-
 
     CommandScheduler.getInstance().setDefaultCommand(RobotContainer.drive, new DriveCommand());
   }
 
   @Override
   public void teleopPeriodic() {
-    Tabs.putNumber("April Tags", "Has Target", AprilTagManager.hasTarget() ? 1 : 0);
-    if(AprilTagManager.hasTarget()){
-      Tabs.putNumber("April Tags", "X", AprilTagManager.getRobotX());
-      Tabs.putNumber("April Tags", "Y", AprilTagManager.getRobotY());
-      Tabs.putNumber("April Tags", "Z", AprilTagManager.getRobotZ());
 
-    }
   }
 
   @Override
