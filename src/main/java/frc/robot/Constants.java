@@ -1,19 +1,11 @@
 package frc.robot;
 
-import java.nio.file.FileSystem;
-import java.util.List;
-
-import javax.swing.filechooser.FileSystemView;
-
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.ClosedLoopOutputType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants.SteerFeedbackType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
 
-import edu.wpi.first.apriltag.AprilTag;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -39,10 +31,11 @@ public class Constants {
         new Translation2d(-WIDTH/2, -LENGTH/2)
       );
 
-      
-      
       public static final double MAX_VELOCITY = 3.93; // MPS
-      public static final double MAX_ROTATION_VELOCITY = 12; // RadPS
+      public static final double MAX_ACCELERATION = 0;
+
+      public static final double MAX_ROTATION_VELOCITY = 10.55; // RadPS
+      public static final double MAX_ROTATION_ACCELERATION = 0;
 
       public static final Slot0Configs steerGains0 = new Slot0Configs()
           .withKP(20).withKI(0).withKD(0.0)
@@ -77,9 +70,9 @@ public class Constants {
 
       public static final double kDriveGearRatio = 8.142857142857142;
       public static final double kSteerGearRatio = 21.428571428571427;
-//       private static final double kWheelRadiusInches = 1.840; //Direction of resistence
-        private static final double kWheelRadiusInches = 1.967; //Direction of less-resistence
-        // private static final double kWheelRadiusInches = 1.925; //Comp
+      // private static final double kWheelRadiusInches = 1.840; //Direction of resistence
+      private static final double kWheelRadiusInches = 1.967; //Direction of less-resistence
+      // private static final double kWheelRadiusInches = 1.925; //Comp
 
       public static final double WHEEL_RADIUS = Units.inchesToMeters(kWheelRadiusInches);
 
@@ -213,6 +206,11 @@ public class Constants {
 
     }
 
+    public static final class Field {
+      public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
+      public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
+    }
+
     public static final class Joystick {
         public static final int LEFT_JOYSTICK_PORT = 1;
         public static final int RIGHT_JOYSTICK_PORT = 0;
@@ -247,6 +245,14 @@ public class Constants {
         public static final Transform3d ROBOT_TO_CAMERA2 = new Transform3d(0,0,0, new Rotation3d());
 
         public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/AprilTagPositions.json";
+
+        public static final double getXSD(double distance) {
+            return 0.0312*distance - 0.0494;
+        }
+
+        public static final double getYSD(double distance) {
+            return 0.0656*distance - 0.129;
+        }
       }
 
       public static final class Misc {

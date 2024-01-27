@@ -45,12 +45,12 @@ public class RobotContainer {
   }
 
   private void addShuffleBoardData() {
-    SmartDashboard.putData(new SwerveTestCommand());
-    SmartDashboard.putData(new DriveCommand());
-    SmartDashboard.putData(new ResetOdometryCommand());
+    SmartDashboard.putData(new SwerveTestCommand(RobotContainer.drive));
+    SmartDashboard.putData(new DriveCommand(RobotContainer.drive, RobotContainer.joysticks));
+    SmartDashboard.putData(new ResetOdometryCommand(RobotContainer.drive));
     SmartDashboard.putData(new OnTheFlyTestCommand());
     SmartDashboard.putData(new OnTheFlytoPathCommand());
-    SmartDashboard.putData(new ResetOdometryVision());
+    SmartDashboard.putData(new ResetOdometryVision(RobotContainer.drive));
   }
 
   private void configureEvents() {

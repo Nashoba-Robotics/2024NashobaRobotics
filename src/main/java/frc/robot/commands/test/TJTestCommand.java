@@ -1,16 +1,18 @@
 package frc.robot.commands.test;
 
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class TJTestCommand extends Command{
     
-    private DriveSubsystem drive = RobotContainer.drive;
+    private DriveSubsystem drive;
     private double voltage;
+
+    public TJTestCommand(DriveSubsystem drive) {
+        this.drive = drive;
+    }
 
     @Override
     public void initialize() {

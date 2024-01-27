@@ -7,8 +7,7 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.estimator.PoseEstimator;
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,6 +15,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -34,13 +35,12 @@ public class DriveSubsystem extends SubsystemBase{
 
     private boolean fieldCentric;
 
-    public static enum DriveState{
+    public static enum DriveState {
         DRIVER,
         AIM_TO_SPEAKER,
         AIM_TO_AMP
     }
     public DriveState state;
-
 
     public DriveSubsystem() {
         gyroIO = new GyroIOPigeon2();
@@ -88,12 +88,11 @@ public class DriveSubsystem extends SubsystemBase{
         state = DriveState.DRIVER;
     }
 
-
     public void set(ChassisSpeeds chassisSpeeds) {
         double x = chassisSpeeds.vxMetersPerSecond;
         double y = chassisSpeeds.vyMetersPerSecond;
 
-        double omega = chassisSpeeds.omegaRadiansPerSecond;
+        double omega = 0;
 
         if(fieldCentric) {
             double angleDiff = Math.atan2(y, x) - getGyroAngle().getRadians(); //difference between input angle and gyro angle gives desired field relative angle
@@ -124,13 +123,7 @@ public class DriveSubsystem extends SubsystemBase{
         setStates(setStates);
     }
 
-    public void set(SwerveModuleState[] states) {
-        for(int i = 0; i < modules.length; i++) {
-            modules[i].set(states[i]);
-        }
-    }
-
-    public void set(SwerveModuleState state, int modIndex) {
+    public void setState(SwerveModuleState state, int modIndex) {
         modules[modIndex].set(state);
     }
 
@@ -230,6 +223,10 @@ public class DriveSubsystem extends SubsystemBase{
 
     public void updateOdometryWithVision(Pose2d visionPose, double timeStamp) {
         odometry.addVisionMeasurement(visionPose, timeStamp);
+    }
+
+    public void setVisionMeasurementStdDevs(Matrix<N3, N1> stds) {
+        odometry.setVisionMeasurementStdDevs(stds);
     }
 
     @Override
