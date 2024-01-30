@@ -15,7 +15,7 @@ public class ResetOdometryCommand extends Command {
     
     @Override
     public void initialize() {
-        drive.resetPose(new Pose2d(5, 5, Rotation2d.fromDegrees(0)));
+        drive.resetPose(new Pose2d(8, 6, Rotation2d.fromDegrees(0)));
     }
 
 }

@@ -5,9 +5,14 @@ import org.littletonrobotics.junction.AutoLog;
 public interface GyroIO {
     @AutoLog
     public static class GyroIOInputs {
-        public double yaw = 0; // Rot
-        public double pitch = 0; // Rot
-        public double roll = 0; // Rot
+        public double yaw = 0; // Rad
+        public double pitch = 0; // Rad
+        public double roll = 0; // Rad
+
+        public double xVelocity = 0; // Rad/s
+        public double yVelocity = 0; // Rad/s
+        public double zVelocity = 0; // Rad/s
+
     }
 
     public default void updateInputs(GyroIOInputs inputs) {}

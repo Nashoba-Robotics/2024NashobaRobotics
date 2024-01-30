@@ -2,6 +2,8 @@ package frc.robot.commands;
 
 import java.util.Optional;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -98,11 +100,12 @@ public class DriveCommand extends Command{
         }
 
         drive.set(chassisSpeeds);
+
     }
 
     @Override
     public void end(boolean interrupted) {
-        drive.set(new ChassisSpeeds(0, 0, 0));
+        // drive.set(new ChassisSpeeds(0, 0, 0));
     }
 
     @Override

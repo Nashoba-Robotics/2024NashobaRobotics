@@ -20,8 +20,8 @@ public class Constants {
     public static class Drive {
       public static final String CANBUS = "rio";
 
-      public static final double WIDTH = Units.inchesToMeters(20.75);
-      public static final double LENGTH = Units.inchesToMeters(20.75);
+      public static final double WIDTH = Units.inchesToMeters(21.75);
+      public static final double LENGTH = Units.inchesToMeters(21.75);
       public static final double DIAGONAL = Math.sqrt(WIDTH*WIDTH + LENGTH*LENGTH)/2;
 
       public static final SwerveDriveKinematics KINEMATICS = new SwerveDriveKinematics(
@@ -31,32 +31,37 @@ public class Constants {
         new Translation2d(-WIDTH/2, -LENGTH/2)
       );
 
-      public static final double MAX_VELOCITY = 3.93; // MPS
+      public static final double MAX_VELOCITY = 3.70; // MPS
       public static final double MAX_ACCELERATION = 0;
 
-      public static final double MAX_ROTATION_VELOCITY = 10.55; // RadPS
+      public static final double MAX_ROTATION_VELOCITY = 9.30; // RadPS
       public static final double MAX_ROTATION_ACCELERATION = 0;
 
       public static final Slot0Configs steerGains0 = new Slot0Configs()
           .withKP(20).withKI(0).withKD(0.0)
+            // .withKP(0).withKI(0).withKD(0)
           .withKS(0.25).withKV(2.615).withKA(0);
 
       public static final Slot0Configs steerGains1 = new Slot0Configs()
           .withKP(20).withKI(0).withKD(0.0)
+      // .withKP(0).withKI(0).withKD(0)
           .withKS(0.27).withKV(2.590).withKA(0);
         
       public static final Slot0Configs steerGains2 = new Slot0Configs()
           .withKP(20).withKI(0).withKD(0.0)
+      // .withKP(0).withKI(0).withKD(0)
           .withKS(0.28).withKV(2.600).withKA(0);
 
       public static final Slot0Configs steerGains3 = new Slot0Configs()
           .withKP(20).withKI(0).withKD(0.0)
-          .withKS(0.34).withKV(2.681).withKA(0);
+      //     .withKP(0).withKI(0).withKD(0)
+          .withKS(0.34).withKV(2.681).withKA(0); 
 
 
 
       private static final Slot0Configs driveGains = new Slot0Configs()
           .withKP(0.22).withKI(0).withKD(0)
+      // .withKP(0).withKI(0).withKD(0)
           .withKS(0).withKV(0.1165).withKA(0);
 
       private static final ClosedLoopOutputType steerClosedLoopOutput = ClosedLoopOutputType.Voltage;
@@ -102,7 +107,7 @@ public class Constants {
               .withSteerFrictionVoltage(kSteerFrictionVoltage)
               .withDriveFrictionVoltage(kDriveFrictionVoltage)
               .withFeedbackSource(SteerFeedbackType.SyncCANcoder)
-        //       .withCouplingGearRatio(kCoupleRatio)
+              .withCouplingGearRatio(kCoupleRatio)
               .withSteerMotorInverted(kSteerMotorReversed);
 
         private static final SwerveModuleConstantsFactory ConstantCreator1 = new SwerveModuleConstantsFactory()
@@ -120,7 +125,7 @@ public class Constants {
               .withSteerFrictionVoltage(kSteerFrictionVoltage)
               .withDriveFrictionVoltage(kDriveFrictionVoltage)
               .withFeedbackSource(SteerFeedbackType.SyncCANcoder)
-        //       .withCouplingGearRatio(kCoupleRatio)
+              .withCouplingGearRatio(kCoupleRatio)
               .withSteerMotorInverted(kSteerMotorReversed);
         
         private static final SwerveModuleConstantsFactory ConstantCreator2 = new SwerveModuleConstantsFactory()
@@ -138,7 +143,7 @@ public class Constants {
               .withSteerFrictionVoltage(kSteerFrictionVoltage)
               .withDriveFrictionVoltage(kDriveFrictionVoltage)
               .withFeedbackSource(SteerFeedbackType.SyncCANcoder)
-        //       .withCouplingGearRatio(kCoupleRatio)
+              .withCouplingGearRatio(kCoupleRatio)
               .withSteerMotorInverted(kSteerMotorReversed);
 
         private static final SwerveModuleConstantsFactory ConstantCreator3 = new SwerveModuleConstantsFactory()
@@ -156,7 +161,7 @@ public class Constants {
               .withSteerFrictionVoltage(kSteerFrictionVoltage)
               .withDriveFrictionVoltage(kDriveFrictionVoltage)
               .withFeedbackSource(SteerFeedbackType.SyncCANcoder)
-        //       .withCouplingGearRatio(kCoupleRatio)
+              .withCouplingGearRatio(kCoupleRatio)
               .withSteerMotorInverted(kSteerMotorReversed);
 
       // Front Left
