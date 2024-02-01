@@ -55,16 +55,16 @@ public class DriveCommand extends Command{
         chassisSpeeds.vxMetersPerSecond = leftJoystickValues.x * Constants.Drive.MAX_VELOCITY;
         chassisSpeeds.vyMetersPerSecond = leftJoystickValues.y * Constants.Drive.MAX_VELOCITY;
 
-        if(rightJoystickValues.x != 0) drive.setDriveState(DriveState.DRIVER);
-        switch(drive.getDriveState()){
-            case DRIVER:
+        // if(rightJoystickValues.x != 0) drive.setDriveState(DriveState.DRIVER);
+        // switch(drive.getDriveState()){
+        //     case DRIVER:
                 chassisSpeeds.omegaRadiansPerSecond = -rightJoystickValues.x * Constants.Drive.MAX_ROTATION_VELOCITY;
-                break;
-            case AIM_TO_AMP:
-                break;
-            case AIM_TO_SPEAKER:
-                break;
-        }   
+            //     break;
+            // case AIM_TO_AMP:
+            //     break;
+            // case AIM_TO_SPEAKER:
+            //     break;
+        // }   
 
         drive.set(chassisSpeeds);
     }

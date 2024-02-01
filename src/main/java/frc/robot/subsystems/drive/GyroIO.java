@@ -8,6 +8,8 @@ public interface GyroIO {
         public double yaw = 0; // Rot
         public double pitch = 0; // Rot
         public double roll = 0; // Rot
+
+        public double zVelocty = 0; // Rad/s
     }
 
     public default void updateInputs(GyroIOInputs inputs) {}

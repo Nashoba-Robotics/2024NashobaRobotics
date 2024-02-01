@@ -2,11 +2,6 @@ package frc.robot.subsystems.drive;
 
 import org.littletonrobotics.junction.Logger;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
-
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -63,27 +58,27 @@ public class DriveSubsystem extends SubsystemBase{
             // VecBuilder.fill(5.0, 5.0, 100.0)
             );
 
-        AutoBuilder.configureHolonomic(
-                this::getPose,
-                this::resetPose,
-                this::getRobotRelativeSpeeds,
-                this::driveRobotRelative,
-                new HolonomicPathFollowerConfig(
-                        new PIDConstants(5.0, 0.0, 0.0),
-                        new PIDConstants(6.0, 0.0, 0.0),
-                        Constants.Drive.MAX_VELOCITY,
-                        Constants.Drive.DIAGONAL,
-                        new ReplanningConfig()
-                ),
-                () -> {
-                    var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
-                    }
-                    return false;
-                },
-                this
-        );
+        // AutoBuilder.configureHolonomic(
+        //         this::getPose,
+        //         this::resetPose,
+        //         this::getRobotRelativeSpeeds,
+        //         this::driveRobotRelative,
+        //         new HolonomicPathFollowerConfig(
+        //                 new PIDConstants(5.0, 0.0, 0.0),
+        //                 new PIDConstants(6.0, 0.0, 0.0),
+        //                 Constants.Drive.MAX_VELOCITY,
+        //                 Constants.Drive.DIAGONAL,
+        //                 new ReplanningConfig()
+        //         ),
+        //         () -> {
+        //             var alliance = DriverStation.getAlliance();
+        //             if (alliance.isPresent()) {
+        //                 return alliance.get() == DriverStation.Alliance.Red;
+        //             }
+        //             return false;
+        //         },
+        //         this
+        // );
 
         state = DriveState.DRIVER;
     }

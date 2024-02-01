@@ -28,8 +28,8 @@ public class Constants {
     public static class Drive {
       public static final String CANBUS = "rio";
 
-      public static final double WIDTH = Units.inchesToMeters(20.75);
-      public static final double LENGTH = Units.inchesToMeters(20.75);
+      public static final double WIDTH = Units.inchesToMeters(21.75);
+      public static final double LENGTH = Units.inchesToMeters(21.75);
       public static final double DIAGONAL = Math.sqrt(WIDTH*WIDTH + LENGTH*LENGTH)/2;
 
       public static final SwerveDriveKinematics KINEMATICS = new SwerveDriveKinematics(
@@ -41,8 +41,8 @@ public class Constants {
 
       
       
-      public static final double MAX_VELOCITY = 3.93; // MPS
-      public static final double MAX_ROTATION_VELOCITY = 12; // RadPS
+      public static final double MAX_VELOCITY = 3.7; // MPS
+      public static final double MAX_ROTATION_VELOCITY = 9.3; // RadPS
 
       public static final Slot0Configs steerGains0 = new Slot0Configs()
           .withKP(20).withKI(0).withKD(0.0)
@@ -54,7 +54,7 @@ public class Constants {
         
       public static final Slot0Configs steerGains2 = new Slot0Configs()
           .withKP(20).withKI(0).withKD(0.0)
-          .withKS(0.28).withKV(2.600).withKA(0);
+          .withKS(0.2).withKV(2.600).withKA(0);
 
       public static final Slot0Configs steerGains3 = new Slot0Configs()
           .withKP(20).withKI(0).withKD(0.0)
