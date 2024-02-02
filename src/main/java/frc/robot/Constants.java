@@ -250,6 +250,13 @@ public class Constants {
         public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/NashobaTagPositions.json";
       }
 
+      public static final class Arm{
+            public static final int SHOOTER_PORT = 0;
+            public static final int SHOOTER_PORT_2 = 0;
+
+            public static final int PIVOT_PORT = 0;
+      }
+
       public static final class Misc {
 
         public static final int GYRO_PORT = 0;
