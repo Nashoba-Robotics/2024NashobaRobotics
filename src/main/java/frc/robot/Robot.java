@@ -16,8 +16,7 @@ import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class Robot extends LoggedRobot {
 
-  private RobotContainer m_robotContainer;
-  private DriveSubsystem drive = RobotContainer.drive;
+  private RobotContainer robotContainer;
 
   @Override
   public void robotInit() {
@@ -34,12 +33,9 @@ public class Robot extends LoggedRobot {
         Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
     }
 
-    // Logger.disableDeterministicTimestamps(); // See "Deterministic Timestamps" in the "Understanding Data Flow" page
     Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
-
-
     
-    m_robotContainer = new RobotContainer();
+    robotContainer = new RobotContainer();
     Tabs.addTab("April Tags");  
 
     new AprilTagManager();
@@ -52,7 +48,7 @@ public class Robot extends LoggedRobot {
       && AprilTagManager.getAmbiguity() <= 0.2 
       && AprilTagManager.getRobotPos() != null
       )
-        drive.updateOdometryWithVision(AprilTagManager.getRobotPos().toPose2d(), AprilTagManager.getTimestamp());
+        RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getRobotPos().toPose2d(), AprilTagManager.getTimestamp());
   }
 
   @Override
@@ -64,7 +60,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void autonomousInit() {
-    m_robotContainer.getAutoCommand().schedule();
+    robotContainer.getAutoCommand().schedule();
   }
 
   @Override
@@ -72,14 +68,12 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
-
     CommandScheduler.getInstance().cancelAll();
 
-    CommandScheduler.getInstance().setDefaultCommand(RobotContainer.drive, new DriveCommand());
+    CommandScheduler.getInstance().setDefaultCommand(
+      RobotContainer.drive,
+      new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
+      );
   }
 
   @Override

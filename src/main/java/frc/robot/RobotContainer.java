@@ -8,6 +8,7 @@ import com.pathplanner.lib.util.PathPlannerLogging;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SwerveTestCommand;
 import frc.robot.commands.test.OnTheFlyTestCommand;
@@ -24,6 +25,8 @@ public class RobotContainer {
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
 
   private static SendableChooser<Command> autoChooser;
+
+  private static Trigger seemlessPath = joysticks.getLeftJoystick().button(1);
 
   public RobotContainer() {
     addShuffleBoardData();
@@ -42,18 +45,19 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    
+    seemlessPath.onTrue(new OnTheFlytoPathCommand());
   }
 
   private void addShuffleBoardData() {
     // SmartDashboard.putData(new SwerveTestCommand());
     // SmartDashboard.putData(new DriveCommand());
-    // SmartDashboard.putData(new ResetOdometryCommand());
+    SmartDashboard.putData(new ResetOdometryCommand(drive));
     // SmartDashboard.putData(new OnTheFlyTestCommand());
     // SmartDashboard.putData(new OnTheFlytoPathCommand());
     // SmartDashboard.putData(new ResetOdometryVision());
 
     SmartDashboard.putData(new SDFinder());
+    SmartDashboard.putData(new OnTheFlytoPathCommand());
   }
 
   private void configureEvents() {

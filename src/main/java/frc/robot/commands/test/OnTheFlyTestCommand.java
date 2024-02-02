@@ -7,6 +7,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -19,6 +20,7 @@ public class OnTheFlyTestCommand extends SequentialCommandGroup {
     public OnTheFlyTestCommand() {
 
         Pose2d targetPose = new Pose2d(5, 5, Rotation2d.fromDegrees(180));
+
 
         PathConstraints constraints0 = new PathConstraints(
                 3.0, 4.0,

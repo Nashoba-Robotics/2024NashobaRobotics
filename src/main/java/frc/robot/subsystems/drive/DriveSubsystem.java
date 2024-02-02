@@ -2,11 +2,14 @@ package frc.robot.subsystems.drive;
 
 import org.littletonrobotics.junction.Logger;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.auto.AutoBuilder;
+
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -14,8 +17,11 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.lib.math.NRUnits;
@@ -32,18 +38,17 @@ public class DriveSubsystem extends SubsystemBase{
 
     private boolean fieldCentric;
 
-    public static enum DriveState{
+    public static enum DriveState {
         DRIVER,
         AIM_TO_SPEAKER,
         AIM_TO_AMP
     }
     public DriveState state;
 
-
     public DriveSubsystem() {
         gyroIO = new GyroIOPigeon2();
 
-        fieldCentric = true;
+        fieldCentric = false;
 
         modules = new Module[] {
             new Module(0, Constants.Drive.CANBUS),
@@ -95,6 +100,9 @@ public class DriveSubsystem extends SubsystemBase{
         set(new ChassisSpeeds(xSpeed, ySpeed, omegaSpeed));
     }
 
+    private PIDController angleController = new PIDController(10, 0, 0);
+    private double lastJoystickAngle = 0;
+
     /*
      * chassisSpeeds: Object that contains values for the Chassis Speeds
      */
@@ -103,6 +111,12 @@ public class DriveSubsystem extends SubsystemBase{
         double y = chassisSpeeds.vyMetersPerSecond;
 
         double omega = chassisSpeeds.omegaRadiansPerSecond;
+
+        // if(gyroInputs.zVelocity >= 0.10 || omega != 0) lastJoystickAngle = getYaw().getRadians();
+        // else omega = Math.abs(lastJoystickAngle - getYaw().getRadians()) < Constants.TAU/10 &&
+        //     Math.sqrt(x*x+y*y) > 0.1 ?
+        //     angleController.calculate(getYaw().getRadians(), lastJoystickAngle) :
+        //     0;
 
         if(fieldCentric) {
             double angleDiff = Math.atan2(y, x) - getGyroAngle().getRadians(); //difference between input angle and gyro angle gives desired field relative angle
@@ -133,13 +147,7 @@ public class DriveSubsystem extends SubsystemBase{
         setStates(setStates);
     }
 
-    public void set(SwerveModuleState[] states) {
-        for(int i = 0; i < modules.length; i++) {
-            modules[i].set(states[i]);
-        }
-    }
-
-    public void set(SwerveModuleState state, int modIndex) {
+    public void setState(SwerveModuleState state, int modIndex) {
         modules[modIndex].set(state);
     }
 
@@ -247,6 +255,10 @@ public class DriveSubsystem extends SubsystemBase{
 
     public void updateOdometryWithVision(Pose2d visionPose, double timeStamp) {
         odometry.addVisionMeasurement(visionPose, timeStamp);
+    }
+
+    public void setVisionMeasurementStdDevs(Matrix<N3, N1> stds) {
+        odometry.setVisionMeasurementStdDevs(stds);
     }
 
     @Override

@@ -1,17 +1,10 @@
 package frc.robot.commands;
 
-import org.littletonrobotics.junction.Logger;
-
-import com.pathplanner.lib.commands.FollowPathCommand;
-
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.drive.DriveSubsystem;
-import frc.robot.subsystems.drive.Module;
+import frc.robot.subsystems.drive.DriveSubsystem.DriveState;
 
 public class SwerveTestCommand extends Command {
 
@@ -20,8 +13,8 @@ public class SwerveTestCommand extends Command {
     private long lastTimeStamp;
     private double lastAngle;
 
-    public SwerveTestCommand() {
-       drive = RobotContainer.drive;
+    public SwerveTestCommand(DriveSubsystem drive) {
+       this.drive = drive;
        addRequirements(drive);
     }
 
@@ -32,6 +25,8 @@ public class SwerveTestCommand extends Command {
         SmartDashboard.putNumber("SetOmega", 0);
         lastTimeStamp = System.currentTimeMillis();
         lastAngle = drive.getGyroAngle().getRadians();
+
+        drive.setDriveState(DriveState.DRIVER);
 
     }
 
