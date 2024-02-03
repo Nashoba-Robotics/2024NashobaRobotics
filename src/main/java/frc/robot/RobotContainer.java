@@ -16,6 +16,7 @@ import frc.robot.commands.test.OnTheFlytoPathCommand;
 import frc.robot.commands.test.ResetOdometryCommand;
 import frc.robot.commands.test.ResetOdometryVision;
 import frc.robot.commands.test.SDFinder;
+import frc.robot.commands.test.TurnToTargetCommand;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
 
@@ -51,13 +52,14 @@ public class RobotContainer {
   private void addShuffleBoardData() {
     // SmartDashboard.putData(new SwerveTestCommand());
     // SmartDashboard.putData(new DriveCommand());
-    SmartDashboard.putData(new ResetOdometryCommand(drive));
+    // SmartDashboard.putData(new ResetOdometryCommand(drive));
     // SmartDashboard.putData(new OnTheFlyTestCommand());
     // SmartDashboard.putData(new OnTheFlytoPathCommand());
     // SmartDashboard.putData(new ResetOdometryVision());
 
-    SmartDashboard.putData(new SDFinder());
-    SmartDashboard.putData(new OnTheFlytoPathCommand());
+    // SmartDashboard.putData(new SDFinder());
+    // SmartDashboard.putData(new OnTheFlytoPathCommand());
+    SmartDashboard.putData(new TurnToTargetCommand(drive));
   }
 
   private void configureEvents() {

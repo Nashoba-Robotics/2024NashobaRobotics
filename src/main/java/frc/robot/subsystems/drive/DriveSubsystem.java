@@ -32,7 +32,6 @@ public class DriveSubsystem extends SubsystemBase{
     private SwerveDrivePoseEstimator odometry;
 
     private Module[] modules;
-
     private GyroIO gyroIO;
     private GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
 
@@ -232,6 +231,10 @@ public class DriveSubsystem extends SubsystemBase{
     //Returns the Robot's yaw orientation in radians (Contstrained)
     public Rotation2d getGyroAngle() {
         return Rotation2d.fromRadians(NRUnits.constrainRad(getYaw().getRadians()));
+    }
+
+    public double getZVelocity(){
+        return gyroInputs.zVelocity;
     }
 
     //Returns the gyro's yaw orientation in radians (Rotation Horizontal)
