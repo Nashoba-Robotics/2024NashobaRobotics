@@ -21,7 +21,6 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.lib.math.NRUnits;
@@ -112,11 +111,11 @@ public class DriveSubsystem extends SubsystemBase{
 
         double omega = chassisSpeeds.omegaRadiansPerSecond;
 
-        // if(gyroInputs.zVelocity >= 0.10 || omega != 0) lastJoystickAngle = getYaw().getRadians();
-        // else omega = Math.abs(lastJoystickAngle - getYaw().getRadians()) < Constants.TAU/10 &&
-        //     Math.sqrt(x*x+y*y) > 0.1 ?
-        //     angleController.calculate(getYaw().getRadians(), lastJoystickAngle) :
-        //     0;
+        if(gyroInputs.zVelocity >= 0.10 || omega != 0) lastJoystickAngle = getYaw().getRadians();
+        else omega = Math.abs(lastJoystickAngle - getYaw().getRadians()) < Constants.TAU/10 &&
+            Math.sqrt(x*x+y*y) > 0.1 ?
+            angleController.calculate(getYaw().getRadians(), lastJoystickAngle) :
+            0;
 
         if(fieldCentric) {
             double angleDiff = Math.atan2(y, x) - getGyroAngle().getRadians(); //difference between input angle and gyro angle gives desired field relative angle

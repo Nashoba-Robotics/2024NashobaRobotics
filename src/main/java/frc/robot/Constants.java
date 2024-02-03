@@ -4,6 +4,8 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.ClosedLoopOutputType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants.SteerFeedbackType;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
 
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -16,6 +18,82 @@ import edu.wpi.first.wpilibj.Filesystem;
 public class Constants {
   
     public static final double TAU = 2 * Math.PI;
+
+    public static final double PEAK_VOLTAGE = 12;
+
+    public static final class AprilTags{
+        public static final String CAMERA1_NAME = "Yi's_Little_Buddy";
+        public static final String CAMERA2_NAME = "Ben's_Little_Buddy";
+
+        /* For PhotonEstimator
+         *             ^ 
+         *             |
+         *             Z        
+         *      --------------
+         *      |            |
+         *      |            |
+         *<-- X |     *Y     |
+         *      |            |
+         *      |            |
+         *      --------------
+         */
+        public static final Transform3d ROBOT_TO_CAMERA1 = new Transform3d(0, 0, Units.inchesToMeters(13), new Rotation3d(0, -18./360*TAU, 0));
+      //   public static final Transform3d ROBOT_TO_CAMERA1 = new Transform3d(0, 0, Units.inchesToMeters(0), new Rotation3d(0, 0, 0));
+        public static final Transform3d ROBOT_TO_CAMERA2 = new Transform3d(0,0,0, new Rotation3d());
+
+        public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/AprilTagPositions.json";
+
+        public static final double getXSD(double distance) {
+            return 0.0312*distance - 0.0494;
+        }
+
+        public static final double getYSD(double distance) {
+            return 0.0656*distance - 0.129;
+        }
+      }
+
+    public static final class Arm{
+            public static final String CANBUS = "rio";
+
+            public static final int SHOOTER_PORT = 0;
+            public static final int SHOOTER_PORT_2 = 0;
+
+            public static final int PIVOT_PORT = 0;
+
+            public static int SHOOTER_SENSOR_PORT = 0;
+            public static int LOADER_SENSOR_PORT = 0;
+
+            public static double SHOOTER_GEAR_RATIO = 0;
+            public static double PIVOT_GEAR_RATIO = 0;
+
+            public static final double PIVOT_STATOR_CURRENT_LIMIT = 0;
+            public static final double PIVOT_SUPPLY_CURRENT_LIMIT = 0;
+
+            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 0;
+            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0;
+            public static final double PIVOT_MOTION_MAGIC_JERK = 0;
+
+            public static final InvertedValue PIVOT_INVERTED = InvertedValue.Clockwise_Positive;
+            public static final NeutralModeValue PIVOT_NEUTRAL_MODE = NeutralModeValue.Brake;
+
+            public static final Slot0Configs PIVOT_PID = new Slot0Configs()
+            .withKV(0).withKS(0)
+            .withKP(0).withKI(0).withKD(0);
+
+            public static final double SHOOTER_STATOR_CURRENT_LIMIT = 0;
+            public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 0;
+
+            public static final double SHOOTER_MOTION_MAGIC_ACCELERATION = 0;
+            public static final double SHOOTER_MOTION_MAGIC_CRUISE_VELOCITY = 0;
+            public static final double SHOOTER_MOTION_MAGIC_JERK = 0;
+
+            public static final InvertedValue SHOOTER_INVERTED = InvertedValue.Clockwise_Positive;
+            public static final NeutralModeValue SHOOTER_NEUTRAL_MODE = NeutralModeValue.Brake;
+
+            public static final Slot0Configs SHOOTER_PID = new Slot0Configs()
+            .withKV(0).withKS(0)
+            .withKP(0).withKI(0).withKD(0);
+      }
 
     public static class Drive {
       public static final String CANBUS = "rio";
@@ -71,7 +149,8 @@ public class Constants {
 
       public static final double kSpeedAt12VoltsMps = MAX_VELOCITY;
 
-      private static final double kCoupleRatio = 3.5714285714285716;
+      // private static final double kCoupleRatio = 3.5714285714285716;
+      private static final double kCoupleRatio = 0;
 
       public static final double kDriveGearRatio = 8.142857142857142;
       public static final double kSteerGearRatio = 21.428571428571427;
@@ -230,42 +309,42 @@ public class Constants {
         public static final double TURN_SENSITIVITY = 1;
       }
 
-      public static final class AprilTags{
-        public static final String CAMERA1_NAME = "Yi's_Little_Buddy";
-        public static final String CAMERA2_NAME = "Ben's_Little_Buddy";
-
-        /* For PhotonEstimator
-         *             ^ 
-         *             |
-         *             Z        
-         *      --------------
-         *      |            |
-         *      |            |
-         *<-- X |     *Y     |
-         *      |            |
-         *      |            |
-         *      --------------
-         */
-        public static final Transform3d ROBOT_TO_CAMERA1 = new Transform3d(0, 0, Units.inchesToMeters(13), new Rotation3d(0, -18./360*TAU, 0));
-      //   public static final Transform3d ROBOT_TO_CAMERA1 = new Transform3d(0, 0, Units.inchesToMeters(0), new Rotation3d(0, 0, 0));
-        public static final Transform3d ROBOT_TO_CAMERA2 = new Transform3d(0,0,0, new Rotation3d());
-
-        public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/AprilTagPositions.json";
-
-        public static final double getXSD(double distance) {
-            return 0.0312*distance - 0.0494;
-        }
-
-        public static final double getYSD(double distance) {
-            return 0.0656*distance - 0.129;
-        }
-      }
-
-      public static final class Arm{
-            public static final int SHOOTER_PORT = 0;
-            public static final int SHOOTER_PORT_2 = 0;
+      public static final class Loader {
+            public static final String CANBUS = "rio";
 
             public static final int PIVOT_PORT = 0;
+            public static final int ROLLER_PORT = 0;
+
+            public static final double PIVOT_GEAR_RATIO = 0;
+            public static final double ROLLER_GEAR_RATIO = 0;
+
+            public static final double PIVOT_STATOR_CURRENT_LIMIT = 0;
+            public static final double PIVOT_SUPPLY_CURRENT_LIMIT = 0;
+
+            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 0;
+            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0;
+            public static final double PIVOT_MOTION_MAGIC_JERK = 0;
+
+            public static final InvertedValue PIVOT_INVERTED = InvertedValue.Clockwise_Positive;
+            public static final NeutralModeValue PIVOT_NEUTRAL_MODE = NeutralModeValue.Brake;
+
+            public static final Slot0Configs PIVOT_PID = new Slot0Configs()
+            .withKV(0).withKS(0)
+            .withKP(0).withKI(0).withKD(0);
+
+            public static final double ROLLER_STATOR_CURRENT_LIMIT = 0;
+            public static final double ROLLER_SUPPLY_CURRENT_LIMIT = 0;
+
+            public static final double ROLLER_MOTION_MAGIC_ACCELERATION = 0;
+            public static final double ROLLER_MOTION_MAGIC_CRUISE_VELOCITY = 0;
+            public static final double ROLLER_MOTION_MAGIC_JERK = 0;
+
+            public static final InvertedValue ROLLER_INVERTED = InvertedValue.Clockwise_Positive;
+            public static final NeutralModeValue ROLLER_NEUTRAL_MODE = NeutralModeValue.Brake;
+
+            public static final Slot0Configs ROLLER_PID = new Slot0Configs()
+            .withKV(0).withKS(0)
+            .withKP(0).withKI(0).withKD(0);
       }
 
       public static final class Misc {

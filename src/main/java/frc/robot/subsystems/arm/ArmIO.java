@@ -2,6 +2,8 @@ package frc.robot.subsystems.arm;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+
 public interface ArmIO {
     /*
      * Pivoting arm and shooter
@@ -9,19 +11,27 @@ public interface ArmIO {
 
      @AutoLog
      public static class ArmIOInputs{
-        public double armAbsolutePosition = 0; //rad
-        public double armRotorPosition = 0;   //rad
+        public double pivotAbsolutePosition = 0; //rad
+        public double pivotRotorPosition = 0;   //rad
+        public double pivotSpeed = 0; //rad/s
         
-        public double armStatorCurrent = 0; //Amps
-        public double armSupplyCurrent = 0; //Amps
-        public double armVoltage = 0;   //Volts
+        public double pivotStatorCurrent = 0; //amps
+        public double pivotSupplyCurrent = 0; //amps
+        public double pivotVoltage = 0;   //volts
 
-        public double shooterSpeed = 0; //rps
-        public double shooterStatorCurrent = 0;    //Amps
+        public double shooterPosition = 0; //rad
+        public double shooterSpeed = 0; //rad/s
+        public double shooterStatorCurrent = 0;    //amps
         public double shooterSupplyCurrent = 0;
-        public double shooterVoltage = 0;   //Volts
+        public double shooterVoltage = 0;   //volts
+
+        public boolean loaderSensor = false;
+        public boolean shooterSensor = false;
      }
 
-     public abstract void setAngle(double angle);
-     public abstract void setShooterSpeed(double speed);
+     public default void updateInputs(ArmIOInputs inputs) {}
+     public abstract void setAngle(Rotation2d angle);
+     public abstract void setShooterSpeed(Rotation2d speed);
+     public boolean getShooterSensor();
+     public boolean getLoaderSensor();
 }
