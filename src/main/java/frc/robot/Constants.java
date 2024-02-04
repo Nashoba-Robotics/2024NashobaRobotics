@@ -8,6 +8,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -334,13 +335,16 @@ public class Constants {
             public static final int PIVOT_PORT = 50;
             public static final int ROLLER_PORT = 0;
 
-            public static final double PIVOT_GEAR_RATIO = 100/1;
+            public static final double PIVOT_GEAR_RATIO = 100./1*30/18;
             public static final double ROLLER_GEAR_RATIO = 0;
 
-            public static final double PIVOT_STATOR_CURRENT_LIMIT = 60;
-            public static final double PIVOT_SUPPLY_CURRENT_LIMIT = 60;
+            public static final double PIVOT_STATOR_CURRENT_LIMIT = 20;
+            public static final double PIVOT_SUPPLY_CURRENT_LIMIT = 20;
 
-            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 1;
+            public static final Rotation2d PIVOT_FORWARD_SOFT_LIMIT = Rotation2d.fromDegrees(100);
+            public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromDegrees(-30);
+
+            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 2;
             public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 1;
             public static final double PIVOT_MOTION_MAGIC_JERK = 0;
 
@@ -348,15 +352,11 @@ public class Constants {
             public static final NeutralModeValue PIVOT_NEUTRAL_MODE = NeutralModeValue.Brake;
 
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
-            .withKV(1.4).withKS(0.0)
-            .withKP(69).withKI(0).withKD(2);
+            .withKV(1.57).withKS(0.02)
+            .withKP(69).withKI(0).withKD(0);
 
             public static final double ROLLER_STATOR_CURRENT_LIMIT = 0;
             public static final double ROLLER_SUPPLY_CURRENT_LIMIT = 0;
-
-            public static final double ROLLER_MOTION_MAGIC_ACCELERATION = 0;
-            public static final double ROLLER_MOTION_MAGIC_CRUISE_VELOCITY = 0;
-            public static final double ROLLER_MOTION_MAGIC_JERK = 0;
 
             public static final InvertedValue ROLLER_INVERTED = InvertedValue.Clockwise_Positive;
             public static final NeutralModeValue ROLLER_NEUTRAL_MODE = NeutralModeValue.Brake;

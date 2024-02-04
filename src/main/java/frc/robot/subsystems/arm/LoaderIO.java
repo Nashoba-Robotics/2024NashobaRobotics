@@ -29,7 +29,7 @@ public interface LoaderIO {
     public void setPivotRotorPos(Rotation2d position);
     public void setRollerSpeed(Rotation2d speed);
 
-
+    public void setLoaderkS(double kS);
     public void setLoaderkV(double kV);
     public void setLoaderkP(double kP);
     public void setLoaderkD(double kD);

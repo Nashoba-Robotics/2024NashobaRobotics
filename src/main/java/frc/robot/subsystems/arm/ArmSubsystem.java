@@ -65,6 +65,9 @@ public class ArmSubsystem extends SubsystemBase{
         loaderIO.setPivotRotorPos(pos);
     }
 
+    public void setLoaderPivotkS(double kS){
+        loaderIO.setLoaderkS(kS);
+    }
     public void setLoaderPivotkV(double kV){
         loaderIO.setLoaderkV(kV);
     }
