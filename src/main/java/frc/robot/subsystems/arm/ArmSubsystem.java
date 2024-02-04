@@ -2,6 +2,7 @@ package frc.robot.subsystems.arm;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -53,9 +54,24 @@ public class ArmSubsystem extends SubsystemBase{
     public void setLoaderSpeed(Rotation2d speed) {
         loaderIO.setRollerSpeed(speed);
     }
+    public void setLoaderPivotSpeed(double speed){
+        loaderIO.setPivotSpeed(speed);
+    }
 
     public Rotation2d getLoaderSpeed() {
         return Rotation2d.fromRadians(loaderInputs.rollerVelocity);
     }
+    public void setLoaderPivotRotor(Rotation2d pos){
+        loaderIO.setPivotRotorPos(pos);
+    }
 
+    public void setLoaderPivotkV(double kV){
+        loaderIO.setLoaderkV(kV);
+    }
+    public void setLoaderPivotkP(double kP){
+        loaderIO.setLoaderkP(kP);
+    }
+    public void setLoaderPivotkD(double kD){
+        loaderIO.setLoaderkD(kD);
+    }
 }

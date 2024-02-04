@@ -26,5 +26,12 @@ public interface LoaderIO {
 
     public default void updateInputs(LoaderIOInputs inputs) {}
     public void setPivotPosition(Rotation2d position);
+    public void setPivotRotorPos(Rotation2d position);
     public void setRollerSpeed(Rotation2d speed);
+
+
+    public void setLoaderkV(double kV);
+    public void setLoaderkP(double kP);
+    public void setLoaderkD(double kD);
+    public void setPivotSpeed(double speed);
 }

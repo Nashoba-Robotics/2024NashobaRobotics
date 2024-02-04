@@ -331,25 +331,25 @@ public class Constants {
       public static final class Loader {
             public static final String CANBUS = "rio";
 
-            public static final int PIVOT_PORT = 0;
+            public static final int PIVOT_PORT = 50;
             public static final int ROLLER_PORT = 0;
 
-            public static final double PIVOT_GEAR_RATIO = 0;
+            public static final double PIVOT_GEAR_RATIO = 100/1;
             public static final double ROLLER_GEAR_RATIO = 0;
 
-            public static final double PIVOT_STATOR_CURRENT_LIMIT = 0;
-            public static final double PIVOT_SUPPLY_CURRENT_LIMIT = 0;
+            public static final double PIVOT_STATOR_CURRENT_LIMIT = 60;
+            public static final double PIVOT_SUPPLY_CURRENT_LIMIT = 60;
 
-            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 0;
-            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0;
+            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 1;
+            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 1;
             public static final double PIVOT_MOTION_MAGIC_JERK = 0;
 
-            public static final InvertedValue PIVOT_INVERTED = InvertedValue.Clockwise_Positive;
+            public static final InvertedValue PIVOT_INVERTED = InvertedValue.CounterClockwise_Positive;
             public static final NeutralModeValue PIVOT_NEUTRAL_MODE = NeutralModeValue.Brake;
 
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
-            .withKV(0).withKS(0)
-            .withKP(0).withKI(0).withKD(0);
+            .withKV(1.4).withKS(0.0)
+            .withKP(69).withKI(0).withKD(2);
 
             public static final double ROLLER_STATOR_CURRENT_LIMIT = 0;
             public static final double ROLLER_SUPPLY_CURRENT_LIMIT = 0;

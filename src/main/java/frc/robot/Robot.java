@@ -38,17 +38,17 @@ public class Robot extends LoggedRobot {
     robotContainer = new RobotContainer();
     Tabs.addTab("April Tags");  
 
-    new AprilTagManager();
+    // new AprilTagManager();
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    if(AprilTagManager.hasTarget() 
-      && AprilTagManager.getAmbiguity() <= 0.2 
-      && AprilTagManager.getRobotPos() != null
-      )
-        RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getRobotPos().toPose2d(), AprilTagManager.getTimestamp());
+    // if(AprilTagManager.hasTarget() 
+    //   && AprilTagManager.getAmbiguity() <= 0.2 
+    //   && AprilTagManager.getRobotPos() != null
+    //   ) ;
+        //RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getRobotPos().toPose2d(), AprilTagManager.getTimestamp());
   }
 
   @Override
@@ -70,10 +70,10 @@ public class Robot extends LoggedRobot {
   public void teleopInit() {
     CommandScheduler.getInstance().cancelAll();
 
-    CommandScheduler.getInstance().setDefaultCommand(
-      RobotContainer.drive,
-      new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
-      );
+    // CommandScheduler.getInstance().setDefaultCommand(
+    //   RobotContainer.drive,
+    //   new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
+    //   );
   }
 
   @Override
