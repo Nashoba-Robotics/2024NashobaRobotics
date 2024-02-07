@@ -17,10 +17,10 @@ public class LoaderIOTalonFX implements LoaderIO {
     private TalonFXConfigurator pivotConfigurator;
     private MotionMagicDutyCycle pivotController;
 
-    // private TalonFX roller;
-    // private TalonFXConfiguration rollerConfig;
-    // private TalonFXConfigurator rollerConfigurator;
-    // private VelocityDutyCycle rollerController;
+    private TalonFX roller;
+    private TalonFXConfiguration rollerConfig;
+    private TalonFXConfigurator rollerConfigurator;
+    private VelocityDutyCycle rollerController;
 
     public LoaderIOTalonFX() {
         pivot = new TalonFX(Constants.Loader.PIVOT_PORT, Constants.Loader.CANBUS);
@@ -28,10 +28,10 @@ public class LoaderIOTalonFX implements LoaderIO {
         pivotConfigurator = pivot.getConfigurator();
         pivotController = new MotionMagicDutyCycle(0);
 
-        // roller = new TalonFX(Constants.Loader.ROLLER_PORT, Constants.Loader.CANBUS);
-        // rollerConfig = new TalonFXConfiguration();
-        // rollerConfigurator = roller.getConfigurator();
-        // rollerController = new VelocityDutyCycle(0);
+        roller = new TalonFX(Constants.Loader.ROLLER_PORT, Constants.Loader.CANBUS);
+        rollerConfig = new TalonFXConfiguration();
+        rollerConfigurator = roller.getConfigurator();
+        rollerController = new VelocityDutyCycle(0);
 
         config();
     }
@@ -47,9 +47,9 @@ public class LoaderIOTalonFX implements LoaderIO {
     }
 
     public void setRollerSpeed(Rotation2d speed) {
-        // rollerController.Velocity = speed.getRotations();
+        rollerController.Velocity = speed.getRotations();
 
-        // roller.setControl(rollerController);
+        roller.setControl(rollerController);
     }
 
     public void setLoaderkV(double kV){
@@ -79,11 +79,11 @@ public class LoaderIOTalonFX implements LoaderIO {
         inputs.pivotStatorCurrent = pivot.getStatorCurrent().getValueAsDouble();
         inputs.pivotVoltage = pivot.getMotorVoltage().getValueAsDouble();
 
-        // inputs.rollerPosition = roller.getPosition().getValueAsDouble() * Constants.TAU;
-        // inputs.rollerVelocity = roller.getVelocity().getValueAsDouble() * Constants.TAU;
-        // inputs.rollerSupplyCurrent = roller.getSupplyCurrent().getValueAsDouble();
-        // inputs.rollerStatorCurrent = roller.getStatorCurrent().getValueAsDouble();
-        // inputs.rollerVoltage = roller.getMotorVoltage().getValueAsDouble();
+        inputs.rollerPosition = roller.getPosition().getValueAsDouble() * Constants.TAU;
+        inputs.rollerVelocity = roller.getVelocity().getValueAsDouble() * Constants.TAU;
+        inputs.rollerSupplyCurrent = roller.getSupplyCurrent().getValueAsDouble();
+        inputs.rollerStatorCurrent = roller.getStatorCurrent().getValueAsDouble();
+        inputs.rollerVoltage = roller.getMotorVoltage().getValueAsDouble();
     }
 
     private void config() { //TODO: Make Current limits true
@@ -108,23 +108,23 @@ public class LoaderIOTalonFX implements LoaderIO {
         pivotConfig.Voltage.PeakForwardVoltage = Constants.PEAK_VOLTAGE;
         pivotConfig.Voltage.PeakReverseVoltage = -Constants.PEAK_VOLTAGE;
 
-        // rollerConfig.Audio.BeepOnBoot = true;
-        // rollerConfig.Audio.BeepOnConfig = true;
-        // rollerConfig.CurrentLimits.StatorCurrentLimit = Constants.Loader.ROLLER_STATOR_CURRENT_LIMIT;
-        // rollerConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-        // rollerConfig.CurrentLimits.SupplyCurrentLimit = Constants.Loader.ROLLER_SUPPLY_CURRENT_LIMIT;
-        // rollerConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-        // rollerConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-        // rollerConfig.Feedback.SensorToMechanismRatio = Constants.Loader.ROLLER_GEAR_RATIO;
-        // rollerConfig.MotorOutput.Inverted = Constants.Loader.ROLLER_INVERTED;
-        // rollerConfig.MotorOutput.NeutralMode = Constants.Loader.ROLLER_NEUTRAL_MODE;
-        // rollerConfig.Slot0 = Constants.Loader.ROLLER_PID;
-        // rollerConfig.Voltage.PeakForwardVoltage = Constants.PEAK_VOLTAGE;
-        // rollerConfig.Voltage.PeakReverseVoltage = -Constants.PEAK_VOLTAGE;
-        // rollerConfig.Feedback.SensorToMechanismRatio = Constants.Loader.ROLLER_GEAR_RATIO;
+        rollerConfig.Audio.BeepOnBoot = true;
+        rollerConfig.Audio.BeepOnConfig = true;
+        rollerConfig.CurrentLimits.StatorCurrentLimit = Constants.Loader.ROLLER_STATOR_CURRENT_LIMIT;
+        rollerConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+        rollerConfig.CurrentLimits.SupplyCurrentLimit = Constants.Loader.ROLLER_SUPPLY_CURRENT_LIMIT;
+        rollerConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+        rollerConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
+        rollerConfig.Feedback.SensorToMechanismRatio = Constants.Loader.ROLLER_GEAR_RATIO;
+        rollerConfig.MotorOutput.Inverted = Constants.Loader.ROLLER_INVERTED;
+        rollerConfig.MotorOutput.NeutralMode = Constants.Loader.ROLLER_NEUTRAL_MODE;
+        rollerConfig.Slot0 = Constants.Loader.ROLLER_PID;
+        rollerConfig.Voltage.PeakForwardVoltage = Constants.PEAK_VOLTAGE;
+        rollerConfig.Voltage.PeakReverseVoltage = -Constants.PEAK_VOLTAGE;
+        rollerConfig.Feedback.SensorToMechanismRatio = Constants.Loader.ROLLER_GEAR_RATIO;
 
         pivotConfigurator.apply(pivotConfig);
-        // rollerConfigurator.apply(rollerConfig);
+        rollerConfigurator.apply(rollerConfig);
     }
 
 }
