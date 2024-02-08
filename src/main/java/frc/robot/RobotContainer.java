@@ -27,14 +27,14 @@ import frc.robot.subsystems.joystick.JoystickSubsystem;
 
 public class RobotContainer {
 
-  public static final DriveSubsystem drive = new DriveSubsystem();
-  public static final JoystickSubsystem joysticks = new JoystickSubsystem();
-  public static final AprilTagManager aprilTags = new AprilTagManager();
+  // public static final DriveSubsystem drive = new DriveSubsystem();
+  // public static final JoystickSubsystem joysticks = new JoystickSubsystem();
+  // public static final AprilTagManager aprilTags = new AprilTagManager();
   public static final ArmSubsystem arm = new ArmSubsystem();
 
-  private static SendableChooser<Command> autoChooser;
+  // private static SendableChooser<Command> autoChooser;
 
-  private static Trigger seemlessPath = joysticks.getLeftJoystick().button(1);
+  // private static Trigger seemlessPath = joysticks.getLeftJoystick().button(1);
 
   public RobotContainer() {
     addShuffleBoardData();
@@ -42,18 +42,18 @@ public class RobotContainer {
     configureEvents();
 
     // Logging callback for target robot pose
-      PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
-          Logger.recordOutput("TargetPose", pose);
-      });
+      // PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
+      //     Logger.recordOutput("TargetPose", pose);
+      // });
 
 
-    autoChooser = AutoBuilder.buildAutoChooser();
+    // autoChooser = AutoBuilder.buildAutoChooser();
 
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   private void configureBindings() {
-    seemlessPath.onTrue(new OnTheFlytoPathCommand());
+    // seemlessPath.onTrue(new OnTheFlytoPathCommand());
   }
 
   private void addShuffleBoardData() {
@@ -68,10 +68,10 @@ public class RobotContainer {
     // SmartDashboard.putData(new OnTheFlytoPathCommand());
     // SmartDashboard.putData(new TurnToTargetCommand(drive));
 
-    // SmartDashboard.putData(new LoaderTuneCommand(arm));
-    // SmartDashboard.putData(new InstantCommand(()->{
-    //   arm.setLoaderPivotRotor(Rotation2d.fromRadians(0));
-    // }));
+    SmartDashboard.putData(new LoaderTuneCommand(arm));
+    SmartDashboard.putData(new InstantCommand(()->{
+      arm.setLoaderPivotRotor(Rotation2d.fromRadians(0));
+    }));
   }
 
   private void configureEvents() {
@@ -79,6 +79,7 @@ public class RobotContainer {
   }
 
   public Command getAutoCommand() {
-    return autoChooser.getSelected();
+    // return autoChooser.getSelected();
+    return null;
   }
 }
