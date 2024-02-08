@@ -353,8 +353,9 @@ public class Constants {
             public static final NeutralModeValue PIVOT_NEUTRAL_MODE = NeutralModeValue.Brake;
 
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
-            .withKV(0).withKS(0.0)
-            .withKP(0).withKI(0).withKD(0);
+            .withKV(0.845).withKS(0.02)
+            .withKP(45).withKI(1.2).withKD(0);
+            //kG = 0.01, but angle not correct, so we have to manually implement it
 
             public static final double ROLLER_STATOR_CURRENT_LIMIT = 0;
             public static final double ROLLER_SUPPLY_CURRENT_LIMIT = 0;
