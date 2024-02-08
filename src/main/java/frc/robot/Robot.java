@@ -35,7 +35,7 @@ public class Robot extends LoggedRobot {
     Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
     
     robotContainer = new RobotContainer();
-    Tabs.addTab("April Tags");  
+    // Tabs.addTab("April Tags");  
   }
 
   @Override
