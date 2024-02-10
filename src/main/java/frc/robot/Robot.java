@@ -41,11 +41,11 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    if(AprilTagManager.hasTarget() 
-      && AprilTagManager.getAmbiguity() <= 0.2 
-      && AprilTagManager.getRobotPos() != null
-      )
-        RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getRobotPos().toPose2d(), AprilTagManager.getTimestamp());
+    // if(AprilTagManager.hasTarget() 
+    //   && AprilTagManager.getAmbiguity() <= 0.2 
+    //   && AprilTagManager.getRobotPos() != null
+    //   )
+    //     RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getRobotPos().toPose2d(), AprilTagManager.getTimestamp());
   }
 
   @Override
@@ -68,10 +68,10 @@ public class Robot extends LoggedRobot {
     //Cancels everything from auto
     CommandScheduler.getInstance().cancelAll();
 
-    CommandScheduler.getInstance().setDefaultCommand(
-      RobotContainer.drive,
-      new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
-      );
+    // CommandScheduler.getInstance().setDefaultCommand(
+    //   RobotContainer.drive,
+    //   new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
+    //   );
   }
 
   @Override
