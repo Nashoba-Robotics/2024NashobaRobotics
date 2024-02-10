@@ -6,6 +6,7 @@ import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Constants;
@@ -52,6 +53,11 @@ public class LoaderIOTalonFX implements LoaderIO {
         // roller.setControl(rollerController);
     }
 
+    public void setLoaderkG(double kG){
+        pivotConfig.Slot0.kG = kG;
+        pivotConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+        pivotConfigurator.apply(pivotConfig);
+    }
     public void setLoaderkV(double kV){
         pivotConfig.Slot0.kV = kV;
         pivotConfigurator.apply(pivotConfig);
@@ -104,9 +110,9 @@ public class LoaderIOTalonFX implements LoaderIO {
         pivotConfig.MotionMagic.MotionMagicAcceleration = Constants.Loader.PIVOT_MOTION_MAGIC_ACCELERATION;
         pivotConfig.MotionMagic.MotionMagicCruiseVelocity = Constants.Loader.PIVOT_MOTION_MAGIC_CRUISE_VELOCITY;
         pivotConfig.MotionMagic.MotionMagicJerk = Constants.Loader.PIVOT_MOTION_MAGIC_JERK;
-        pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+        pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
         pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.Loader.PIVOT_FORWARD_SOFT_LIMIT.getRotations();
-        pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+        pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
         pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.Loader.PIVOT_REVERSE_SOFT_LIMIT.getRotations();
         pivotConfig.MotorOutput.Inverted = Constants.Loader.PIVOT_INVERTED;
         pivotConfig.MotorOutput.NeutralMode = Constants.Loader.PIVOT_NEUTRAL_MODE;

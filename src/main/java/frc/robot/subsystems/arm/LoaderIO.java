@@ -34,6 +34,7 @@ public interface LoaderIO {
     public TalonFXConfiguration getPivotConfig();
     public void setPivotConfig(TalonFXConfiguration config);
 
+    public void setLoaderkG(double kG);
     public void setLoaderkS(double kS);
     public void setLoaderkV(double kV);
     public void setLoaderkP(double kP);

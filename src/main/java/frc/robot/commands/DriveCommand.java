@@ -84,6 +84,11 @@ public class DriveCommand extends Command{
 
                 break;
             case AIM_TO_SPEAKER:
+                double robotRelXVel = drive.getRobotRelativeSpeeds().vxMetersPerSecond;
+                double robotRelYVel = drive.getRobotRelativeSpeeds().vyMetersPerSecond;
+                double robotVel = Math.sqrt(robotRelXVel*robotRelXVel + robotRelYVel*robotRelYVel);
+                // double fieldRelXVel = drive.getFieldRelativeSpeeds();
+
                 double goal = Math.atan2(
                     drive.getPose().getY() - Constants.Field.SPEAKER_POSITION.getY(),
                     drive.getPose().getX() - Constants.Field.SPEAKER_POSITION.getX()

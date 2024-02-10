@@ -28,9 +28,15 @@ import frc.robot.subsystems.joystick.JoystickSubsystem;
 
 public class RobotContainer {
 
+<<<<<<< HEAD
   // public static final DriveSubsystem drive = new DriveSubsystem();
   // public static final JoystickSubsystem joysticks = new JoystickSubsystem();
   // public static final AprilTagManager aprilTags = new AprilTagManager();
+=======
+  public static final DriveSubsystem drive = new DriveSubsystem();
+  public static final JoystickSubsystem joysticks = new JoystickSubsystem();
+  public static final AprilTagManager aprilTags = new AprilTagManager();
+>>>>>>> 96acadab3cb1e42f60d32214056ca89609bdc171
   public static final ArmSubsystem arm = new ArmSubsystem();
 
   private static SendableChooser<Command> autoChooser;

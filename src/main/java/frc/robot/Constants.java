@@ -4,6 +4,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.ClosedLoopOutputType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants.SteerFeedbackType;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
@@ -333,9 +334,9 @@ public class Constants {
             public static final String CANBUS = "rio";
 
             public static final int PIVOT_PORT = 50;
-            public static final int ROLLER_PORT = 0;
+            public static final int ROLLER_PORT = 46;
 
-            public static final double PIVOT_GEAR_RATIO = 100./1*30/18;
+            public static final double PIVOT_GEAR_RATIO = 9.*7*30/18;
             public static final double ROLLER_GEAR_RATIO = 0;
 
             public static final double PIVOT_STATOR_CURRENT_LIMIT = 20;
@@ -344,7 +345,7 @@ public class Constants {
             public static final Rotation2d PIVOT_FORWARD_SOFT_LIMIT = Rotation2d.fromDegrees(100);
             public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromDegrees(-30);
 
-            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 2;
+            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 2;   //2
             public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 1;
             public static final double PIVOT_MOTION_MAGIC_JERK = 0;
 
@@ -352,8 +353,9 @@ public class Constants {
             public static final NeutralModeValue PIVOT_NEUTRAL_MODE = NeutralModeValue.Brake;
 
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
-            .withKV(1.57).withKS(0.02)
-            .withKP(69).withKI(0).withKD(0);
+            .withKV(0.845).withKS(0.02)
+            .withKP(45).withKI(1.2).withKD(0);
+            //kG = 0.01, but angle not correct, so we have to manually implement it
 
             public static final double ROLLER_STATOR_CURRENT_LIMIT = 0;
             public static final double ROLLER_SUPPLY_CURRENT_LIMIT = 0;
