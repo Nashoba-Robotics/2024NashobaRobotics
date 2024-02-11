@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import org.littletonrobotics.junction.Logger;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -13,6 +15,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SwerveTestCommand;
+import frc.robot.commands.auto.source.ToSource0Command;
+import frc.robot.commands.auto.source.ToSource1Command;
+import frc.robot.commands.auto.source.ToSource2Command;
 import frc.robot.commands.test.FindLoaderZero;
 import frc.robot.commands.test.LoaderTuneCommand;
 import frc.robot.commands.test.OnTheFlyTestCommand;
@@ -28,20 +33,17 @@ import frc.robot.subsystems.joystick.JoystickSubsystem;
 
 public class RobotContainer {
 
-<<<<<<< HEAD
   // public static final DriveSubsystem drive = new DriveSubsystem();
-  // public static final JoystickSubsystem joysticks = new JoystickSubsystem();
-  // public static final AprilTagManager aprilTags = new AprilTagManager();
-=======
-  public static final DriveSubsystem drive = new DriveSubsystem();
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
-  public static final AprilTagManager aprilTags = new AprilTagManager();
->>>>>>> 96acadab3cb1e42f60d32214056ca89609bdc171
+  // public static final AprilTagManager aprilTags = new AprilTagManager();
   public static final ArmSubsystem arm = new ArmSubsystem();
 
   private static SendableChooser<Command> autoChooser;
 
   // private static Trigger seemlessPath = joysticks.getLeftJoystick().button(1);
+  private Trigger incrementSource = joysticks.getOperatorController().button(6);
+  private Trigger decrementSorce = joysticks.getOperatorController().button(5);
+  private Trigger toSource = joysticks.getOperatorController().button(2);
 
   public RobotContainer() {
     addShuffleBoardData();
@@ -84,6 +86,51 @@ public class RobotContainer {
 
   private void configureEvents() {
     // NamedCommands.registerCommand("Name", command);
+  }
+
+  private int sourceIndex;
+
+  private void configureSourceBindings() {
+    decrementSorce.onTrue(new InstantCommand(() -> {
+      sourceIndex+=2;
+      sourceIndex %= 3;
+
+      SmartDashboard.putNumber("sourceIndex", sourceIndex);
+    }));
+
+    incrementSource.onTrue(new InstantCommand(() -> {
+      sourceIndex++;
+      sourceIndex %= 3;
+
+      SmartDashboard.putNumber("sourceIndex", sourceIndex);
+    }));
+
+    toSource.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean() {
+        return sourceIndex == 0;
+      }
+    }).onTrue(
+      new ToSource0Command()
+    );
+
+    toSource.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean() {
+        return sourceIndex == 1;
+      }
+    }).onTrue(
+      new ToSource1Command()
+    );
+
+    toSource.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean() {
+        return sourceIndex == 2;
+      }
+    }).onTrue(
+      new ToSource2Command()
+    );
   }
 
   public Command getAutoCommand() {

@@ -118,8 +118,8 @@ public class Constants {
       public static class Drive {
             public static final String CANBUS = "rio";
 
-            public static final double WIDTH = Units.inchesToMeters(21.75);
-            public static final double LENGTH = Units.inchesToMeters(21.75);
+            public static final double WIDTH = Units.inchesToMeters(22.75); // ~0.57785m
+            public static final double LENGTH = Units.inchesToMeters(22.75);
             public static final double DIAGONAL = Math.sqrt(WIDTH*WIDTH + LENGTH*LENGTH)/2;
 
             public static final SwerveDriveKinematics KINEMATICS = new SwerveDriveKinematics(

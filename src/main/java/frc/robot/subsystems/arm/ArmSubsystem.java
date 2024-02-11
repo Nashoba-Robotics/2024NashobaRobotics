@@ -2,12 +2,9 @@ package frc.robot.subsystems.arm;
 
 import org.littletonrobotics.junction.Logger;
 
-<<<<<<< HEAD
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
 import edu.wpi.first.math.geometry.Pose2d;
-=======
->>>>>>> 96acadab3cb1e42f60d32214056ca89609bdc171
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
