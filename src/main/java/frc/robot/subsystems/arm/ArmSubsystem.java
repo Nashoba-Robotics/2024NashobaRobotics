@@ -2,6 +2,9 @@ package frc.robot.subsystems.arm;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -107,5 +110,18 @@ public class ArmSubsystem extends SubsystemBase{
     }
     public void setLoaderPivotkD(double kD){
         loaderIO.setLoaderkD(kD);
+    }
+    public double getLoaderPivotSpeed() {
+        return loaderInputs.pivotVelocity;
+    }
+
+    public double getLoaderPivotCurrent() {
+        return loaderInputs.pivotStatorCurrent;
+    }
+    public TalonFXConfiguration getLoaderPivotConfig() {
+        return loaderIO.getPivotConfig();
+    }
+    public void setLoaderPivotConfig(TalonFXConfiguration config) {
+        loaderIO.setPivotConfig(config);
     }
 }

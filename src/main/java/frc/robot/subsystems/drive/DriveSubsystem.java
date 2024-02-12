@@ -263,6 +263,15 @@ public class DriveSubsystem extends SubsystemBase{
         odometry.setVisionMeasurementStdDevs(stds);
     }
 
+    public ChassisSpeeds getFieldRelativeSpeeds() {
+        ChassisSpeeds speeds = Constants.Drive.KINEMATICS.toChassisSpeeds(getSwerveModuleStates());
+        Translation2d translation = new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond);
+        translation = new Translation2d(translation.getNorm(), Rotation2d.fromRadians(translation.getAngle().getRadians() + getGyroAngle().getRadians()));
+        speeds.vxMetersPerSecond = translation.getX();
+        speeds.vyMetersPerSecond = translation.getY();
+        return speeds;
+    }
+
     @Override
     public void periodic(){
         gyroIO.updateInputs(gyroInputs);
