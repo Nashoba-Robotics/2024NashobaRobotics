@@ -31,7 +31,14 @@ public interface ArmIO {
 
      public default void updateInputs(ArmIOInputs inputs) {}
      public abstract void setAngle(Rotation2d angle);
+     public abstract void setPivotSpeed(double speed);
      public abstract void setShooterSpeed(Rotation2d speed);
-     public boolean getShooterSensor();
-     public boolean getLoaderSensor();
+     public abstract boolean getShooterSensor();
+     public abstract boolean getLoaderSensor();
+
+     public abstract void setPivotkG(double kG);
+     public abstract void setPivotkS(double kS);
+     public abstract void setPivotkV(double kV);
+     public abstract void setPivotkP(double kP);
+     public abstract void setPivotkD(double kD);
 }

@@ -7,6 +7,7 @@ import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -85,6 +86,32 @@ public class ArmIOTalonFX implements ArmIO{
 
     public boolean getLoaderSensor() {
         return loaderSensor.get();
+    }
+
+    public void setPivotSpeed(double speed){
+        pivot.set(speed);
+    }
+    
+    public void setPivotkG(double kG){
+        pivotConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+        pivotConfig.Slot0.kG = kG;
+        pivot.getConfigurator().apply(pivotConfig);
+    }
+    public void setPivotkS(double kS){
+        pivotConfig.Slot0.kS = kS;
+        pivot.getConfigurator().apply(pivotConfig);
+    }
+    public void setPivotkV(double kV){
+        pivotConfig.Slot0.kV = kV;
+        pivot.getConfigurator().apply(pivotConfig);
+    }
+    public void setPivotkP(double kP){
+        pivotConfig.Slot0.kP = kP;
+        pivot.getConfigurator().apply(pivotConfig);
+    }
+    public void setPivotkD(double kD){
+        pivotConfig.Slot0.kD = kD;
+        pivot.getConfigurator().apply(pivotConfig);
     }
 
     private void config() {

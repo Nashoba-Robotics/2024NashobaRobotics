@@ -37,10 +37,11 @@ public class Constants {
             *      |            |
             *      --------------
             */
-            public static final Transform3d ROBOT_TO_CAMERA1 = new Transform3d(0, 0, Units.inchesToMeters(13), new Rotation3d(0, -18./360*TAU, 0));
-            //   public static final Transform3d ROBOT_TO_CAMERA1 = new Transform3d(0, 0, Units.inchesToMeters(0), new Rotation3d(0, 0, 0));
+            public static final Transform3d ROBOT_TO_CAMERA1 = new Transform3d(0, 0, 0, new Rotation3d(0, -18./360*TAU, 0));
             public static final Transform3d ROBOT_TO_CAMERA2 = new Transform3d(0,0,0, new Rotation3d());
 
+            //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
+            //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
             public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/AprilTagPositions.json";
 
             public static final double getXSD(double distance) {
@@ -265,8 +266,8 @@ public class Constants {
                   .withSteerMotorInverted(kSteerMotorReversed);
 
             // Front Left
-            private static final int kFrontLeftDriveMotorId = 1;
-            private static final int kFrontLeftSteerMotorId = 5;
+            private static final int kFrontLeftDriveMotorId = 5;
+            private static final int kFrontLeftSteerMotorId = 1;
             private static final int kFrontLeftEncoderId = 1;
             private static final double kFrontLeftEncoderOffset = 0.461914;
 
@@ -274,8 +275,8 @@ public class Constants {
             private static final double kFrontLeftYPosInches = 10.375;
 
             // Front Right
-            private static final int kFrontRightDriveMotorId = 0;
-            private static final int kFrontRightSteerMotorId = 4;
+            private static final int kFrontRightDriveMotorId = 4;
+            private static final int kFrontRightSteerMotorId = 0;
             private static final int kFrontRightEncoderId = 0;
             private static final double kFrontRightEncoderOffset = -0.108887;
 
@@ -283,8 +284,8 @@ public class Constants {
             private static final double kFrontRightYPosInches = -10.375;
 
             // Back Left
-            private static final int kBackLeftDriveMotorId = 2;
-            private static final int kBackLeftSteerMotorId = 6;
+            private static final int kBackLeftDriveMotorId = 6;
+            private static final int kBackLeftSteerMotorId = 2;
             private static final int kBackLeftEncoderId = 2;
             private static final double kBackLeftEncoderOffset = -0.443848;
 
@@ -292,8 +293,8 @@ public class Constants {
             private static final double kBackLeftYPosInches = 10.375;
 
             // Back Right
-            private static final int kBackRightDriveMotorId = 3;
-            private static final int kBackRightSteerMotorId = 7;
+            private static final int kBackRightDriveMotorId = 7;
+            private static final int kBackRightSteerMotorId = 3;
             private static final int kBackRightEncoderId = 3;
             private static final double kBackRightEncoderOffset = 0.209229;
 
@@ -317,8 +318,7 @@ public class Constants {
       }
 
       public static final class Joystick {
-            public static final int LEFT_JOYSTICK_PORT = 1;
-            public static final int RIGHT_JOYSTICK_PORT = 0;
+            public static final int DRIVER_PORT = 0;
             public static final int OPERATOR_PORT = 2;
     
             public static final double MOVE_DEAD_ZONE = 0.18;
