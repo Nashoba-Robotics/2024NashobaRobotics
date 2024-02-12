@@ -63,6 +63,25 @@ public class ArmSubsystem extends SubsystemBase{
     public void setLoaderPivotRotor(Rotation2d pos){
         loaderIO.setPivotRotorPos(pos);
     }
+    
+    public void setArmPivotSpeed(double speed){
+        armIO.setPivotSpeed(speed);
+    }
+    public void setArmPivotkG(double kG){
+        armIO.setPivotkG(kG);
+    }
+    public void setArmPivotkS(double kS){
+        armIO.setPivotkS(kS);
+    }
+    public void setArmPivotkV(double kV){
+        armIO.setPivotkV(kV);
+    }
+    public void setArmPivotkP(double kP){
+        armIO.setPivotkP(kP);
+    }
+    public void setArmPivotkD(double kD){
+        armIO.setPivotkD(kD);
+    }
 
     public void setLoaderPivotkG(double kG){
         loaderIO.setLoaderkG(kG);
