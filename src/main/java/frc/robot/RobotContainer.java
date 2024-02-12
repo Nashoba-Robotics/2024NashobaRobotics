@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SwerveTestCommand;
@@ -27,6 +28,8 @@ import frc.robot.subsystems.joystick.JoystickSubsystem;
 
 public class RobotContainer {
 
+  public static CommandJoystick driverController = new CommandJoystick(0);
+
   public static final DriveSubsystem drive = new DriveSubsystem();
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
   // public static final AprilTagManager aprilTags = new AprilTagManager();
@@ -35,6 +38,7 @@ public class RobotContainer {
   // private static SendableChooser<Command> autoChooser;
 
   // private static Trigger seemlessPath = joysticks.getLeftJoystick().button(1);
+  private static Trigger zeroGyro = joysticks.getDriverController().button(2);
 
   public RobotContainer() {
     addShuffleBoardData();
@@ -54,6 +58,8 @@ public class RobotContainer {
 
   private void configureBindings() {
     // seemlessPath.onTrue(new OnTheFlytoPathCommand());
+    zeroGyro.onTrue(new InstantCommand(()-> drive.setGyro(0)));
+
   }
 
   private void addShuffleBoardData() {

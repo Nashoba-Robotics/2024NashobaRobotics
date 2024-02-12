@@ -2,17 +2,18 @@ package frc.robot.subsystems.joystick;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import frc.robot.lib.util.JoystickValues;
 
 public interface JoystickIO {
     
     @AutoLog
     public static class JoystickIOInputs {
-        public double leftJoystickX = 0;
-        public double leftJoystickY = 0;
-
-        public double rightJoystickX = 0;
-        public double rightJoystickY = 0;
+        public double driveLeftJoystickX = 0;
+        public double driveLeftJoystickY = 0;
+        public double driveRightJoystickX = 0;
+        public double driveRightJoystickY = 0;
 
         public double operatorJoystickLeftX = 0;
         public double operatorJoystickLeftY = 0;
@@ -22,8 +23,10 @@ public interface JoystickIO {
 
     public default void updateInputs(JoystickIOInputs inputs) {}
 
-    public CommandJoystick getLeftJoystick();
-    public CommandJoystick getRightJoystick();
-    public CommandJoystick getOperatorController();
+    public abstract JoystickValues getLeftJoystickValues();
+    public abstract JoystickValues getRightJoystickValues();
+
+    public abstract CommandJoystick getDriverController();
+    public abstract CommandJoystick getOperatorController();
 
 }

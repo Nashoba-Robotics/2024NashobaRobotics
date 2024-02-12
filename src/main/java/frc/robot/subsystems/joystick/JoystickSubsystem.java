@@ -4,7 +4,6 @@ import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import frc.robot.Constants;
 import frc.robot.lib.util.JoystickValues;
 
 public class JoystickSubsystem extends SubsystemBase{
@@ -19,15 +18,15 @@ public class JoystickSubsystem extends SubsystemBase{
     }
 
     public JoystickSubsystem() {
-        io = new JoystickIOThrustMaster();
+        io = new JoystickIOSwitchController();
     }
 
     public JoystickValues getRightJoystickValues() {
-        return new JoystickValues(inputs.rightJoystickX, inputs.rightJoystickY);
+        return io.getRightJoystickValues();
     }
 
     public JoystickValues getLeftJoystickValues() {
-        return new JoystickValues(inputs.leftJoystickX, inputs.leftJoystickY);
+        return io.getLeftJoystickValues();
     }
 
     public JoystickValues getLeftOperatorValues(){
@@ -38,22 +37,17 @@ public class JoystickSubsystem extends SubsystemBase{
         return new JoystickValues(inputs.operatorJoystickRightX, inputs.operatorJoystickRightY);
     }
 
-    public CommandJoystick getRightJoystick() {
-        return io.getRightJoystick();
+    public CommandJoystick getDriverController(){
+        return io.getDriverController();
     }
-
-    public CommandJoystick getLeftJoystick() {
-        return io.getLeftJoystick();
-    }
-
-    public boolean getLeftButtonValue(int index) {
-        return getLeftJoystick().button(index).getAsBoolean();
-    }
-    public boolean getRightButtonValue(int index){
-        return getRightJoystick().button(index).getAsBoolean();
-    }
-
     public CommandJoystick getOperatorController(){
         return io.getOperatorController();
+    }
+
+    public boolean driverButtonPressed(int index){
+        return io.getDriverController().button(index).getAsBoolean();
+    }
+    public boolean operatorButtonPressed(int index){
+        return io.getOperatorController().button(index).getAsBoolean();
     }
 }

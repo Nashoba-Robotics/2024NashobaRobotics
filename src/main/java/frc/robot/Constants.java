@@ -318,8 +318,7 @@ public class Constants {
       }
 
       public static final class Joystick {
-            public static final int LEFT_JOYSTICK_PORT = 1;
-            public static final int RIGHT_JOYSTICK_PORT = 0;
+            public static final int DRIVER_PORT = 0;
             public static final int OPERATOR_PORT = 2;
     
             public static final double MOVE_DEAD_ZONE = 0.18;
