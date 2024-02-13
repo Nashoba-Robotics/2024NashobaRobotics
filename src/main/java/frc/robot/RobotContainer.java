@@ -25,6 +25,7 @@ import frc.robot.commands.test.OnTheFlytoPathCommand;
 import frc.robot.commands.test.ResetOdometryCommand;
 import frc.robot.commands.test.ResetOdometryVision;
 import frc.robot.commands.test.SDFinder;
+import frc.robot.commands.test.TuneDriveCommand;
 import frc.robot.commands.test.TurnToTargetCommand;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -33,10 +34,10 @@ import frc.robot.subsystems.joystick.JoystickSubsystem;
 
 public class RobotContainer {
 
-  // public static final DriveSubsystem drive = new DriveSubsystem();
+  public static final DriveSubsystem drive = new DriveSubsystem();
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
   // public static final AprilTagManager aprilTags = new AprilTagManager();
-  public static final ArmSubsystem arm = new ArmSubsystem();
+  // public static final ArmSubsystem arm = new ArmSubsystem();
 
   private static SendableChooser<Command> autoChooser;
 
@@ -77,11 +78,13 @@ public class RobotContainer {
     // SmartDashboard.putData(new OnTheFlytoPathCommand());
     // SmartDashboard.putData(new TurnToTargetCommand(drive));
 
-    SmartDashboard.putData(new LoaderTuneCommand(arm));
+    // SmartDashboard.putData(new LoaderTuneCommand(arm));
     // SmartDashboard.putData(new InstantCommand(()->{
     //   arm.setLoaderPivotRotor(Rotation2d.fromRadians(0));
     // }));
-    SmartDashboard.putData(new FindLoaderZero(arm));
+    // SmartDashboard.putData(new FindLoaderZero(arm));
+
+    SmartDashboard.putData(new TuneDriveCommand(drive));
   }
 
   private void configureEvents() {

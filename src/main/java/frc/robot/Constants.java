@@ -157,11 +157,26 @@ public class Constants {
 
 
 
-            //TODO: Change back
-            private static final Slot0Configs driveGains = new Slot0Configs()
-            .withKP(0.22).withKI(0).withKD(0)
+            private static final Slot0Configs driveGains0 = new Slot0Configs()
+            .withKP(0.0).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
-            .withKS(0).withKV(0.1165).withKA(0);
+            .withKS(0.1).withKV(0.1234).withKA(0);
+
+            private static final Slot0Configs driveGains1 = new Slot0Configs()
+            .withKP(0.0).withKI(0).withKD(0)
+            // .withKP(0).withKI(0).withKD(0)
+            .withKS(0.1).withKV(0.1234).withKA(0);
+
+            private static final Slot0Configs driveGains2 = new Slot0Configs()
+            .withKP(0.0).withKI(0).withKD(0)
+            // .withKP(0).withKI(0).withKD(0)
+            .withKS(0.1).withKV(0.1234).withKA(0);
+
+            private static final Slot0Configs driveGains3 = new Slot0Configs()
+            .withKP(0.0).withKI(0).withKD(0)
+            // .withKP(0).withKI(0).withKD(0)
+            .withKS(0.1).withKV(0.1234).withKA(0);
+
 
             private static final ClosedLoopOutputType steerClosedLoopOutput = ClosedLoopOutputType.Voltage;
             private static final ClosedLoopOutputType driveClosedLoopOutput = ClosedLoopOutputType.Voltage;
@@ -198,7 +213,7 @@ public class Constants {
                   .withWheelRadius(kWheelRadiusInches)
                   .withSlipCurrent(kSlipCurrentA)
                   .withSteerMotorGains(steerGains0)
-                  .withDriveMotorGains(driveGains)
+                  .withDriveMotorGains(driveGains0)
                   .withSteerMotorClosedLoopOutput(steerClosedLoopOutput)
                   .withDriveMotorClosedLoopOutput(driveClosedLoopOutput)
                   .withSpeedAt12VoltsMps(kSpeedAt12VoltsMps)
@@ -216,7 +231,7 @@ public class Constants {
                   .withWheelRadius(kWheelRadiusInches)
                   .withSlipCurrent(kSlipCurrentA)
                   .withSteerMotorGains(steerGains1)
-                  .withDriveMotorGains(driveGains)
+                  .withDriveMotorGains(driveGains1)
                   .withSteerMotorClosedLoopOutput(steerClosedLoopOutput)
                   .withDriveMotorClosedLoopOutput(driveClosedLoopOutput)
                   .withSpeedAt12VoltsMps(kSpeedAt12VoltsMps)
@@ -234,7 +249,7 @@ public class Constants {
                   .withWheelRadius(kWheelRadiusInches)
                   .withSlipCurrent(kSlipCurrentA)
                   .withSteerMotorGains(steerGains2)
-                  .withDriveMotorGains(driveGains)
+                  .withDriveMotorGains(driveGains2)
                   .withSteerMotorClosedLoopOutput(steerClosedLoopOutput)
                   .withDriveMotorClosedLoopOutput(driveClosedLoopOutput)
                   .withSpeedAt12VoltsMps(kSpeedAt12VoltsMps)
@@ -252,7 +267,7 @@ public class Constants {
                   .withWheelRadius(kWheelRadiusInches)
                   .withSlipCurrent(kSlipCurrentA)
                   .withSteerMotorGains(steerGains3)
-                  .withDriveMotorGains(driveGains)
+                  .withDriveMotorGains(driveGains3)
                   .withSteerMotorClosedLoopOutput(steerClosedLoopOutput)
                   .withDriveMotorClosedLoopOutput(driveClosedLoopOutput)
                   .withSpeedAt12VoltsMps(kSpeedAt12VoltsMps)
@@ -265,37 +280,37 @@ public class Constants {
                   .withSteerMotorInverted(kSteerMotorReversed);
 
             // Front Left
-            private static final int kFrontLeftDriveMotorId = 1;
-            private static final int kFrontLeftSteerMotorId = 5;
+            private static final int kFrontLeftDriveMotorId = 5;
+            private static final int kFrontLeftSteerMotorId = 1;
             private static final int kFrontLeftEncoderId = 1;
-            private static final double kFrontLeftEncoderOffset = 0.461914;
+            private static final double kFrontLeftEncoderOffset = -0.01416015625;
 
             private static final double kFrontLeftXPosInches = 10.375;
             private static final double kFrontLeftYPosInches = 10.375;
 
             // Front Right
-            private static final int kFrontRightDriveMotorId = 0;
-            private static final int kFrontRightSteerMotorId = 4;
+            private static final int kFrontRightDriveMotorId = 4;
+            private static final int kFrontRightSteerMotorId = 0;
             private static final int kFrontRightEncoderId = 0;
-            private static final double kFrontRightEncoderOffset = -0.108887;
+            private static final double kFrontRightEncoderOffset = 0.396728515625;
 
             private static final double kFrontRightXPosInches = 10.375;
             private static final double kFrontRightYPosInches = -10.375;
 
             // Back Left
-            private static final int kBackLeftDriveMotorId = 2;
-            private static final int kBackLeftSteerMotorId = 6;
+            private static final int kBackLeftDriveMotorId = 6;
+            private static final int kBackLeftSteerMotorId = 2;
             private static final int kBackLeftEncoderId = 2;
-            private static final double kBackLeftEncoderOffset = -0.443848;
+            private static final double kBackLeftEncoderOffset = 0.280029296875;
 
             private static final double kBackLeftXPosInches = -10.375;
             private static final double kBackLeftYPosInches = 10.375;
 
             // Back Right
-            private static final int kBackRightDriveMotorId = 3;
-            private static final int kBackRightSteerMotorId = 7;
+            private static final int kBackRightDriveMotorId = 7;
+            private static final int kBackRightSteerMotorId = 3;
             private static final int kBackRightEncoderId = 3;
-            private static final double kBackRightEncoderOffset = 0.209229;
+            private static final double kBackRightEncoderOffset = -0.171630859375;
 
             private static final double kBackRightXPosInches = -10.375;
             private static final double kBackRightYPosInches = -10.375;
