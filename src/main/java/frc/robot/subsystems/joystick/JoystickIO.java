@@ -2,6 +2,7 @@ package frc.robot.subsystems.joystick;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.lib.util.JoystickValues;
 

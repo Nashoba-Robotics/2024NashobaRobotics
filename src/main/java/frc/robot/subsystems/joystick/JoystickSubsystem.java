@@ -35,17 +35,18 @@ public class JoystickSubsystem extends SubsystemBase{
         return new JoystickValues(inputs.operatorJoystickRightX, inputs.operatorJoystickRightY);
     }
 
-    public boolean driverControllerPressed(int index){
-        return io.getDriverController().button(index).getAsBoolean();
-    }
-    public boolean operatorControllerPressed(int index){
-        return io.getOperatorController().button(index).getAsBoolean();
-    }
 
     public CommandJoystick getDriverController(){
         return io.getDriverController();
     }
     public CommandJoystick getOperatorController(){
         return io.getOperatorController();
+    }
+
+    public boolean driverButtonPressed(int index){
+        return io.getDriverController().button(index).getAsBoolean();
+    }
+    public boolean operatorButtonPressed(int index){
+        return io.getOperatorController().button(index).getAsBoolean();
     }
 }

@@ -2,6 +2,8 @@ package frc.robot.subsystems.arm;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 
 public interface LoaderIO {
@@ -28,6 +30,9 @@ public interface LoaderIO {
     public void setPivotPosition(Rotation2d position);
     public void setPivotRotorPos(Rotation2d position);
     public void setRollerSpeed(Rotation2d speed);
+
+    public TalonFXConfiguration getPivotConfig();
+    public void setPivotConfig(TalonFXConfiguration config);
 
     public void setLoaderkG(double kG);
     public void setLoaderkS(double kS);
