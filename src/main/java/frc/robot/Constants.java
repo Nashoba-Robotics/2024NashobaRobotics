@@ -56,30 +56,33 @@ public class Constants {
     public static final class Arm{
             public static final String CANBUS = "rio";
 
-            public static final int SHOOTER_PORT = 0;
-            public static final int SHOOTER_PORT_2 = 0;
+            public static final int PIVOT_PORT = 9;
 
-            public static final int PIVOT_PORT = 0;
+            public static final int SHOOTER_PORT = 10;
+            public static final int SHOOTER_PORT_2 = 11;
 
-            public static int SHOOTER_SENSOR_PORT = 0;
-            public static int LOADER_SENSOR_PORT = 0;
+            public static final int SHOOTER_SENSOR_PORT = 0;
+            public static final int LOADER_SENSOR_PORT = 1;
 
-            public static double SHOOTER_GEAR_RATIO = 0;
-            public static double PIVOT_GEAR_RATIO = 0;
+            public static final double SHOOTER_GEAR_RATIO = 0;
+            public static final double PIVOT_GEAR_RATIO = 48. * 32/15;
 
-            public static final double PIVOT_STATOR_CURRENT_LIMIT = 0;
-            public static final double PIVOT_SUPPLY_CURRENT_LIMIT = 0;
+            public static final double PIVOT_STATOR_CURRENT_LIMIT = 45.0;
+            public static final double PIVOT_SUPPLY_CURRENT_LIMIT = 15.0;
 
-            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 0;
-            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0;
+            public static final Rotation2d PIVOT_FORWARD_SOFT_LIMIT = Rotation2d.fromDegrees(120);
+            public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromDegrees(-50);
+
+            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 0.5;
+            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 1;
             public static final double PIVOT_MOTION_MAGIC_JERK = 0;
 
-            public static final InvertedValue PIVOT_INVERTED = InvertedValue.Clockwise_Positive;
+            public static final InvertedValue PIVOT_INVERTED = InvertedValue.CounterClockwise_Positive;
             public static final NeutralModeValue PIVOT_NEUTRAL_MODE = NeutralModeValue.Brake;
 
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
-            .withKV(0).withKS(0)
-            .withKP(0).withKI(0).withKD(0);
+            .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
+            .withKP(60).withKI(0).withKD(0.6);
 
             public static final double SHOOTER_STATOR_CURRENT_LIMIT = 0;
             public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 0;
@@ -318,8 +321,7 @@ public class Constants {
       }
 
       public static final class Joystick {
-            public static final int LEFT_JOYSTICK_PORT = 1;
-            public static final int RIGHT_JOYSTICK_PORT = 0;
+            public static final int DRIVER_PORT = 0;
             public static final int OPERATOR_PORT = 2;
     
             public static final double MOVE_DEAD_ZONE = 0.18;

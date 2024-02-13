@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SwerveTestCommand;
+import frc.robot.commands.test.ArmTuneCommand;
 import frc.robot.commands.test.LoaderTuneCommand;
 import frc.robot.commands.test.OnTheFlyTestCommand;
 import frc.robot.commands.test.OnTheFlytoPathCommand;
@@ -27,14 +28,15 @@ import frc.robot.subsystems.joystick.JoystickSubsystem;
 
 public class RobotContainer {
 
-  public static final DriveSubsystem drive = new DriveSubsystem();
-  public static final JoystickSubsystem joysticks = new JoystickSubsystem();
+  // public static final DriveSubsystem drive = new DriveSubsystem();
+  // public static final JoystickSubsystem joysticks = new JoystickSubsystem();
   // public static final AprilTagManager aprilTags = new AprilTagManager();
-  // public static final ArmSubsystem arm = new ArmSubsystem();
+  public static final ArmSubsystem arm = new ArmSubsystem();
 
   // private static SendableChooser<Command> autoChooser;
 
   // private static Trigger seemlessPath = joysticks.getLeftJoystick().button(1);
+  // private static Trigger zeroGyro = joysticks.getDriverController().button(2);
 
   public RobotContainer() {
     addShuffleBoardData();
@@ -54,6 +56,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     // seemlessPath.onTrue(new OnTheFlytoPathCommand());
+    // zeroGyro.onTrue(new InstantCommand(() -> drive.setGyro(0)));
   }
 
   private void addShuffleBoardData() {
@@ -72,6 +75,8 @@ public class RobotContainer {
     // SmartDashboard.putData(new InstantCommand(()->{
     //   arm.setLoaderPivotRotor(Rotation2d.fromRadians(0));
     // }));
+    SmartDashboard.putData(new ArmTuneCommand(arm));
+    SmartDashboard.putData(new InstantCommand(()->arm.setArmPivotRotor(Rotation2d.fromDegrees(0))));
   }
 
   private void configureEvents() {
