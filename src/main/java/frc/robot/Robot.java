@@ -35,18 +35,17 @@ public class Robot extends LoggedRobot {
     Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
     
     robotContainer = new RobotContainer();
-    // Tabs.addTab("April Tags");  
+    Tabs.addTab("April Tags");  
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    // if(AprilTagManager.hasTarget() 
-    //   && AprilTagManager.getAmbiguity() <= 0.2 
-    //   && AprilTagManager.getRobotPos() != null
-    //   )
-    //     RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getRobotPos().toPose2d(), AprilTagManager.getTimestamp());
-    Logger.recordOutput("Pivot Degrees", RobotContainer.arm.getArmPivotAngle().getDegrees());
+    if(AprilTagManager.hasTarget() 
+      && AprilTagManager.getAmbiguity() <= 0.2 
+      && AprilTagManager.getRobotPos() != null
+      )
+        RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getRobotPos().toPose2d(), AprilTagManager.getTimestamp());
   }
 
   @Override
@@ -69,10 +68,10 @@ public class Robot extends LoggedRobot {
     //Cancels everything from auto
     CommandScheduler.getInstance().cancelAll();
 
-    // CommandScheduler.getInstance().setDefaultCommand(
-    //   RobotContainer.drive,
-    //   new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
-    //   );
+    CommandScheduler.getInstance().setDefaultCommand(
+      RobotContainer.drive,
+      new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
+      );
   }
 
   @Override
