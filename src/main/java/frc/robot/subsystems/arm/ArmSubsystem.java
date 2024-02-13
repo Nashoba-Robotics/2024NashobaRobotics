@@ -34,7 +34,14 @@ public class ArmSubsystem extends SubsystemBase{
         armIO.setAngle(position);
     }
 
+
+    public void setArmPivotRotor(Rotation2d rotorPos){
+        armIO.setPivotRotorPos(rotorPos);
+    }
+
+
     //Returns the arm pivot angle as a Rotation2D
+
     public Rotation2d getArmPivotAngle() {
         return Rotation2d.fromRadians(armInputs.pivotRotorPosition);
     }

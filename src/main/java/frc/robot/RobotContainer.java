@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SwerveTestCommand;
+import frc.robot.commands.test.ArmTuneCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
@@ -37,11 +38,10 @@ public class RobotContainer {
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
   public static final AprilTagManager aprilTags = new AprilTagManager();
   public static final ArmSubsystem arm = new ArmSubsystem();
-
-
+  
   private static SendableChooser<Command> autoChooser;
 
-  private static Trigger seemlessPath = joysticks.getLeftJoystick().button(1);
+  private static Trigger seemlessPath = joysticks.getDriverController().button(1);
   private static Trigger zeroGyro = joysticks.getDriverController().button(2);
 
   private Trigger incrementSource = joysticks.getOperatorController().button(6);
@@ -88,7 +88,10 @@ public class RobotContainer {
     // SmartDashboard.putData(new InstantCommand(()->{
     //   arm.setLoaderPivotRotor(Rotation2d.fromRadians(0));
     // }));
-    SmartDashboard.putData(new FindLoaderZero(arm));
+    // SmartDashboard.putData(new ArmTuneCommand(arm));
+    // SmartDashboard.putData(new InstantCommand(()->arm.setArmPivotRotor(Rotation2d.fromDegrees(0))));
+
+    // SmartDashboard.putData(new FindLoaderZero(arm));
   }
 
   private void configureEvents() {
@@ -141,7 +144,6 @@ public class RobotContainer {
   }
 
   public Command getAutoCommand() {
-    // return autoChooser.getSelected();
-    return null;
+    return autoChooser.getSelected();
   }
 }

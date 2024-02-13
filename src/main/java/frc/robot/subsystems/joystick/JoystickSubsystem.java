@@ -21,21 +21,20 @@ public class JoystickSubsystem extends SubsystemBase{
         io = new JoystickIOSwitchController();
     }
 
-    public JoystickValues getRightJoystickValues() {
-        return io.getRightJoystickValues();
-    }
-
     public JoystickValues getLeftJoystickValues() {
         return io.getLeftJoystickValues();
     }
-
+    public JoystickValues getRightJoystickValues() {
+        return io.getRightJoystickValues();
+    }
+    
     public JoystickValues getLeftOperatorValues(){
         return new JoystickValues(inputs.operatorJoystickLeftX, inputs.operatorJoystickLeftY);
     }
-
     public JoystickValues getRightOperatorValues(){
         return new JoystickValues(inputs.operatorJoystickRightX, inputs.operatorJoystickRightY);
     }
+
 
     public CommandJoystick getDriverController(){
         return io.getDriverController();
