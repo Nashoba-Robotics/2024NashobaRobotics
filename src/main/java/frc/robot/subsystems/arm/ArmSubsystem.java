@@ -53,7 +53,7 @@ public class ArmSubsystem extends SubsystemBase{
 
     //Returns the speed of the shooter
     public Rotation2d getShooterSpeed() {
-        return Rotation2d.fromRadians(armInputs.shooterSpeed);
+        return Rotation2d.fromRadians(armInputs.topShooterSpeed);
     }
 
     //Sets the angle of the loader pivot (Currently relative to the arm, should probably make it field relative)

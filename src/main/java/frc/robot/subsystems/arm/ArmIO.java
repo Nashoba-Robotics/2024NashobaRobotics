@@ -19,11 +19,17 @@ public interface ArmIO {
         public double pivotSupplyCurrent = 0; //amps
         public double pivotVoltage = 0;   //volts
 
-        public double shooterPosition = 0; //rad
-        public double shooterSpeed = 0; //rad/s
-        public double shooterStatorCurrent = 0;    //amps
-        public double shooterSupplyCurrent = 0;
-        public double shooterVoltage = 0;   //volts
+        public double topShooterPosition = 0; //rad
+        public double topShooterSpeed = 0; //rad/s
+        public double topShooterStatorCurrent = 0;    //amps
+        public double topShooterSupplyCurrent = 0;
+        public double topShooterVoltage = 0;   //volts
+
+        public double bottomShooterPosition = 0; //rad
+        public double bottomShooterSpeed = 0; //rad/s
+        public double bottomShooterStatorCurrent = 0;    //amps
+        public double bottomShooterSupplyCurrent = 0;
+        public double bottomShooterVoltage = 0;   //volts
 
         public boolean loaderSensor = false;
         public boolean shooterSensor = false;
