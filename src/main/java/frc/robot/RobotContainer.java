@@ -26,6 +26,7 @@ import frc.robot.commands.test.ResetOdometryCommand;
 import frc.robot.commands.test.ResetOdometryVision;
 import frc.robot.commands.test.SDFinder;
 import frc.robot.commands.test.TuneDriveCommand;
+import frc.robot.commands.test.TurnTestCommand;
 import frc.robot.commands.test.TurnToTargetCommand;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -51,15 +52,15 @@ public class RobotContainer {
     configureBindings();
     configureEvents();
 
-    // // Logging callback for target robot pose
-    //   PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
-    //       Logger.recordOutput("TargetPose", pose);
-    //   });
+    // Logging callback for target robot pose
+      PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
+          Logger.recordOutput("TargetPose", pose);
+      });
 
 
-    // autoChooser = AutoBuilder.buildAutoChooser();
+    autoChooser = AutoBuilder.buildAutoChooser();
 
-    // SmartDashboard.putData("Auto Chooser", autoChooser);
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   private void configureBindings() {
@@ -68,7 +69,8 @@ public class RobotContainer {
 
   private void addShuffleBoardData() {
     // SmartDashboard.putData(new SwerveTestCommand());
-    // SmartDashboard.putData(new DriveCommand());
+    SmartDashboard.putData(new DriveCommand(drive, joysticks));
+    SmartDashboard.putData(new TurnTestCommand(drive));
     // SmartDashboard.putData(new ResetOdometryCommand(drive));
     // SmartDashboard.putData(new OnTheFlyTestCommand());
     // SmartDashboard.putData(new OnTheFlytoPathCommand());

@@ -72,7 +72,7 @@ public class DriveCommand extends Command{
         chassisSpeeds.vxMetersPerSecond = leftJoystickValues.x * Constants.Drive.MAX_VELOCITY;
         chassisSpeeds.vyMetersPerSecond = leftJoystickValues.y * Constants.Drive.MAX_VELOCITY;
 
-        if(rightJoystickValues.x != 0) drive.setDriveState(DriveState.DRIVER);
+        // if(rightJoystickValues.x != 0) drive.setDriveState(DriveState.DRIVER);
 
 
         switch(drive.getDriveState()){

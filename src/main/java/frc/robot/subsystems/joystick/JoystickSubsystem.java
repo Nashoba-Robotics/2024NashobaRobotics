@@ -23,11 +23,13 @@ public class JoystickSubsystem extends SubsystemBase{
     }
 
     public JoystickValues getRightJoystickValues() {
-        return new JoystickValues(inputs.rightJoystickX, inputs.rightJoystickY);
+        // return new JoystickValues(inputs.rightJoystickX, inputs.rightJoystickY);
+        return new JoystickValues(io.getRightJoystick().getX(), -io.getRightJoystick().getY());
     }
 
     public JoystickValues getLeftJoystickValues() {
-        return new JoystickValues(inputs.leftJoystickX, inputs.leftJoystickY);
+        // return new JoystickValues(inputs.leftJoystickX, inputs.leftJoystickY);
+        return new JoystickValues(io.getLeftJoystick().getX(), -io.getRightJoystick().getY());
     }
 
     public JoystickValues getLeftOperatorValues(){
