@@ -31,6 +31,7 @@ import frc.robot.commands.test.TurnToTargetCommand;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
 
 public class RobotContainer {
@@ -38,6 +39,7 @@ public class RobotContainer {
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
   public static final AprilTagManager aprilTags = new AprilTagManager();
   public static final ArmSubsystem arm = new ArmSubsystem();
+  public static final IntakeSubsystem intake = new IntakeSubsystem();
   
   private static SendableChooser<Command> autoChooser;
 
