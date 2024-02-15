@@ -2,6 +2,7 @@ package frc.robot.subsystems.drive;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -63,6 +64,10 @@ public class Module {
 
     public SwerveModuleState getState() {
         return io.getState();
+    }
+
+    public SwerveModule getModule() {
+        return io.getModule();
     }
 
 }

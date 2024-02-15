@@ -6,6 +6,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.math.Matrix;
@@ -46,7 +47,7 @@ public class DriveSubsystem extends SubsystemBase{
     public DriveSubsystem() {
         gyroIO = new GyroIOPigeon2();
 
-        fieldCentric = false;
+        fieldCentric = true;
 
         modules = new Module[] {
             new Module(0, Constants.Drive.CANBUS),
@@ -70,8 +71,8 @@ public class DriveSubsystem extends SubsystemBase{
                 this::getRobotRelativeSpeeds,
                 this::driveRobotRelative,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(5.0, 0.0, 0.0),
-                        new PIDConstants(6.0, 0.0, 0.0),
+                        new PIDConstants(0.0, 0.0, 0.0),
+                        new PIDConstants(0.0, 0.0, 0.0),
                         Constants.Drive.MAX_VELOCITY,
                         Constants.Drive.DIAGONAL,
                         new ReplanningConfig()
@@ -195,6 +196,19 @@ public class DriveSubsystem extends SubsystemBase{
             modules[i].set(states[i]);
         }
     }
+
+
+
+    public void setState(int modIndex, SwerveModuleState state) {
+        Logger.recordOutput("Velocity/Mod"+modIndex+"Velocity", state.speedMetersPerSecond);
+        Logger.recordOutput("Velocity/Mod"+modIndex+"Angle", NRUnits.logConstrainRad(state.angle.getRadians()+Constants.TAU));
+        modules[modIndex].set(state);
+    }
+
+    public SwerveModule getModule(int modIndex) {
+        return modules[modIndex].getModule();
+    }
+
 
     public void setVoltageStates(double voltage){
         for(int i = 2; i < 4; i++){ //Setting only the back 2 motors
