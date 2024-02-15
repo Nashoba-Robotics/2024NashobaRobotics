@@ -50,6 +50,7 @@ public class StateManager {
                 case MISC:
                     break;
                 case TRANSITION:
+                    System.out.println("How did I get here?");
                     break;
                 case INTAKE_ADJ:
                     toIntakeAdj();
