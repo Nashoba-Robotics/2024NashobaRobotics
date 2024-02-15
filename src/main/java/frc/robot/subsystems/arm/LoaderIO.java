@@ -40,4 +40,5 @@ public interface LoaderIO {
     public void setLoaderkP(double kP);
     public void setLoaderkD(double kD);
     public void setPivotSpeed(double speed);
+    public void setLoaderPercentOutput(double speed);
 }

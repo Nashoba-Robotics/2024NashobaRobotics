@@ -336,8 +336,8 @@ public class Constants {
       public static final class Loader {
             public static final String CANBUS = "rio";
 
-            public static final int PIVOT_PORT = 50;
-            public static final int ROLLER_PORT = 46;
+            public static final int PIVOT_PORT = 12;
+            public static final int ROLLER_PORT = 13;
 
             public static final double PIVOT_GEAR_RATIO = 9.*7*30/18;
             public static final double ROLLER_GEAR_RATIO = 0;

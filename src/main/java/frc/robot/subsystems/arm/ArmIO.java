@@ -42,6 +42,7 @@ public interface ArmIO {
      public abstract void setShooterSpeed(Rotation2d speed);
      public abstract boolean getShooterSensor();
      public abstract boolean getLoaderSensor();
+     public abstract void setShooterPercentOutput(double speed);
 
      public abstract void setPivotkG(double kG);
      public abstract void setPivotkS(double kS);

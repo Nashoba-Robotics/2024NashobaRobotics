@@ -79,6 +79,9 @@ public class ArmSubsystem extends SubsystemBase{
     public Rotation2d getLoaderSpeed() {
         return Rotation2d.fromRadians(loaderInputs.rollerVelocity);
     }
+    public void setLoaderPercentOutput(double speed){
+        loaderIO.setLoaderPercentOutput(speed);
+    }
     //Resets the position of the internal loader pivot encoder. (Usually for zeroing)
     public void setLoaderPivotRotor(Rotation2d pos){
         loaderIO.setPivotRotorPos(pos);
@@ -130,5 +133,8 @@ public class ArmSubsystem extends SubsystemBase{
     }
     public void setLoaderPivotConfig(TalonFXConfiguration config) {
         loaderIO.setPivotConfig(config);
+    }
+    public void setShooterPercentOutput(double speed){
+        armIO.setShooterPercentOutput(speed);
     }
 }

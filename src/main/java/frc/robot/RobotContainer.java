@@ -21,23 +21,27 @@ import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
 import frc.robot.commands.test.FindLoaderZero;
+import frc.robot.commands.test.JangsCommand;
 import frc.robot.commands.test.LoaderTuneCommand;
 import frc.robot.commands.test.OnTheFlyTestCommand;
 import frc.robot.commands.test.OnTheFlytoPathCommand;
 import frc.robot.commands.test.ResetOdometryCommand;
 import frc.robot.commands.test.ResetOdometryVision;
 import frc.robot.commands.test.SDFinder;
+import frc.robot.commands.test.ShooterTuneCommand;
 import frc.robot.commands.test.TurnToTargetCommand;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
 
 public class RobotContainer {
   public static final DriveSubsystem drive = new DriveSubsystem();
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
-  public static final AprilTagManager aprilTags = new AprilTagManager();
+  // public static final AprilTagManager aprilTags = new AprilTagManager();
   public static final ArmSubsystem arm = new ArmSubsystem();
+  public static final IntakeSubsystem intake = new IntakeSubsystem();
   
   private static SendableChooser<Command> autoChooser;
 
@@ -84,7 +88,7 @@ public class RobotContainer {
     // SmartDashboard.putData(new OnTheFlytoPathCommand());
     // SmartDashboard.putData(new TurnToTargetCommand(drive));
 
-    SmartDashboard.putData(new LoaderTuneCommand(arm));
+    // SmartDashboard.putData(new LoaderTuneCommand(arm));
     // SmartDashboard.putData(new InstantCommand(()->{
     //   arm.setLoaderPivotRotor(Rotation2d.fromRadians(0));
     // }));
@@ -92,6 +96,8 @@ public class RobotContainer {
     // SmartDashboard.putData(new InstantCommand(()->arm.setArmPivotRotor(Rotation2d.fromDegrees(0))));
 
     // SmartDashboard.putData(new FindLoaderZero(arm));
+    // SmartDashboard.putData(new ShooterTuneCommand(arm));
+    SmartDashboard.putData(new JangsCommand(arm, intake));
   }
 
   private void configureEvents() {

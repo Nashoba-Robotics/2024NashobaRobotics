@@ -59,11 +59,17 @@ public class ArmIOTalonFX implements ArmIO{
         inputs.pivotSupplyCurrent = pivot.getSupplyCurrent().getValueAsDouble();
         inputs.pivotVoltage = pivot.getMotorVoltage().getValueAsDouble();
 
-        inputs.shooterPosition = shooter.getPosition().getValueAsDouble()*Constants.TAU;
-        inputs.shooterSpeed = shooter.getVelocity().getValueAsDouble()*Constants.TAU;
-        inputs.shooterStatorCurrent = shooter.getStatorCurrent().getValueAsDouble();
-        inputs.shooterSupplyCurrent = shooter.getSupplyCurrent().getValueAsDouble();
-        inputs.shooterVoltage = shooter.getMotorVoltage().getValueAsDouble();
+        inputs.topShooterPosition = shooter.getPosition().getValueAsDouble()*Constants.TAU;
+        inputs.topShooterSpeed = shooter.getVelocity().getValueAsDouble()*Constants.TAU;
+        inputs.topShooterStatorCurrent = shooter.getStatorCurrent().getValueAsDouble();
+        inputs.topShooterSupplyCurrent = shooter.getSupplyCurrent().getValueAsDouble();
+        inputs.topShooterVoltage = shooter.getMotorVoltage().getValueAsDouble();
+
+        inputs.bottomShooterPosition = shooter2.getPosition().getValueAsDouble()*Constants.TAU;
+        inputs.bottomShooterSpeed = shooter2.getVelocity().getValueAsDouble()*Constants.TAU;
+        inputs.bottomShooterStatorCurrent = shooter2.getStatorCurrent().getValueAsDouble();
+        inputs.bottomShooterSupplyCurrent = shooter2.getSupplyCurrent().getValueAsDouble();
+        inputs.bottomShooterVoltage = shooter2.getMotorVoltage().getValueAsDouble();
 
         inputs.shooterSensor = shooterSensor.get();
         inputs.loaderSensor = loaderSensor.get();
@@ -83,6 +89,10 @@ public class ArmIOTalonFX implements ArmIO{
     public void setShooterSpeed(Rotation2d speed){
         shooterControl.Velocity = speed.getRotations();
         shooter.setControl(shooterControl);
+    }
+    @Override
+    public void setShooterPercentOutput(double speed){
+        shooter.set(speed);
     }
 
     public boolean getShooterSensor() {
@@ -144,9 +154,9 @@ public class ArmIOTalonFX implements ArmIO{
         shooterConfig.Audio.BeepOnBoot = true;
         shooterConfig.Audio.BeepOnConfig = true;
         shooterConfig.CurrentLimits.StatorCurrentLimit = Constants.Arm.SHOOTER_STATOR_CURRENT_LIMIT;
-        shooterConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+        shooterConfig.CurrentLimits.StatorCurrentLimitEnable = false;
         shooterConfig.CurrentLimits.SupplyCurrentLimit = Constants.Arm.SHOOTER_SUPPLY_CURRENT_LIMIT;
-        shooterConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+        shooterConfig.CurrentLimits.SupplyCurrentLimitEnable = false;
         shooterConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
         shooterConfig.MotionMagic.MotionMagicAcceleration = Constants.Arm.SHOOTER_MOTION_MAGIC_ACCELERATION;
         shooterConfig.MotionMagic.MotionMagicCruiseVelocity = Constants.Arm.SHOOTER_MOTION_MAGIC_CRUISE_VELOCITY;
@@ -157,6 +167,9 @@ public class ArmIOTalonFX implements ArmIO{
         shooterConfig.Voltage.PeakForwardVoltage = Constants.PEAK_VOLTAGE;
         shooterConfig.Voltage.PeakReverseVoltage = -Constants.PEAK_VOLTAGE;
         shooterConfig.Feedback.SensorToMechanismRatio = Constants.Arm.SHOOTER_GEAR_RATIO;
+        shooterConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+        shooterConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
+
 
         pivotConfigurator.apply(pivotConfig);
         shooterConfigurator.apply(shooterConfig);
