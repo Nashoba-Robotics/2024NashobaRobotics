@@ -1,25 +1,26 @@
 package frc.robot.commands.setters.units.arm;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Presets;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.arm.ArmSubsystem;
 
-public class ArmToSource extends Command{
+public class ShooterToShoot extends Command{
     ArmSubsystem arm = RobotContainer.arm;
 
-    public ArmToSource(){
+    public ShooterToShoot(){
         addRequirements(arm);
     }
 
     @Override
     public void execute() {
-        arm.setArmPivot(Presets.Arm.SOURCE_POS);
+        arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(arm.getArmPivotAngle().getRadians() - Presets.Arm.SOURCE_POS.getRadians()) <= Presets.Arm.POS_TOLERANCE.getRadians();
+        return Math.abs(arm.getShooterSpeed().getRadians()-Presets.Arm.SPEAKER_SPEED.getRadians()) 
+        <= Presets.Arm.SPEED_TOLERANCE.getRadians();
     }
 }

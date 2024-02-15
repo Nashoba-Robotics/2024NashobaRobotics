@@ -14,4 +14,5 @@ public interface IntakeIO {
     public default void updateInputs(IntakeIOInputs inputs){}
 
     public abstract void setSpeed(double speed);
+    public abstract double getSpeed();
 }

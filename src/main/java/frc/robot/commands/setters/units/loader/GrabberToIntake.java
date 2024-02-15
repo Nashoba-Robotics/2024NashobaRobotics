@@ -1,26 +1,35 @@
 package frc.robot.commands.setters.units.loader;
 
+import org.photonvision.estimation.RotTrlTransform3d;
+
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Presets;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.loader.LoaderSubsystem;
 
 public class GrabberToIntake extends Command {
-    
-    private ArmSubsystem arm = RobotContainer.arm;
+    private LoaderSubsystem loader = RobotContainer.loader;    
 
     public GrabberToIntake() {
-        addRequirements(arm);
+        addRequirements(loader);
     }
 
     @Override
     public void initialize() {
-        arm.setLoaderSpeed(Presets.Loader.INTAKE_SPEED);
+    }
+
+    @Override
+    public void execute() {
+        double loaderSpeed = loader.getShooterSensor() ? 0 : Presets.Loader.INTAKE_SPEED;
+        loader.setLoaderSpeed(loaderSpeed);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(arm.getLoaderPivotAngle().getRadians() - Presets.Loader.INTAKE_SPEED.getRadians()) < Presets.Loader.SPEED_TOLERANCE.getRadians();
+        // return Math.abs(loader.getLoaderPivotAngle().getRadians() - Presets.Loader.INTAKE_SPEED.getRadians()) < Presets.Loader.SPEED_TOLERANCE.getRadians();
+        return false;
     }
 
 }

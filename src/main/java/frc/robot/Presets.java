@@ -14,15 +14,13 @@ public final class Presets {
         public static final Rotation2d POS_TOLERANCE = Rotation2d.fromRadians(0);
 
 
-
-        public static final Rotation2d AMP_SPEED = Rotation2d.fromRadians(0);
         public static final Rotation2d SPEAKER_SPEED = Rotation2d.fromRadians(0);
 
         public static final Rotation2d SPEED_TOLERANCE = Rotation2d.fromRadians(0);
     }
 
     public static final class Intake {
-        public static final Rotation2d INTAKE_SPEED = Rotation2d.fromRadians(0);
+        public static final double INTAKE_SPEED = 0;
 
         public static final Rotation2d SPEED_TOLERANCE = Rotation2d.fromRadians(0);
     }
@@ -37,7 +35,7 @@ public final class Presets {
         public static final Rotation2d POS_TOLERANCE = Rotation2d.fromRadians(0);
 
         public static final double AMP_SPEED = 0;
-        public static final Rotation2d INTAKE_SPEED = Rotation2d.fromRadians(0);
+        public static final double INTAKE_SPEED = 0;
         public static final double SHOOT_SPEED = 0;
         public static final double SOURCE_SPEED = 0;
 

@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj.Filesystem;
 
 public class Constants {
@@ -86,10 +87,6 @@ public class Constants {
 
             public static final double SHOOTER_STATOR_CURRENT_LIMIT = 0;
             public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 0;
-
-            public static final double SHOOTER_MOTION_MAGIC_ACCELERATION = 0;
-            public static final double SHOOTER_MOTION_MAGIC_CRUISE_VELOCITY = 0;
-            public static final double SHOOTER_MOTION_MAGIC_JERK = 0;
 
             public static final InvertedValue SHOOTER_INVERTED = InvertedValue.Clockwise_Positive;
             public static final NeutralModeValue SHOOTER_NEUTRAL_MODE = NeutralModeValue.Brake;
@@ -339,6 +336,9 @@ public class Constants {
             public static final int PIVOT_PORT = 50;
             public static final int ROLLER_PORT = 46;
 
+            public static final int LOADER_SENSOR_PORT = 1;
+            public static final int SHOOTER_SENSOR_PORT = 2;
+
             public static final double PIVOT_GEAR_RATIO = 9.*7*30/18;
             public static final double ROLLER_GEAR_RATIO = 0;
 
@@ -374,6 +374,9 @@ public class Constants {
       public static final class Misc {
         public static final int GYRO_PORT = 0;
 
+      }
+      public static final class Robot{
+            public static final double SHOOTER_HEIGHT = 0.725; //m
       }
 
 }

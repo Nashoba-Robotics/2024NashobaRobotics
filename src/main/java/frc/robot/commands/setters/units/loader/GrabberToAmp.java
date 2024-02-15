@@ -1,27 +1,24 @@
 package frc.robot.commands.setters.units.loader;
 
-import javax.print.attribute.standard.PresentationDirection;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Presets;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.loader.LoaderSubsystem;
 
-public class GrabberToSource extends Command{
+public class GrabberToAmp extends Command{
     LoaderSubsystem loader = RobotContainer.loader;
 
-    public GrabberToSource(){
+    public GrabberToAmp(){
         addRequirements(loader);
     }
 
     @Override
     public void execute() {
-        double speed = loader.getShooterSensor() ? 0 : Presets.Loader.SOURCE_SPEED;
-        loader.setLoaderSpeed(speed);
+        loader.setLoaderSpeed(Presets.Loader.AMP_SPEED);
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;    //TODO: Make better
     }
 }

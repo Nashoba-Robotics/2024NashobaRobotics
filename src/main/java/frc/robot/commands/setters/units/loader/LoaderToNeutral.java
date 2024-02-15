@@ -4,23 +4,24 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Presets;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.loader.LoaderSubsystem;
 
 public class LoaderToNeutral extends Command {
     
-    private ArmSubsystem arm = RobotContainer.arm;
+    private LoaderSubsystem loader = RobotContainer.loader;
 
     public LoaderToNeutral() {
-        addRequirements(arm);
+        addRequirements(loader);
     }
 
     @Override
     public void initialize() {
-        arm.setLoaderPivot(Presets.Loader.NEUTRAL_POS);
+        loader.setLoaderPivot(Presets.Loader.NEUTRAL_POS);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(arm.getLoaderPivotAngle().getRadians() - Presets.Loader.NEUTRAL_POS.getRadians()) < Presets.Loader.POS_TOLERANCE.getRadians();
+        return Math.abs(loader.getLoaderPivotAngle().getRadians() - Presets.Loader.NEUTRAL_POS.getRadians()) < Presets.Loader.POS_TOLERANCE.getRadians();
     }
 
 }

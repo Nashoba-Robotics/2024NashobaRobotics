@@ -160,9 +160,6 @@ public class ArmIOTalonFX implements ArmIO{
         shooterConfig.CurrentLimits.SupplyCurrentLimit = Constants.Arm.SHOOTER_SUPPLY_CURRENT_LIMIT;
         shooterConfig.CurrentLimits.SupplyCurrentLimitEnable = false;
         shooterConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-        shooterConfig.MotionMagic.MotionMagicAcceleration = Constants.Arm.SHOOTER_MOTION_MAGIC_ACCELERATION;
-        shooterConfig.MotionMagic.MotionMagicCruiseVelocity = Constants.Arm.SHOOTER_MOTION_MAGIC_CRUISE_VELOCITY;
-        shooterConfig.MotionMagic.MotionMagicJerk = Constants.Arm.SHOOTER_MOTION_MAGIC_JERK;
         shooterConfig.MotorOutput.Inverted = Constants.Arm.SHOOTER_INVERTED;
         shooterConfig.MotorOutput.NeutralMode = Constants.Arm.SHOOTER_NEUTRAL_MODE;
         shooterConfig.Slot0 = Constants.Arm.SHOOTER_PID;

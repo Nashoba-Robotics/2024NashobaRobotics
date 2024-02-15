@@ -45,4 +45,8 @@ public class IntakeIOTalonFX implements IntakeIO{
     public void setSpeed(double speed){
         intake.set(speed);
     }
+    @Override
+    public double getSpeed(){
+        return intake.getVelocity().getValueAsDouble();
+    }
 }

@@ -7,51 +7,52 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.loader.LoaderSubsystem;
 
 public class FindLoaderZero extends Command {
     
-    private ArmSubsystem arm;
+    private LoaderSubsystem loader;
 
     Timer t;
 
-    public FindLoaderZero(ArmSubsystem arm) {
-        this.arm = arm;
-        addRequirements(arm);
+    public FindLoaderZero(LoaderSubsystem loader) {
+        this.loader = loader;
+        addRequirements(loader);
 
         t = new Timer();
     }
 
     @Override
     public void initialize() {
-        TalonFXConfiguration config = arm.getLoaderPivotConfig();
+        TalonFXConfiguration config = loader.getLoaderPivotConfig();
         config.CurrentLimits.StatorCurrentLimitEnable = false;
         config.CurrentLimits.SupplyCurrentLimitEnable = false;
         config.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
         config.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
-        arm.setLoaderPivotConfig(config);
+        loader.setLoaderPivotConfig(config);
         t.restart();
     }
 
     @Override
     public void execute() {
-        arm.setLoaderPivotSpeed(-0.1);
+        loader.setLoaderPivotSpeed(-0.1);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(arm.getLoaderPivotCurrent()) > 10;
+        return Math.abs(loader.getLoaderPivotCurrent()) > 10;
     }
 
     @Override
     public void end(boolean interrupted) {
-        arm.setLoaderPivotSpeed(0);
-        arm.setLoaderPivotRotor(Rotation2d.fromRadians(0));
-        TalonFXConfiguration config = arm.getLoaderPivotConfig();
+        loader.setLoaderPivotSpeed(0);
+        loader.setLoaderPivotRotor(Rotation2d.fromRadians(0));
+        TalonFXConfiguration config = loader.getLoaderPivotConfig();
         config.CurrentLimits.StatorCurrentLimitEnable = true;
         config.CurrentLimits.SupplyCurrentLimitEnable = true;
         config.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
         config.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-        arm.setLoaderPivotConfig(config);
+        loader.setLoaderPivotConfig(config);
     }
 
 }

@@ -33,6 +33,7 @@ import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
+import frc.robot.subsystems.loader.LoaderSubsystem;
 
 public class RobotContainer {
   public static final DriveSubsystem drive = new DriveSubsystem();
@@ -40,6 +41,7 @@ public class RobotContainer {
   public static final AprilTagManager aprilTags = new AprilTagManager();
   public static final ArmSubsystem arm = new ArmSubsystem();
   public static final IntakeSubsystem intake = new IntakeSubsystem();
+  public static final LoaderSubsystem loader = new LoaderSubsystem();
   
   private static SendableChooser<Command> autoChooser;
 
@@ -86,7 +88,7 @@ public class RobotContainer {
     // SmartDashboard.putData(new OnTheFlytoPathCommand());
     // SmartDashboard.putData(new TurnToTargetCommand(drive));
 
-    SmartDashboard.putData(new LoaderTuneCommand(arm));
+    SmartDashboard.putData(new LoaderTuneCommand(loader));
     // SmartDashboard.putData(new InstantCommand(()->{
     //   arm.setLoaderPivotRotor(Rotation2d.fromRadians(0));
     // }));
