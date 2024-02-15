@@ -7,6 +7,7 @@ import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -42,7 +43,7 @@ public class ArmIOTalonFX implements ArmIO{
         pivotConfigurator = pivot.getConfigurator();
 
         shooterSensor = new DigitalInput(Constants.Arm.SHOOTER_SENSOR_PORT);
-        loaderSensor = new DigitalInput(Constants.Arm.SHOOTER_SENSOR_PORT);
+        loaderSensor = new DigitalInput(Constants.Arm.LOADER_SENSOR_PORT);
 
         shooterControl = new VelocityDutyCycle(0);
         pivotControl = new MotionMagicDutyCycle(0);
@@ -50,15 +51,16 @@ public class ArmIOTalonFX implements ArmIO{
         config();
     }
 
+    @Override
     public void updateInputs(ArmIOInputs inputs){
-        inputs.pivotRotorPosition = pivot.getPosition().getValueAsDouble();
-        inputs.pivotSpeed = pivot.getVelocity().getValue();
+        inputs.pivotRotorPosition = pivot.getPosition().getValueAsDouble()*Constants.TAU;
+        inputs.pivotSpeed = pivot.getVelocity().getValue()*Constants.TAU;
         inputs.pivotStatorCurrent = pivot.getStatorCurrent().getValueAsDouble();
         inputs.pivotSupplyCurrent = pivot.getSupplyCurrent().getValueAsDouble();
         inputs.pivotVoltage = pivot.getMotorVoltage().getValueAsDouble();
 
-        inputs.shooterPosition = shooter.getPosition().getValueAsDouble();
-        inputs.shooterSpeed = shooter.getVelocity().getValueAsDouble();
+        inputs.shooterPosition = shooter.getPosition().getValueAsDouble()*Constants.TAU;
+        inputs.shooterSpeed = shooter.getVelocity().getValueAsDouble()*Constants.TAU;
         inputs.shooterStatorCurrent = shooter.getStatorCurrent().getValueAsDouble();
         inputs.shooterSupplyCurrent = shooter.getSupplyCurrent().getValueAsDouble();
         inputs.shooterVoltage = shooter.getMotorVoltage().getValueAsDouble();
@@ -71,6 +73,10 @@ public class ArmIOTalonFX implements ArmIO{
     public void setAngle(Rotation2d angle){
         pivotControl.Position = angle.getRotations();
         pivot.setControl(pivotControl);
+    }
+    @Override
+    public void setPivotRotorPos(Rotation2d pos){
+        pivot.setPosition(pos.getRotations());
     }
 
     @Override
@@ -87,6 +93,32 @@ public class ArmIOTalonFX implements ArmIO{
         return loaderSensor.get();
     }
 
+    public void setPivotSpeed(double speed){
+        pivot.set(speed);
+    }
+    
+    public void setPivotkG(double kG){
+        pivotConfig.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+        pivotConfig.Slot0.kG = kG;
+        pivot.getConfigurator().apply(pivotConfig);
+    }
+    public void setPivotkS(double kS){
+        pivotConfig.Slot0.kS = kS;
+        pivot.getConfigurator().apply(pivotConfig);
+    }
+    public void setPivotkV(double kV){
+        pivotConfig.Slot0.kV = kV;
+        pivot.getConfigurator().apply(pivotConfig);
+    }
+    public void setPivotkP(double kP){
+        pivotConfig.Slot0.kP = kP;
+        pivot.getConfigurator().apply(pivotConfig);
+    }
+    public void setPivotkD(double kD){
+        pivotConfig.Slot0.kD = kD;
+        pivot.getConfigurator().apply(pivotConfig);
+    }
+
     private void config() {
         pivotConfig.Audio.BeepOnBoot = true;
         pivotConfig.Audio.BeepOnConfig = true;
@@ -101,6 +133,10 @@ public class ArmIOTalonFX implements ArmIO{
         pivotConfig.MotorOutput.Inverted = Constants.Arm.PIVOT_INVERTED;
         pivotConfig.MotorOutput.NeutralMode = Constants.Arm.PIVOT_NEUTRAL_MODE;
         pivotConfig.Slot0 = Constants.Arm.PIVOT_PID;
+        pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+        pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+        pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.Arm.PIVOT_FORWARD_SOFT_LIMIT.getRotations();
+        pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.Arm.PIVOT_REVERSE_SOFT_LIMIT.getRotations();
         pivotConfig.Voltage.PeakForwardVoltage = Constants.PEAK_VOLTAGE;
         pivotConfig.Voltage.PeakReverseVoltage = -Constants.PEAK_VOLTAGE;
         pivotConfig.Feedback.SensorToMechanismRatio = Constants.Arm.PIVOT_GEAR_RATIO;

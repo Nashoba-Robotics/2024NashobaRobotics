@@ -29,42 +29,78 @@ public class ArmSubsystem extends SubsystemBase{
         loaderIO = new LoaderIOTalonFX();
     }
 
+    //Sets the pivot position. (0 should be horizontal to the ground)
     public void setArmPivot(Rotation2d position) {
         armIO.setAngle(position);
     }
+
+
+    public void setArmPivotRotor(Rotation2d rotorPos){
+        armIO.setPivotRotorPos(rotorPos);
+    }
+
+
+    //Returns the arm pivot angle as a Rotation2D
 
     public Rotation2d getArmPivotAngle() {
         return Rotation2d.fromRadians(armInputs.pivotRotorPosition);
     }
 
+    //Sets the speed of the shooter. Units don't matter b/c Rotation2D
     public void setShooterSpeed(Rotation2d speed) {
         armIO.setShooterSpeed(speed);
     }
 
+    //Returns the speed of the shooter
     public Rotation2d getShooterSpeed() {
-        return Rotation2d.fromRadians(armInputs.shooterSpeed);
+        return Rotation2d.fromRadians(armInputs.topShooterSpeed);
     }
 
+    //Sets the angle of the loader pivot (Currently relative to the arm, should probably make it field relative)
     public void setLoaderPivot(Rotation2d position) {
         loaderIO.setPivotPosition(position);
     }
 
+    //Returns the loader pivot angle relative to the arm
     public Rotation2d getLoaderPivotAngle() {
         return Rotation2d.fromRadians(loaderInputs.pivotPosition);
     }
 
+    //Sets the speed of the loader.
     public void setLoaderSpeed(Rotation2d speed) {
         loaderIO.setRollerSpeed(speed);
     }
+    //Sets the speed of the loader Pivot (SHOULD NOT BE USED)
     public void setLoaderPivotSpeed(double speed){
         loaderIO.setPivotSpeed(speed);
     }
-
+    
+    //Returns the speed of the laoder
     public Rotation2d getLoaderSpeed() {
         return Rotation2d.fromRadians(loaderInputs.rollerVelocity);
     }
+    //Resets the position of the internal loader pivot encoder. (Usually for zeroing)
     public void setLoaderPivotRotor(Rotation2d pos){
         loaderIO.setPivotRotorPos(pos);
+    }
+    
+    public void setArmPivotSpeed(double speed){
+        armIO.setPivotSpeed(speed);
+    }
+    public void setArmPivotkG(double kG){
+        armIO.setPivotkG(kG);
+    }
+    public void setArmPivotkS(double kS){
+        armIO.setPivotkS(kS);
+    }
+    public void setArmPivotkV(double kV){
+        armIO.setPivotkV(kV);
+    }
+    public void setArmPivotkP(double kP){
+        armIO.setPivotkP(kP);
+    }
+    public void setArmPivotkD(double kD){
+        armIO.setPivotkD(kD);
     }
 
     public void setLoaderPivotkG(double kG){
