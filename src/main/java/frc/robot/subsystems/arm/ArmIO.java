@@ -10,7 +10,7 @@ public interface ArmIO {
      */
 
      @AutoLog
-     public static class ArmIOInputs{
+     public static class ArmIOInputs {
         public double pivotAbsolutePosition = 0; //rad
         public double pivotRotorPosition = 0;   //rad
         public double pivotSpeed = 0; //rad/s
