@@ -2,6 +2,8 @@ package frc.robot.subsystems.arm;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 
 public interface ArmIO {
@@ -44,4 +46,6 @@ public interface ArmIO {
      public abstract void setPivotkV(double kV);
      public abstract void setPivotkP(double kP);
      public abstract void setPivotkD(double kD);
+
+     public TalonFX getShooterMotor();
 }

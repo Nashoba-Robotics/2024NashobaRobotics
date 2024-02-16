@@ -3,6 +3,7 @@ package frc.robot.subsystems.arm;
 import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -74,5 +75,9 @@ public class ArmSubsystem extends SubsystemBase{
     }
     public void setArmPivotkD(double kD){
         armIO.setPivotkD(kD);
+    }
+
+    public TalonFX getShooterMotor() {
+        return armIO.getShooterMotor();
     }
 }
