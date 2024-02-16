@@ -8,7 +8,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 
 public interface AprilTagIO{
     @AutoLog
-    public static class AprilTagIOInputs{
+    public static class AprilTagIOInputs {
         //left = ben, right = Yi
         public Pose3d leftPos = new Pose3d();
 

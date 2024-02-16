@@ -11,6 +11,7 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.robot.Constants;
 
 public class ArmIOTalonFX implements ArmIO{
@@ -109,6 +110,10 @@ public class ArmIOTalonFX implements ArmIO{
 
     public void setShooterPercent(double percent) {
         shooter.set(percent);
+    }
+
+    public TalonFX getShooterMotor() {
+        return shooter;
     }
 
     private void config() {

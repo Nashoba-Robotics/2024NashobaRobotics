@@ -92,8 +92,8 @@ public class Constants {
             public static final NeutralModeValue SHOOTER_NEUTRAL_MODE = NeutralModeValue.Brake;
 
             public static final Slot0Configs SHOOTER_PID = new Slot0Configs()
-            .withKV(0).withKS(0)
-            .withKP(0).withKI(0).withKD(0);
+            .withKV(0.011466).withKS(0.030)
+            .withKP(0.06).withKI(0).withKD(0);
       }
 
       public static class Climber{

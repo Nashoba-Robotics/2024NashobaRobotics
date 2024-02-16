@@ -3,6 +3,7 @@ package frc.robot.subsystems.arm;
 import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -45,6 +46,7 @@ public class ArmSubsystem extends SubsystemBase{
 
     //Sets the speed of the shooter. Units don't matter b/c Rotation2D
     public void setShooterSpeed(Rotation2d speed) {
+        Logger.recordOutput("SetShooterSpeed", speed.getRadians());
         armIO.setShooterSpeed(speed);
     }
 
@@ -74,5 +76,9 @@ public class ArmSubsystem extends SubsystemBase{
     }
     public void setArmPivotkD(double kD){
         armIO.setPivotkD(kD);
+    }
+
+    public TalonFX getShooterMotor() {
+        return armIO.getShooterMotor();
     }
 }
