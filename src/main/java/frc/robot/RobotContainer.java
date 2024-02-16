@@ -12,9 +12,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SwerveTestCommand;
+import frc.robot.commands.test.ArmTuneCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
@@ -37,12 +39,14 @@ public class RobotContainer {
 
   public static final DriveSubsystem drive = new DriveSubsystem();
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
-  // public static final AprilTagManager aprilTags = new AprilTagManager();
-  // public static final ArmSubsystem arm = new ArmSubsystem();
-
+  public static final AprilTagManager aprilTags = new AprilTagManager();
+  public static final ArmSubsystem arm = new ArmSubsystem();
+  
   private static SendableChooser<Command> autoChooser;
 
-  // private static Trigger seemlessPath = joysticks.getLeftJoystick().button(1);
+  private static Trigger seemlessPath = joysticks.getDriverController().button(1);
+  private static Trigger zeroGyro = joysticks.getDriverController().button(2);
+
   private Trigger incrementSource = joysticks.getOperatorController().button(6);
   private Trigger decrementSorce = joysticks.getOperatorController().button(5);
   private Trigger toSource = joysticks.getOperatorController().button(2);
@@ -64,7 +68,9 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // seemlessPath.onTrue(new OnTheFlytoPathCommand());
+    seemlessPath.onTrue(new OnTheFlytoPathCommand());
+    zeroGyro.onTrue(new InstantCommand(()-> drive.setGyro(0)));
+
   }
 
   private void addShuffleBoardData() {

@@ -55,8 +55,6 @@ public class DriveCommand extends Command{
 
     @Override
     public void execute() {
-        if(joysticks.getRightButtonValue(1)) drive.setGyro(0);
-
         leftJoystickValues = joysticks.getLeftJoystickValues()
             .shape(Constants.Joystick.MOVE_DEAD_ZONE, Constants.Joystick.TURN_SENSITIVITY)
             .swap()
@@ -86,11 +84,6 @@ public class DriveCommand extends Command{
 
                 break;
             case AIM_TO_SPEAKER:
-                double robotRelXVel = drive.getRobotRelativeSpeeds().vxMetersPerSecond;
-                double robotRelYVel = drive.getRobotRelativeSpeeds().vyMetersPerSecond;
-                double robotVel = Math.sqrt(robotRelXVel*robotRelXVel + robotRelYVel*robotRelYVel);
-                // double fieldRelXVel = drive.getFieldRelativeSpeeds();
-
                 double goal = Math.atan2(
                     drive.getPose().getY() - Constants.Field.SPEAKER_POSITION.getY(),
                     drive.getPose().getX() - Constants.Field.SPEAKER_POSITION.getX()

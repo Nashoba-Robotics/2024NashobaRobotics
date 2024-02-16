@@ -19,11 +19,17 @@ public interface ArmIO {
         public double pivotSupplyCurrent = 0; //amps
         public double pivotVoltage = 0;   //volts
 
-        public double shooterPosition = 0; //rad
-        public double shooterSpeed = 0; //rad/s
-        public double shooterStatorCurrent = 0;    //amps
-        public double shooterSupplyCurrent = 0;
-        public double shooterVoltage = 0;   //volts
+        public double topShooterPosition = 0; //rad
+        public double topShooterSpeed = 0; //rad/s
+        public double topShooterStatorCurrent = 0;    //amps
+        public double topShooterSupplyCurrent = 0;
+        public double topShooterVoltage = 0;   //volts
+
+        public double bottomShooterPosition = 0; //rad
+        public double bottomShooterSpeed = 0; //rad/s
+        public double bottomShooterStatorCurrent = 0;    //amps
+        public double bottomShooterSupplyCurrent = 0;
+        public double bottomShooterVoltage = 0;   //volts
 
         public boolean loaderSensor = false;
         public boolean shooterSensor = false;
@@ -31,7 +37,15 @@ public interface ArmIO {
 
      public default void updateInputs(ArmIOInputs inputs) {}
      public abstract void setAngle(Rotation2d angle);
+     public abstract void setPivotSpeed(double speed);
+     public abstract void setPivotRotorPos(Rotation2d pos);
      public abstract void setShooterSpeed(Rotation2d speed);
-     public boolean getShooterSensor();
-     public boolean getLoaderSensor();
+     public abstract boolean getShooterSensor();
+     public abstract boolean getLoaderSensor();
+
+     public abstract void setPivotkG(double kG);
+     public abstract void setPivotkS(double kS);
+     public abstract void setPivotkV(double kV);
+     public abstract void setPivotkP(double kP);
+     public abstract void setPivotkD(double kD);
 }
