@@ -108,15 +108,15 @@ public class DriveSubsystem extends SubsystemBase{
         double x = chassisSpeeds.vxMetersPerSecond;
         double y = chassisSpeeds.vyMetersPerSecond;
 
-        double omega = chassisSpeeds.omegaRadiansPerSecond;
+        double omega = chassisSpeeds.omegaRadiansPerSecond;        
 
-        if(gyroInputs.zVelocity >= 0.10 || omega != 0) lastJoystickAngle = getYaw().getRadians();
-        else omega = Math.abs(lastJoystickAngle - getYaw().getRadians()) < Constants.TAU/10 &&
+        if(fieldCentric) {
+            if(gyroInputs.zVelocity >= 0.10 || omega != 0) lastJoystickAngle = getYaw().getRadians();
+            else omega = Math.abs(lastJoystickAngle - getYaw().getRadians()) < Constants.TAU/10 &&
             Math.sqrt(x*x+y*y) > 0.1 ?
             angleController.calculate(getYaw().getRadians(), lastJoystickAngle) :
             0;
-
-        if(fieldCentric) {
+            
             double angleDiff = Math.atan2(y, x) - getGyroAngle().getRadians(); //difference between input angle and gyro angle gives desired field relative angle
             double r = Math.sqrt(x*x + y*y); //magnitude of translation vector
             x = r * Math.cos(angleDiff);
