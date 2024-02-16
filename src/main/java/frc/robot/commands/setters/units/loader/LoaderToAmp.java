@@ -15,12 +15,12 @@ public class LoaderToAmp extends Command {
 
     @Override
     public void initialize() {
-        loader.setLoaderPivot(Presets.Loader.AMP_POS);
+        loader.setPivot(Presets.Loader.AMP_POS);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(loader.getLoaderPivotAngle().getRadians() - Presets.Loader.AMP_POS.getRadians()) < Presets.Loader.POS_TOLERANCE.getRadians();
+        return Math.abs(loader.getPivotAngle().getRadians() - Presets.Loader.AMP_POS.getRadians()) < Presets.Loader.POS_TOLERANCE.getRadians();
     }
 
 }

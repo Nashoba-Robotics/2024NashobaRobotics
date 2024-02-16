@@ -16,12 +16,12 @@ public class LoaderToNeutral extends Command {
 
     @Override
     public void initialize() {
-        loader.setLoaderPivot(Presets.Loader.NEUTRAL_POS);
+        loader.setPivot(Presets.Loader.NEUTRAL_POS);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(loader.getLoaderPivotAngle().getRadians() - Presets.Loader.NEUTRAL_POS.getRadians()) < Presets.Loader.POS_TOLERANCE.getRadians();
+        return Math.abs(loader.getPivotAngle().getRadians() - Presets.Loader.NEUTRAL_POS.getRadians()) < Presets.Loader.POS_TOLERANCE.getRadians();
     }
 
 }

@@ -15,12 +15,14 @@ public class ShooterToShoot extends Command{
 
     @Override
     public void execute() {
-        arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+        // arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+        arm.setShooterPercent(Presets.Arm.SPEAKER_PERCENT);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(arm.getShooterSpeed().getRadians()-Presets.Arm.SPEAKER_SPEED.getRadians()) 
-        <= Presets.Arm.SPEED_TOLERANCE.getRadians();
+        // return Math.abs(arm.getShooterSpeed().getRadians()-Presets.Arm.SPEAKER_SPEED.getRadians()) 
+        // <= Presets.Arm.SPEED_TOLERANCE.getRadians();
+        return true;
     }
 }

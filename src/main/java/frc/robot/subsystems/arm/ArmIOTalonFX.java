@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 
 public class ArmIOTalonFX implements ArmIO{
-    // //2 for shooter rollers (Krakens)
-    // //1 for pivot (Kraken maybe)
     private TalonFX shooter, shooter2;
     private TalonFX pivot;
 
@@ -24,8 +22,6 @@ public class ArmIOTalonFX implements ArmIO{
 
     private VelocityDutyCycle shooterControl;
     private MotionMagicDutyCycle pivotControl;
-
-    // private DigitalInput shooterSensor, loaderSensor;
 
     public ArmIOTalonFX(){
         shooter = new TalonFX(Constants.Arm.SHOOTER_PORT, Constants.Arm.CANBUS);
@@ -41,9 +37,6 @@ public class ArmIOTalonFX implements ArmIO{
 
         pivotConfig = new TalonFXConfiguration();
         pivotConfigurator = pivot.getConfigurator();
-
-        // shooterSensor = new DigitalInput(Constants.Arm.SHOOTER_SENSOR_PORT);
-        // loaderSensor = new DigitalInput(Constants.Arm.LOADER_SENSOR_PORT);
 
         shooterControl = new VelocityDutyCycle(0);
         pivotControl = new MotionMagicDutyCycle(0);
@@ -70,9 +63,6 @@ public class ArmIOTalonFX implements ArmIO{
         inputs.bottomShooterStatorCurrent = shooter2.getStatorCurrent().getValueAsDouble();
         inputs.bottomShooterSupplyCurrent = shooter2.getSupplyCurrent().getValueAsDouble();
         inputs.bottomShooterVoltage = shooter2.getMotorVoltage().getValueAsDouble();
-
-        // inputs.shooterSensor = shooterSensor.get();
-        // inputs.loaderSensor = loaderSensor.get();
     }
 
     @Override
@@ -89,16 +79,6 @@ public class ArmIOTalonFX implements ArmIO{
     public void setShooterSpeed(Rotation2d speed){
         shooterControl.Velocity = speed.getRotations();
         shooter.setControl(shooterControl);
-    }
-
-    public boolean getShooterSensor() {
-        // return shooterSensor.get();
-        return false;
-    }
-
-    public boolean getLoaderSensor() {
-        // return loaderSensor.get();
-        return false;
     }
 
     public void setPivotSpeed(double speed){

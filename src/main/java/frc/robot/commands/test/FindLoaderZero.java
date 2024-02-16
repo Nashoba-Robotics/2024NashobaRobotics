@@ -24,35 +24,35 @@ public class FindLoaderZero extends Command {
 
     @Override
     public void initialize() {
-        TalonFXConfiguration config = loader.getLoaderPivotConfig();
+        TalonFXConfiguration config = loader.getPivotConfig();
         config.CurrentLimits.StatorCurrentLimitEnable = false;
         config.CurrentLimits.SupplyCurrentLimitEnable = false;
         config.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
         config.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
-        loader.setLoaderPivotConfig(config);
+        loader.setPivotConfig(config);
         t.restart();
     }
 
     @Override
     public void execute() {
-        loader.setLoaderPivotSpeed(-0.1);
+        loader.setPivotSpeed(-0.1);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(loader.getLoaderPivotCurrent()) > 10;
+        return Math.abs(loader.getPivotCurrent()) > 10;
     }
 
     @Override
     public void end(boolean interrupted) {
-        loader.setLoaderPivotSpeed(0);
-        loader.setLoaderPivotRotor(Rotation2d.fromRadians(0));
-        TalonFXConfiguration config = loader.getLoaderPivotConfig();
+        loader.setPivotSpeed(0);
+        loader.setPivotRotor(Rotation2d.fromRadians(0));
+        TalonFXConfiguration config = loader.getPivotConfig();
         config.CurrentLimits.StatorCurrentLimitEnable = true;
         config.CurrentLimits.SupplyCurrentLimitEnable = true;
         config.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
         config.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-        loader.setLoaderPivotConfig(config);
+        loader.setPivotConfig(config);
     }
 
 }

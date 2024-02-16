@@ -30,9 +30,6 @@ public interface ArmIO {
         public double bottomShooterStatorCurrent = 0;    //amps
         public double bottomShooterSupplyCurrent = 0;
         public double bottomShooterVoltage = 0;   //volts
-
-        public boolean loaderSensor = false;
-        public boolean shooterSensor = false;
      }
 
      public default void updateInputs(ArmIOInputs inputs) {}
@@ -40,8 +37,7 @@ public interface ArmIO {
      public abstract void setPivotSpeed(double speed);
      public abstract void setPivotRotorPos(Rotation2d pos);
      public abstract void setShooterSpeed(Rotation2d speed);
-     public abstract boolean getShooterSensor();
-     public abstract boolean getLoaderSensor();
+     public abstract void setShooterPercent(double speed);
 
      public abstract void setPivotkG(double kG);
      public abstract void setPivotkS(double kS);

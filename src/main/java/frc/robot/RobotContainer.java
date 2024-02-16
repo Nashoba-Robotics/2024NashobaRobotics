@@ -20,7 +20,16 @@ import frc.robot.commands.test.ArmTuneCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
+import frc.robot.commands.setters.units.arm.ArmToAmp;
+import frc.robot.commands.setters.units.arm.ArmToIntake;
+import frc.robot.commands.setters.units.arm.ArmToNeutral;
+import frc.robot.commands.setters.units.arm.ArmToSource;
+import frc.robot.commands.setters.units.loader.LoaderToAmp;
+import frc.robot.commands.setters.units.loader.LoaderToIntake;
+import frc.robot.commands.setters.units.loader.LoaderToNeutral;
+import frc.robot.commands.setters.units.loader.LoaderToSource;
 import frc.robot.commands.test.FindLoaderZero;
+import frc.robot.commands.test.IntakeTestCommand;
 import frc.robot.commands.test.LoaderTuneCommand;
 import frc.robot.commands.test.OnTheFlyTestCommand;
 import frc.robot.commands.test.OnTheFlytoPathCommand;
@@ -38,7 +47,7 @@ import frc.robot.subsystems.loader.LoaderSubsystem;
 public class RobotContainer {
   public static final DriveSubsystem drive = new DriveSubsystem();
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
-  public static final AprilTagManager aprilTags = new AprilTagManager();
+  // public static final AprilTagManager aprilTags = new AprilTagManager();
   public static final ArmSubsystem arm = new ArmSubsystem();
   public static final IntakeSubsystem intake = new IntakeSubsystem();
   public static final LoaderSubsystem loader = new LoaderSubsystem();
@@ -87,15 +96,35 @@ public class RobotContainer {
     // SmartDashboard.putData(new SDFinder());
     // SmartDashboard.putData(new OnTheFlytoPathCommand());
     // SmartDashboard.putData(new TurnToTargetCommand(drive));
-
-    SmartDashboard.putData(new LoaderTuneCommand(loader));
-    // SmartDashboard.putData(new InstantCommand(()->{
-    //   arm.setLoaderPivotRotor(Rotation2d.fromRadians(0));
-    // }));
-    // SmartDashboard.putData(new ArmTuneCommand(arm));
-    // SmartDashboard.putData(new InstantCommand(()->arm.setArmPivotRotor(Rotation2d.fromDegrees(0))));
-
     // SmartDashboard.putData(new FindLoaderZero(arm));
+
+    
+    
+    SmartDashboard.putData(new ArmTuneCommand(arm));
+
+
+      SmartDashboard.putData(new ArmTuneCommand(arm));
+      SmartDashboard.putData(new LoaderTuneCommand(loader));
+
+      SmartDashboard.putData("Loader 0", new InstantCommand(()->{
+        loader.setPivotRotor(Rotation2d.fromRadians(0));
+      }));
+      SmartDashboard.putData(new InstantCommand(()->arm.setArmPivotRotor(Rotation2d.fromDegrees(0))));
+      SmartDashboard.putData("Zero From Intake", new InstantCommand(()->arm.setArmPivotRotor(Presets.Arm.INTAKE_POS)));
+
+      SmartDashboard.putData(new IntakeTestCommand(intake));
+
+      SmartDashboard.putData(new ArmToNeutral());
+      SmartDashboard.putData(new ArmToIntake());
+      SmartDashboard.putData(new ArmToAmp());
+      SmartDashboard.putData(new ArmToSource());
+
+    // SmartDashboard.putData(new LoaderToNeutral());
+    // SmartDashboard.putData(new LoaderToIntake());
+    // SmartDashboard.putData(new LoaderToSource());
+    // SmartDashboard.putData(new LoaderToAmp());
+
+    // SmartDashboard.putData(new SwerveTestCommand(drive));
   }
 
   private void configureEvents() {

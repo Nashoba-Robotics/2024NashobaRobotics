@@ -24,21 +24,21 @@ public class LoaderSubsystem extends SubsystemBase{
     }
 
     //Sets the angle of the loader pivot (Currently relative to the arm, should probably make it field relative)
-    public void setLoaderPivot(Rotation2d position) {
+    public void setPivot(Rotation2d position) {
         loaderIO.setPivotPosition(position);
     }
 
     //Returns the loader pivot angle relative to the arm
-    public Rotation2d getLoaderPivotAngle() {
+    public Rotation2d getPivotAngle() {
         return Rotation2d.fromRadians(loaderInputs.pivotPosition);
     }
 
     //Sets the speed of the loader.
-    public void setLoaderSpeed(double speed) {
+    public void setRollerSpeed(double speed) {
         loaderIO.setRollerSpeed(speed);
     }
     //Sets the speed of the loader Pivot (SHOULD NOT BE USED)
-    public void setLoaderPivotSpeed(double speed){
+    public void setPivotSpeed(double speed){
         loaderIO.setPivotSpeed(speed);
     }
     
@@ -47,44 +47,44 @@ public class LoaderSubsystem extends SubsystemBase{
         return Rotation2d.fromRadians(loaderInputs.rollerVelocity);
     }
     //Resets the position of the internal loader pivot encoder. (Usually for zeroing)
-    public void setLoaderPivotRotor(Rotation2d pos){
+    public void setPivotRotor(Rotation2d pos){
         loaderIO.setPivotRotorPos(pos);
     }
 
-    public void setLoaderPivotkG(double kG){
+    public void setPivotkG(double kG){
         loaderIO.setLoaderkG(kG);
     }
-    public void setLoaderPivotkS(double kS){
+    public void setPivotkS(double kS){
         loaderIO.setLoaderkS(kS);
     }
-    public void setLoaderPivotkV(double kV){
+    public void setPivotkV(double kV){
         loaderIO.setLoaderkV(kV);
     }
-    public void setLoaderPivotkP(double kP){
+    public void setPivotkP(double kP){
         loaderIO.setLoaderkP(kP);
     }
-    public void setLoaderPivotkD(double kD){
+    public void setPivotkD(double kD){
         loaderIO.setLoaderkD(kD);
     }
-    public double getLoaderPivotSpeed() {
+    public double getPivotSpeed() {
         return loaderInputs.pivotVelocity;
     }
 
-    public double getLoaderPivotCurrent() {
+    public double getPivotCurrent() {
         return loaderInputs.pivotStatorCurrent;
     }
-    public TalonFXConfiguration getLoaderPivotConfig() {
+    public TalonFXConfiguration getPivotConfig() {
         return loaderIO.getPivotConfig();
     }
-    public void setLoaderPivotConfig(TalonFXConfiguration config) {
+    public void setPivotConfig(TalonFXConfiguration config) {
         loaderIO.setPivotConfig(config);
     }
 
     public boolean getLoaderSensor(){
-        return loaderIO.getLoaderSensor();
+        return loaderInputs.loaderSensor;
     }
 
     public boolean getShooterSensor(){
-        return loaderIO.getShooterSensor();
+        return loaderInputs.shooterSensor;
     }
 }

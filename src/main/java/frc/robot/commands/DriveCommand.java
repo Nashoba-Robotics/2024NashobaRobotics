@@ -73,29 +73,31 @@ public class DriveCommand extends Command{
         if(rightJoystickValues.x != 0) drive.setDriveState(DriveState.DRIVER);
 
 
-        switch(drive.getDriveState()){
-            case DRIVER:
-                chassisSpeeds.omegaRadiansPerSecond = -rightJoystickValues.x * Constants.Drive.MAX_ROTATION_VELOCITY;
-                break;
-            case AIM_TO_AMP:
+        // switch(drive.getDriveState()){
+        //     case DRIVER:
+        //         chassisSpeeds.omegaRadiansPerSecond = -rightJoystickValues.x * Constants.Drive.MAX_ROTATION_VELOCITY;
+        //         break;
+        //     case AIM_TO_AMP:
                 
 
-                break;
-            case AIM_TO_SPEAKER:
-                double goal = Math.atan2(
-                    drive.getPose().getY() - Constants.Field.SPEAKER_POSITION.getY(),
-                    drive.getPose().getX() - Constants.Field.SPEAKER_POSITION.getX()
-                    );
-                double currAngle = drive.getYaw().getRadians();
-                double angleDiff = goal - drive.getGyroAngle().getRadians();
+        //         break;
+        //     case AIM_TO_SPEAKER:
+        //         double goal = Math.atan2(
+        //             drive.getPose().getY() - Constants.Field.SPEAKER_POSITION.getY(),
+        //             drive.getPose().getX() - Constants.Field.SPEAKER_POSITION.getX()
+        //             );
+        //         double currAngle = drive.getYaw().getRadians();
+        //         double angleDiff = goal - drive.getGyroAngle().getRadians();
 
-                goal = angleDiff < Constants.TAU/2 ?
-                    currAngle + angleDiff :
-                    currAngle - (Constants.TAU - angleDiff);
+        //         goal = angleDiff < Constants.TAU/2 ?
+        //             currAngle + angleDiff :
+        //             currAngle - (Constants.TAU - angleDiff);
 
-                chassisSpeeds.omegaRadiansPerSecond = angleController.calculate(currAngle, goal);
-                break;
-        }
+        //         chassisSpeeds.omegaRadiansPerSecond = angleController.calculate(currAngle, goal);
+        //         break;
+        // }
+
+        chassisSpeeds.omegaRadiansPerSecond = rightJoystickValues.x * Constants.Drive.MAX_ROTATION_VELOCITY;
 
         drive.set(chassisSpeeds);
 

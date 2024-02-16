@@ -89,16 +89,6 @@ public class LoaderIOTalonFX implements LoaderIO {
         pivotConfigurator.apply(config);
     }
 
-    @Override
-    public boolean getLoaderSensor(){
-        return loaderSensor.get();
-    }
-
-    @Override
-    public boolean getShooterSensor(){
-        return shooterSensor.get();
-    }
-
     public void updateInputs(LoaderIOInputs inputs) {
         inputs.pivotPosition = pivot.getPosition().getValueAsDouble() * Constants.TAU;
         inputs.pivotVelocity = pivot.getVelocity().getValueAsDouble() * Constants.TAU;
@@ -111,6 +101,9 @@ public class LoaderIOTalonFX implements LoaderIO {
         inputs.rollerSupplyCurrent = roller.getSupplyCurrent().getValueAsDouble();
         inputs.rollerStatorCurrent = roller.getStatorCurrent().getValueAsDouble();
         inputs.rollerVoltage = roller.getMotorVoltage().getValueAsDouble();
+
+        inputs.loaderSensor = !loaderSensor.get();
+        inputs.shooterSensor = !shooterSensor.get();
     }
 
     private void config() { //TODO: Make Current limits true
@@ -138,9 +131,9 @@ public class LoaderIOTalonFX implements LoaderIO {
         rollerConfig.Audio.BeepOnBoot = true;
         rollerConfig.Audio.BeepOnConfig = true;
         rollerConfig.CurrentLimits.StatorCurrentLimit = Constants.Loader.ROLLER_STATOR_CURRENT_LIMIT;
-        rollerConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+        rollerConfig.CurrentLimits.StatorCurrentLimitEnable = false;
         rollerConfig.CurrentLimits.SupplyCurrentLimit = Constants.Loader.ROLLER_SUPPLY_CURRENT_LIMIT;
-        rollerConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+        rollerConfig.CurrentLimits.SupplyCurrentLimitEnable = false;
         rollerConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
         rollerConfig.Feedback.SensorToMechanismRatio = Constants.Loader.ROLLER_GEAR_RATIO;
         rollerConfig.MotorOutput.Inverted = Constants.Loader.ROLLER_INVERTED;

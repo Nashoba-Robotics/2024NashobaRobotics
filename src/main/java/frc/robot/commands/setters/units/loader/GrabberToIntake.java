@@ -23,7 +23,7 @@ public class GrabberToIntake extends Command {
     @Override
     public void execute() {
         double loaderSpeed = loader.getShooterSensor() ? 0 : Presets.Loader.INTAKE_SPEED;
-        loader.setLoaderSpeed(loaderSpeed);
+        loader.setRollerSpeed(loaderSpeed);
     }
 
     @Override

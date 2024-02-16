@@ -14,7 +14,7 @@ public class GrabberToShoot extends Command{
 
     @Override
     public void execute() {
-        loader.setLoaderSpeed(Presets.Loader.SHOOT_SPEED);
+        loader.setRollerSpeed(Presets.Loader.SHOOT_SPEED);
     }
 
     @Override

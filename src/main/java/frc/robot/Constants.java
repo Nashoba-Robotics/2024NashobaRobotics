@@ -75,7 +75,7 @@ public class Constants {
             public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromDegrees(-50);
 
             public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 0.5;
-            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 1;
+            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0.95;
             public static final double PIVOT_MOTION_MAGIC_JERK = 0;
 
             public static final InvertedValue PIVOT_INVERTED = InvertedValue.CounterClockwise_Positive;
@@ -88,7 +88,7 @@ public class Constants {
             public static final double SHOOTER_STATOR_CURRENT_LIMIT = 0;
             public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 0;
 
-            public static final InvertedValue SHOOTER_INVERTED = InvertedValue.Clockwise_Positive;
+            public static final InvertedValue SHOOTER_INVERTED = InvertedValue.CounterClockwise_Positive;
             public static final NeutralModeValue SHOOTER_NEUTRAL_MODE = NeutralModeValue.Brake;
 
             public static final Slot0Configs SHOOTER_PID = new Slot0Configs()
@@ -321,7 +321,7 @@ public class Constants {
             public static final int DRIVER_PORT = 0;
             public static final int OPERATOR_PORT = 2;
     
-            public static final double MOVE_DEAD_ZONE = 0.18;
+            public static final double MOVE_DEAD_ZONE = 0.05;
             public static final double TURN_DEAD_ZONE = 0.1;
     
             public static final double ANGLE_DEAD_ZONE = Constants.TAU / 72;
@@ -333,14 +333,14 @@ public class Constants {
       public static final class Loader {
             public static final String CANBUS = "rio";
 
-            public static final int PIVOT_PORT = 50;
-            public static final int ROLLER_PORT = 46;
+            public static final int PIVOT_PORT = 12;
+            public static final int ROLLER_PORT = 13;
 
             public static final int LOADER_SENSOR_PORT = 1;
-            public static final int SHOOTER_SENSOR_PORT = 2;
+            public static final int SHOOTER_SENSOR_PORT = 0;
 
             public static final double PIVOT_GEAR_RATIO = 9.*7*30/18;
-            public static final double ROLLER_GEAR_RATIO = 0;
+            public static final double ROLLER_GEAR_RATIO = 7;
 
             public static final double PIVOT_STATOR_CURRENT_LIMIT = 20;
             public static final double PIVOT_SUPPLY_CURRENT_LIMIT = 20;
@@ -349,7 +349,7 @@ public class Constants {
             public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromDegrees(-30);
 
             public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 2;   //2
-            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 1;
+            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0.95;
             public static final double PIVOT_MOTION_MAGIC_JERK = 0;
 
             public static final InvertedValue PIVOT_INVERTED = InvertedValue.CounterClockwise_Positive;
@@ -357,7 +357,7 @@ public class Constants {
 
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
             .withKV(0.845).withKS(0.02)
-            .withKP(45).withKI(1.2).withKD(0);
+            .withKP(45).withKI(0).withKD(1.2);
             //kG = 0.01, but angle not correct, so we have to manually implement it
 
             public static final double ROLLER_STATOR_CURRENT_LIMIT = 0;

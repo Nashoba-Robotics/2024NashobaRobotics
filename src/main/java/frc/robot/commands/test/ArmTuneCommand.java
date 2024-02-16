@@ -23,17 +23,19 @@ public class ArmTuneCommand extends Command{
         // SmartDashboard.putNumber("kP", lastkP);
         // SmartDashboard.putNumber("kD", lastkD);
 
-        // SmartDashboard.putNumber("Arm Deg", 0);
+        SmartDashboard.putNumber("Arm Deg", 0);
+        SmartDashboard.putNumber("Shoot Speed", 0);
 
-        Tabs.addTab("Arm");
-        Tabs.putNumber("Arm", "kG", lastkG);
-        Tabs.putNumber("Arm", "kS", lastkS);
-        Tabs.putNumber("Arm", "kV", lastkV);
-        Tabs.putNumber("Arm", "kP", lastkP);
-        Tabs.putNumber("Arm", "kD", lastkD);
+        // Tabs.addTab("Arm");
 
-        Tabs.putNumber("Arm", "Arm Deg", 0);
+        // Tabs.putNumber("Arm", "kG", lastkG);
+        // Tabs.putNumber("Arm", "kS", lastkS);
+        // Tabs.putNumber("Arm", "kV", lastkV);
+        // Tabs.putNumber("Arm", "kP", lastkP);
+        // Tabs.putNumber("Arm", "kD", lastkD);
 
+        // Tabs.putNumber("Arm", "Arm Deg", 0);
+        // Tabs.putNumber("Arm", "Shoot Speed", 0);
 
     }
 
@@ -70,24 +72,30 @@ public class ArmTuneCommand extends Command{
         //     lastkD = kD;
         // }
 
-        // double angle = SmartDashboard.getNumber("Arm Deg", 0);
-        double angle = Tabs.getNumber("Arm", "Arm Deg");
+        double angle = SmartDashboard.getNumber("Arm Deg", 0);
+        // double angle = Tabs.getNumber("Arm", "Arm Deg");
         arm.setArmPivot(Rotation2d.fromDegrees(angle));
 
-        Logger.recordOutput("Andyson", arm.getArmPivotAngle().getDegrees());
+        // double shootSpeed = Tabs.getNumber("Arm", "Shoot Speed");
+        double shootSpeed = SmartDashboard.getNumber("Shoot Speed", 0);
+        arm.setShooterPercent(shootSpeed);
+
+        // Logger.recordOutput("Andyson", arm.getArmPivotAngle().getDegrees());
     }
 
     @Override
     public void end(boolean interrupted) {
-        Tabs.putNumber("Arm", "kG", lastkG);
-        Tabs.putNumber("Arm", "kS", lastkS);
-        Tabs.putNumber("Arm", "kV", lastkV);
-        Tabs.putNumber("Arm", "kP", lastkP);
-        Tabs.putNumber("Arm", "kD", lastkD);
+        // Tabs.putNumber("Arm", "kG", lastkG);
+        // Tabs.putNumber("Arm", "kS", lastkS);
+        // Tabs.putNumber("Arm", "kV", lastkV);
+        // Tabs.putNumber("Arm", "kP", lastkP);
+        // Tabs.putNumber("Arm", "kD", lastkD);
 
         Tabs.putNumber("Arm", "Arm Deg", 0);
+        Tabs.putNumber("Arm", "Shoot Speed", 0);
 
         arm.setArmPivotSpeed(0);
+        arm.setShooterPercent(0);
     }
 
     @Override

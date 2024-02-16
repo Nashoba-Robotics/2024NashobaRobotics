@@ -1,6 +1,7 @@
 package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -36,6 +37,8 @@ public class ModuleIOTalonFX implements ModuleIO {
         moveMotor = module.getDriveMotor();
         turnMotor = module.getSteerMotor();
         encoder = module.getCANcoder();
+
+        // turnMotor.getConfigurator().apply(new SoftwareLimitSwitchConfigs().withForwardSoftLimitEnable(false).withReverseSoftLimitEnable(false));
     }    
 
     public void updateInputs(ModuleIOInputs inputs) {
@@ -72,14 +75,14 @@ public class ModuleIOTalonFX implements ModuleIO {
     }
 
 
-    public void disableCurrentLimit(){
-        moveMotor.getConfigurator().apply(new CurrentLimitsConfigs()
-        .withStatorCurrentLimitEnable(false)
-        // .withStatorCurrentLimit(10)
-        .withSupplyCurrentLimitEnable(false)
-        .withSupplyCurrentThreshold(1000)
-        );
-    }
+    // public void disableCurrentLimit(){
+    //     moveMotor.getConfigurator().apply(new CurrentLimitsConfigs()
+    //     .withStatorCurrentLimitEnable(false)
+    //     // .withStatorCurrentLimit(10)
+    //     .withSupplyCurrentLimitEnable(false)
+    //     .withSupplyCurrentThreshold(1000)
+    //     );
+    // }
 
     public SwerveModulePosition getPosition() {
         return position;

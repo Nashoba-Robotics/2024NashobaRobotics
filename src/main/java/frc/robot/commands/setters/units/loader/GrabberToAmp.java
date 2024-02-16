@@ -14,7 +14,7 @@ public class GrabberToAmp extends Command{
 
     @Override
     public void execute() {
-        loader.setLoaderSpeed(Presets.Loader.AMP_SPEED);
+        loader.setRollerSpeed(Presets.Loader.AMP_SPEED);
     }
 
     @Override

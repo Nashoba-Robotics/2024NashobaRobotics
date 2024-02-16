@@ -48,6 +48,10 @@ public class ArmSubsystem extends SubsystemBase{
         armIO.setShooterSpeed(speed);
     }
 
+    public void setShooterPercent(double speed){
+        armIO.setShooterPercent(speed);
+    }
+
     //Returns the speed of the shooter
     public Rotation2d getShooterSpeed() {
         return Rotation2d.fromRadians(armInputs.topShooterSpeed);
