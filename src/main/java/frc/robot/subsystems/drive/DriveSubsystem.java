@@ -47,7 +47,7 @@ public class DriveSubsystem extends SubsystemBase{
     public DriveSubsystem() {
         gyroIO = new GyroIOPigeon2();
 
-        fieldCentric = true;
+        fieldCentric = false;
 
         modules = new Module[] {
             new Module(0, Constants.Drive.CANBUS),
@@ -111,13 +111,14 @@ public class DriveSubsystem extends SubsystemBase{
 
         double omega = chassisSpeeds.omegaRadiansPerSecond;
 
-        if(gyroInputs.zVelocity >= 0.10 || omega != 0) lastJoystickAngle = getYaw().getRadians();
-        else omega = Math.abs(lastJoystickAngle - getYaw().getRadians()) < Constants.TAU/10 &&
-            Math.sqrt(x*x+y*y) > 0.1 ?
-            angleController.calculate(getYaw().getRadians(), lastJoystickAngle) :
-            0;
-
         if(fieldCentric) {
+
+            if(gyroInputs.zVelocity >= 0.10 || omega != 0) lastJoystickAngle = getYaw().getRadians();
+            else omega = Math.abs(lastJoystickAngle - getYaw().getRadians()) < Constants.TAU/10 &&
+                Math.sqrt(x*x+y*y) > 0.1 ?
+                angleController.calculate(getYaw().getRadians(), lastJoystickAngle) :
+                0;
+
             double angleDiff = Math.atan2(y, x) - getGyroAngle().getRadians(); //difference between input angle and gyro angle gives desired field relative angle
             double r = Math.sqrt(x*x + y*y); //magnitude of translation vector
             x = r * Math.cos(angleDiff);

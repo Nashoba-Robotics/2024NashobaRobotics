@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.lib.util.JoystickValues;
@@ -49,6 +50,7 @@ public class DriveCommand extends Command{
         angleController.reset(drive.getYaw().getRadians());
         drive.setDriveState(DriveState.DRIVER);
         drive.set(chassisSpeeds);
+
     }
 
     @Override
@@ -72,7 +74,7 @@ public class DriveCommand extends Command{
         chassisSpeeds.vxMetersPerSecond = leftJoystickValues.x * Constants.Drive.MAX_VELOCITY;
         chassisSpeeds.vyMetersPerSecond = leftJoystickValues.y * Constants.Drive.MAX_VELOCITY;
 
-        // if(rightJoystickValues.x != 0) drive.setDriveState(DriveState.DRIVER);
+        if(rightJoystickValues.x != 0) drive.setDriveState(DriveState.DRIVER);
 
 
         switch(drive.getDriveState()){
