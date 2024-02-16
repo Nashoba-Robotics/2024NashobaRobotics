@@ -6,6 +6,8 @@ import frc.robot.StateManager.RobotState;
 import frc.robot.commands.setters.units.StopAllRollers;
 import frc.robot.commands.setters.units.arm.ArmToIntake;
 import frc.robot.commands.setters.units.loader.LoaderToIntake;
+import frc.robot.commands.setters.units.loader.NoteToLoader;
+import frc.robot.commands.setters.units.loader.NoteToShooter;
 
 public class ToIntakeAdj extends SequentialCommandGroup {
     

@@ -183,7 +183,7 @@ public class Constants {
             public static final double WHEEL_RADIUS = Units.inchesToMeters(kWheelRadiusInches);
 
             private static final boolean kSteerMotorReversed = true;
-            private static final boolean kInvertLeftSide = false;
+            private static final boolean kInvertLeftSide = true;
             private static final boolean kInvertRightSide = true;
 
             // These are only used for simulation
@@ -207,7 +207,7 @@ public class Constants {
                   .withDriveInertia(kDriveInertia)
                   .withSteerFrictionVoltage(kSteerFrictionVoltage)
                   .withDriveFrictionVoltage(kDriveFrictionVoltage)
-                  .withFeedbackSource(SteerFeedbackType.SyncCANcoder)
+                  .withFeedbackSource(SteerFeedbackType.FusedCANcoder)
                   .withCouplingGearRatio(kCoupleRatio)
                   .withSteerMotorInverted(kSteerMotorReversed);
 
@@ -225,7 +225,7 @@ public class Constants {
                   .withDriveInertia(kDriveInertia)
                   .withSteerFrictionVoltage(kSteerFrictionVoltage)
                   .withDriveFrictionVoltage(kDriveFrictionVoltage)
-                  .withFeedbackSource(SteerFeedbackType.SyncCANcoder)
+                  .withFeedbackSource(SteerFeedbackType.FusedCANcoder)
                   .withCouplingGearRatio(kCoupleRatio)
                   .withSteerMotorInverted(kSteerMotorReversed);
             
@@ -243,7 +243,7 @@ public class Constants {
                   .withDriveInertia(kDriveInertia)
                   .withSteerFrictionVoltage(kSteerFrictionVoltage)
                   .withDriveFrictionVoltage(kDriveFrictionVoltage)
-                  .withFeedbackSource(SteerFeedbackType.SyncCANcoder)
+                  .withFeedbackSource(SteerFeedbackType.FusedCANcoder)
                   .withCouplingGearRatio(kCoupleRatio)
                   .withSteerMotorInverted(!kSteerMotorReversed);
 
@@ -261,7 +261,7 @@ public class Constants {
                   .withDriveInertia(kDriveInertia)
                   .withSteerFrictionVoltage(kSteerFrictionVoltage)
                   .withDriveFrictionVoltage(kDriveFrictionVoltage)
-                  .withFeedbackSource(SteerFeedbackType.SyncCANcoder)
+                  .withFeedbackSource(SteerFeedbackType.FusedCANcoder)
                   .withCouplingGearRatio(kCoupleRatio)
                   .withSteerMotorInverted(kSteerMotorReversed);
 
@@ -291,7 +291,7 @@ public class Constants {
             private static final int kBackLeftSteerMotorId = 2;
             private static final int kBackLeftEncoderId = 2;
             // private static final double kBackLeftEncoderOffset = -0.443848;
-            private static final double kBackLeftEncoderOffset = -0.220703;
+            private static final double kBackLeftEncoderOffset = 0.281982-0.5;
 
 
             private static final double kBackLeftXPosInches = -10.375;
@@ -315,7 +315,7 @@ public class Constants {
             public static final SwerveModuleConstants MOD2_CONSTANTS = ConstantCreator2.createModuleConstants(
                   kBackLeftSteerMotorId, kBackLeftDriveMotorId, kBackLeftEncoderId, kBackLeftEncoderOffset, Units.inchesToMeters(kBackLeftXPosInches), Units.inchesToMeters(kBackLeftYPosInches), kInvertLeftSide);
             public static final SwerveModuleConstants MOD3_CONSTANTS = ConstantCreator3.createModuleConstants(
-                  kBackRightSteerMotorId, kBackRightDriveMotorId, kBackRightEncoderId, kBackRightEncoderOffset, Units.inchesToMeters(kBackRightXPosInches), Units.inchesToMeters(kBackRightYPosInches), kInvertRightSide);
+                  kBackRightSteerMotorId, kBackRightDriveMotorId, kBackRightEncoderId, kBackRightEncoderOffset, Units.inchesToMeters(kBackRightXPosInches), Units.inchesToMeters(kBackRightYPosInches), !kInvertRightSide);
 
       }
 
@@ -329,12 +329,12 @@ public class Constants {
             public static final int OPERATOR_PORT = 2;
     
             public static final double MOVE_DEAD_ZONE = 0.05;
-            public static final double TURN_DEAD_ZONE = 0.1;
+            public static final double TURN_DEAD_ZONE = 0.05;
     
             public static final double ANGLE_DEAD_ZONE = Constants.TAU / 72;
     
             public static final double MOVE_SENSITIVITY = 1.5;
-            public static final double TURN_SENSITIVITY = 1;
+            public static final double TURN_SENSITIVITY = 1.5;
       }
 
       public static final class Loader {
