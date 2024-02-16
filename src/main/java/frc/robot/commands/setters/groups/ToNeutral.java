@@ -11,7 +11,7 @@ public class ToNeutral extends SequentialCommandGroup {
     
     public ToNeutral() {
         addCommands(
-            new StopAllRollers(),
+            new StopAllRollers(),   //Consider adding command to put note into shooter sensor
             new LoaderToNeutral(),
             new ArmToNeutral(),
             StateManager.getSetStateCommand(RobotState.NEUTRAL)

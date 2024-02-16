@@ -39,6 +39,8 @@ public final class Presets {
         public static final double INTAKE_SPEED = -0.7;
         public static final double SHOOT_SPEED = -0.9;
         public static final double SOURCE_SPEED = 0.9;
+        public static final double TO_SHOOTER_TRANSITION = -0.3;
+        public static final double TO_LOADER_TRANSITION = 0.3;
 
         public static final Rotation2d SPEED_TOLERANCE = Rotation2d.fromRadians(0);
     }
