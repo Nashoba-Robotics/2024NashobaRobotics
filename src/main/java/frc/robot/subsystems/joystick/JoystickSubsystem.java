@@ -23,8 +23,8 @@ public class JoystickSubsystem extends SubsystemBase{
 
     public JoystickValues getLeftJoystickValues() {
         return io.getLeftJoystickValues();
-
     }
+
     public JoystickValues getRightJoystickValues() {
         return io.getRightJoystickValues();
     }

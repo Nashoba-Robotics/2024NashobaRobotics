@@ -59,11 +59,17 @@ public class ArmIOTalonFX implements ArmIO{
         inputs.pivotSupplyCurrent = pivot.getSupplyCurrent().getValueAsDouble();
         inputs.pivotVoltage = pivot.getMotorVoltage().getValueAsDouble();
 
-        inputs.shooterPosition = shooter.getPosition().getValueAsDouble()*Constants.TAU;
-        inputs.shooterSpeed = shooter.getVelocity().getValueAsDouble()*Constants.TAU;
-        inputs.shooterStatorCurrent = shooter.getStatorCurrent().getValueAsDouble();
-        inputs.shooterSupplyCurrent = shooter.getSupplyCurrent().getValueAsDouble();
-        inputs.shooterVoltage = shooter.getMotorVoltage().getValueAsDouble();
+        inputs.topShooterPosition = shooter.getPosition().getValueAsDouble()*Constants.TAU;
+        inputs.topShooterSpeed = shooter.getVelocity().getValueAsDouble()*Constants.TAU;
+        inputs.topShooterStatorCurrent = shooter.getStatorCurrent().getValueAsDouble();
+        inputs.topShooterSupplyCurrent = shooter.getSupplyCurrent().getValueAsDouble();
+        inputs.topShooterVoltage = shooter.getMotorVoltage().getValueAsDouble();
+
+        inputs.bottomShooterPosition = shooter2.getPosition().getValueAsDouble()*Constants.TAU;
+        inputs.bottomShooterSpeed = shooter2.getVelocity().getValueAsDouble()*Constants.TAU;
+        inputs.bottomShooterStatorCurrent = shooter2.getStatorCurrent().getValueAsDouble();
+        inputs.bottomShooterSupplyCurrent = shooter2.getSupplyCurrent().getValueAsDouble();
+        inputs.bottomShooterVoltage = shooter2.getMotorVoltage().getValueAsDouble();
 
         inputs.shooterSensor = shooterSensor.get();
         inputs.loaderSensor = loaderSensor.get();
