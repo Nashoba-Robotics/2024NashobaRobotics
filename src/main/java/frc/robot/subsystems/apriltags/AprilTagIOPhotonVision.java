@@ -17,23 +17,33 @@ import frc.robot.Constants;
 
 public class AprilTagIOPhotonVision implements AprilTagIO{
     PhotonCamera camera1;
-    PhotonPoseEstimator poseEstimator;
+    PhotonCamera camera2;
+    PhotonPoseEstimator poseEstimator1;
+    PhotonPoseEstimator poseEstimator2;
     AprilTagFieldLayout layout;
     boolean exists;
 
     public AprilTagIOPhotonVision(){
         camera1 = new PhotonCamera(Constants.AprilTags.CAMERA1_NAME);
+        camera2 = new PhotonCamera(Constants.AprilTags.CAMERA2_NAME);
         
         try{
             layout = new AprilTagFieldLayout(Constants.AprilTags.LAYOUT_PATH);
-            poseEstimator = new PhotonPoseEstimator(
+            poseEstimator1 = new PhotonPoseEstimator(
                 layout,
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
                 camera1,
                 Constants.AprilTags.ROBOT_TO_CAMERA1);
+
+            poseEstimator2 = new PhotonPoseEstimator(
+                layout, 
+                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+                camera2,
+                Constants.AprilTags.ROBOT_TO_CAMERA2);
             exists = true;
 
-            poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);   //TODO: YAAAY
+            poseEstimator1.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);   //TODO: YAAAY
+            poseEstimator2.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 
         } catch(IOException e){
             DriverStation.reportError("Unable to open trajectory: " + Constants.AprilTags.LAYOUT_PATH, e.getStackTrace());
@@ -43,32 +53,62 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
 
     public void updateInputs(AprilTagIOInputs inputs){
         PhotonPipelineResult r = camera1.getLatestResult();
-        inputs.hasTarget = r.hasTargets();
+        inputs.leftHasTarget = r.hasTargets();
 
-        if(inputs.hasTarget) inputs.yaw = r.getBestTarget().getYaw() * Constants.TAU/360;
-        else inputs.yaw = 0;
+        if(inputs.leftHasTarget) inputs.leftYaw = r.getBestTarget().getYaw() * Constants.TAU/360;
+        else inputs.leftYaw = 0;
 
         List<PhotonTrackedTarget> targets = r.getTargets();
-        inputs.tagsSeen = targets.size();
+        inputs.leftTagsSeen = targets.size();
 
 
-        if(inputs.tagsSeen == 1){
-            inputs.ambiguity = targets.get(0).getPoseAmbiguity();   //<-- TODO: More testing with this. May be giving periodic zeroes
+        if(inputs.leftTagsSeen == 1){
+            inputs.leftAmbiguity = targets.get(0).getPoseAmbiguity();   //<-- TODO: More testing with this. May be giving periodic zeroes
         }
         else{
-            inputs.ambiguity = 0;
+            inputs.leftAmbiguity = 0;
         }
 
-        Optional<EstimatedRobotPose> estimator = poseEstimator.update();
+        Optional<EstimatedRobotPose> estimator = poseEstimator1.update();
         
         if(!exists){
-            inputs.pos = null;
+            inputs.leftPos = null;
         }
         else if(estimator.isPresent()){
-            inputs.pos = estimator.get().estimatedPose;
+            inputs.leftPos = estimator.get().estimatedPose;
 
-            inputs.timeStamp = r.getTimestampSeconds();
+            inputs.leftTimeStamp = r.getTimestampSeconds();
         }
+
+        r = camera2.getLatestResult();
+        inputs.rightHasTarget = r.hasTargets();
+
+        if(inputs.rightHasTarget) inputs.rightYaw = r.getBestTarget().getYaw() * Constants.TAU/360;
+        else inputs.rightYaw = 0;
+
+        targets = r.getTargets();
+        inputs.rightTagsSeen = targets.size();
+
+
+        if(inputs.rightTagsSeen == 1){
+            inputs.rightAmbiguity = targets.get(0).getPoseAmbiguity();   //<-- TODO: More testing with this. May be giving periodic zeroes
+        }
+        else{
+            inputs.rightAmbiguity = 0;
+        }
+
+        estimator = poseEstimator2.update();
+        
+        if(!exists){
+            inputs.rightPos = null;
+        }
+        else if(estimator.isPresent()){
+            inputs.rightPos = estimator.get().estimatedPose;
+
+            inputs.rightTimeStamp = r.getTimestampSeconds();
+        }
+
+        
     }
 
     public void switchPipeline(){

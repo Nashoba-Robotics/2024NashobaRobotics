@@ -136,7 +136,7 @@ public class ArmIOTalonFX implements ArmIO{
         shooterConfig.Audio.BeepOnBoot = true;
         shooterConfig.Audio.BeepOnConfig = true;
         shooterConfig.CurrentLimits.StatorCurrentLimit = Constants.Arm.SHOOTER_STATOR_CURRENT_LIMIT;
-        shooterConfig.CurrentLimits.StatorCurrentLimitEnable = false;
+        shooterConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         shooterConfig.CurrentLimits.SupplyCurrentLimit = Constants.Arm.SHOOTER_SUPPLY_CURRENT_LIMIT;
         shooterConfig.CurrentLimits.SupplyCurrentLimitEnable = false;
         shooterConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;

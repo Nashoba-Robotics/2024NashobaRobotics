@@ -20,6 +20,12 @@ import frc.robot.commands.test.ArmTuneCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
+import frc.robot.commands.setters.groups.ToIntake;
+import frc.robot.commands.setters.groups.ToIntakeAdj;
+import frc.robot.commands.setters.groups.ToNeutral;
+import frc.robot.commands.setters.groups.ToShoot;
+import frc.robot.commands.setters.groups.ToSourceAdj;
+import frc.robot.commands.setters.groups.ToSubwooferShoot;
 import frc.robot.commands.setters.units.arm.ArmToAmp;
 import frc.robot.commands.setters.units.arm.ArmToIntake;
 import frc.robot.commands.setters.units.arm.ArmToNeutral;
@@ -55,11 +61,16 @@ public class RobotContainer {
   private static SendableChooser<Command> autoChooser;
 
   private static Trigger seemlessPath = joysticks.getDriverController().button(1);
-  private static Trigger zeroGyro = joysticks.getDriverController().button(2);
+  private static Trigger zeroGyro = joysticks.getDriverController().button(12);
 
-  private Trigger incrementSource = joysticks.getOperatorController().button(6);
-  private Trigger decrementSorce = joysticks.getOperatorController().button(5);
-  private Trigger toSource = joysticks.getOperatorController().button(2);
+  private Trigger incrementSource = joysticks.getDriverController().button(6);
+  private Trigger decrementSorce = joysticks.getDriverController().button(5);
+  private Trigger toSource = joysticks.getDriverController().button(7);
+
+  private Trigger groundIntake = joysticks.getDriverController().button(2);
+  private Trigger shoot = joysticks.getDriverController().button(8);
+  private Trigger neutralMode = joysticks.getDriverController().button(10);
+
 
   public RobotContainer() {
     addShuffleBoardData();
@@ -83,6 +94,9 @@ public class RobotContainer {
     seemlessPath.onTrue(new OnTheFlytoPathCommand());
     zeroGyro.onTrue(new InstantCommand(()-> drive.setGyro(0)));
 
+    groundIntake.toggleOnTrue(new ToIntake());
+    shoot.onTrue(new ToShoot());
+    neutralMode.onTrue(new ToNeutral());
   }
 
   private void addShuffleBoardData() {
@@ -114,10 +128,10 @@ public class RobotContainer {
 
       SmartDashboard.putData(new IntakeTestCommand(intake));
 
-      SmartDashboard.putData(new ArmToNeutral());
-      SmartDashboard.putData(new ArmToIntake());
-      SmartDashboard.putData(new ArmToAmp());
-      SmartDashboard.putData(new ArmToSource());
+      // SmartDashboard.putData(new ArmToNeutral());
+      // SmartDashboard.putData(new ArmToIntake());
+      // SmartDashboard.putData(new ArmToAmp());
+      // SmartDashboard.putData(new ArmToSource());
 
     // SmartDashboard.putData(new LoaderToNeutral());
     // SmartDashboard.putData(new LoaderToIntake());
@@ -125,6 +139,13 @@ public class RobotContainer {
     // SmartDashboard.putData(new LoaderToAmp());
 
     // SmartDashboard.putData(new SwerveTestCommand(drive));
+
+    SmartDashboard.putData(new ToNeutral());
+    SmartDashboard.putData(new ToSourceAdj());
+    SmartDashboard.putData(new ToIntakeAdj());
+    SmartDashboard.putData(new ToIntake());
+    // SmartDashboard.putData(new ToSubwooferShoot());
+    SmartDashboard.putData(new ToShoot());
   }
 
   private void configureEvents() {

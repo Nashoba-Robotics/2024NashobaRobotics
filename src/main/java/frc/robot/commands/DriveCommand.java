@@ -97,7 +97,7 @@ public class DriveCommand extends Command{
         //         break;
         // }
 
-        chassisSpeeds.omegaRadiansPerSecond = rightJoystickValues.x * Constants.Drive.MAX_ROTATION_VELOCITY;
+        chassisSpeeds.omegaRadiansPerSecond = -rightJoystickValues.x * Constants.Drive.MAX_ROTATION_VELOCITY;
 
         drive.set(chassisSpeeds);
 

@@ -9,14 +9,24 @@ import edu.wpi.first.math.geometry.Pose3d;
 public interface AprilTagIO{
     @AutoLog
     public static class AprilTagIOInputs{
-        public Pose3d pos = new Pose3d();
+        //left = ben, right = Yi
+        public Pose3d leftPos = new Pose3d();
 
-        public double timeStamp = 0;    //ms
-        public boolean hasTarget = false;
-        public int tagsSeen = 0;
-        public double ambiguity = 0;    //ratio for ambiguity
+        public double leftTimeStamp = 0;    //ms 
+        public boolean leftHasTarget = false;
+        public int leftTagsSeen = 0;
+        public double leftAmbiguity = 0;    //ratio for ambiguity
 
-        public double yaw = 0;  //rad
+        public double leftYaw = 0;  //rad
+
+        public Pose3d rightPos = new Pose3d();
+
+        public double rightTimeStamp = 0;    //ms 
+        public boolean rightHasTarget = false;
+        public int rightTagsSeen = 0;
+        public double rightAmbiguity = 0;    //ratio for ambiguity
+
+        public double rightYaw = 0;  //rad
     }
 
     public default void updateInputs(AprilTagIOInputs inputs) {}

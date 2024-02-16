@@ -19,8 +19,8 @@ public class IntakeIOTalonFX implements IntakeIO{
         config = new TalonFXConfiguration();
         config.Audio.BeepOnBoot = true;
         config.Audio.BeepOnConfig = false;
-        config.CurrentLimits.StatorCurrentLimitEnable = false;
-        config.CurrentLimits.StatorCurrentLimit = 0;
+        config.CurrentLimits.StatorCurrentLimitEnable = true;
+        config.CurrentLimits.StatorCurrentLimit = 40;
         config.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
         config.Feedback.RotorToSensorRatio = 0;
         config.FutureProofConfigs = true;
