@@ -46,6 +46,7 @@ public class ArmSubsystem extends SubsystemBase{
 
     //Sets the speed of the shooter. Units don't matter b/c Rotation2D
     public void setShooterSpeed(Rotation2d speed) {
+        Logger.recordOutput("SetShooterSpeed", speed.getRadians());
         armIO.setShooterSpeed(speed);
     }
 

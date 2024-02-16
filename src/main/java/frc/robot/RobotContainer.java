@@ -28,6 +28,7 @@ import frc.robot.commands.setters.groups.ToSourceAdj;
 import frc.robot.commands.test.IntakeTestCommand;
 import frc.robot.commands.test.LoaderTuneCommand;
 import frc.robot.commands.test.OnTheFlytoPathCommand;
+import frc.robot.commands.test.ShooterTuneCommand;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
@@ -98,19 +99,20 @@ public class RobotContainer {
 
     
     
-    SmartDashboard.putData(new ArmTuneCommand(arm));
 
 
-      SmartDashboard.putData(new ArmTuneCommand(arm));
-      SmartDashboard.putData(new LoaderTuneCommand(loader));
+      // SmartDashboard.putData(new ArmTuneCommand(arm));
+      // SmartDashboard.putData(new LoaderTuneCommand(loader));
 
-      SmartDashboard.putData("Loader 0", new InstantCommand(()->{
-        loader.setPivotRotor(Rotation2d.fromRadians(0));
-      }));
-      SmartDashboard.putData(new InstantCommand(()->arm.setArmPivotRotor(Rotation2d.fromDegrees(0))));
-      SmartDashboard.putData("Zero From Intake", new InstantCommand(()->arm.setArmPivotRotor(Presets.Arm.INTAKE_POS)));
+      // SmartDashboard.putData("Loader 0", new InstantCommand(()->{
+      //   loader.setPivotRotor(Rotation2d.fromRadians(0));
+      // }));
+      // SmartDashboard.putData(new InstantCommand(()->arm.setArmPivotRotor(Rotation2d.fromDegrees(0))));
+      // SmartDashboard.putData("Zero From Intake", new InstantCommand(()->arm.setArmPivotRotor(Presets.Arm.INTAKE_POS)));
 
-      SmartDashboard.putData(new IntakeTestCommand(intake));
+      // SmartDashboard.putData(new IntakeTestCommand(intake));
+
+      SmartDashboard.putData(new ShooterTuneCommand(arm));
 
       // SmartDashboard.putData(new ArmToNeutral());
       // SmartDashboard.putData(new ArmToIntake());
