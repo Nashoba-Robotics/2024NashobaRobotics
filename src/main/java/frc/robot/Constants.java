@@ -23,8 +23,8 @@ public class Constants {
       public static final double PEAK_VOLTAGE = 12;
 
       public static final class AprilTags{
-            public static final String CAMERA1_NAME = "Yi's_Little_Buddy";
-            public static final String CAMERA2_NAME = "Ben's_Little_Buddy";
+            public static final String LEFT_CAMERA_NAME = "Yi's_Little_Buddy";
+            public static final String RIGHT_CAMERA_NAME = "Ben's_Little_Buddy";
 
             /* For PhotonEstimator
             *             ^ 
@@ -38,8 +38,8 @@ public class Constants {
             *      |            |
             *      --------------
             */
-            public static final Transform3d ROBOT_TO_CAMERA1 = new Transform3d(0, 0, 0, new Rotation3d(0, -18./360*TAU, 0));
-            public static final Transform3d ROBOT_TO_CAMERA2 = new Transform3d(0,0,0, new Rotation3d());
+            public static final Transform3d ROBOT_TO_CAMERA1 = new Transform3d(Units.inchesToMeters(11.42), Units.inchesToMeters(-11.42), 0, new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA2 = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(11.42),0, new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 

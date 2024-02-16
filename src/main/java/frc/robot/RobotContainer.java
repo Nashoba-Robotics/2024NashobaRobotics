@@ -24,6 +24,7 @@ import frc.robot.commands.setters.groups.ToIntake;
 import frc.robot.commands.setters.groups.ToIntakeAdj;
 import frc.robot.commands.setters.groups.ToNeutral;
 import frc.robot.commands.setters.groups.ToShoot;
+import frc.robot.commands.setters.groups.ToSource;
 import frc.robot.commands.setters.groups.ToSourceAdj;
 import frc.robot.commands.setters.groups.ToSubwooferShoot;
 import frc.robot.commands.setters.units.arm.ArmToAmp;
@@ -53,14 +54,14 @@ import frc.robot.subsystems.loader.LoaderSubsystem;
 public class RobotContainer {
   public static final DriveSubsystem drive = new DriveSubsystem();
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
-  // public static final AprilTagManager aprilTags = new AprilTagManager();
+  public static final AprilTagManager aprilTags = new AprilTagManager();
   public static final ArmSubsystem arm = new ArmSubsystem();
   public static final IntakeSubsystem intake = new IntakeSubsystem();
   public static final LoaderSubsystem loader = new LoaderSubsystem();
   
   private static SendableChooser<Command> autoChooser;
 
-  private static Trigger seemlessPath = joysticks.getDriverController().button(1);
+  // private static Trigger seemlessPath = joysticks.getDriverController().button(1);
   private static Trigger zeroGyro = joysticks.getDriverController().button(12);
 
   private Trigger incrementSource = joysticks.getDriverController().button(6);
@@ -91,12 +92,13 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    seemlessPath.onTrue(new OnTheFlytoPathCommand());
+    // seemlessPath.onTrue(new OnTheFlytoPathCommand());
     zeroGyro.onTrue(new InstantCommand(()-> drive.setGyro(0)));
 
-    groundIntake.toggleOnTrue(new ToIntake());
+    groundIntake.onTrue(new ToIntake());
     shoot.onTrue(new ToShoot());
     neutralMode.onTrue(new ToNeutral());
+    toSource.onTrue(new ToSource());
   }
 
   private void addShuffleBoardData() {
