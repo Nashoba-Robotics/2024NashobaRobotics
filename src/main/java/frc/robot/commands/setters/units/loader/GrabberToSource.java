@@ -16,12 +16,12 @@ public class GrabberToSource extends Command{
 
     @Override
     public void execute() {
-        double speed = loader.getShooterSensor() ? 0 : Presets.Loader.SOURCE_SPEED;
+        double speed = loader.getLoaderSensor() ? 0 : Presets.Loader.SOURCE_SPEED;
         loader.setRollerSpeed(speed);
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return loader.getLoaderSensor();
     }
 }

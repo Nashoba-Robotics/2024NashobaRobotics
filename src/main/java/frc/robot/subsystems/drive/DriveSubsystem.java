@@ -9,6 +9,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -46,7 +47,7 @@ public class DriveSubsystem extends SubsystemBase{
     public DriveSubsystem() {
         gyroIO = new GyroIOPigeon2();
 
-        fieldCentric = false;
+        fieldCentric = true;
 
         modules = new Module[] {
             new Module(0, Constants.Drive.CANBUS),
@@ -59,9 +60,9 @@ public class DriveSubsystem extends SubsystemBase{
             Constants.Drive.KINEMATICS,
             getGyroAngle(),
             getSwerveModulePositions(),
-            new Pose2d(0, 0, getGyroAngle())
-            // VecBuilder.fill(0.1, 0.1, 0.0),
-            // VecBuilder.fill(5.0, 5.0, 100.0)
+            new Pose2d(0, 0, getGyroAngle()),
+            VecBuilder.fill(0.1, 0.1, 0.0),
+            VecBuilder.fill(5.0, 5.0, 100.0)
             );
 
         AutoBuilder.configureHolonomic(

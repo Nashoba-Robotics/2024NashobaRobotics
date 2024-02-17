@@ -17,6 +17,7 @@ public class LoaderTuneCommand extends Command{
     // double lastKD = 1.2;
     public LoaderTuneCommand(LoaderSubsystem loader){
         this.loader = loader;
+        addRequirements(loader);
     }
 
     @Override

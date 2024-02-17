@@ -8,6 +8,7 @@ import frc.robot.commands.setters.units.arm.ArmToSource;
 import frc.robot.commands.setters.units.loader.GrabberToSource;
 import frc.robot.commands.setters.units.loader.LoaderToNeutral;
 import frc.robot.commands.setters.units.loader.LoaderToSource;
+import frc.robot.commands.setters.units.loader.NoteToLoaderOut;
 
 public class ToSource extends SequentialCommandGroup {
     
@@ -17,6 +18,7 @@ public class ToSource extends SequentialCommandGroup {
             new ArmToSource(),
             new LoaderToSource(),
             new GrabberToSource(),
+            new NoteToLoaderOut(),
             StateManager.getSetStateCommand(RobotState.SOURCE)
         );
     }

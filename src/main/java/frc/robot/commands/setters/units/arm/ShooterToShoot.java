@@ -8,20 +8,31 @@ import frc.robot.subsystems.arm.ArmSubsystem;
 
 public class ShooterToShoot extends Command{
     ArmSubsystem arm = RobotContainer.arm;
+    Timer timer;
 
-    public ShooterToShoot(){
+    public 
+    ShooterToShoot(){
         addRequirements(arm);
+        timer = new Timer();
+    }
+
+    @Override
+    public void initialize() {
+        timer.reset();
+        timer.start();
     }
 
     @Override
     public void execute() {
-        // arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
-        arm.setShooterPercent(Presets.Arm.SPEAKER_PERCENT);
+        arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+        // arm.setShooterPercent(Presets.Arm.SPEAKER_PERCENT);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(arm.getShooterSpeed().getRadians()) >= 300;
+        // return Math.abs(arm.getShooterSpeed().getRadians()-Presets.Arm.SPEAKER_SPEED.getRadians()) <= Presets.Arm.SPEED_TOLERANCE.getRadians();
+        return Math.abs(arm.getShooterSpeed().getRadians()) >= 300 || timer.get() > 1;
+
         // return true;
     }
 }

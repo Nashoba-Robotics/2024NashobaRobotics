@@ -33,13 +33,13 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
                 layout, 
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
                 leftCamera,
-                Constants.AprilTags.ROBOT_TO_CAMERA2);
+                Constants.AprilTags.ROBOT_TO_CAMERA_LEFT);
 
             rightPoseEstimator = new PhotonPoseEstimator(
                 layout,
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
                 rightCamera,
-                Constants.AprilTags.ROBOT_TO_CAMERA1);
+                Constants.AprilTags.ROBOT_TO_CAMERA_RIGHT);
             
             exists = true;
 
@@ -77,6 +77,7 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
         }
         else if(estimator.isPresent()){
             inputs.leftPos = estimator.get().estimatedPose;
+            inputs.leftPose2d = inputs.leftPos.toPose2d();
 
             inputs.leftTimeStamp = r.getTimestampSeconds();
         }
@@ -106,6 +107,7 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
         }
         else if(estimator.isPresent()){
             inputs.rightPos = estimator.get().estimatedPose;
+            inputs.rightPose2d = inputs.rightPos.toPose2d();
 
             inputs.rightTimeStamp = r.getTimestampSeconds();
         }

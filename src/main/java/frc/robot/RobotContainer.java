@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SwerveTestCommand;
+import frc.robot.commands.W0ShootCommand;
 import frc.robot.commands.test.ArmTuneCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
@@ -23,9 +24,11 @@ import frc.robot.commands.auto.source.ToSource2Command;
 import frc.robot.commands.setters.groups.ToIntake;
 import frc.robot.commands.setters.groups.ToIntakeAdj;
 import frc.robot.commands.setters.groups.ToNeutral;
+import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.groups.ToShoot;
 import frc.robot.commands.setters.groups.ToSource;
 import frc.robot.commands.setters.groups.ToSourceAdj;
+import frc.robot.commands.setters.units.arm.ArmToShoot;
 import frc.robot.commands.test.IntakeTestCommand;
 import frc.robot.commands.test.LoaderTuneCommand;
 import frc.robot.commands.test.OnTheFlytoPathCommand;
@@ -50,9 +53,12 @@ public class RobotContainer {
   // private static Trigger seemlessPath = joysticks.getDriverController().button(1);
   private static Trigger zeroGyro = joysticks.getDriverController().button(12);
 
-  private Trigger incrementSource = joysticks.getDriverController().button(6);
-  private Trigger decrementSorce = joysticks.getDriverController().button(5);
+  // private Trigger incrementSource = joysticks.getDriverController().button(6);
+  // private Trigger decrementSorce = joysticks.getDriverController().button(5);
+  private Trigger startShooter = joysticks.getDriverController().button(6);
   private Trigger toSource = joysticks.getDriverController().button(7);
+
+  private Trigger puke = joysticks.getDriverController().button(9);
 
   private Trigger groundIntake = joysticks.getDriverController().button(2);
   private Trigger shoot = joysticks.getDriverController().button(8);
@@ -82,9 +88,12 @@ public class RobotContainer {
     zeroGyro.onTrue(new InstantCommand(()-> drive.setGyro(0)));
 
     groundIntake.onTrue(new ToIntake());
-    shoot.onTrue(new ToShoot());
+    // shoot.onTrue(new ToShoot());
+    shoot.onTrue(new W0ShootCommand());
     neutralMode.onTrue(new ToNeutral());
     toSource.onTrue(new ToSource());
+    startShooter.onTrue(new InstantCommand(()-> RobotContainer.arm.setShooterSpeed(Rotation2d.fromRadians(70)), RobotContainer.arm));
+    puke.onTrue(new ToPuke());
   }
 
   private void addShuffleBoardData() {
@@ -104,14 +113,14 @@ public class RobotContainer {
     
 
 
-      // SmartDashboard.putData(new ArmTuneCommand(arm));
-      // SmartDashboard.putData(new LoaderTuneCommand(loader));
+      SmartDashboard.putData(new ArmTuneCommand(arm));
+      SmartDashboard.putData(new LoaderTuneCommand(loader));
 
-      // SmartDashboard.putData("Loader 0", new InstantCommand(()->{
-      //   loader.setPivotRotor(Rotation2d.fromRadians(0));
-      // }));
+      SmartDashboard.putData("Loader 0", new InstantCommand(()->{
+        loader.setPivotRotor(Rotation2d.fromRadians(0));
+      }));
       // SmartDashboard.putData(new InstantCommand(()->arm.setArmPivotRotor(Rotation2d.fromDegrees(0))));
-      // SmartDashboard.putData("Zero From Intake", new InstantCommand(()->arm.setArmPivotRotor(Presets.Arm.INTAKE_POS)));
+      SmartDashboard.putData("Zero From Intake", new InstantCommand(()->arm.setArmPivotRotor(Presets.Arm.INTAKE_POS)));
 
       // SmartDashboard.putData(new IntakeTestCommand(intake));
 
@@ -129,12 +138,14 @@ public class RobotContainer {
 
     // SmartDashboard.putData(new SwerveTestCommand(drive));
 
-    SmartDashboard.putData(new ToNeutral());
-    SmartDashboard.putData(new ToSourceAdj());
-    SmartDashboard.putData(new ToIntakeAdj());
-    SmartDashboard.putData(new ToIntake());
-    // SmartDashboard.putData(new ToSubwooferShoot());
-    SmartDashboard.putData(new ToShoot());
+    // SmartDashboard.putData(new ToNeutral());
+    // SmartDashboard.putData(new ToSourceAdj());
+    // SmartDashboard.putData(new ToIntakeAdj());
+    // SmartDashboard.putData(new ToIntake());
+    // // SmartDashboard.putData(new ToSubwooferShoot());
+    // SmartDashboard.putData(new ToShoot());
+    // SmartDashboard.putData(new ArmToShoot());
+    SmartDashboard.putData(new ToSource());
   }
 
   private void configureEvents() {
@@ -144,46 +155,46 @@ public class RobotContainer {
   private int sourceIndex;
 
   private void configureSourceBindings() {
-    decrementSorce.onTrue(new InstantCommand(() -> {
-      sourceIndex+=2;
-      sourceIndex %= 3;
+    // decrementSorce.onTrue(new InstantCommand(() -> {
+    //   sourceIndex+=2;
+    //   sourceIndex %= 3;
 
-      SmartDashboard.putNumber("sourceIndex", sourceIndex);
-    }));
+    //   SmartDashboard.putNumber("sourceIndex", sourceIndex);
+    // }));
 
-    incrementSource.onTrue(new InstantCommand(() -> {
-      sourceIndex++;
-      sourceIndex %= 3;
+    // incrementSource.onTrue(new InstantCommand(() -> {
+    //   sourceIndex++;
+    //   sourceIndex %= 3;
 
-      SmartDashboard.putNumber("sourceIndex", sourceIndex);
-    }));
+    //   SmartDashboard.putNumber("sourceIndex", sourceIndex);
+    // }));
 
-    toSource.and(new BooleanSupplier() {
-      @Override
-      public boolean getAsBoolean() {
-        return sourceIndex == 0;
-      }
-    }).onTrue(
-      new ToSource0Command()
-    );
+    // toSource.and(new BooleanSupplier() {
+    //   @Override
+    //   public boolean getAsBoolean() {
+    //     return sourceIndex == 0;
+    //   }
+    // }).onTrue(
+    //   new ToSource0Command()
+    // );
 
-    toSource.and(new BooleanSupplier() {
-      @Override
-      public boolean getAsBoolean() {
-        return sourceIndex == 1;
-      }
-    }).onTrue(
-      new ToSource1Command()
-    );
+    // toSource.and(new BooleanSupplier() {
+    //   @Override
+    //   public boolean getAsBoolean() {
+    //     return sourceIndex == 1;
+    //   }
+    // }).onTrue(
+    //   new ToSource1Command()
+    // );
 
-    toSource.and(new BooleanSupplier() {
-      @Override
-      public boolean getAsBoolean() {
-        return sourceIndex == 2;
-      }
-    }).onTrue(
-      new ToSource2Command()
-    );
+    // toSource.and(new BooleanSupplier() {
+    //   @Override
+    //   public boolean getAsBoolean() {
+    //     return sourceIndex == 2;
+    //   }
+    // }).onTrue(
+    //   new ToSource2Command()
+    // );
   }
 
   public Command getAutoCommand() {

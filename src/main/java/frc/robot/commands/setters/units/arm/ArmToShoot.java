@@ -17,8 +17,10 @@ public class ArmToShoot extends Command{
     }
     @Override
     public void execute() {
-        double y = Constants.Field.SPEAKER_POSITION.getY()-Constants.Robot.SHOOTER_HEIGHT;
-        double dist = drive.getPose().getTranslation().getDistance(Constants.Field.SPEAKER_POSITION);
+        double y = Constants.Field.getSpeakerPos().getZ()-Constants.Robot.SHOOTER_HEIGHT;
+        // Translation2d shootPos = new Translation2d(drive.getPose().getX(), y)
+        double dist = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+        dist -= 0.22;
         double angle = -Math.atan2(y, dist);
 
        // TODO: Check if the angle is within our domain. 
