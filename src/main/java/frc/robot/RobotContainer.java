@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AimToSpeakerCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SwerveTestCommand;
 import frc.robot.commands.W0ShootCommand;
@@ -94,7 +95,8 @@ public class RobotContainer {
 
     groundIntake.onTrue(new ToIntake());
     // shoot.onTrue(new ToShoot());
-    shoot.onTrue(new W0ShootCommand());
+    // shoot.onTrue(new W0ShootCommand());
+    shoot.onTrue(new ToShoot());
     neutralMode.onTrue(new ToNeutral());
     toSource.onTrue(new ToSource());
     startShooter.onTrue(new InstantCommand(()-> RobotContainer.arm.setShooterSpeed(Rotation2d.fromRadians(250)), RobotContainer.arm));
@@ -130,7 +132,7 @@ public class RobotContainer {
 
       // SmartDashboard.putData(new IntakeTestCommand(intake));
 
-      SmartDashboard.putData(new ShooterTuneCommand(arm));
+      // SmartDashboard.putData(new ShooterTuneCommand(arm));
 
       // SmartDashboard.putData(new ArmToNeutral());
       // SmartDashboard.putData(new ArmToIntake());
@@ -150,8 +152,10 @@ public class RobotContainer {
     // SmartDashboard.putData(new ToIntake());
     // // SmartDashboard.putData(new ToSubwooferShoot());
     // SmartDashboard.putData(new ToShoot());
-    // SmartDashboard.putData(new ArmToShoot());
-    SmartDashboard.putData(new ToSource());
+    SmartDashboard.putData(new ArmToShoot());
+    // SmartDashboard.putData(new ToSource());
+
+    SmartDashboard.putData(new AimToSpeakerCommand());
   }
 
   private void configureEvents() {

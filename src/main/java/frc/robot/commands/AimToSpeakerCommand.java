@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,7 +16,7 @@ public class AimToSpeakerCommand extends Command{
 
     public AimToSpeakerCommand(){
         chassisSpeeds = new ChassisSpeeds(0, 0, 0);
-        angleController = new PIDController(0, 0, 0);
+        angleController = new PIDController(0.5, 0, 0);
         angleController.setTolerance(Constants.TAU/360);
         addRequirements(drive);
     }
@@ -40,6 +42,8 @@ public class AimToSpeakerCommand extends Command{
             currAngle - (Constants.TAU - angleDiff);
 
         chassisSpeeds.omegaRadiansPerSecond = angleController.calculate(currAngle, goal);
+
+        Logger.recordOutput("Speaker Angle", goal);
 
         drive.set(chassisSpeeds);
     }

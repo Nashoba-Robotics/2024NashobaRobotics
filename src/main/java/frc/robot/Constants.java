@@ -41,18 +41,18 @@ public class Constants {
             *      |            |
             *      --------------
             */
-            // public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(-11.42), Units.inchesToMeters(11.42), 0, new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
-            // // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(11.42),0, new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(11.42),0, new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.42), Units.inchesToMeters(-11.42), 0, new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
             // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(-11.42),Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
             // public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.42), Units.inchesToMeters(11.42), Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
 
-            public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.94),Units.inchesToMeters(10.25)+0.25,Units.inchesToMeters(-8.75), new Rotation3d(0, -35./360*TAU, 20*TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.94)-0.4, Units.inchesToMeters(-10.25)+0.6, Units.inchesToMeters(0), new Rotation3d(0, -35*TAU/360, -20*TAU/360));
+            // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.94),Units.inchesToMeters(10.25)+0.25,Units.inchesToMeters(-8.75), new Rotation3d(0, -35./360*TAU, 20*TAU/360));
+            // public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.94)-0.4, Units.inchesToMeters(-10.25)+0.6, Units.inchesToMeters(0), new Rotation3d(0, -35*TAU/360, -20*TAU/360));
             
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
-            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/AprilTagPositions.json";
+            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/WPIAprilTagPositions.JSON";
 
             public static final double getXSD(double distance) {
                   return 0.0312*distance - 0.0494;
@@ -337,8 +337,8 @@ public class Constants {
 
       public static final class Field {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
-            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(0, 5.54787, 2.06);
-            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(0, Units.inchesToMeters(326.6)-5.54787, 2.06);
+            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.6, 2.06);
+            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(0, 8.20-5.6, 2.06);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
 
             public static final Translation3d getSpeakerPos(){
