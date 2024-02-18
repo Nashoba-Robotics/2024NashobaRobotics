@@ -22,6 +22,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.lib.math.NRUnits;
@@ -87,6 +88,7 @@ public class DriveSubsystem extends SubsystemBase{
                 this
         );
 
+
         state = DriveState.DRIVER;
     }
 
@@ -118,7 +120,9 @@ public class DriveSubsystem extends SubsystemBase{
             angleController.calculate(getYaw().getRadians(), lastJoystickAngle) :
             0;
             
-            double angleDiff = Math.atan2(y, x) - getGyroAngle().getRadians(); //difference between input angle and gyro angle gives desired field relative angle
+            double angleDiff = Math.atan2(y, x) - (DriverStation.getAlliance().get() == Alliance.Blue ?
+            odometry.getEstimatedPosition().getRotation().getRadians() :
+            odometry.getEstimatedPosition().getRotation().getRadians() + Constants.TAU/2); //difference between input angle and gyro angle gives desired field relative angle
             double r = Math.sqrt(x*x + y*y); //magnitude of translation vector
             x = r * Math.cos(angleDiff);
             y = r * Math.sin(angleDiff);
@@ -213,10 +217,10 @@ public class DriveSubsystem extends SubsystemBase{
         return this.fieldCentric;
     }
 
-    //Sets the angle of the robot in radians
-    public void setGyro(double angle) {
-        gyroIO.setYaw(angle * 180 / Math.PI);
-    }
+    // //Sets the angle of the robot in radians
+    // public void setGyro(Rotation2d angle) {
+    //     gyroIO.setYaw(angle.getDegrees());
+    // }
 
     //Zeroes the yaw (Rotational direction)
     public void zeroYaw() {
@@ -271,6 +275,16 @@ public class DriveSubsystem extends SubsystemBase{
         speeds.vxMetersPerSecond = translation.getX();
         speeds.vyMetersPerSecond = translation.getY();
         return speeds;
+    }
+
+    public void setAngle(Rotation2d angle) {
+        Pose2d pose = new Pose2d(getPose().getTranslation(), angle);
+        odometry.resetPosition(getGyroAngle(), getSwerveModulePositions(), pose);
+    }
+
+    public void setZero() {
+        setAngle(DriverStation.getAlliance().get() == Alliance.Blue ? Rotation2d.fromRadians(0) :
+        Rotation2d.fromRadians(Constants.TAU/2));
     }
 
     @Override

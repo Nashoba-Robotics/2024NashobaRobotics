@@ -5,9 +5,12 @@ import java.util.function.BooleanSupplier;
 import org.littletonrobotics.junction.Logger;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,6 +24,7 @@ import frc.robot.commands.test.ArmTuneCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
+import frc.robot.commands.setters.groups.ToAmp;
 import frc.robot.commands.setters.groups.ToIntake;
 import frc.robot.commands.setters.groups.ToIntakeAdj;
 import frc.robot.commands.setters.groups.ToNeutral;
@@ -57,6 +61,7 @@ public class RobotContainer {
   // private Trigger decrementSorce = joysticks.getDriverController().button(5);
   private Trigger startShooter = joysticks.getDriverController().button(6);
   private Trigger toSource = joysticks.getDriverController().button(7);
+  private Trigger ampScore = joysticks.getDriverController().button(5);
 
   private Trigger puke = joysticks.getDriverController().button(9);
 
@@ -85,15 +90,16 @@ public class RobotContainer {
 
   private void configureBindings() {
     // seemlessPath.onTrue(new OnTheFlytoPathCommand());
-    zeroGyro.onTrue(new InstantCommand(()-> drive.setGyro(0)));
+    zeroGyro.onTrue(new InstantCommand(()-> drive.setZero()));
 
     groundIntake.onTrue(new ToIntake());
     // shoot.onTrue(new ToShoot());
     shoot.onTrue(new W0ShootCommand());
     neutralMode.onTrue(new ToNeutral());
     toSource.onTrue(new ToSource());
-    startShooter.onTrue(new InstantCommand(()-> RobotContainer.arm.setShooterSpeed(Rotation2d.fromRadians(70)), RobotContainer.arm));
+    startShooter.onTrue(new InstantCommand(()-> RobotContainer.arm.setShooterSpeed(Rotation2d.fromRadians(250)), RobotContainer.arm));
     puke.onTrue(new ToPuke());
+    ampScore.onTrue(new ToAmp());
   }
 
   private void addShuffleBoardData() {
@@ -149,7 +155,8 @@ public class RobotContainer {
   }
 
   private void configureEvents() {
-    // NamedCommands.registerCommand("Name", command);
+    NamedCommands.registerCommand("Shoot", new W0ShootCommand());
+
   }
 
   private int sourceIndex;

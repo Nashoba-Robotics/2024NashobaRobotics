@@ -13,6 +13,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Constants;
 
 public class AprilTagIOPhotonVision implements AprilTagIO{
@@ -24,8 +25,8 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
     boolean exists;
 
     public AprilTagIOPhotonVision(){
-        rightCamera = new PhotonCamera(Constants.AprilTags.LEFT_CAMERA_NAME);   //Right
-        leftCamera = new PhotonCamera(Constants.AprilTags.RIGHT_CAMERA_NAME);   //Left
+        rightCamera = new PhotonCamera(Constants.AprilTags.RIGHT_CAMERA_NAME);   //Right
+        leftCamera = new PhotonCamera(Constants.AprilTags.LEFT_CAMERA_NAME);   //Left
         
         try{
             layout = new AprilTagFieldLayout(Constants.AprilTags.LAYOUT_PATH);
@@ -62,6 +63,13 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
         List<PhotonTrackedTarget> targets = r.getTargets();
         inputs.leftTagsSeen = targets.size();
 
+        int speakerID = DriverStation.getAlliance().get() == Alliance.Blue ? 7 : 4;
+        for(PhotonTrackedTarget t : targets){
+            if(t.getFiducialId() == speakerID){
+                inputs.leftDistToSpeaker = t.getBestCameraToTarget().getX()*t.getBestCameraToTarget().getX() + t.getBestCameraToTarget().getY()*t.getBestCameraToTarget().getY();
+            }
+        }
+
 
         if(inputs.leftTagsSeen == 1){
             inputs.leftAmbiguity = targets.get(0).getPoseAmbiguity();   //<-- TODO: More testing with this. May be giving periodic zeroes
@@ -70,7 +78,7 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
             inputs.leftAmbiguity = 0;
         }
 
-        Optional<EstimatedRobotPose> estimator = rightPoseEstimator.update();
+        Optional<EstimatedRobotPose> estimator = leftPoseEstimator.update();
         
         if(!exists){
             inputs.leftPos = null;
@@ -92,6 +100,12 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
         targets = r.getTargets();
         inputs.rightTagsSeen = targets.size();
 
+        for(PhotonTrackedTarget t : targets){
+            if(t.getFiducialId() == speakerID){
+                inputs.rightDistToSpeaker = t.getBestCameraToTarget().getX()*t.getBestCameraToTarget().getX() + t.getBestCameraToTarget().getY()*t.getBestCameraToTarget().getY();
+            }
+        }
+
 
         if(inputs.rightTagsSeen == 1){
             inputs.rightAmbiguity = targets.get(0).getPoseAmbiguity();   //<-- TODO: More testing with this. May be giving periodic zeroes
@@ -100,7 +114,7 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
             inputs.rightAmbiguity = 0;
         }
 
-        estimator = leftPoseEstimator.update();
+        estimator = rightPoseEstimator.update();
         
         if(!exists){
             inputs.rightPos = null;

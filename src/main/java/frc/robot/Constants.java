@@ -42,9 +42,13 @@ public class Constants {
             *      --------------
             */
             // public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(-11.42), Units.inchesToMeters(11.42), 0, new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
-            // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(11.42),0, new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(-11.42),Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(0), Units.inchesToMeters(11.42), Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
+            // // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(11.42),0, new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
+            // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(-11.42),Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
+            // public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.42), Units.inchesToMeters(11.42), Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
+
+            public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.94),Units.inchesToMeters(10.25)+0.25,Units.inchesToMeters(-8.75), new Rotation3d(0, -35./360*TAU, 20*TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.94)-0.4, Units.inchesToMeters(-10.25)+0.6, Units.inchesToMeters(0), new Rotation3d(0, -35*TAU/360, -20*TAU/360));
+            
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
@@ -381,8 +385,11 @@ public class Constants {
             public static final NeutralModeValue PIVOT_NEUTRAL_MODE = NeutralModeValue.Brake;
 
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
-            .withKV(0.845).withKS(0.02)
-            .withKP(45).withKI(0).withKD(1.2);
+            // .withKV(0.845).withKS(0.02)
+            // .withKP(45).withKI(0).withKD(1.2);
+            .withKV(0).withKS(0)
+            .withKP(0).withKI(0).withKD(0);
+
             //kG = 0.01, but angle not correct, so we have to manually implement it
 
             public static final double ROLLER_STATOR_CURRENT_LIMIT = 20;

@@ -14,7 +14,7 @@ public class NoteToLoader extends Command{
 
     @Override
     public void execute() {
-        double speed = loader.getLoaderSensor() ? 0 : Presets.Loader.TO_LOADER_TRANSITION; 
+        double speed = !loader.getLoaderSensor() ? 0 : Presets.Loader.TO_LOADER_TRANSITION; 
         loader.setRollerSpeed(speed);
     }
 

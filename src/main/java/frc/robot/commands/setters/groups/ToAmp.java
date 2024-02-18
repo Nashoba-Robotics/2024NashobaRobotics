@@ -16,8 +16,8 @@ public class ToAmp extends SequentialCommandGroup {
     public ToAmp() {
         addCommands(
             new LoaderToNeutral(),
-            new NoteToLoader(),
             new ArmToAmp(),
+            new NoteToLoader(),
             new LoaderToAmp(),
             new GrabberToAmp(),
             StateManager.getSetStateCommand(RobotState.AMP)

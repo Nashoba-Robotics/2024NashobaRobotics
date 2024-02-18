@@ -30,6 +30,9 @@ public interface AprilTagIO{
         public double rightAmbiguity = 0;    //ratio for ambiguity
 
         public double rightYaw = 0;  //rad
+
+        double leftDistToSpeaker = 0;
+        double rightDistToSpeaker = 0;
     }
 
     public default void updateInputs(AprilTagIOInputs inputs) {}

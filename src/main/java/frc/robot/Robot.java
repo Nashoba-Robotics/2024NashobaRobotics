@@ -43,14 +43,14 @@ public class Robot extends LoggedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    if(AprilTagManager.hasLeftTarget()
-        && AprilTagManager.getLeftAmbiguity() <= 0.2
-        && AprilTagManager.getLeftRobotPos() != null)
-          RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getLeftRobotPos().toPose2d(), AprilTagManager.getLeftTimestamp());
-    if(AprilTagManager.hasRightTarget()
-        && AprilTagManager.getRightAmbiguity() <= 0.2
-        && AprilTagManager.getRightRobotPos() != null)
-          RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getRightRobotPos().toPose2d(), AprilTagManager.getRightTimestamp());
+    // if(AprilTagManager.hasLeftTarget()
+    //     && AprilTagManager.getLeftAmbiguity() <= 0.2
+    //     && AprilTagManager.getLeftRobotPos() != null)
+    //       RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getLeftRobotPos().toPose2d(), AprilTagManager.getLeftTimestamp());
+    // if(AprilTagManager.hasRightTarget()
+    //     && AprilTagManager.getRightAmbiguity() <= 0.2
+    //     && AprilTagManager.getRightRobotPos() != null)
+    //       RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getRightRobotPos().toPose2d(), AprilTagManager.getRightTimestamp());
 
     double y = Constants.Field.getSpeakerPos().getZ()-Constants.Robot.SHOOTER_HEIGHT;
     double dist = RobotContainer.drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
