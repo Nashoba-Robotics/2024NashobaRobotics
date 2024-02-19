@@ -128,8 +128,8 @@ public class Constants {
       public static class Drive {
             public static final String CANBUS = "rio";
 
-            public static final double WIDTH = Units.inchesToMeters(22.75); // ~0.57785m
-            public static final double LENGTH = Units.inchesToMeters(22.75);
+            public static final double WIDTH = Units.inchesToMeters(24); // ~0.57785m / 22.7in
+            public static final double LENGTH = Units.inchesToMeters(24);
             public static final double DIAGONAL = Math.sqrt(WIDTH*WIDTH + LENGTH*LENGTH)/2;
 
             public static final SwerveDriveKinematics KINEMATICS = new SwerveDriveKinematics(
@@ -142,7 +142,7 @@ public class Constants {
             public static final double MAX_VELOCITY = 3.70; // MPS
             public static final double MAX_ACCELERATION = 0;
 
-            public static final double MAX_ROTATION_VELOCITY = 9.30; // RadPS
+            public static final double MAX_ROTATION_VELOCITY = 8.5; // RadPS
             public static final double MAX_ROTATION_ACCELERATION = 0;
 
             public static final Slot0Configs steerGains0 = new Slot0Configs()
@@ -337,8 +337,8 @@ public class Constants {
 
       public static final class Field {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
-            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.6, 2.06);
-            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(0, 8.20-5.6, 2.06);
+            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.6, 2.36);
+            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(0, 8.20-5.6, 2.36);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
 
             public static final Translation3d getSpeakerPos(){

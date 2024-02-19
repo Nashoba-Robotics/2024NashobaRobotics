@@ -62,8 +62,8 @@ public class DriveSubsystem extends SubsystemBase{
             getGyroAngle(),
             getSwerveModulePositions(),
             new Pose2d(0, 0, getGyroAngle()),
-            VecBuilder.fill(0.1, 0.1, 0.0),
-            VecBuilder.fill(5.0, 5.0, 100.0)
+            VecBuilder.fill(0.1, 0.1, 0.1),
+            VecBuilder.fill(5.0, 5.0, 0.9)
             );
 
         AutoBuilder.configureHolonomic(
@@ -111,7 +111,9 @@ public class DriveSubsystem extends SubsystemBase{
         double x = chassisSpeeds.vxMetersPerSecond;
         double y = chassisSpeeds.vyMetersPerSecond;
 
-        double omega = chassisSpeeds.omegaRadiansPerSecond;        
+        double omega = chassisSpeeds.omegaRadiansPerSecond;
+
+        Logger.recordOutput("Desired ZVelocity", omega);
 
         if(fieldCentric) {
             if(gyroInputs.zVelocity >= 0.10 || omega != 0) lastJoystickAngle = getYaw().getRadians();
@@ -162,11 +164,8 @@ public class DriveSubsystem extends SubsystemBase{
         resetOdometryManualAngle(pose, getGyroAngle());
     }
 
-    private boolean resetting = false;
     public void resetOdometryManualAngle(Pose2d pose, Rotation2d angle) {
-        resetting = true;
         odometry.resetPosition(angle, getSwerveModulePositions(), pose);
-        resetting = false;
     }
 
     public SwerveModulePosition[] getSwerveModulePositions() {
@@ -233,6 +232,7 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
     //Returns the Robot's yaw orientation in radians (Contstrained)
+    // DO NOT USE
     public Rotation2d getGyroAngle() {
         return Rotation2d.fromRadians(NRUnits.constrainRad(getYaw().getRadians()));
     }
@@ -241,6 +241,7 @@ public class DriveSubsystem extends SubsystemBase{
         return gyroInputs.zVelocity;
     }
 
+    // DO NOT USE
     //Returns the gyro's yaw orientation in radians (Rotation Horizontal)
     public Rotation2d getYaw(){
         return Rotation2d.fromRadians(gyroInputs.yaw);
@@ -296,7 +297,7 @@ public class DriveSubsystem extends SubsystemBase{
             module.periodic();
         }
 
-        if(!resetting) odometry.updateWithTime(Timer.getFPGATimestamp(), getGyroAngle(), getSwerveModulePositions());
+        odometry.updateWithTime(Timer.getFPGATimestamp(), getGyroAngle(), getSwerveModulePositions());
         Logger.recordOutput("FPGATimestamp", Timer.getFPGATimestamp());
 
         Pose2d pose = getPose();

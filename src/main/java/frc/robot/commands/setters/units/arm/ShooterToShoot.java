@@ -1,5 +1,6 @@
 package frc.robot.commands.setters.units.arm;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Presets;
@@ -31,7 +32,7 @@ public class ShooterToShoot extends Command{
     @Override
     public boolean isFinished() {
         // return Math.abs(arm.getShooterSpeed().getRadians()-Presets.Arm.SPEAKER_SPEED.getRadians()) <= Presets.Arm.SPEED_TOLERANCE.getRadians();
-        return Math.abs(arm.getShooterSpeed().getRadians()) >= 400;
+        return Math.abs(arm.getShooterSpeed().getRadians()) >= 400 || DriverStation.isAutonomous(); 
 
         // return true;
     }
