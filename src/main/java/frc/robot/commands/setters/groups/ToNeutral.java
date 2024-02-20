@@ -6,6 +6,7 @@ import frc.robot.Governor.RobotState;
 import frc.robot.commands.setters.units.StopAllRollers;
 import frc.robot.commands.setters.units.arm.ArmToNeutral;
 import frc.robot.commands.setters.units.loader.LoaderToNeutral;
+import frc.robot.commands.setters.units.loader.NoteToShooter;
 
 public class ToNeutral extends SequentialCommandGroup {
     
@@ -13,6 +14,7 @@ public class ToNeutral extends SequentialCommandGroup {
         addCommands(
             new StopAllRollers(),   //Consider adding command to put note into shooter sensor
             new LoaderToNeutral(),
+            new NoteToShooter(),
             new ArmToNeutral(),
             Governor.getSetStateCommand(RobotState.NEUTRAL)
         );

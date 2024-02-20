@@ -27,8 +27,8 @@ public class SDFinder extends Command{
     @Override
     public void execute() {
         if(count < sampleSize){
-            Pose3d pos = AprilTagManager.getRobotPos();
-            if(AprilTagManager.getAmbiguity() < 0.2){
+            Pose3d pos = AprilTagManager.getLeftRobotPos();
+            if(AprilTagManager.getLeftAmbiguity() < 0.2){
                 xPos[count] = pos.getX();
                 yPos[count] = pos.getY();
 

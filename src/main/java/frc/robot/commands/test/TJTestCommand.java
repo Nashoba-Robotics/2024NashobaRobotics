@@ -1,53 +1,53 @@
-package frc.robot.commands.test;
+// package frc.robot.commands.test;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
-import frc.robot.subsystems.drive.DriveSubsystem;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj2.command.Command;
+// import frc.robot.Constants;
+// import frc.robot.subsystems.drive.DriveSubsystem;
 
-public class TJTestCommand extends Command{
+// public class TJTestCommand extends Command{
     
-    private DriveSubsystem drive;
-    private double voltage;
+//     private DriveSubsystem drive;
+//     private double voltage;
 
-    public TJTestCommand(DriveSubsystem drive) {
-        this.drive = drive;
-    }
+//     public TJTestCommand(DriveSubsystem drive) {
+//         this.drive = drive;
+//     }
 
-    @Override
-    public void initialize() {
-        SmartDashboard.putNumber("Volts", 0);
+//     @Override
+//     public void initialize() {
+//         SmartDashboard.putNumber("Volts", 0);
 
-        drive.setGyro(Constants.TAU/2);
-        // drive.set(new ChassisSpeeds(0, 0, 0));;
-        // drive.setTurnStates(0);
+//         drive.setGyro(Constants.TAU/2);
+//         // drive.set(new ChassisSpeeds(0, 0, 0));;
+//         // drive.setTurnStates(0);
 
-        voltage = 0;
-    }
+//         voltage = 0;
+//     }
 
-    @Override
-    public void execute() {
-        // double v = SmartDashboard.getNumber("Volts", 0);
+//     @Override
+//     public void execute() {
+//         // double v = SmartDashboard.getNumber("Volts", 0);
 
-        drive.setVoltageStates(voltage);
-        // drive.setTurnStates(0);
+//         drive.setVoltageStates(voltage);
+//         // drive.setTurnStates(0);
 
-        SmartDashboard.putNumber("Voltage", voltage);
+//         SmartDashboard.putNumber("Voltage", voltage);
 
-        // drive.setTurnStates(v);
+//         // drive.setTurnStates(v);
 
 
-        voltage += 0.004;   //10-20ms loop time
-    }
+//         voltage += 0.004;   //10-20ms loop time
+//     }
 
-    @Override
-    public void end(boolean interrupted) {
-        drive.setVoltageStates(0);
-    }
+//     @Override
+//     public void end(boolean interrupted) {
+//         drive.setVoltageStates(0);
+//     }
 
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
+//     @Override
+//     public boolean isFinished() {
+//         return false;
+//     }
 
-}
+// }

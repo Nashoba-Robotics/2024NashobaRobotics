@@ -6,6 +6,7 @@ public interface GyroIO {
     @AutoLog
     public static class GyroIOInputs {
         public double yaw = 0; // Rad
+        public double constrainedYaw = 0;
         public double pitch = 0; // Rad
         public double roll = 0; // Rad
 

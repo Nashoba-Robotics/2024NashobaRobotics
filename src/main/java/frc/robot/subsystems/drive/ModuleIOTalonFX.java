@@ -1,6 +1,7 @@
 package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -39,6 +40,11 @@ public class ModuleIOTalonFX implements ModuleIO {
         encoder = module.getCANcoder();
 
         // turnMotor.getConfigurator().apply(new SoftwareLimitSwitchConfigs().withForwardSoftLimitEnable(false).withReverseSoftLimitEnable(false));
+        module.getSteerMotor().getConfigurator().apply(new MotionMagicConfigs()
+        .withMotionMagicCruiseVelocity(100.0 / Constants.Drive.kSteerGearRatio)
+        .withMotionMagicAcceleration(100.0 / Constants.Drive.kSteerGearRatio / 0.2)
+        .withMotionMagicExpo_kV(0.12 * Constants.Drive.kSteerGearRatio)
+        .withMotionMagicExpo_kA(0.1));
     }    
 
     public void updateInputs(ModuleIOInputs inputs) {
@@ -64,10 +70,10 @@ public class ModuleIOTalonFX implements ModuleIO {
             module.apply(
                 new SwerveModuleState(0, module.getTargetState().angle),
                 DriveRequestType.Velocity,
-                SteerRequestType.MotionMagicExpo
+                SteerRequestType.MotionMagic
             );
         } else
-        module.apply(state, DriveRequestType.Velocity, SteerRequestType.MotionMagicExpo);
+        module.apply(state, DriveRequestType.Velocity, SteerRequestType.MotionMagic);
     }
 
     public void setBoltage(double voltage){
