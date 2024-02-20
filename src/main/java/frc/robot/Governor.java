@@ -12,9 +12,8 @@ import frc.robot.commands.setters.groups.ToShoot;
 import frc.robot.commands.setters.groups.ToShootPrep;
 import frc.robot.commands.setters.groups.ToSource;
 import frc.robot.commands.setters.groups.ToSourceAdj;
-import frc.robot.subsystems.drive.DriveSubsystem;
 
-public class StateManager {
+public class Governor {
     private static RobotState state = RobotState.UNKNOWN;
     
     public enum RobotState {
@@ -113,7 +112,7 @@ public class StateManager {
     }
 
     public static Command getSetStateCommand(RobotState state) {
-        return new InstantCommand(() -> StateManager.state = state);
+        return new InstantCommand(() -> Governor.state = state);
     }
 
 
