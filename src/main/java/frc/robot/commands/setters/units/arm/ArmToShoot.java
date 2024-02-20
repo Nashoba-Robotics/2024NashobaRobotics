@@ -5,8 +5,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.Governor;
 import frc.robot.Presets;
 import frc.robot.RobotContainer;
+import frc.robot.Governor.RobotState;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
@@ -34,6 +36,6 @@ public class ArmToShoot extends Command{
     }
     @Override
     public boolean isFinished() {
-        return Math.abs(arm.getArmPivotAngle().getRadians()-angle) <= Presets.Arm.POS_TOLERANCE.getRadians();
+        return Governor.getRobotState() != RobotState.SHOOT_PREP;
     }
 }

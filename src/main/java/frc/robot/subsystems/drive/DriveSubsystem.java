@@ -122,9 +122,7 @@ public class DriveSubsystem extends SubsystemBase{
             angleController.calculate(getYaw().getRadians(), lastJoystickAngle) :
             0;
             
-            double angleDiff = Math.atan2(y, x) - (DriverStation.getAlliance().get() == Alliance.Blue ?
-            odometry.getEstimatedPosition().getRotation().getRadians() :
-            odometry.getEstimatedPosition().getRotation().getRadians() + Constants.TAU/2); //difference between input angle and gyro angle gives desired field relative angle
+            double angleDiff = Math.atan2(y, x) - odometry.getEstimatedPosition().getRotation().getRadians(); //difference between input angle and gyro angle gives desired field relative angle
             double r = Math.sqrt(x*x + y*y); //magnitude of translation vector
             x = r * Math.cos(angleDiff);
             y = r * Math.sin(angleDiff);
@@ -283,7 +281,7 @@ public class DriveSubsystem extends SubsystemBase{
         odometry.resetPosition(getGyroAngle(), getSwerveModulePositions(), pose);
     }
 
-    public void setZero() {
+    public void zeroAngle() {
         setAngle(DriverStation.getAlliance().get() == Alliance.Blue ? Rotation2d.fromRadians(0) :
         Rotation2d.fromRadians(Constants.TAU/2));
     }

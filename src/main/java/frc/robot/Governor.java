@@ -6,12 +6,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.setters.groups.ToAmp;
 import frc.robot.commands.setters.groups.ToAmpAdj;
 import frc.robot.commands.setters.groups.ToIntake;
-import frc.robot.commands.setters.groups.ToIntakeAdj;
 import frc.robot.commands.setters.groups.ToNeutral;
 import frc.robot.commands.setters.groups.ToShoot;
 import frc.robot.commands.setters.groups.ToShootPrep;
 import frc.robot.commands.setters.groups.ToSource;
-import frc.robot.commands.setters.groups.ToSourceAdj;
 
 public class Governor {
     private static RobotState state = RobotState.UNKNOWN;
@@ -25,9 +23,7 @@ public class Governor {
 
         TRANSITION,
 
-        INTAKE_ADJ,
         INTAKE,
-        SOURCE_ADJ,
         SOURCE,
         SHOOT_PREP,
         SHOOT,
@@ -51,14 +47,8 @@ public class Governor {
                 case TRANSITION:
                     System.out.println("How did I get here?");
                     break;
-                case INTAKE_ADJ:
-                    toIntakeAdj();
-                    break;
                 case INTAKE:
                     toIntake();
-                    break;
-                case SOURCE_ADJ:
-                    toSourceAdj();
                     break;
                 case SOURCE:
                     toSource();
@@ -86,14 +76,8 @@ public class Governor {
     private static void toNeutral() {
         CommandScheduler.getInstance().schedule(new ToNeutral());
     }
-    private static void toIntakeAdj() {
-        CommandScheduler.getInstance().schedule(new ToIntakeAdj());
-    }
     private static void toIntake() {
         CommandScheduler.getInstance().schedule(new ToIntake());
-    }
-    private static void toSourceAdj() {
-        CommandScheduler.getInstance().schedule(new ToSourceAdj());
     }
     private static void toSource() {
         CommandScheduler.getInstance().schedule(new ToSource());

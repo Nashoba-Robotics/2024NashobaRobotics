@@ -7,6 +7,7 @@ import frc.robot.commands.setters.units.arm.ArmToAmp;
 import frc.robot.commands.setters.units.loader.LoaderToAmp;
 import frc.robot.commands.setters.units.loader.LoaderToNeutral;
 import frc.robot.commands.setters.units.loader.NoteToLoader;
+import frc.robot.commands.setters.units.loader.NoteToLoaderOut;
 
 public class ToAmpAdj extends SequentialCommandGroup {
     

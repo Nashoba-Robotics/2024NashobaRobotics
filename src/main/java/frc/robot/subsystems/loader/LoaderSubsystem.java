@@ -6,6 +6,8 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
+import frc.robot.RobotContainer.NoteState;
 
 public class LoaderSubsystem extends SubsystemBase{
     private LoaderIO loaderIO;
@@ -21,6 +23,9 @@ public class LoaderSubsystem extends SubsystemBase{
         loaderIO.updateInputs(loaderInputs);
         Logger.processInputs("Arm/Loader", loaderInputs);
 
+        if(getLoaderSensor()) RobotContainer.noteState = NoteState.LOADER;
+        else if(getShooterSensor()) RobotContainer.noteState = NoteState.SHOOTER;
+        else RobotContainer.noteState = NoteState.NONE;
     }
 
     //Sets the angle of the loader pivot (Currently relative to the arm, should probably make it field relative)

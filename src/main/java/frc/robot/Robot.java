@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.President;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 
 public class Robot extends LoggedRobot {
@@ -89,6 +90,8 @@ public class Robot extends LoggedRobot {
       RobotContainer.drive,
       new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
       );
+
+    CommandScheduler.getInstance().schedule(new President());
   }
 
   @Override
