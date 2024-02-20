@@ -13,6 +13,7 @@ public class ArmTuneCommand extends Command{
     double lastkG, lastkV, lastkS, lastkP, lastkD;
     public ArmTuneCommand(ArmSubsystem arm){
         this.arm = arm;
+        addRequirements(arm);
     }
 
     @Override

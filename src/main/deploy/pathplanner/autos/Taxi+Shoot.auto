@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.9580799207894715,
-      "y": 6.439226262711785
+      "x": 0.7041386162544403,
+      "y": 4.432084533684738
     },
-    "rotation": -120.0
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -14,24 +14,18 @@
         {
           "type": "path",
           "data": {
-            "pathName": "b0-p0"
+            "pathName": "ToShoot"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "p0-p1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "p1-p2"
+            "name": "Shoot"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Autos",
   "choreoAuto": false
 }

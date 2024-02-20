@@ -6,7 +6,7 @@ public class NRUnits {
 
     // Constrains the given angle to [-180, 180] 
     public static double constrainDeg(double angle){
-        return 360/Constants.TAU*constrainRad(angle*Constants.TAU/360);
+        return 360./Constants.TAU*constrainRad(angle*Constants.TAU/360);
     }
 
 

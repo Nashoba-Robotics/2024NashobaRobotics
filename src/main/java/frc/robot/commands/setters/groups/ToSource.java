@@ -8,6 +8,7 @@ import frc.robot.commands.setters.units.arm.ArmToSource;
 import frc.robot.commands.setters.units.loader.GrabberToSource;
 import frc.robot.commands.setters.units.loader.LoaderToNeutral;
 import frc.robot.commands.setters.units.loader.LoaderToSource;
+import frc.robot.commands.setters.units.loader.NoteToLoaderOut;
 
 public class ToSource extends SequentialCommandGroup {
     
@@ -15,8 +16,9 @@ public class ToSource extends SequentialCommandGroup {
         addCommands(
             new LoaderToNeutral(),  //Figure out a way to check if we are already at source position
             new ArmToSource(),
-            new LoaderToSource(),
+            // new LoaderToSource(),
             new GrabberToSource(),
+            new NoteToLoaderOut(),
             StateManager.getSetStateCommand(RobotState.SOURCE)
         );
     }

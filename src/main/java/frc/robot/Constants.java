@@ -13,18 +13,21 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Unit;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class Constants {
       public static final double TAU = 2 * Math.PI;
       public static final double PEAK_VOLTAGE = 12;
 
       public static final class AprilTags{
-            public static final String CAMERA1_NAME = "Yi's_Little_Buddy";
-            public static final String CAMERA2_NAME = "Ben's_Little_Buddy";
+            public static final String LEFT_CAMERA_NAME = "Ben's_Little_Buddy";
+            public static final String RIGHT_CAMERA_NAME = "Yi's_Little_Buddy";
 
             /* For PhotonEstimator
             *             ^ 
@@ -38,12 +41,18 @@ public class Constants {
             *      |            |
             *      --------------
             */
-            public static final Transform3d ROBOT_TO_CAMERA1 = new Transform3d(0, 0, 0, new Rotation3d(0, -18./360*TAU, 0));
-            public static final Transform3d ROBOT_TO_CAMERA2 = new Transform3d(0,0,0, new Rotation3d());
+            public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(11.42),0, new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.42), Units.inchesToMeters(-11.42), 0, new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
+            // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(-11.42),Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
+            // public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.42), Units.inchesToMeters(11.42), Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
+
+            // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.94),Units.inchesToMeters(10.25)+0.25,Units.inchesToMeters(-8.75), new Rotation3d(0, -35./360*TAU, 20*TAU/360));
+            // public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.94)-0.4, Units.inchesToMeters(-10.25)+0.6, Units.inchesToMeters(0), new Rotation3d(0, -35*TAU/360, -20*TAU/360));
+            
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
-            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/AprilTagPositions.json";
+            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/WPIAprilTagPositions.JSON";
 
             public static final double getXSD(double distance) {
                   return 0.0312*distance - 0.0494;
@@ -85,8 +94,8 @@ public class Constants {
             .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
             .withKP(60).withKI(0).withKD(0.6);
 
-            public static final double SHOOTER_STATOR_CURRENT_LIMIT = 60;
-            public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 0;
+            public static final double SHOOTER_STATOR_CURRENT_LIMIT = 80;
+            public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 50;
 
             public static final InvertedValue SHOOTER_INVERTED = InvertedValue.CounterClockwise_Positive;
             public static final NeutralModeValue SHOOTER_NEUTRAL_MODE = NeutralModeValue.Brake;
@@ -119,8 +128,8 @@ public class Constants {
       public static class Drive {
             public static final String CANBUS = "rio";
 
-            public static final double WIDTH = Units.inchesToMeters(22.75); // ~0.57785m
-            public static final double LENGTH = Units.inchesToMeters(22.75);
+            public static final double WIDTH = Units.inchesToMeters(24); // ~0.57785m / 22.7in
+            public static final double LENGTH = Units.inchesToMeters(24);
             public static final double DIAGONAL = Math.sqrt(WIDTH*WIDTH + LENGTH*LENGTH)/2;
 
             public static final SwerveDriveKinematics KINEMATICS = new SwerveDriveKinematics(
@@ -133,7 +142,7 @@ public class Constants {
             public static final double MAX_VELOCITY = 3.70; // MPS
             public static final double MAX_ACCELERATION = 0;
 
-            public static final double MAX_ROTATION_VELOCITY = 9.30; // RadPS
+            public static final double MAX_ROTATION_VELOCITY = 8.5; // RadPS
             public static final double MAX_ROTATION_ACCELERATION = 0;
 
             public static final Slot0Configs steerGains0 = new Slot0Configs()
@@ -327,8 +336,14 @@ public class Constants {
       }
 
       public static final class Field {
-            public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
+            // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
+            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.6, 2.36);
+            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(0, 8.20-5.6, 2.36);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
+
+            public static final Translation3d getSpeakerPos(){
+                  return DriverStation.getAlliance().get() == Alliance.Blue ? BLUE_SPEAKER_POSITION : RED_SPEAKER_POSITION;
+            }
       }
 
       public static final class Joystick {
@@ -370,11 +385,14 @@ public class Constants {
             public static final NeutralModeValue PIVOT_NEUTRAL_MODE = NeutralModeValue.Brake;
 
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
-            .withKV(0.845).withKS(0.02)
-            .withKP(45).withKI(0).withKD(1.2);
+            // .withKV(0.845).withKS(0.02)
+            // .withKP(45).withKI(0).withKD(1.2);
+            .withKV(0).withKS(0)
+            .withKP(0).withKI(0).withKD(0);
+
             //kG = 0.01, but angle not correct, so we have to manually implement it
 
-            public static final double ROLLER_STATOR_CURRENT_LIMIT = 0;
+            public static final double ROLLER_STATOR_CURRENT_LIMIT = 20;
             public static final double ROLLER_SUPPLY_CURRENT_LIMIT = 0;
 
             public static final InvertedValue ROLLER_INVERTED = InvertedValue.Clockwise_Positive;
@@ -390,7 +408,7 @@ public class Constants {
 
       }
       public static final class Robot{
-            public static final double SHOOTER_HEIGHT = 0.725; //m
+            public static final double SHOOTER_HEIGHT = 0.65; //m
       }
 
 }

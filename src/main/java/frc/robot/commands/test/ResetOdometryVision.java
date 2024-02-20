@@ -14,7 +14,7 @@ public class ResetOdometryVision extends Command{
     
     @Override
     public void initialize() {
-        drive.resetPose(AprilTagManager.getRobotPos().toPose2d());
+        drive.resetPose(AprilTagManager.getLeftRobotPos().toPose2d());
     }
 
 }
