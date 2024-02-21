@@ -34,7 +34,7 @@ public class ArmIOTalonFX implements ArmIO{
         shooterConfig = new TalonFXConfiguration();
         shooterConfigurator = shooter.getConfigurator();
 
-        pivot = new TalonFX(Constants.Arm.PIVOT_PORT, Constants.Arm.CANBUS);
+        pivot = new TalonFX(Constants.Arm.PIVOT_PORT, Constants.Arm.PIVOT_CANBUS);
 
         pivotConfig = new TalonFXConfiguration();
         pivotConfigurator = pivot.getConfigurator();

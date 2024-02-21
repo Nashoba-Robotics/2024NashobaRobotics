@@ -14,7 +14,7 @@ public class IntakeIOTalonFX implements IntakeIO{
 
 
     public IntakeIOTalonFX(){
-        intake = new TalonFX(8);
+        intake = new TalonFX(Constants.Intake.PORT, Constants.Intake.CANBUS);
 
         config = new TalonFXConfiguration();
         config.Audio.BeepOnBoot = true;

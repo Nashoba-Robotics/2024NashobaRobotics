@@ -64,6 +64,7 @@ public class Constants {
       }
 
     public static final class Arm{
+            public static final String PIVOT_CANBUS = "jerry";
             public static final String CANBUS = "rio";
 
             public static final int PIVOT_PORT = 9;
@@ -106,7 +107,7 @@ public class Constants {
       }
 
       public static class Climber{
-            public static final String CANBUS = "rio";
+            public static final String CANBUS = "jerry";
             
             public static final int LEFT_CLIMBER_PORT = 0;
             public static final int RIGHT_CLIMBER_PORT = 0;
@@ -126,7 +127,7 @@ public class Constants {
       }
 
       public static class Drive {
-            public static final String CANBUS = "rio";
+            public static final String CANBUS = "jerry";
 
             public static final double WIDTH = Units.inchesToMeters(24); // ~0.57785m / 22.7in
             public static final double LENGTH = Units.inchesToMeters(24);
@@ -346,6 +347,13 @@ public class Constants {
             }
       }
 
+      public static final class Intake{
+            public static final String CANBUS = "jerry";
+
+            public static final int PORT = 8;
+
+      }
+
       public static final class Joystick {
             public static final int DRIVER_PORT = 0;
             public static final int OPERATOR_PORT = 2;
@@ -405,6 +413,7 @@ public class Constants {
 
       public static final class Misc {
         public static final int GYRO_PORT = 0;
+        public static final String PIGEON_CANBUS = "jerry";
 
       }
       public static final class Robot{
