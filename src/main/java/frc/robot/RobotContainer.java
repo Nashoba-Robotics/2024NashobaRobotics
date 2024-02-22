@@ -23,6 +23,7 @@ import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
 import frc.robot.commands.setters.groups.ToIntake;
 import frc.robot.commands.setters.groups.ToNeutral;
+import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.groups.ToShoot;
 import frc.robot.commands.test.IntakeTestCommand;
 import frc.robot.commands.test.LoaderTuneCommand;
@@ -56,6 +57,10 @@ public class RobotContainer {
   private Trigger neutralMode = joysticks.getDriverController().button(10);
   private Trigger toAmpPrep = joysticks.getDriverController().button(-1);
   private Trigger scoreAmp = joysticks.getDriverController().button(-1);
+
+  private Trigger puke = joysticks.getDriverController().button(9);
+
+  private Trigger shootPrep = joysticks.getDriverController().button(6);
 
   public static enum NoteState{
     NONE,
@@ -92,6 +97,9 @@ public class RobotContainer {
     toAmpPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP_ADJ)));
     scoreAmp.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP)));
     toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE))); // TODO: check if we can call onTrue twice and have both commands still work
+
+    puke.onTrue(new ToPuke());
+    shootPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP)));
   }
 
   private void addShuffleBoardData() {

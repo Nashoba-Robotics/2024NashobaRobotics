@@ -14,7 +14,7 @@ public final class Presets {
         // public static final Rotation2d SHOOT_POS = Rotation2d.fromRadians(0);
         public static final Rotation2d SOURCE_POS = Rotation2d.fromDegrees(42);
 
-        public static final Rotation2d POS_TOLERANCE = Rotation2d.fromDegrees(2);
+        public static final Rotation2d POS_TOLERANCE = Rotation2d.fromDegrees(4);
 
 
 

@@ -54,8 +54,8 @@ public class President extends Command {
 
         switch (Governor.getRobotState()) {
             case NEUTRAL:
-                drive.state = DriveState.DRIVER;
-                if(loader.getShooterSensor()) Governor.setRobotState(RobotState.SHOOT_PREP);
+                // drive.state = DriveState.DRIVER;
+                // if(loader.getShooterSensor()) Governor.setRobotState(RobotState.SHOOT_PREP);
                 break;
             case TRANSITION:
                 //TODO:
@@ -67,7 +67,7 @@ public class President extends Command {
                 if(loader.getLoaderSensor()) Governor.setRobotState(RobotState.NEUTRAL);
                 break;
             case SHOOT_PREP:
-                drive.state = DriveState.AIM_TO_SPEAKER;
+                // drive.state = DriveState.AIM_TO_SPEAKER;
                 break;
             case SHOOT:
                 if(!shootFlag){
@@ -81,9 +81,11 @@ public class President extends Command {
                     shootFlag = false;
                     shootTimer.stop();
                 } 
+
+                //TODO: When odometry is in a certain range, go to shoot prep
                 break;
             case AMP_ADJ:
-                drive.state = DriveState.AIM_TO_AMP;
+                // drive.state = DriveState.AIM_TO_AMP;
                 break;
             case AMP:
                 if(!ampFlag){

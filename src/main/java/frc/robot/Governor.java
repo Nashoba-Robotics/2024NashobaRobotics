@@ -32,7 +32,11 @@ public class Governor {
     }
 
     public static void setRobotState(RobotState robotState) {
-        if(state != RobotState.TRANSITION) {
+        setRobotState(robotState, false);
+    }
+
+    public static void setRobotState(RobotState robotState, boolean override) {
+        if(override || state != RobotState.TRANSITION) {
             state = RobotState.TRANSITION;
             switch (robotState) {
                 case NEUTRAL:

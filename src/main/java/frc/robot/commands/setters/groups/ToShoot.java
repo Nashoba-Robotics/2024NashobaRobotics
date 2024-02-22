@@ -18,13 +18,13 @@ public class ToShoot extends SequentialCommandGroup {
     public ToShoot() {
         addCommands(
             new ArmMaintainPos(),
+            Governor.getSetStateCommand(RobotState.SHOOT),
             new ShooterToShoot(),
             new ParallelCommandGroup(
                 new GrabberToShoot()
                 // new IntakeToShoot()
-            ),
-            Governor.getSetStateCommand(RobotState.SHOOT),
-            new FinishedShooting().withTimeout(5)
+            )
+            // new FinishedShooting().withTimeout(5)
         );
     }
 

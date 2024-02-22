@@ -15,11 +15,12 @@ public class ArmToSource extends Command{
 
     @Override
     public void execute() {
-        arm.setArmPivot(Presets.Arm.SOURCE_POS);
+        if(!RobotContainer.loader.getLoaderSensor() && !RobotContainer.loader.getShooterSensor()) arm.setArmPivot(Presets.Arm.SOURCE_POS);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(arm.getArmPivotAngle().getRadians() - Presets.Arm.SOURCE_POS.getRadians()) <= Presets.Arm.POS_TOLERANCE.getRadians();
+        return Math.abs(arm.getArmPivotAngle().getRadians() - Presets.Arm.SOURCE_POS.getRadians()) <= Presets.Arm.POS_TOLERANCE.getRadians()
+        || RobotContainer.loader.getLoaderSensor() || RobotContainer.loader.getShooterSensor();
     }
 }

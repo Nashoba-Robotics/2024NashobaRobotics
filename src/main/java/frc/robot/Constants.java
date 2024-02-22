@@ -140,10 +140,10 @@ public class Constants {
             new Translation2d(-WIDTH/2, -LENGTH/2)
             );
 
-            public static final double MAX_VELOCITY = 3.70; // MPS
+            public static final double MAX_VELOCITY = 4.20; // MPS
             public static final double MAX_ACCELERATION = 0;
 
-            public static final double MAX_ROTATION_VELOCITY = 8.5; // RadPS
+            public static final double MAX_ROTATION_VELOCITY = 10.5; // RadPS
             public static final double MAX_ROTATION_ACCELERATION = 0;
 
             public static final Slot0Configs steerGains0 = new Slot0Configs()
@@ -168,24 +168,24 @@ public class Constants {
 
 
             private static final Slot0Configs driveGains0 = new Slot0Configs()
-            .withKP(0.2).withKI(0).withKD(0)
+            .withKP(0.41).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
-            .withKS(0.1).withKV(0.1234).withKA(0);
+            .withKS(0.27).withKV(0.1234).withKA(0);
 
             private static final Slot0Configs driveGains1 = new Slot0Configs()
-            .withKP(0.2).withKI(0).withKD(0)
+            .withKP(0.41).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
-            .withKS(0.1).withKV(0.1234).withKA(0);
+            .withKS(0.27).withKV(0.1234).withKA(0);
 
             private static final Slot0Configs driveGains2 = new Slot0Configs()
-            .withKP(0.2).withKI(0).withKD(0)
+            .withKP(0.41).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
-            .withKS(0.1).withKV(0.1234).withKA(0);
+            .withKS(0.27).withKV(0.1234).withKA(0);
 
             private static final Slot0Configs driveGains3 = new Slot0Configs()
-            .withKP(0.2).withKI(0).withKD(0)
+            .withKP(0.41).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
-            .withKS(0.1).withKV(0.1234).withKA(0);
+            .withKS(0.27).withKV(0.1234).withKA(0);
 
 
             private static final ClosedLoopOutputType steerClosedLoopOutput = ClosedLoopOutputType.Voltage;
@@ -198,7 +198,7 @@ public class Constants {
             // private static final double kCoupleRatio = 3.5714285714285716;
             private static final double kCoupleRatio = 0;
 
-            public static final double kDriveGearRatio = 8.142857142857142;
+            public static final double kDriveGearRatio = 50./14 * 16/28 * 45/15;
             public static final double kSteerGearRatio = 21.428571428571427;
             // private static final double kWheelRadiusInches = 1.840; //Direction of resistence
             private static final double kWheelRadiusInches = 1.9159; //Direction of less-resistence
@@ -358,13 +358,13 @@ public class Constants {
             public static final int DRIVER_PORT = 0;
             public static final int OPERATOR_PORT = 2;
     
-            public static final double MOVE_DEAD_ZONE = 0.05;
-            public static final double TURN_DEAD_ZONE = 0.05;
+            public static final double MOVE_DEAD_ZONE = 0.02;
+            public static final double TURN_DEAD_ZONE = 0.02;
     
             public static final double ANGLE_DEAD_ZONE = Constants.TAU / 72;
     
             public static final double MOVE_SENSITIVITY = 1.5;
-            public static final double TURN_SENSITIVITY = 1.5;
+            public static final double TURN_SENSITIVITY = 2;
       }
 
       public static final class Loader {
@@ -393,10 +393,10 @@ public class Constants {
             public static final NeutralModeValue PIVOT_NEUTRAL_MODE = NeutralModeValue.Brake;
 
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
-            // .withKV(0.845).withKS(0.02)
-            // .withKP(45).withKI(0).withKD(1.2);
-            .withKV(0).withKS(0)
-            .withKP(0).withKI(0).withKD(0);
+            .withKV(0.845).withKS(0.02)
+            .withKP(45).withKI(0).withKD(1.2);
+            // .withKV(0).withKS(0)
+            // .withKP(0).withKI(0).withKD(0);
 
             //kG = 0.01, but angle not correct, so we have to manually implement it
 

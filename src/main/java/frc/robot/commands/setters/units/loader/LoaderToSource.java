@@ -14,11 +14,12 @@ public class LoaderToSource extends Command{
 
     @Override
     public void execute() {
-        loader.setPivot(Presets.Loader.SOURCE_POS);
+        if(!loader.getLoaderSensor() && !loader.getShooterSensor()) loader.setPivot(Presets.Loader.SOURCE_POS);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(loader.getPivotAngle().getRadians() - Presets.Loader.SOURCE_POS.getRadians()) <= Presets.Loader.POS_TOLERANCE.getRadians();
+        return Math.abs(loader.getPivotAngle().getRadians() - Presets.Loader.SOURCE_POS.getRadians()) <= Presets.Loader.POS_TOLERANCE.getRadians()
+        || loader.getLoaderSensor() || loader.getShooterSensor();
     }
 }

@@ -13,8 +13,7 @@ public class NoteToLoaderOut extends Command {
         addRequirements(loader);
     }
 
-    @Override
-    public void initialize() {
+    public void execute() {
         loader.setRollerSpeed(0.1);
     }
 
@@ -25,7 +24,7 @@ public class NoteToLoaderOut extends Command {
 
     @Override
     public boolean isFinished() {
-        return !loader.getLoaderSensor();
+        return !loader.getLoaderSensor() || loader.getShooterSensor();
     }
 
 }

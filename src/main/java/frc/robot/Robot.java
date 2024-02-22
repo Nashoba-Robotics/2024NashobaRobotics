@@ -9,8 +9,10 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Governor.RobotState;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.President;
 import frc.robot.subsystems.apriltags.AprilTagManager;
@@ -58,6 +60,8 @@ public class Robot extends LoggedRobot {
     double angle = -Math.atan2(y, dist);
     Logger.recordOutput("Arm Aim Angle", angle*360/Constants.TAU);
     Logger.recordOutput("Aim Distance", dist);
+
+    SmartDashboard.putString("RobotState", Governor.getRobotState().toString());
   }
 
   @Override
@@ -92,6 +96,7 @@ public class Robot extends LoggedRobot {
       );
 
     CommandScheduler.getInstance().schedule(new President());
+    Governor.setRobotState(RobotState.NEUTRAL, true);
   }
 
   @Override
