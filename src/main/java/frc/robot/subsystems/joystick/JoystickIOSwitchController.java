@@ -16,12 +16,12 @@ public class JoystickIOSwitchController implements JoystickIO{
         inputs.driveLeftJoystickX = driveController.getX();
         inputs.driveLeftJoystickY = -driveController.getY();
         inputs.driveRightJoystickX = driveController.getZ();
-        inputs.driveRightJoystickY = -driveController.getTwist();
+        inputs.driveRightJoystickY = -driveController.getThrottle();
 
         inputs.operatorJoystickLeftX = operatorController.getX();
         inputs.operatorJoystickLeftY = -operatorController.getY();
-        inputs.operatorJoystickRightX = operatorController.getX();
-        inputs.operatorJoystickRightY = -operatorController.getY();
+        inputs.operatorJoystickRightX = operatorController.getZ();
+        inputs.operatorJoystickRightY = -operatorController.getThrottle();
     }
 
     @Override

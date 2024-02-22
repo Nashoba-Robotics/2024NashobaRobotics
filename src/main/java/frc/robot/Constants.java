@@ -13,17 +13,21 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Unit;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class Constants {
       public static final double TAU = 2 * Math.PI;
       public static final double PEAK_VOLTAGE = 12;
 
       public static final class AprilTags{
-            public static final String CAMERA1_NAME = "Yi's_Little_Buddy";
-            public static final String CAMERA2_NAME = "Ben's_Little_Buddy";
+            public static final String LEFT_CAMERA_NAME = "Ben's_Little_Buddy";
+            public static final String RIGHT_CAMERA_NAME = "Yi's_Little_Buddy";
 
             /* For PhotonEstimator
             *             ^ 
@@ -37,12 +41,18 @@ public class Constants {
             *      |            |
             *      --------------
             */
-            public static final Transform3d ROBOT_TO_CAMERA1 = new Transform3d(0, 0, 0, new Rotation3d(0, -18./360*TAU, 0));
-            public static final Transform3d ROBOT_TO_CAMERA2 = new Transform3d(0,0,0, new Rotation3d());
+            public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(11.42),0, new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.42), Units.inchesToMeters(-11.42), 0, new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
+            // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(-11.42),Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
+            // public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.42), Units.inchesToMeters(11.42), Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
+
+            // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.94),Units.inchesToMeters(10.25)+0.25,Units.inchesToMeters(-8.75), new Rotation3d(0, -35./360*TAU, 20*TAU/360));
+            // public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.94)-0.4, Units.inchesToMeters(-10.25)+0.6, Units.inchesToMeters(0), new Rotation3d(0, -35*TAU/360, -20*TAU/360));
+            
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
-            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/AprilTagPositions.json";
+            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/WPIAprilTagPositions.JSON";
 
             public static final double getXSD(double distance) {
                   return 0.0312*distance - 0.0494;
@@ -54,6 +64,7 @@ public class Constants {
       }
 
     public static final class Arm{
+            public static final String PIVOT_CANBUS = "jerry";
             public static final String CANBUS = "rio";
 
             public static final int PIVOT_PORT = 9;
@@ -74,7 +85,7 @@ public class Constants {
             public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromDegrees(-50);
 
             public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 0.5;
-            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 1;
+            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0.95;
             public static final double PIVOT_MOTION_MAGIC_JERK = 0;
 
             public static final InvertedValue PIVOT_INVERTED = InvertedValue.CounterClockwise_Positive;
@@ -84,23 +95,19 @@ public class Constants {
             .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
             .withKP(60).withKI(0).withKD(0.6);
 
-            public static final double SHOOTER_STATOR_CURRENT_LIMIT = 0;
-            public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 0;
+            public static final double SHOOTER_STATOR_CURRENT_LIMIT = 80;
+            public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 50;
 
-            public static final double SHOOTER_MOTION_MAGIC_ACCELERATION = 0;
-            public static final double SHOOTER_MOTION_MAGIC_CRUISE_VELOCITY = 0;
-            public static final double SHOOTER_MOTION_MAGIC_JERK = 0;
-
-            public static final InvertedValue SHOOTER_INVERTED = InvertedValue.Clockwise_Positive;
+            public static final InvertedValue SHOOTER_INVERTED = InvertedValue.CounterClockwise_Positive;
             public static final NeutralModeValue SHOOTER_NEUTRAL_MODE = NeutralModeValue.Brake;
 
             public static final Slot0Configs SHOOTER_PID = new Slot0Configs()
-            .withKV(0).withKS(0)
-            .withKP(0).withKI(0).withKD(0);
+            .withKV(0.011466).withKS(0.030)
+            .withKP(0.06).withKI(0).withKD(0);
       }
 
       public static class Climber{
-            public static final String CANBUS = "rio";
+            public static final String CANBUS = "jerry";
             
             public static final int LEFT_CLIMBER_PORT = 0;
             public static final int RIGHT_CLIMBER_PORT = 0;
@@ -120,10 +127,10 @@ public class Constants {
       }
 
       public static class Drive {
-            public static final String CANBUS = "rio";
+            public static final String CANBUS = "jerry";
 
-            public static final double WIDTH = Units.inchesToMeters(22.75); // ~0.57785m
-            public static final double LENGTH = Units.inchesToMeters(22.75);
+            public static final double WIDTH = Units.inchesToMeters(24); // ~0.57785m / 22.7in
+            public static final double LENGTH = Units.inchesToMeters(24);
             public static final double DIAGONAL = Math.sqrt(WIDTH*WIDTH + LENGTH*LENGTH)/2;
 
             public static final SwerveDriveKinematics KINEMATICS = new SwerveDriveKinematics(
@@ -133,10 +140,10 @@ public class Constants {
             new Translation2d(-WIDTH/2, -LENGTH/2)
             );
 
-            public static final double MAX_VELOCITY = 3.70; // MPS
+            public static final double MAX_VELOCITY = 4.20; // MPS
             public static final double MAX_ACCELERATION = 0;
 
-            public static final double MAX_ROTATION_VELOCITY = 9.30; // RadPS
+            public static final double MAX_ROTATION_VELOCITY = 10.5; // RadPS
             public static final double MAX_ROTATION_ACCELERATION = 0;
 
             public static final Slot0Configs steerGains0 = new Slot0Configs()
@@ -161,24 +168,24 @@ public class Constants {
 
 
             private static final Slot0Configs driveGains0 = new Slot0Configs()
-            .withKP(0.2).withKI(0).withKD(0)
+            .withKP(0.41).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
-            .withKS(0.1).withKV(0.1234).withKA(0);
+            .withKS(0.27).withKV(0.1234).withKA(0);
 
             private static final Slot0Configs driveGains1 = new Slot0Configs()
-            .withKP(0.2).withKI(0).withKD(0)
+            .withKP(0.41).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
-            .withKS(0.1).withKV(0.1234).withKA(0);
+            .withKS(0.27).withKV(0.1234).withKA(0);
 
             private static final Slot0Configs driveGains2 = new Slot0Configs()
-            .withKP(0.2).withKI(0).withKD(0)
+            .withKP(0.41).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
-            .withKS(0.1).withKV(0.1234).withKA(0);
+            .withKS(0.27).withKV(0.1234).withKA(0);
 
             private static final Slot0Configs driveGains3 = new Slot0Configs()
-            .withKP(0.2).withKI(0).withKD(0)
+            .withKP(0.41).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
-            .withKS(0.1).withKV(0.1234).withKA(0);
+            .withKS(0.27).withKV(0.1234).withKA(0);
 
 
             private static final ClosedLoopOutputType steerClosedLoopOutput = ClosedLoopOutputType.Voltage;
@@ -191,7 +198,7 @@ public class Constants {
             // private static final double kCoupleRatio = 3.5714285714285716;
             private static final double kCoupleRatio = 0;
 
-            public static final double kDriveGearRatio = 8.142857142857142;
+            public static final double kDriveGearRatio = 50./14 * 16/28 * 45/15;
             public static final double kSteerGearRatio = 21.428571428571427;
             // private static final double kWheelRadiusInches = 1.840; //Direction of resistence
             private static final double kWheelRadiusInches = 1.9159; //Direction of less-resistence
@@ -286,7 +293,8 @@ public class Constants {
             private static final int kFrontLeftDriveMotorId = 5;
             private static final int kFrontLeftSteerMotorId = 1;
             private static final int kFrontLeftEncoderId = 1;
-            private static final double kFrontLeftEncoderOffset = -0.013428;
+        
+            private static final double kFrontLeftEncoderOffset = 0.162354;
 
             private static final double kFrontLeftXPosInches = 11.375;
             private static final double kFrontLeftYPosInches = 11.375;
@@ -295,7 +303,8 @@ public class Constants {
             private static final int kFrontRightDriveMotorId = 4;
             private static final int kFrontRightSteerMotorId = 0;
             private static final int kFrontRightEncoderId = 0;
-            private static final double kFrontRightEncoderOffset = 0.404053;
+        
+            private static final double kFrontRightEncoderOffset = 0.224121;
 
             private static final double kFrontRightXPosInches = 11.375;
             private static final double kFrontRightYPosInches = -11.375;
@@ -304,7 +313,9 @@ public class Constants {
             private static final int kBackLeftDriveMotorId = 6;
             private static final int kBackLeftSteerMotorId = 2;
             private static final int kBackLeftEncoderId = 2;
-            private static final double kBackLeftEncoderOffset = 0.277588;
+        
+            private static final double kBackLeftEncoderOffset = 0.279297;
+
 
             private static final double kBackLeftXPosInches = -11.375;
             private static final double kBackLeftYPosInches = 11.375;
@@ -313,7 +324,8 @@ public class Constants {
             private static final int kBackRightDriveMotorId = 7;
             private static final int kBackRightSteerMotorId = 3;
             private static final int kBackRightEncoderId = 3;
-            private static final double kBackRightEncoderOffset = -0.164795;
+        
+            private static final double kBackRightEncoderOffset = -0.172363;
 
             private static final double kBackRightXPosInches = -11.375;
             private static final double kBackRightYPosInches = -11.375;
@@ -330,31 +342,47 @@ public class Constants {
       }
 
       public static final class Field {
-            public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
+            // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
+            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.6, 2.36);
+            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(0, 8.20-5.6, 2.36);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
+
+            public static final Translation3d getSpeakerPos(){
+                  return DriverStation.getAlliance().get() == Alliance.Blue ? BLUE_SPEAKER_POSITION : RED_SPEAKER_POSITION;
+            }
+      }
+
+      public static final class Intake{
+            public static final String CANBUS = "jerry";
+
+            public static final int PORT = 8;
+
       }
 
       public static final class Joystick {
             public static final int DRIVER_PORT = 0;
             public static final int OPERATOR_PORT = 2;
     
-            public static final double MOVE_DEAD_ZONE = 0.18;
-            public static final double TURN_DEAD_ZONE = 0.1;
+            public static final double MOVE_DEAD_ZONE = 0.02;
+            public static final double TURN_DEAD_ZONE = 0.02;
     
             public static final double ANGLE_DEAD_ZONE = Constants.TAU / 72;
     
             public static final double MOVE_SENSITIVITY = 1.5;
-            public static final double TURN_SENSITIVITY = 1;
+            public static final double TURN_SENSITIVITY = 2;
       }
 
       public static final class Loader {
             public static final String CANBUS = "rio";
 
-            public static final int PIVOT_PORT = 50;
-            public static final int ROLLER_PORT = 46;
+            public static final int PIVOT_PORT = 12;
+            public static final int ROLLER_PORT = 13;
+
+            public static final int LOADER_SENSOR_PORT = 1;
+            public static final int SHOOTER_SENSOR_PORT = 0;
 
             public static final double PIVOT_GEAR_RATIO = 9.*7*30/18;
-            public static final double ROLLER_GEAR_RATIO = 0;
+            public static final double ROLLER_GEAR_RATIO = 7;
 
             public static final double PIVOT_STATOR_CURRENT_LIMIT = 20;
             public static final double PIVOT_SUPPLY_CURRENT_LIMIT = 20;
@@ -363,7 +391,7 @@ public class Constants {
             public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromDegrees(-30);
 
             public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 2;   //2
-            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 1;
+            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0.95;
             public static final double PIVOT_MOTION_MAGIC_JERK = 0;
 
             public static final InvertedValue PIVOT_INVERTED = InvertedValue.CounterClockwise_Positive;
@@ -371,10 +399,13 @@ public class Constants {
 
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
             .withKV(0.845).withKS(0.02)
-            .withKP(45).withKI(1.2).withKD(0);
+            .withKP(45).withKI(0).withKD(1.2);
+            // .withKV(0).withKS(0)
+            // .withKP(0).withKI(0).withKD(0);
+
             //kG = 0.01, but angle not correct, so we have to manually implement it
 
-            public static final double ROLLER_STATOR_CURRENT_LIMIT = 0;
+            public static final double ROLLER_STATOR_CURRENT_LIMIT = 20;
             public static final double ROLLER_SUPPLY_CURRENT_LIMIT = 0;
 
             public static final InvertedValue ROLLER_INVERTED = InvertedValue.Clockwise_Positive;
@@ -387,7 +418,11 @@ public class Constants {
 
       public static final class Misc {
         public static final int GYRO_PORT = 0;
+        public static final String PIGEON_CANBUS = "jerry";
 
+      }
+      public static final class Robot{
+            public static final double SHOOTER_HEIGHT = 0.65; //m
       }
 
 }
