@@ -64,9 +64,6 @@ public class ArmIOTalonFX implements ArmIO{
         inputs.bottomShooterStatorCurrent = shooter2.getStatorCurrent().getValueAsDouble();
         inputs.bottomShooterSupplyCurrent = shooter2.getSupplyCurrent().getValueAsDouble();
         inputs.bottomShooterVoltage = shooter2.getMotorVoltage().getValueAsDouble();
-
-        inputs.shooterSensor = shooterSensor.get();
-        inputs.loaderSensor = loaderSensor.get();
     }
 
     @Override

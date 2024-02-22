@@ -19,20 +19,20 @@ public class Governor {
     private static RobotState queuedState = RobotState.UNKNOWN;
     
     public enum RobotState {
-        NEUTRAL,
+        NEUTRAL,    //Wyoming
         ZERO, //?
 
-        UNKNOWN,
-        MISC,
+        UNKNOWN,    //Ohio
+        MISC,   //Florida
 
         TRANSITION,
 
-        INTAKE,
-        SOURCE,
+        INTAKE, //Mississippi
+        SOURCE, //Massachusetts
         SHOOT_PREP,
-        SHOOT,
+        SHOOT,  //Texas
         AMP_ADJ,
-        AMP
+        AMP //California
     }
 
     public static void setRobotState(RobotState robotState) {
