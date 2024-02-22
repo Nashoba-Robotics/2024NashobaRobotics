@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -13,6 +15,8 @@ import frc.robot.commands.setters.groups.ToSource;
 
 public class Governor {
     private static RobotState state = RobotState.UNKNOWN;
+
+    private static RobotState queuedState = RobotState.UNKNOWN;
     
     public enum RobotState {
         NEUTRAL,
@@ -36,8 +40,10 @@ public class Governor {
     }
 
     public static void setRobotState(RobotState robotState, boolean override) {
+        if(state == RobotState.TRANSITION && !override) queuedState = robotState;
+        if(robotState == RobotState.UNKNOWN || robotState == RobotState.MISC) override = true;
         if(override || state != RobotState.TRANSITION) {
-            state = RobotState.TRANSITION;
+            if(robotState != RobotState.UNKNOWN || robotState != RobotState.MISC) state = RobotState.TRANSITION;
             switch (robotState) {
                 case NEUTRAL:
                     toNeutral();
@@ -75,6 +81,14 @@ public class Governor {
 
     public static RobotState getRobotState() {
         return state;
+    }
+
+    public static RobotState getQueuedState() {
+        return queuedState;
+    }
+
+    public static void setQueuedState(RobotState queuedState) {
+        Governor.queuedState = queuedState;
     }
 
     private static void toNeutral() {

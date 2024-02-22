@@ -12,21 +12,6 @@ import frc.robot.subsystems.loader.LoaderSubsystem;
 public class President extends Command {
     LoaderSubsystem loader = RobotContainer.loader;
     DriveSubsystem drive = RobotContainer.drive;
-    
-    // NEUTRAL,
-    //     ZERO, //?
-
-    //     UNKNOWN,
-    //     MISC,
-
-    //     TRANSITION,
-
-    //     INTAKE,
-    //     SOURCE,
-    //     SHOOT_PREP,
-    //     SHOOT,
-    //     AMP_ADJ,
-    //     AMP
 
     private boolean shootFlag;
     private Timer shootTimer;
@@ -34,12 +19,18 @@ public class President extends Command {
     private boolean ampFlag;
     private Timer ampTimer;
 
+    private boolean queueFlag;
+    private Timer queueTimer;
+
     public President() {
         shootFlag = false;
         shootTimer = new Timer();
     
         ampFlag = false;
         ampTimer = new Timer();
+
+        queueFlag = false;
+        queueTimer = new Timer();
     }
 
     @Override
@@ -51,6 +42,22 @@ public class President extends Command {
     @Override
     public void execute() {
         if(shootFlag && Governor.getRobotState() != RobotState.SHOOT) shootFlag = false;
+
+        if(Governor.getQueuedState() != RobotState.UNKNOWN) {
+            if(!queueFlag) {
+                queueTimer.restart();
+                queueFlag = true;
+            }
+
+            if(queueTimer.get() > 5.0) Governor.setQueuedState(RobotState.UNKNOWN);
+
+            if(Governor.getRobotState() != RobotState.TRANSITION) {
+                Governor.setRobotState(Governor.getQueuedState());
+                Governor.setQueuedState(RobotState.UNKNOWN);
+            }
+        } else {
+            queueFlag = false;
+        }
 
         switch (Governor.getRobotState()) {
             case NEUTRAL:

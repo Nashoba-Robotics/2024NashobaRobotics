@@ -62,6 +62,9 @@ public class Robot extends LoggedRobot {
     Logger.recordOutput("Aim Distance", dist);
 
     SmartDashboard.putString("RobotState", Governor.getRobotState().toString());
+    SmartDashboard.putString("QueuedState", Governor.getQueuedState().toString());
+    Logger.recordOutput("RobotState/RobotState", Governor.getRobotState().toString());
+    Logger.recordOutput("RobotState/QueuedState", Governor.getQueuedState().toString());
   }
 
   @Override

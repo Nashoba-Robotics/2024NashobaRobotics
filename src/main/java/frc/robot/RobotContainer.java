@@ -27,6 +27,7 @@ import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.groups.ToShoot;
 import frc.robot.commands.test.IntakeTestCommand;
 import frc.robot.commands.test.LoaderTuneCommand;
+import frc.robot.commands.test.ManualShootCommand;
 import frc.robot.commands.test.OnTheFlytoPathCommand;
 import frc.robot.commands.test.ShooterTuneCommand;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -148,6 +149,8 @@ public class RobotContainer {
     SmartDashboard.putData(new ToIntake());
     // SmartDashboard.putData(new ToSubwooferShoot());
     SmartDashboard.putData(new ToShoot());
+
+    SmartDashboard.putData(new ManualShootCommand(loader, arm));
   }
 
   private void configureEvents() {
