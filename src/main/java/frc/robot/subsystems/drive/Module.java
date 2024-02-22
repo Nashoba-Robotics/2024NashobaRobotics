@@ -67,4 +67,8 @@ public class Module {
         return io.getState();
     }
 
+    public SwerveModule getModule() {
+        return io.getModule();
+    }
+
 }

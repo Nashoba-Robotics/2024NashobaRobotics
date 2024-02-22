@@ -30,6 +30,13 @@ import frc.robot.commands.test.LoaderTuneCommand;
 import frc.robot.commands.test.ManualShootCommand;
 import frc.robot.commands.test.OnTheFlytoPathCommand;
 import frc.robot.commands.test.ShooterTuneCommand;
+import frc.robot.commands.test.ResetOdometryCommand;
+import frc.robot.commands.test.ResetOdometryVision;
+import frc.robot.commands.test.SDFinder;
+import frc.robot.commands.test.TuneDriveCommand;
+import frc.robot.commands.test.TurnTestCommand;
+import frc.robot.commands.test.TurnToTargetCommand;
+import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
@@ -37,6 +44,7 @@ import frc.robot.subsystems.joystick.JoystickSubsystem;
 import frc.robot.subsystems.loader.LoaderSubsystem;
 
 public class RobotContainer {
+
   public static final DriveSubsystem drive = new DriveSubsystem();
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
   // public static final AprilTagManager aprilTags = new AprilTagManager();
@@ -76,12 +84,10 @@ public class RobotContainer {
     configureBindings();
     configureEvents();
 
-
     // Logging callback for target robot pose
-       PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
-           Logger.recordOutput("TargetPose", pose);
+      PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
+          Logger.recordOutput("TargetPose", pose);
       });
-
 
 
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -105,7 +111,8 @@ public class RobotContainer {
 
   private void addShuffleBoardData() {
     // SmartDashboard.putData(new SwerveTestCommand());
-    // SmartDashboard.putData(new DriveCommand());
+    SmartDashboard.putData(new DriveCommand(drive, joysticks));
+    SmartDashboard.putData(new TurnTestCommand(drive));
     // SmartDashboard.putData(new ResetOdometryCommand(drive));
     // SmartDashboard.putData(new OnTheFlyTestCommand());
     // SmartDashboard.putData(new OnTheFlytoPathCommand());

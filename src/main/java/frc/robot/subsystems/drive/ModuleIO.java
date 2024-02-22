@@ -3,6 +3,7 @@ package frc.robot.subsystems.drive;
 import org.littletonrobotics.junction.AutoLog;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -31,6 +32,7 @@ public interface ModuleIO {
     public abstract void setBoltage(double voltage);
     public abstract SwerveModulePosition getPosition();
     public abstract SwerveModuleState getState();
+    public SwerveModule getModule();
 
 
 }

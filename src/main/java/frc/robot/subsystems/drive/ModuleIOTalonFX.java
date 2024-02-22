@@ -98,4 +98,8 @@ public class ModuleIOTalonFX implements ModuleIO {
         return state;
     }
 
+    public SwerveModule getModule() {
+        return module;
+    }
+
 }
