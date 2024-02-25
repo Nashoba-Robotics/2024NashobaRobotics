@@ -405,8 +405,8 @@ public class Constants {
 
             //kG = 0.01, but angle not correct, so we have to manually implement it
 
-            public static final double ROLLER_STATOR_CURRENT_LIMIT = 20;
-            public static final double ROLLER_SUPPLY_CURRENT_LIMIT = 0;
+            public static final double ROLLER_STATOR_CURRENT_LIMIT = 60;
+            public static final double ROLLER_SUPPLY_CURRENT_LIMIT = 60;
 
             public static final InvertedValue ROLLER_INVERTED = InvertedValue.Clockwise_Positive;
             public static final NeutralModeValue ROLLER_NEUTRAL_MODE = NeutralModeValue.Brake;
