@@ -79,6 +79,8 @@ public class RobotContainer {
   private Trigger increaseSpeed = joysticks.getOperatorController().button(-1);
   private Trigger decreaseSpeed = joysticks.getOperatorController().button(-1);
 
+  private Trigger operatorPrepShoot = joysticks.getOperatorController().button(-1);
+
   public static enum NoteState{
     NONE,
     SHOOTER,
@@ -122,6 +124,7 @@ public class RobotContainer {
     increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Presets.Arm.SPEAKER_SPEED.plus(Rotation2d.fromRadians(10))));
     decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Presets.Arm.SPEAKER_SPEED.minus(Rotation2d.fromRadians(10))));
 
+    operatorPrepShoot.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHOOT_PREP)));    
   }
 
   private void addShuffleBoardData() {

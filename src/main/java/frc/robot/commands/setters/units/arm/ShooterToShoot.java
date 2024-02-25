@@ -1,5 +1,6 @@
 package frc.robot.commands.setters.units.arm;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,7 +26,7 @@ public class ShooterToShoot extends Command{
 
     @Override
     public void execute() {
-        arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+        arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED.plus(Rotation2d.fromRadians(10)));
         // arm.setShooterPercent(Presets.Arm.SPEAKER_PERCENT);
     }
 

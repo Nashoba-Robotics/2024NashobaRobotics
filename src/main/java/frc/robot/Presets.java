@@ -19,7 +19,7 @@ public final class Presets {
 
 
 
-        public static Rotation2d SPEAKER_SPEED = Rotation2d.fromRadians(475);
+        public static Rotation2d SPEAKER_SPEED = Rotation2d.fromRadians(400);
         public static final Rotation2d SPEAKER_SPEED_PREP = Rotation2d.fromRadians(200);
         public static final double SPEAKER_PERCENT = 0.9;
 
