@@ -29,18 +29,10 @@ public class ArmToShoot extends Command{
         
         double dist = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
         double angle = 0;
-        if(DriverStation.getAlliance().get() == Alliance.Blue) {
-            if(RobotContainer.drive.getPose().getX() > 4.04) {
-                angle = -0.435322 * Math.atan(-0.797911*dist + 1.42314) - 0.768085;
-            } else {
-                angle = -0.516972 * Math.atan(-1.29721*angle + 2.25625) - 0.962371;
-            }
+        if(RobotContainer.drive.getPose().getY() > 4.04) {
+            angle = -0.435322 * Math.atan(-0.797911*dist + 1.42314) - 0.768085;
         } else {
-            if(RobotContainer.drive.getPose().getX() < 4.04) {
-                angle = -0.435322 * Math.atan(-0.797911*dist + 1.42314) - 0.768085;
-            } else {
-                angle = -0.516972 * Math.atan(-1.29721*angle + 2.25625) - 0.962371;
-            }
+            angle = -0.516972 * Math.atan(-1.29721*dist + 2.25625) - 0.962371;
         }
        // TODO: Check if the angle is within our domain. 
         arm.setArmPivot(Rotation2d.fromRadians(angle));
