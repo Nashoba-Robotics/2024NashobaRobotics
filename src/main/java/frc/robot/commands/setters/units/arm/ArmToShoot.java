@@ -3,6 +3,7 @@ package frc.robot.commands.setters.units.arm;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.Governor;
@@ -25,17 +26,28 @@ public class ArmToShoot extends Command{
     }
     @Override
     public void execute() {
-        double y = Constants.Field.getSpeakerPos().getZ()-Constants.Robot.SHOOTER_HEIGHT;
-        // Translation2d shootPos = new Translation2d(drive.getPose().getX(), y)
+        
         double dist = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
-        dist -= 0.22;
-        angle = -Math.atan2(y, dist);
-
+        double angle = 0;
+        if(DriverStation.getAlliance().get() == Alliance.Blue) {
+            if(RobotContainer.drive.getPose().getX() > 4.04) {
+                angle = -0.435322 * Math.atan(-0.797911*dist + 1.42314) - 0.768085;
+            } else {
+                angle = -0.516972 * Math.atan(-1.29721*angle + 2.25625) - 0.962371;
+            }
+        } else {
+            if(RobotContainer.drive.getPose().getX() < 4.04) {
+                angle = -0.435322 * Math.atan(-0.797911*dist + 1.42314) - 0.768085;
+            } else {
+                angle = -0.516972 * Math.atan(-1.29721*angle + 2.25625) - 0.962371;
+            }
+        }
        // TODO: Check if the angle is within our domain. 
         arm.setArmPivot(Rotation2d.fromRadians(angle));
     }
     @Override
     public boolean isFinished() {
+        if(DriverStation.isAutonomous()) return Math.abs(arm.getArmPivotAngle().getRadians()-angle) <= Presets.Arm.POS_TOLERANCE.getRadians();
         return Governor.getRobotState() != RobotState.SHOOT_PREP;
     }
 }

@@ -3,6 +3,7 @@ package frc.robot.commands.setters.units.arm;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.RobotCentric;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Presets;
@@ -37,7 +38,7 @@ public class FinishedShooting extends Command {
 
     @Override
     public boolean isFinished() {
-        return t.get() > 0.1 && !RobotContainer.loader.getLoaderSensor() && !RobotContainer.loader.getShooterSensor();
+        return DriverStation.isTeleop() || t.get() > 0.1 && !RobotContainer.loader.getLoaderSensor() && !RobotContainer.loader.getShooterSensor();
     }
 
 }
