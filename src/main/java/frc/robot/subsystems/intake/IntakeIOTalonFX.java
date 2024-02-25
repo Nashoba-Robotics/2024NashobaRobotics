@@ -14,13 +14,13 @@ public class IntakeIOTalonFX implements IntakeIO{
 
 
     public IntakeIOTalonFX(){
-        intake = new TalonFX(8);
+        intake = new TalonFX(Constants.Intake.PORT, Constants.Intake.CANBUS);
 
         config = new TalonFXConfiguration();
         config.Audio.BeepOnBoot = true;
         config.Audio.BeepOnConfig = false;
-        config.CurrentLimits.StatorCurrentLimitEnable = false;
-        config.CurrentLimits.StatorCurrentLimit = 0;
+        config.CurrentLimits.StatorCurrentLimitEnable = true;
+        config.CurrentLimits.StatorCurrentLimit = 40;
         config.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
         config.Feedback.RotorToSensorRatio = 0;
         config.FutureProofConfigs = true;
@@ -44,5 +44,9 @@ public class IntakeIOTalonFX implements IntakeIO{
     @Override
     public void setSpeed(double speed){
         intake.set(speed);
+    }
+    @Override
+    public double getSpeed(){
+        return intake.getVelocity().getValueAsDouble();
     }
 }

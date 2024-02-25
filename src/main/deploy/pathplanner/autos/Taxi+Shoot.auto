@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.0,
-      "y": 2
+      "x": 0.7041386162544403,
+      "y": 4.432084533684738
     },
-    "rotation": 0
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -14,12 +14,18 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Weird Path"
+            "pathName": "ToShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Autos",
   "choreoAuto": false
 }

@@ -6,9 +6,11 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -21,6 +23,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.lib.math.NRUnits;
@@ -46,7 +49,7 @@ public class DriveSubsystem extends SubsystemBase{
     public DriveSubsystem() {
         gyroIO = new GyroIOPigeon2();
 
-        fieldCentric = false;
+        fieldCentric = true;
 
         modules = new Module[] {
             new Module(0, Constants.Drive.CANBUS),
@@ -59,9 +62,9 @@ public class DriveSubsystem extends SubsystemBase{
             Constants.Drive.KINEMATICS,
             getGyroAngle(),
             getSwerveModulePositions(),
-            new Pose2d(0, 0, getGyroAngle())
-            // VecBuilder.fill(0.1, 0.1, 0.0),
-            // VecBuilder.fill(5.0, 5.0, 100.0)
+            new Pose2d(0, 0, getGyroAngle()),
+            VecBuilder.fill(0.1, 0.1, 0.1),
+            VecBuilder.fill(5.0, 5.0, 0.9)
             );
 
         AutoBuilder.configureHolonomic(
@@ -70,8 +73,8 @@ public class DriveSubsystem extends SubsystemBase{
                 this::getRobotRelativeSpeeds,
                 this::driveRobotRelative,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(5.0, 0.0, 0.0),
-                        new PIDConstants(6.0, 0.0, 0.0),
+                        new PIDConstants(0.0, 0.0, 0.0),
+                        new PIDConstants(0.0, 0.0, 0.0),
                         Constants.Drive.MAX_VELOCITY,
                         Constants.Drive.DIAGONAL,
                         new ReplanningConfig()
@@ -85,6 +88,7 @@ public class DriveSubsystem extends SubsystemBase{
                 },
                 this
         );
+
 
         state = DriveState.DRIVER;
     }
@@ -110,14 +114,17 @@ public class DriveSubsystem extends SubsystemBase{
 
         double omega = chassisSpeeds.omegaRadiansPerSecond;
 
-        if(gyroInputs.zVelocity >= 0.10 || omega != 0) lastJoystickAngle = getYaw().getRadians();
-        else omega = Math.abs(lastJoystickAngle - getYaw().getRadians()) < Constants.TAU/10 &&
+        Logger.recordOutput("Desired ZVelocity", omega);
+
+        if(fieldCentric) {
+            if(gyroInputs.zVelocity >= 0.10 || omega != 0) lastJoystickAngle = getYaw().getRadians();
+            else omega = Math.abs(lastJoystickAngle - getYaw().getRadians()) < Constants.TAU/10 &&
             Math.sqrt(x*x+y*y) > 0.1 ?
             angleController.calculate(getYaw().getRadians(), lastJoystickAngle) :
             0;
+            
+            double angleDiff = Math.atan2(y, x) - odometry.getEstimatedPosition().getRotation().getRadians(); //difference between input angle and gyro angle gives desired field relative angle
 
-        if(fieldCentric) {
-            double angleDiff = Math.atan2(y, x) - getGyroAngle().getRadians(); //difference between input angle and gyro angle gives desired field relative angle
             double r = Math.sqrt(x*x + y*y); //magnitude of translation vector
             x = r * Math.cos(angleDiff);
             y = r * Math.sin(angleDiff);
@@ -157,11 +164,8 @@ public class DriveSubsystem extends SubsystemBase{
         resetOdometryManualAngle(pose, getGyroAngle());
     }
 
-    private boolean resetting = false;
     public void resetOdometryManualAngle(Pose2d pose, Rotation2d angle) {
-        resetting = true;
         odometry.resetPosition(angle, getSwerveModulePositions(), pose);
-        resetting = false;
     }
 
     public SwerveModulePosition[] getSwerveModulePositions() {
@@ -196,6 +200,19 @@ public class DriveSubsystem extends SubsystemBase{
         }
     }
 
+
+
+    public void setState(int modIndex, SwerveModuleState state) {
+        Logger.recordOutput("Velocity/Mod"+modIndex+"Velocity", state.speedMetersPerSecond);
+        Logger.recordOutput("Velocity/Mod"+modIndex+"Angle", NRUnits.logConstrainRad(state.angle.getRadians()+Constants.TAU));
+        modules[modIndex].set(state);
+    }
+
+    public SwerveModule getModule(int modIndex) {
+        return modules[modIndex].getModule();
+    }
+
+
     public void setVoltageStates(double voltage){
         for(int i = 2; i < 4; i++){ //Setting only the back 2 motors
             modules[i].setBoltage(voltage);
@@ -212,10 +229,10 @@ public class DriveSubsystem extends SubsystemBase{
         return this.fieldCentric;
     }
 
-    //Sets the angle of the robot in radians
-    public void setGyro(double angle) {
-        gyroIO.setYaw(angle * 180 / Math.PI);
-    }
+    // //Sets the angle of the robot in radians
+    // public void setGyro(Rotation2d angle) {
+    //     gyroIO.setYaw(angle.getDegrees());
+    // }
 
     //Zeroes the yaw (Rotational direction)
     public void zeroYaw() {
@@ -228,6 +245,7 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
     //Returns the Robot's yaw orientation in radians (Contstrained)
+    // DO NOT USE
     public Rotation2d getGyroAngle() {
         return Rotation2d.fromRadians(NRUnits.constrainRad(getYaw().getRadians()));
     }
@@ -236,6 +254,7 @@ public class DriveSubsystem extends SubsystemBase{
         return gyroInputs.zVelocity;
     }
 
+    // DO NOT USE
     //Returns the gyro's yaw orientation in radians (Rotation Horizontal)
     public Rotation2d getYaw(){
         return Rotation2d.fromRadians(gyroInputs.yaw);
@@ -272,6 +291,16 @@ public class DriveSubsystem extends SubsystemBase{
         return speeds;
     }
 
+    public void setAngle(Rotation2d angle) {
+        Pose2d pose = new Pose2d(getPose().getTranslation(), angle);
+        odometry.resetPosition(getGyroAngle(), getSwerveModulePositions(), pose);
+    }
+
+    public void zeroAngle() {
+        setAngle(DriverStation.getAlliance().get() == Alliance.Blue ? Rotation2d.fromRadians(0) :
+        Rotation2d.fromRadians(Constants.TAU/2));
+    }
+
     @Override
     public void periodic(){
         gyroIO.updateInputs(gyroInputs);
@@ -281,7 +310,7 @@ public class DriveSubsystem extends SubsystemBase{
             module.periodic();
         }
 
-        if(!resetting) odometry.updateWithTime(Timer.getFPGATimestamp(), getGyroAngle(), getSwerveModulePositions());
+        odometry.updateWithTime(Timer.getFPGATimestamp(), getGyroAngle(), getSwerveModulePositions());
         Logger.recordOutput("FPGATimestamp", Timer.getFPGATimestamp());
 
         Pose2d pose = getPose();

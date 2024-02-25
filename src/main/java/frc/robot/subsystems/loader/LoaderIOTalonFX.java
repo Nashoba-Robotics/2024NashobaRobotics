@@ -1,4 +1,4 @@
-package frc.robot.subsystems.arm;
+package frc.robot.subsystems.loader;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
@@ -9,6 +9,7 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 
 public class LoaderIOTalonFX implements LoaderIO {
@@ -23,6 +24,9 @@ public class LoaderIOTalonFX implements LoaderIO {
     private TalonFXConfigurator rollerConfigurator;
     private VelocityDutyCycle rollerController;
 
+    private DigitalInput loaderSensor;
+    private DigitalInput shooterSensor;
+
     public LoaderIOTalonFX() {
         pivot = new TalonFX(Constants.Loader.PIVOT_PORT, Constants.Loader.CANBUS);
         pivotConfig = new TalonFXConfiguration();
@@ -33,6 +37,9 @@ public class LoaderIOTalonFX implements LoaderIO {
         rollerConfig = new TalonFXConfiguration();
         rollerConfigurator = roller.getConfigurator();
         rollerController = new VelocityDutyCycle(0);
+
+        loaderSensor = new DigitalInput(Constants.Loader.LOADER_SENSOR_PORT);
+        shooterSensor = new DigitalInput(Constants.Loader.SHOOTER_SENSOR_PORT);
 
         config();
     }
@@ -47,12 +54,7 @@ public class LoaderIOTalonFX implements LoaderIO {
         pivot.setPosition(pos.getRotations());
     }
 
-    public void setRollerSpeed(Rotation2d speed) {
-        rollerController.Velocity = speed.getRotations();
-
-        roller.setControl(rollerController);
-    }
-    public void setLoaderPercentOutput(double speed){
+    public void setRollerSpeed(double speed) {
         roller.set(speed);
     }
 
@@ -99,6 +101,9 @@ public class LoaderIOTalonFX implements LoaderIO {
         inputs.rollerSupplyCurrent = roller.getSupplyCurrent().getValueAsDouble();
         inputs.rollerStatorCurrent = roller.getStatorCurrent().getValueAsDouble();
         inputs.rollerVoltage = roller.getMotorVoltage().getValueAsDouble();
+
+        inputs.loaderSensor = !loaderSensor.get();
+        inputs.shooterSensor = !shooterSensor.get();
     }
 
     private void config() { //TODO: Make Current limits true
@@ -126,7 +131,7 @@ public class LoaderIOTalonFX implements LoaderIO {
         rollerConfig.Audio.BeepOnBoot = true;
         rollerConfig.Audio.BeepOnConfig = true;
         rollerConfig.CurrentLimits.StatorCurrentLimit = Constants.Loader.ROLLER_STATOR_CURRENT_LIMIT;
-        rollerConfig.CurrentLimits.StatorCurrentLimitEnable = false;
+        rollerConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         rollerConfig.CurrentLimits.SupplyCurrentLimit = Constants.Loader.ROLLER_SUPPLY_CURRENT_LIMIT;
         rollerConfig.CurrentLimits.SupplyCurrentLimitEnable = false;
         rollerConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
@@ -137,9 +142,6 @@ public class LoaderIOTalonFX implements LoaderIO {
         rollerConfig.Voltage.PeakForwardVoltage = Constants.PEAK_VOLTAGE;
         rollerConfig.Voltage.PeakReverseVoltage = -Constants.PEAK_VOLTAGE;
         rollerConfig.Feedback.SensorToMechanismRatio = Constants.Loader.ROLLER_GEAR_RATIO;
-        rollerConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
-        rollerConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
-
 
         pivotConfigurator.apply(pivotConfig);
         rollerConfigurator.apply(rollerConfig);

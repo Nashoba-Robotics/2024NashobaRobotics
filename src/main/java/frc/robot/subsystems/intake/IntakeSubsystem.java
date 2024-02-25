@@ -21,4 +21,8 @@ public class IntakeSubsystem extends SubsystemBase{
     public void setSpeed(double speed){
         io.setSpeed(speed);
     }
+
+    public double getSpeed(){
+        return io.getSpeed();
+    }
 }

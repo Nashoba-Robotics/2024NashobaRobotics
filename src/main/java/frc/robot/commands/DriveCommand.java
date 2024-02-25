@@ -9,6 +9,8 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.lib.util.JoystickValues;
@@ -26,6 +28,8 @@ public class DriveCommand extends Command{
 
     private ChassisSpeeds chassisSpeeds;
 
+    private int allianceMultiplier;
+
     private ProfiledPIDController angleController = new ProfiledPIDController(
         0, 0, 0, 
         new Constraints(Constants.Drive.MAX_ROTATION_VELOCITY, Constants.Drive.MAX_ROTATION_ACCELERATION)
@@ -39,6 +43,8 @@ public class DriveCommand extends Command{
         chassisSpeeds = new ChassisSpeeds(0, 0, 0);
         leftJoystickValues = new JoystickValues(0, 0);
         rightJoystickValues = new JoystickValues(0, 0);
+
+        allianceMultiplier = 1;
     }
 
     @Override
@@ -49,10 +55,13 @@ public class DriveCommand extends Command{
         angleController.reset(drive.getYaw().getRadians());
         drive.setDriveState(DriveState.DRIVER);
         drive.set(chassisSpeeds);
+
     }
 
     @Override
     public void execute() {
+        allianceMultiplier = DriverStation.getAlliance().get() == Alliance.Blue ? 1 : -1;
+
         leftJoystickValues = joysticks.getLeftJoystickValues()
             .shape(Constants.Joystick.MOVE_DEAD_ZONE, Constants.Joystick.TURN_SENSITIVITY)
             .swap()
@@ -67,13 +76,15 @@ public class DriveCommand extends Command{
         // rightJoystickValues = joysticks.getRightOperatorValues()
         //     .shape(Constants.Joystick.TURN_DEAD_ZONE, Constants.Joystick.TURN_SENSITIVITY);
 
-        chassisSpeeds.vxMetersPerSecond = leftJoystickValues.x * Constants.Drive.MAX_VELOCITY;
-        chassisSpeeds.vyMetersPerSecond = leftJoystickValues.y * Constants.Drive.MAX_VELOCITY;
-
-        if(rightJoystickValues.x != 0) drive.setDriveState(DriveState.DRIVER);
+        chassisSpeeds.vxMetersPerSecond = leftJoystickValues.x * Constants.Drive.MAX_VELOCITY * allianceMultiplier;
+        chassisSpeeds.vyMetersPerSecond = leftJoystickValues.y * Constants.Drive.MAX_VELOCITY * allianceMultiplier;
 
 
-        switch(drive.getDriveState()){
+        DriveState turnState = drive.state;
+        if(rightJoystickValues.x != 0) turnState = DriveState.DRIVER;
+
+
+        switch(turnState){
             case DRIVER:
                 chassisSpeeds.omegaRadiansPerSecond = -rightJoystickValues.x * Constants.Drive.MAX_ROTATION_VELOCITY;
                 break;
@@ -83,8 +94,8 @@ public class DriveCommand extends Command{
                 break;
             case AIM_TO_SPEAKER:
                 double goal = Math.atan2(
-                    drive.getPose().getY() - Constants.Field.SPEAKER_POSITION.getY(),
-                    drive.getPose().getX() - Constants.Field.SPEAKER_POSITION.getX()
+                    drive.getPose().getY() - Constants.Field.getSpeakerPos().getY(),
+                    drive.getPose().getX() - Constants.Field.getSpeakerPos().getX()
                     );
                 double currAngle = drive.getYaw().getRadians();
                 double angleDiff = goal - drive.getGyroAngle().getRadians();
@@ -96,6 +107,8 @@ public class DriveCommand extends Command{
                 chassisSpeeds.omegaRadiansPerSecond = angleController.calculate(currAngle, goal);
                 break;
         }
+
+        chassisSpeeds.omegaRadiansPerSecond = -rightJoystickValues.x * Constants.Drive.MAX_ROTATION_VELOCITY;
 
         drive.set(chassisSpeeds);
 

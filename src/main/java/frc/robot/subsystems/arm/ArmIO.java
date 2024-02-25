@@ -2,6 +2,8 @@ package frc.robot.subsystems.arm;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 
 public interface ArmIO {
@@ -10,7 +12,7 @@ public interface ArmIO {
      */
 
      @AutoLog
-     public static class ArmIOInputs{
+     public static class ArmIOInputs {
         public double pivotAbsolutePosition = 0; //rad
         public double pivotRotorPosition = 0;   //rad
         public double pivotSpeed = 0; //rad/s
@@ -30,9 +32,6 @@ public interface ArmIO {
         public double bottomShooterStatorCurrent = 0;    //amps
         public double bottomShooterSupplyCurrent = 0;
         public double bottomShooterVoltage = 0;   //volts
-
-        public boolean loaderSensor = false;
-        public boolean shooterSensor = false;
      }
 
      public default void updateInputs(ArmIOInputs inputs) {}
@@ -40,13 +39,14 @@ public interface ArmIO {
      public abstract void setPivotSpeed(double speed);
      public abstract void setPivotRotorPos(Rotation2d pos);
      public abstract void setShooterSpeed(Rotation2d speed);
-     public abstract boolean getShooterSensor();
-     public abstract boolean getLoaderSensor();
      public abstract void setShooterPercentOutput(double speed);
+     public abstract void setShooterPercent(double speed);
 
      public abstract void setPivotkG(double kG);
      public abstract void setPivotkS(double kS);
      public abstract void setPivotkV(double kV);
      public abstract void setPivotkP(double kP);
      public abstract void setPivotkD(double kD);
+
+     public TalonFX getShooterMotor();
 }

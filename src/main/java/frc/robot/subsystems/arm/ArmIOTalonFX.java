@@ -11,11 +11,10 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.robot.Constants;
 
 public class ArmIOTalonFX implements ArmIO{
-    // //2 for shooter rollers (Krakens)
-    // //1 for pivot (Kraken maybe)
     private TalonFX shooter, shooter2;
     private TalonFX pivot;
 
@@ -24,8 +23,6 @@ public class ArmIOTalonFX implements ArmIO{
 
     private VelocityDutyCycle shooterControl;
     private MotionMagicDutyCycle pivotControl;
-
-    private DigitalInput shooterSensor, loaderSensor;
 
     public ArmIOTalonFX(){
         shooter = new TalonFX(Constants.Arm.SHOOTER_PORT, Constants.Arm.CANBUS);
@@ -37,13 +34,10 @@ public class ArmIOTalonFX implements ArmIO{
         shooterConfig = new TalonFXConfiguration();
         shooterConfigurator = shooter.getConfigurator();
 
-        pivot = new TalonFX(Constants.Arm.PIVOT_PORT, Constants.Arm.CANBUS);
+        pivot = new TalonFX(Constants.Arm.PIVOT_PORT, Constants.Arm.PIVOT_CANBUS);
 
         pivotConfig = new TalonFXConfiguration();
         pivotConfigurator = pivot.getConfigurator();
-
-        shooterSensor = new DigitalInput(Constants.Arm.SHOOTER_SENSOR_PORT);
-        loaderSensor = new DigitalInput(Constants.Arm.LOADER_SENSOR_PORT);
 
         shooterControl = new VelocityDutyCycle(0);
         pivotControl = new MotionMagicDutyCycle(0);
@@ -71,8 +65,11 @@ public class ArmIOTalonFX implements ArmIO{
         inputs.bottomShooterSupplyCurrent = shooter2.getSupplyCurrent().getValueAsDouble();
         inputs.bottomShooterVoltage = shooter2.getMotorVoltage().getValueAsDouble();
 
-        inputs.shooterSensor = shooterSensor.get();
-        inputs.loaderSensor = loaderSensor.get();
+        inputs.bottomShooterPosition = shooter2.getPosition().getValueAsDouble()*Constants.TAU;
+        inputs.bottomShooterSpeed = shooter2.getVelocity().getValueAsDouble()*Constants.TAU;
+        inputs.bottomShooterStatorCurrent = shooter2.getStatorCurrent().getValueAsDouble();
+        inputs.bottomShooterSupplyCurrent = shooter2.getSupplyCurrent().getValueAsDouble();
+        inputs.bottomShooterVoltage = shooter2.getMotorVoltage().getValueAsDouble();
     }
 
     @Override
@@ -93,14 +90,6 @@ public class ArmIOTalonFX implements ArmIO{
     @Override
     public void setShooterPercentOutput(double speed){
         shooter.set(speed);
-    }
-
-    public boolean getShooterSensor() {
-        return shooterSensor.get();
-    }
-
-    public boolean getLoaderSensor() {
-        return loaderSensor.get();
     }
 
     public void setPivotSpeed(double speed){
@@ -127,6 +116,14 @@ public class ArmIOTalonFX implements ArmIO{
     public void setPivotkD(double kD){
         pivotConfig.Slot0.kD = kD;
         pivot.getConfigurator().apply(pivotConfig);
+    }
+
+    public void setShooterPercent(double percent) {
+        shooter.set(percent);
+    }
+
+    public TalonFX getShooterMotor() {
+        return shooter;
     }
 
     private void config() {
@@ -158,9 +155,6 @@ public class ArmIOTalonFX implements ArmIO{
         shooterConfig.CurrentLimits.SupplyCurrentLimit = Constants.Arm.SHOOTER_SUPPLY_CURRENT_LIMIT;
         shooterConfig.CurrentLimits.SupplyCurrentLimitEnable = false;
         shooterConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-        shooterConfig.MotionMagic.MotionMagicAcceleration = Constants.Arm.SHOOTER_MOTION_MAGIC_ACCELERATION;
-        shooterConfig.MotionMagic.MotionMagicCruiseVelocity = Constants.Arm.SHOOTER_MOTION_MAGIC_CRUISE_VELOCITY;
-        shooterConfig.MotionMagic.MotionMagicJerk = Constants.Arm.SHOOTER_MOTION_MAGIC_JERK;
         shooterConfig.MotorOutput.Inverted = Constants.Arm.SHOOTER_INVERTED;
         shooterConfig.MotorOutput.NeutralMode = Constants.Arm.SHOOTER_NEUTRAL_MODE;
         shooterConfig.Slot0 = Constants.Arm.SHOOTER_PID;
@@ -173,5 +167,6 @@ public class ArmIOTalonFX implements ArmIO{
 
         pivotConfigurator.apply(pivotConfig);
         shooterConfigurator.apply(shooterConfig);
+        shooter2.getConfigurator().apply(shooterConfig);
     }
 }

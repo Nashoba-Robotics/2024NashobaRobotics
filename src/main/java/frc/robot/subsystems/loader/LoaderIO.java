@@ -1,4 +1,4 @@
-package frc.robot.subsystems.arm;
+package frc.robot.subsystems.loader;
 
 import org.littletonrobotics.junction.AutoLog;
 
@@ -24,21 +24,27 @@ public interface LoaderIO {
         public double rollerVoltage = 0; //volts
         public double rollerStatorCurrent = 0; //amps
         public double rollerSupplyCurrent = 0; //amps
+
+        public boolean loaderSensor = false;
+        public boolean shooterSensor = false;
     }
 
     public default void updateInputs(LoaderIOInputs inputs) {}
-    public void setPivotPosition(Rotation2d position);
-    public void setPivotRotorPos(Rotation2d position);
-    public void setRollerSpeed(Rotation2d speed);
 
-    public TalonFXConfiguration getPivotConfig();
-    public void setPivotConfig(TalonFXConfiguration config);
+    public abstract void setPivotPosition(Rotation2d position);
+    public abstract void setPivotRotorPos(Rotation2d position);
+    public abstract void setRollerSpeed(double speed);
 
-    public void setLoaderkG(double kG);
-    public void setLoaderkS(double kS);
-    public void setLoaderkV(double kV);
-    public void setLoaderkP(double kP);
-    public void setLoaderkD(double kD);
-    public void setPivotSpeed(double speed);
-    public void setLoaderPercentOutput(double speed);
+    public abstract TalonFXConfiguration getPivotConfig();
+    public abstract void setPivotConfig(TalonFXConfiguration config);
+
+    public abstract void setLoaderkG(double kG);
+    public abstract void setLoaderkS(double kS);
+    public abstract void setLoaderkV(double kV);
+    public abstract void setLoaderkP(double kP);
+    public abstract void setLoaderkD(double kD);
+    public abstract void setPivotSpeed(double speed);
+
+    // public abstract boolean getLoaderSensor();
+    // public abstract boolean getShooterSensor();
 }
