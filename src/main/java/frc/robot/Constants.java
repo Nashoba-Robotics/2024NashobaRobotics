@@ -103,7 +103,7 @@ public class Constants {
 
             public static final Slot0Configs SHOOTER_PID = new Slot0Configs()
             .withKV(0.0117419).withKS(0.030)
-            .withKP(0.11).withKI(0).withKD(0);
+            .withKP(0.09).withKI(0).withKD(0);
       }
 
       public static class Climber{

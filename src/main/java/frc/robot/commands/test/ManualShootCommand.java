@@ -16,6 +16,8 @@ public class ManualShootCommand extends Command {
     public ManualShootCommand(LoaderSubsystem loader, ArmSubsystem arm) {
         this.loader = loader;
         this.arm = arm;
+
+        addRequirements(loader, arm);
     }
 
     @Override

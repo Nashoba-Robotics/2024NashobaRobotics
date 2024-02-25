@@ -83,7 +83,7 @@ public class President extends Command {
                     shootTimer.restart();
                     shootFlag = true;
                 }
-                if(shootTimer.get() > 0.1
+                if(shootFlag && shootTimer.get() > 0.1
                 && !RobotContainer.loader.getLoaderSensor()
                 && !RobotContainer.loader.getShooterSensor()){
                     Governor.setRobotState(RobotState.NEUTRAL);
@@ -93,21 +93,18 @@ public class President extends Command {
 
                 //TODO: When odometry is in a certain range, go to shoot prep
                 break;
-            case AMP_ADJ:
-                // drive.state = DriveState.AIM_TO_AMP;
-                break;
             case AMP:
                 if(!ampFlag){
                         ampTimer.restart();
                         ampFlag = true;
-                    }
-                    if(ampTimer.get() > 0.1
-                    && !RobotContainer.loader.getLoaderSensor()
-                    && !RobotContainer.loader.getShooterSensor()){
-                        Governor.setRobotState(RobotState.NEUTRAL);
-                        ampFlag = false;
-                        ampTimer.stop();
-                    } 
+                }
+                if(ampFlag && ampTimer.get() > 1
+                && !RobotContainer.loader.getLoaderSensor()
+                && !RobotContainer.loader.getShooterSensor()){
+                    Governor.setRobotState(RobotState.NEUTRAL);
+                    ampFlag = false;
+                    ampTimer.stop();
+                } 
                break; 
             default:
                 break;

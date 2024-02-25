@@ -111,7 +111,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "TempPath"
+                  "pathName": "p0-p3"
                 }
               },
               {
@@ -121,6 +121,18 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p3-shootPos"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootCommand"
           }
         }
       ]

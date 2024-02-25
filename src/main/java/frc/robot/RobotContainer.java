@@ -5,6 +5,7 @@ import java.util.function.BooleanSupplier;
 import org.littletonrobotics.junction.Logger;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -12,13 +13,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Governor.RobotState;
+import frc.robot.commands.AimToAmpCommand;
 import frc.robot.commands.AimToSpeakerCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SwerveTestCommand;
 import frc.robot.commands.test.ArmTuneCommand;
+import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
@@ -26,6 +30,9 @@ import frc.robot.commands.setters.groups.ToIntake;
 import frc.robot.commands.setters.groups.ToNeutral;
 import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.groups.ToShoot;
+import frc.robot.commands.setters.units.arm.ArmToNeutral;
+import frc.robot.commands.setters.units.arm.ArmToShoot;
+import frc.robot.commands.setters.units.arm.ShooterToShoot;
 import frc.robot.commands.test.IntakeTestCommand;
 import frc.robot.commands.test.LoaderTuneCommand;
 import frc.robot.commands.test.ManualShootCommand;
@@ -65,8 +72,9 @@ public class RobotContainer {
   private Trigger groundIntake = joysticks.getDriverController().button(2);
   private Trigger shoot = joysticks.getDriverController().button(8);
   private Trigger neutralMode = joysticks.getDriverController().button(10);
-  private Trigger toAmpPrep = joysticks.getDriverController().button(-1);
-  private Trigger scoreAmp = joysticks.getDriverController().button(-1);
+
+  private Trigger toAmpPrep = joysticks.getDriverController().button(5);
+  private Trigger scoreAmp = joysticks.getDriverController().button(3);
 
   private Trigger puke = joysticks.getDriverController().button(9);
 
@@ -101,9 +109,14 @@ public class RobotContainer {
 
     groundIntake.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE)));
     shoot.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT)));
+
     neutralMode.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.NEUTRAL)));
-    toAmpPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP_ADJ)));
+
     scoreAmp.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP)));
+    toAmpPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP_ADJ)));
+    toAmpPrep.onTrue(new AimToAmpCommand(drive, joysticks));
+    // toAmpPrep.onTrue(new ToAmpCommand());
+
     toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE))); // TODO: check if we can call onTrue twice and have both commands still work
 
     puke.onTrue(new ToPuke());
@@ -163,7 +176,14 @@ public class RobotContainer {
   }
 
   private void configureEvents() {
-    // NamedCommands.registerCommand("Name", command);
+    NamedCommands.registerCommand("StartShooter", new ShooterToShoot());
+    NamedCommands.registerCommand("Intake", new ToIntake());
+
+    NamedCommands.registerCommand("ShootCommand", new SequentialCommandGroup(
+      new ArmToShoot(),
+      new ToShoot(),
+      new ArmToNeutral()
+    ));
   }
 
   private int sourceIndex;
