@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -30,9 +31,13 @@ import frc.robot.commands.setters.groups.ToIntake;
 import frc.robot.commands.setters.groups.ToNeutral;
 import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.groups.ToShoot;
+import frc.robot.commands.setters.units.arm.ArmToIntake;
 import frc.robot.commands.setters.units.arm.ArmToNeutral;
 import frc.robot.commands.setters.units.arm.ArmToShoot;
 import frc.robot.commands.setters.units.arm.ShooterToShoot;
+import frc.robot.commands.setters.units.intake.IntakeToIntake;
+import frc.robot.commands.setters.units.loader.GrabberToIntake;
+import frc.robot.commands.setters.units.loader.LoaderToIntake;
 import frc.robot.commands.test.IntakeTestCommand;
 import frc.robot.commands.test.LoaderTuneCommand;
 import frc.robot.commands.test.ManualShootCommand;
@@ -110,7 +115,7 @@ public class RobotContainer {
     groundIntake.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE)));
     shoot.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT)));
 
-    neutralMode.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.NEUTRAL)));
+    neutralMode.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.NEUTRAL, true)));
 
     scoreAmp.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP)));
     toAmpPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP_ADJ)));
@@ -176,11 +181,18 @@ public class RobotContainer {
   }
 
   private void configureEvents() {
-    NamedCommands.registerCommand("StartShooter", new ShooterToShoot());
-    NamedCommands.registerCommand("Intake", new ToIntake());
+    NamedCommands.registerCommand("StartShooter", new InstantCommand(() -> arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED), arm));
+    NamedCommands.registerCommand("Intake", new SequentialCommandGroup(
+      new LoaderToIntake(),
+            new ArmToIntake(),
+            new ParallelCommandGroup(
+                new GrabberToIntake(),
+                new IntakeToIntake()
+            )
+    ));
 
     NamedCommands.registerCommand("ShootCommand", new SequentialCommandGroup(
-      new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true)),
+      new ArmToShoot(),
       new ToShoot(),
       new ArmToNeutral()
     ));

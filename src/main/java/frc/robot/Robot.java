@@ -57,8 +57,9 @@ public class Robot extends LoggedRobot {
 
     double y = Constants.Field.getSpeakerPos().getZ()-Constants.Robot.SHOOTER_HEIGHT;
     double dist = RobotContainer.drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+    dist -= 0.22;
     double angle = -Math.atan2(y, dist);
-    Logger.recordOutput("Arm Aim Angle", angle*360/Constants.TAU);
+    Logger.recordOutput("Arm Aim Angle", angle);
     Logger.recordOutput("Aim Distance", dist);
 
     SmartDashboard.putString("RobotState", Governor.getRobotState().toString());

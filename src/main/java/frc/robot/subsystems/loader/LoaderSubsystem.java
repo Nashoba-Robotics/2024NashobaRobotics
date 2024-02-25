@@ -21,7 +21,7 @@ public class LoaderSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         loaderIO.updateInputs(loaderInputs);
-        Logger.processInputs("Arm/Loader", loaderInputs);
+        Logger.processInputs("Loader", loaderInputs);
 
         if(getLoaderSensor()) RobotContainer.noteState = NoteState.LOADER;
         else if(getShooterSensor()) RobotContainer.noteState = NoteState.SHOOTER;
