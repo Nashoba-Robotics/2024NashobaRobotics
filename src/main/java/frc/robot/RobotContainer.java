@@ -180,7 +180,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Intake", new ToIntake());
 
     NamedCommands.registerCommand("ShootCommand", new SequentialCommandGroup(
-      new ArmToShoot(),
+      new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true)),
       new ToShoot(),
       new ArmToNeutral()
     ));
