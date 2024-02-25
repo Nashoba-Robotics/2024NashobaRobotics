@@ -32,7 +32,7 @@ public class ManualShootCommand extends Command {
     public void execute() {
         loader.setRollerSpeed(SmartDashboard.getNumber("LoaderSpeed", 0));
         loader.setPivot(Rotation2d.fromDegrees(SmartDashboard.getNumber("LoaderAngle", 0)));
-        arm.setShooterSpeed(Rotation2d.fromRadians(SmartDashboard.getNumber("ShooterSpeed", 0)));
+        arm.setShooterPercent(SmartDashboard.getNumber("ShooterSpeed", 0));
         arm.setArmPivot(Rotation2d.fromDegrees(SmartDashboard.getNumber("ArmAngle", 0)));
     }
 

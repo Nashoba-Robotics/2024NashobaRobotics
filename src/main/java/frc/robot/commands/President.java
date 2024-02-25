@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Governor;
 import frc.robot.RobotContainer;
 import frc.robot.Governor.RobotState;
@@ -41,6 +42,7 @@ public class President extends Command {
 
     @Override
     public void execute() {
+
         if(shootFlag && Governor.getRobotState() != RobotState.SHOOT) shootFlag = false;
 
         if(Governor.getQueuedState() != RobotState.UNKNOWN) {

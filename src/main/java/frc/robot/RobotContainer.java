@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Governor.RobotState;
+import frc.robot.commands.AimToSpeakerCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SwerveTestCommand;
 import frc.robot.commands.test.ArmTuneCommand;
@@ -47,7 +48,7 @@ public class RobotContainer {
 
   public static final DriveSubsystem drive = new DriveSubsystem();
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
-  // public static final AprilTagManager aprilTags = new AprilTagManager();
+  public static final AprilTagManager aprilTags = new AprilTagManager();
   public static final ArmSubsystem arm = new ArmSubsystem();
   public static final IntakeSubsystem intake = new IntakeSubsystem();
   public static final LoaderSubsystem loader = new LoaderSubsystem();
@@ -107,12 +108,13 @@ public class RobotContainer {
 
     puke.onTrue(new ToPuke());
     shootPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP)));
+    shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
   }
 
   private void addShuffleBoardData() {
     // SmartDashboard.putData(new SwerveTestCommand());
-    SmartDashboard.putData(new DriveCommand(drive, joysticks));
-    SmartDashboard.putData(new TurnTestCommand(drive));
+    // SmartDashboard.putData(new DriveCommand(drive, joysticks));
+    // SmartDashboard.putData(new TurnTestCommand(drive));
     // SmartDashboard.putData(new ResetOdometryCommand(drive));
     // SmartDashboard.putData(new OnTheFlyTestCommand());
     // SmartDashboard.putData(new OnTheFlytoPathCommand());
@@ -138,7 +140,7 @@ public class RobotContainer {
 
       // SmartDashboard.putData(new IntakeTestCommand(intake));
 
-      SmartDashboard.putData(new ShooterTuneCommand(arm));
+      // SmartDashboard.putData(new ShooterTuneCommand(arm));
 
       // SmartDashboard.putData(new ArmToNeutral());
       // SmartDashboard.putData(new ArmToIntake());
@@ -152,10 +154,10 @@ public class RobotContainer {
 
     // SmartDashboard.putData(new SwerveTestCommand(drive));
 
-    SmartDashboard.putData(new ToNeutral());
-    SmartDashboard.putData(new ToIntake());
-    // SmartDashboard.putData(new ToSubwooferShoot());
-    SmartDashboard.putData(new ToShoot());
+    // SmartDashboard.putData(new ToNeutral());
+    // SmartDashboard.putData(new ToIntake());
+    // // SmartDashboard.putData(new ToSubwooferShoot());
+    // SmartDashboard.putData(new ToShoot());
 
     SmartDashboard.putData(new ManualShootCommand(loader, arm));
   }

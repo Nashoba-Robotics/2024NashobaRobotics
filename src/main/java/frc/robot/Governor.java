@@ -43,7 +43,7 @@ public class Governor {
         if(state == RobotState.TRANSITION && !override) queuedState = robotState;
         if(robotState == RobotState.UNKNOWN || robotState == RobotState.MISC) override = true;
         if(override || state != RobotState.TRANSITION) {
-            if(robotState != RobotState.UNKNOWN || robotState != RobotState.MISC) state = RobotState.TRANSITION;
+            if(robotState != RobotState.UNKNOWN && robotState != RobotState.MISC) state = RobotState.TRANSITION;
             switch (robotState) {
                 case NEUTRAL:
                     toNeutral();
