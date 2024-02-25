@@ -71,8 +71,13 @@ public class RobotContainer {
   private Trigger scoreAmp = joysticks.getDriverController().button(-1);
 
   private Trigger puke = joysticks.getDriverController().button(9);
-
   private Trigger shootPrep = joysticks.getDriverController().button(6);
+
+  private Trigger incrementAngle = joysticks.getOperatorController().button(-1);
+  private Trigger decrementAngle = joysticks.getOperatorController().button(-1);
+
+  private Trigger increaseSpeed = joysticks.getOperatorController().button(-1);
+  private Trigger decreaseSpeed = joysticks.getOperatorController().button(-1);
 
   public static enum NoteState{
     NONE,
@@ -110,6 +115,13 @@ public class RobotContainer {
 
     puke.onTrue(new ToPuke());
     shootPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP)));
+
+    incrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Presets.Arm.SPEAKER_OFFSET.plus(Rotation2d.fromDegrees(2))));
+    decrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Presets.Arm.SPEAKER_OFFSET.minus(Rotation2d.fromDegrees(2))));
+
+    increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Presets.Arm.SPEAKER_SPEED.plus(Rotation2d.fromRadians(10))));
+    decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Presets.Arm.SPEAKER_SPEED.minus(Rotation2d.fromRadians(10))));
+
   }
 
   private void addShuffleBoardData() {

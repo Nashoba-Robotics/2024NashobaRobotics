@@ -32,7 +32,7 @@ public class ArmToShoot extends Command{
         angle = -Math.atan2(y, dist);
 
        // TODO: Check if the angle is within our domain. 
-        arm.setArmPivot(Rotation2d.fromRadians(angle));
+        arm.setArmPivot(Rotation2d.fromRadians(angle).plus(Presets.Arm.SPEAKER_OFFSET));    //Adds on Operator Input
     }
     @Override
     public boolean isFinished() {
