@@ -23,8 +23,8 @@ public class ToShoot extends SequentialCommandGroup {
             new ParallelCommandGroup(
                 new GrabberToShoot()
                 // new IntakeToShoot()
-            )
-            // new FinishedShooting().withTimeout(5)
+            ),
+            new FinishedShooting().withTimeout(5)
         );
     }
 
