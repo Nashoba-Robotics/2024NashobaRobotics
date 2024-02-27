@@ -73,13 +73,16 @@ public class RobotContainer {
   private Trigger puke = joysticks.getDriverController().button(9);
   private Trigger shootPrep = joysticks.getDriverController().button(6);
 
-  private Trigger incrementAngle = joysticks.getOperatorController().button(-1);
-  private Trigger decrementAngle = joysticks.getOperatorController().button(-1);
+  private Trigger incrementAngle = joysticks.getOperatorController().button(8); //rt
+  private Trigger decrementAngle = joysticks.getOperatorController().button(7); //lt
 
-  private Trigger increaseSpeed = joysticks.getOperatorController().button(-1);
-  private Trigger decreaseSpeed = joysticks.getOperatorController().button(-1);
+  private Trigger increaseSpeed = joysticks.getOperatorController().button(6);  //rb
+  private Trigger decreaseSpeed = joysticks.getOperatorController().button(5);  //lb
 
   private Trigger operatorPrepShoot = joysticks.getOperatorController().button(-1);
+
+  private Trigger deployClimb = joysticks.getOperatorController().button(4);  //x
+  private Trigger climb = joysticks.getOperatorController().button(3);  //A
 
   public static enum NoteState{
     NONE,
