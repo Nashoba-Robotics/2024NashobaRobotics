@@ -133,7 +133,7 @@ public class LoaderIOTalonFX implements LoaderIO {
         rollerConfig.CurrentLimits.StatorCurrentLimit = Constants.Loader.ROLLER_STATOR_CURRENT_LIMIT;
         rollerConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         rollerConfig.CurrentLimits.SupplyCurrentLimit = Constants.Loader.ROLLER_SUPPLY_CURRENT_LIMIT;
-        rollerConfig.CurrentLimits.SupplyCurrentLimitEnable = false;
+        rollerConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
         rollerConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
         rollerConfig.Feedback.SensorToMechanismRatio = Constants.Loader.ROLLER_GEAR_RATIO;
         rollerConfig.MotorOutput.Inverted = Constants.Loader.ROLLER_INVERTED;

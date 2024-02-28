@@ -41,8 +41,8 @@ public class Constants {
             *      |            |
             *      --------------
             */
-            public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(11.42),0, new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.42), Units.inchesToMeters(-11.42), 0, new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.35),Units.inchesToMeters(15),0, new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.35), Units.inchesToMeters(-15), 0, new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
             // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(-11.42),Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
             // public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.42), Units.inchesToMeters(11.42), Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
 
@@ -93,7 +93,7 @@ public class Constants {
 
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
             .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
-            .withKP(60).withKI(0).withKD(0.6);
+            .withKP(80).withKI(0).withKD(0.6);
 
             public static final double SHOOTER_STATOR_CURRENT_LIMIT = 80;
             public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 50;
@@ -102,8 +102,8 @@ public class Constants {
             public static final NeutralModeValue SHOOTER_NEUTRAL_MODE = NeutralModeValue.Brake;
 
             public static final Slot0Configs SHOOTER_PID = new Slot0Configs()
-            .withKV(0.011466).withKS(0.030)
-            .withKP(0.06).withKI(0).withKD(0);
+            .withKV(0.0117419).withKS(0.030)
+            .withKP(0.09).withKI(0).withKD(0);
       }
 
       public static class Climber{
@@ -343,7 +343,7 @@ public class Constants {
 
       public static final class Field {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
-            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.6, 2.36);
+            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.7, 2.36);
             public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(0, 8.20-5.6, 2.36);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
 
@@ -405,8 +405,8 @@ public class Constants {
 
             //kG = 0.01, but angle not correct, so we have to manually implement it
 
-            public static final double ROLLER_STATOR_CURRENT_LIMIT = 20;
-            public static final double ROLLER_SUPPLY_CURRENT_LIMIT = 0;
+            public static final double ROLLER_STATOR_CURRENT_LIMIT = 60;
+            public static final double ROLLER_SUPPLY_CURRENT_LIMIT = 60;
 
             public static final InvertedValue ROLLER_INVERTED = InvertedValue.Clockwise_Positive;
             public static final NeutralModeValue ROLLER_NEUTRAL_MODE = NeutralModeValue.Brake;

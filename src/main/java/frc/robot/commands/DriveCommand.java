@@ -49,12 +49,8 @@ public class DriveCommand extends Command{
 
     @Override
     public void initialize() {
-        chassisSpeeds.vxMetersPerSecond = 0;
-        chassisSpeeds.vyMetersPerSecond = 0;
-        chassisSpeeds.omegaRadiansPerSecond = 0;
         angleController.reset(drive.getYaw().getRadians());
         drive.setDriveState(DriveState.DRIVER);
-        drive.set(chassisSpeeds);
 
     }
 

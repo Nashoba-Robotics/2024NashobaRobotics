@@ -16,6 +16,8 @@ public class ManualShootCommand extends Command {
     public ManualShootCommand(LoaderSubsystem loader, ArmSubsystem arm) {
         this.loader = loader;
         this.arm = arm;
+
+        addRequirements(loader, arm);
     }
 
     @Override
@@ -24,16 +26,16 @@ public class ManualShootCommand extends Command {
 
         SmartDashboard.putNumber("ShooterSpeed", 0);
         SmartDashboard.putNumber("LoaderSpeed", 0);
-        SmartDashboard.putNumber("ArmAngle", arm.getArmPivotAngle().getDegrees());
-        SmartDashboard.putNumber("LoaderAngle", loader.getPivotAngle().getDegrees());
+        SmartDashboard.putNumber("ArmAngle", arm.getArmPivotAngle().getRadians());
+        SmartDashboard.putNumber("LoaderAngle", loader.getPivotAngle().getRadians());
     }
 
     @Override
     public void execute() {
         loader.setRollerSpeed(SmartDashboard.getNumber("LoaderSpeed", 0));
-        loader.setPivot(Rotation2d.fromDegrees(SmartDashboard.getNumber("LoaderAngle", 0)));
+        loader.setPivot(Rotation2d.fromRadians(SmartDashboard.getNumber("LoaderAngle", 0)));
         arm.setShooterSpeed(Rotation2d.fromRadians(SmartDashboard.getNumber("ShooterSpeed", 0)));
-        arm.setArmPivot(Rotation2d.fromDegrees(SmartDashboard.getNumber("ArmAngle", 0)));
+        arm.setArmPivot(Rotation2d.fromRadians(SmartDashboard.getNumber("ArmAngle", 0)));
     }
 
 }

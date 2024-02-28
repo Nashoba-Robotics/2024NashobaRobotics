@@ -1,4 +1,4 @@
-package frc.robot.commands.test;
+package frc.robot.commands;
 
 import org.littletonrobotics.junction.Logger;
 
@@ -9,17 +9,21 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.units.Time;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.Governor;
+import frc.robot.Governor.RobotState;
 import frc.robot.lib.math.NRUnits;
 import frc.robot.lib.util.JoystickValues;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem.DriveState;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
 
-public class AimToSpeakerCommand extends Command{
+public class AimToAmpCommand extends Command{
     DriveSubsystem drive;
     JoystickSubsystem joysticks;
 
@@ -38,7 +42,9 @@ public class AimToSpeakerCommand extends Command{
 
     boolean flag;
 
-    public AimToSpeakerCommand(DriveSubsystem drive, JoystickSubsystem joysticks){
+    int allianceMultiplier;
+
+    public AimToAmpCommand(DriveSubsystem drive, JoystickSubsystem joysticks){
         targetAngle = new Rotation2d();
         this.drive = drive;
         this.joysticks = joysticks;
@@ -55,13 +61,13 @@ public class AimToSpeakerCommand extends Command{
         rightJoystickValues = new JoystickValues(0, 0);
 
         flag = false;
+
+        allianceMultiplier = 1;
     }
 
     @Override
     public void initialize() {
-        targetAngle = Rotation2d.fromRadians(Math.atan2(
-            Constants.Field.getSpeakerPos().getY() - drive.getPose().getY(),
-            Constants.Field.getSpeakerPos().getX() - drive.getPose().getX()));
+        targetAngle = Rotation2d.fromRadians(Constants.TAU/4);
         startStateUnconstrained = new State(drive.getYaw().getRadians(), drive.getZVelocity());
         startAngleConstrained = drive.getPose().getRotation();
         t.restart();
@@ -71,6 +77,8 @@ public class AimToSpeakerCommand extends Command{
 
     @Override
     public void execute() {
+        allianceMultiplier = DriverStation.getAlliance().get() == Alliance.Blue ? 1 : -1;
+
         ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
 
         leftJoystickValues = joysticks.getLeftJoystickValues()
@@ -90,11 +98,7 @@ public class AimToSpeakerCommand extends Command{
         chassisSpeeds.vxMetersPerSecond = leftJoystickValues.x * Constants.Drive.MAX_VELOCITY;
         chassisSpeeds.vyMetersPerSecond = leftJoystickValues.y * Constants.Drive.MAX_VELOCITY;
 
-
         if(feedForwardProfile.isFinished(t.get())) {
-            targetAngle = Rotation2d.fromRadians(Math.atan2(
-            Constants.Field.getSpeakerPos().getY() - drive.getPose().getY(),
-            Constants.Field.getSpeakerPos().getX() - drive.getPose().getX()));
             if(!flag) {
                 pidController.setP(10);
                 flag = true;
@@ -114,19 +118,20 @@ public class AimToSpeakerCommand extends Command{
         ;
 
         Logger.recordOutput("Current Angle", setState.position);
-        chassisSpeeds.omegaRadiansPerSecond = rotSpeed;
+        if(joysticks.getRightJoystickValues().x != 0)
+        chassisSpeeds.omegaRadiansPerSecond = -joysticks.getRightJoystickValues()
+        .shape(Constants.Joystick.TURN_DEAD_ZONE, Constants.Joystick.TURN_SENSITIVITY).x * Constants.Drive.MAX_ROTATION_VELOCITY;
+        else chassisSpeeds.omegaRadiansPerSecond = rotSpeed;
 
         drive.set(chassisSpeeds);
 
     }
 
     @Override
-    public void end(boolean interrupted) {
-        drive.set(0, 0, 0);
-    }
+    public void end(boolean interrupted) {}
 
     @Override
     public boolean isFinished() {
-        return false;
+        return Governor.getRobotState() != RobotState.AMP && Governor.getRobotState() != RobotState.AMP_ADJ && Governor.getRobotState() != RobotState.TRANSITION;
     }
 }
