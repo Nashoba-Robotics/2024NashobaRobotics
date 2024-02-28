@@ -297,7 +297,7 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
     public void zeroAngle() {
-        setAngle(DriverStation.getAlliance().get() == Alliance.Blue ? Rotation2d.fromRadians(0) :
+        setAngle(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? Rotation2d.fromRadians(0) :
         Rotation2d.fromRadians(Constants.TAU/2));
     }
 

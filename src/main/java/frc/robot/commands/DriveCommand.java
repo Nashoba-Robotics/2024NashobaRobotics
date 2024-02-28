@@ -60,7 +60,7 @@ public class DriveCommand extends Command{
 
     @Override
     public void execute() {
-        allianceMultiplier = DriverStation.getAlliance().get() == Alliance.Blue ? 1 : -1;
+        allianceMultiplier = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? 1 : -1;
 
         leftJoystickValues = joysticks.getLeftJoystickValues()
             .shape(Constants.Joystick.MOVE_DEAD_ZONE, Constants.Joystick.TURN_SENSITIVITY)

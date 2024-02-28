@@ -348,7 +348,7 @@ public class Constants {
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
 
             public static final Translation3d getSpeakerPos(){
-                  return DriverStation.getAlliance().get() == Alliance.Blue ? BLUE_SPEAKER_POSITION : RED_SPEAKER_POSITION;
+                  return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? BLUE_SPEAKER_POSITION : RED_SPEAKER_POSITION;
             }
       }
 
@@ -378,8 +378,8 @@ public class Constants {
             public static final int PIVOT_PORT = 12;
             public static final int ROLLER_PORT = 13;
 
-            public static final int LOADER_SENSOR_PORT = 1;
-            public static final int SHOOTER_SENSOR_PORT = 0;
+            public static final int LOADER_SENSOR_PORT = 0;
+            public static final int SHOOTER_SENSOR_PORT = 1;
 
             public static final double PIVOT_GEAR_RATIO = 9.*7*30/18;
             public static final double ROLLER_GEAR_RATIO = 7;
