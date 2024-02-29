@@ -21,8 +21,10 @@ public interface ClimberIO {
     public abstract void setLeftClimberPos(double pos);
     public abstract void setRightClimberPos(double pos);
 
-    // public abstract void setkS(double kS);
-    // public abstract void setkV(double kV);
-    // public abstract void setkP(double kP);
-    // public abstract void setKD(double kD);
+    public abstract void setClimberSpeed(double speed);
+
+    public abstract void setkS(double kS);
+    public abstract void setkV(double kV);
+    public abstract void setkP(double kP);
+    public abstract void setKD(double kD);
 }

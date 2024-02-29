@@ -18,6 +18,10 @@ public class ClimberSubsytem extends SubsystemBase{
         Logger.processInputs("Climber", inputs);
     }
 
+    public void setClimberSpeed(double speed){
+        io.setClimberSpeed(speed);
+    }
+
     public void setClimberM(double m){
         //setClimberPos(SOME CONVERSION);
     }
@@ -39,5 +43,18 @@ public class ClimberSubsytem extends SubsystemBase{
     }
     public double getRightRad(double pos){
         return inputs.rightClimberRotorPos;
+    }
+
+    public void setkS(double kS){
+        io.setkS(kS);
+    }
+    public void setkV(double kV){
+        io.setkV(kV);
+    }
+    public void setkP(double kP){
+        io.setkP(kP);
+    }
+    public void setkD(double kD){
+        io.setKD(kD);
     }
 }

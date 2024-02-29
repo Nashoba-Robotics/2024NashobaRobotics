@@ -112,8 +112,10 @@ public class Constants {
             public static final int LEFT_CLIMBER_PORT = 0;
             public static final int RIGHT_CLIMBER_PORT = 0;
 
+            public static final InvertedValue leftInvert = InvertedValue.Clockwise_Positive;
+
             public static final double STATOR_LIMIT = 0;
-            public static final double GEAR_RATIO = 0;
+            public static final double GEAR_RATIO = 4.*4*5*22/32;
 
             public static final double FORWARD_SOFT_LIMIT = 0;
             public static final double REVERSE_SOFT_LIMIT = 0;
@@ -125,6 +127,7 @@ public class Constants {
             .withKS(0).withKV(0).withKA(0)
             .withKP(0).withKI(0).withKD(0.0); 
       }
+
 
       public static class Drive {
             public static final String CANBUS = "jerry";

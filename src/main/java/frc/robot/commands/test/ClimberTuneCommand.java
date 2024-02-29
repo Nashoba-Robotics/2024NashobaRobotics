@@ -6,6 +6,11 @@ import frc.robot.subsystems.climber.ClimberSubsytem;
 
 public class ClimberTuneCommand extends Command{
     ClimberSubsytem climber;
+    
+    double lastkS = 0;
+    double lastkV = 0;
+    double lastkP = 0;
+    double lastkD = 0;
 
     ClimberTuneCommand(ClimberSubsytem climber){
         this.climber = climber;
@@ -16,12 +21,42 @@ public class ClimberTuneCommand extends Command{
     public void initialize() {
         SmartDashboard.putNumber("Climber Pos", 0);
 
+        SmartDashboard.putNumber("Climb kS", lastkS);
+        SmartDashboard.putNumber("Climb kV", lastkV);
+        SmartDashboard.putNumber("Climb kP", lastkP);
+        SmartDashboard.putNumber("Climb kD", lastkD);
+
     }
 
     @Override
     public void execute() {
         double pos = SmartDashboard.getNumber("Climber Pos", 0);
         climber.setClimberPos(pos);
+
+        double kS = SmartDashboard.getNumber("Climber kS", 0);
+        if(kS != lastkS){
+            climber.setkS(kS);
+            lastkS = kS;
+        }
+        double kV = SmartDashboard.getNumber("Climber kV", 0);
+        if(kV != lastkV){
+            climber.setkV(kV);
+            lastkV = kV;
+        }double kP = SmartDashboard.getNumber("Climber kP", 0);
+        if(kP != lastkP){
+            climber.setkP(kP);
+            lastkP = kP;
+        }double kD = SmartDashboard.getNumber("Climber kD", 0);
+        if(kD != lastkD){
+            climber.setkS(kD);
+            lastkD = kD;
+        }
+
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        climber.setClimberSpeed(0);
     }
 
     @Override

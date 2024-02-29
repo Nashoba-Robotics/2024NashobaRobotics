@@ -27,11 +27,11 @@ public class Governor {
         UNKNOWN,    //Ohio
         MISC,   //Florida
 
-        TRANSITION,
+        TRANSITION, //Interstate Highway
 
         INTAKE, //Mississippi
         SOURCE, //Massachusetts
-        SHOOT_PREP,
+        SHOOT_PREP, //New Hampshire
         SHOOT,  //Texas
         AMP, //California
         AMP_ADJ
@@ -49,7 +49,6 @@ public class Governor {
             else state = robotState;
             switch (robotState) {
                 case NEUTRAL:
-                    LEDManager.setColor(new Color(0, 0, 0));
                     toNeutral();
                     break;
                 case ZERO:
@@ -65,19 +64,15 @@ public class Governor {
                     toIntake();
                     break;
                 case SOURCE:
-                    LEDManager.setColor(new Color(0, 0, 255));
                     toSource();
                     break;
                 case SHOOT_PREP:
-                    LEDManager.setColor(new Color(0, 255, 255));
                     toShootPrep();
                     break;
                 case SHOOT:
-                    LEDManager.setColor(new Color(0, 255, 0));
                     toShoot();
                     break;
                 case AMP:
-                    LEDManager.setColor(new Color(255, 0, 255));
                     toAmp();
                     break;
                 case AMP_ADJ:

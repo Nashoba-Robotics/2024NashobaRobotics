@@ -7,7 +7,10 @@ public class Presets {
     public static class Arm {
 
         //TODO: Shooter pos = -35 deg
-        public static final Rotation2d W0_SHOOTER_POS = Rotation2d.fromDegrees(-35);
+        public static final Rotation2d PODIUM_SHOOTER_POS = Rotation2d.fromDegrees(-35);
+        public static boolean OVERRIDE_AUTOMATIC_AIM = false;
+
+
         public static final Rotation2d AMP_POS = Rotation2d.fromDegrees(-54); //60 or 35
         public static final Rotation2d INTAKE_POS = Rotation2d.fromDegrees(-54);
         public static final Rotation2d NEUTRAL_POS = Rotation2d.fromDegrees(-54);

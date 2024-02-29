@@ -38,6 +38,10 @@ public class ArmToShoot extends Command{
         //     angle = -0.516972 * Math.atan(-1.29721*dist + 2.25625) - 0.962371;
         // }
        // TODO: Check if the angle is within our domain. 
+
+       if(Presets.Arm.OVERRIDE_AUTOMATIC_AIM)
+        angle = Presets.Arm.PODIUM_SHOOTER_POS.getRadians() + Presets.Arm.SPEAKER_OFFSET.getRadians();
+
         arm.setArmPivot(Rotation2d.fromRadians(angle));    //Adds on Operator Input
     }
     @Override

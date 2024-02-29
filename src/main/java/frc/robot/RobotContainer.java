@@ -59,6 +59,7 @@ import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
+import frc.robot.subsystems.leds.LEDManager;
 import frc.robot.subsystems.loader.LoaderSubsystem;
 
 public class RobotContainer {
@@ -69,6 +70,7 @@ public class RobotContainer {
   public static final ArmSubsystem arm = new ArmSubsystem();
   public static final IntakeSubsystem intake = new IntakeSubsystem();
   public static final LoaderSubsystem loader = new LoaderSubsystem();
+  public static final LEDManager leds = new LEDManager();
   
   private static SendableChooser<Command> autoChooser;
 
@@ -95,7 +97,8 @@ public class RobotContainer {
   private Trigger increaseSpeed = joysticks.getOperatorController().button(6);  //rb
   private Trigger decreaseSpeed = joysticks.getOperatorController().button(5);  //lb
 
-  private Trigger operatorPrepShoot = joysticks.getOperatorController().button(-1);
+  private boolean aimOverrideTriggered = false;
+  private Trigger armAimOverride = joysticks.getOperatorController().button(-1).debounce(0.1);
 
   private Trigger deployClimb = joysticks.getOperatorController().button(4);  //x
   private Trigger climb = joysticks.getOperatorController().button(3);  //A
@@ -150,7 +153,21 @@ public class RobotContainer {
     increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
     decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() - 10)));
 
-    operatorPrepShoot.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHOOT_PREP)));    
+    //TODO: Test this.
+    armAimOverride.onTrue(new InstantCommand(()->{Presets.Arm.OVERRIDE_AUTOMATIC_AIM = true; aimOverrideTriggered = true;})).and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean() {
+          return !Presets.Arm.OVERRIDE_AUTOMATIC_AIM && !aimOverrideTriggered;
+      } 
+    });
+    armAimOverride.onTrue(new InstantCommand(()->{Presets.Arm.OVERRIDE_AUTOMATIC_AIM = false; aimOverrideTriggered = true;})).and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean() {
+          return Presets.Arm.OVERRIDE_AUTOMATIC_AIM && !aimOverrideTriggered;
+      } 
+    });
+    armAimOverride.onFalse(new InstantCommand(()->aimOverrideTriggered = false));
+
     shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
   }
 

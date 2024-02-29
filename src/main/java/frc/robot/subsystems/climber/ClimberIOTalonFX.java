@@ -31,7 +31,7 @@ public class ClimberIOTalonFX implements ClimberIO{
         config.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
         config.Feedback.SensorToMechanismRatio = Constants.Climber.GEAR_RATIO;
         config.FutureProofConfigs = true;
-        config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        config.MotorOutput.Inverted = Constants.Climber.leftInvert;
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         config.Voltage.PeakForwardVoltage = 12;
         config.Voltage.PeakReverseVoltage = -12;
@@ -42,18 +42,20 @@ public class ClimberIOTalonFX implements ClimberIO{
         
         config.Slot0 = Constants.Climber.leftPID;
 
+        rightClimber.setControl(new Follower(Constants.Climber.LEFT_CLIMBER_PORT, true));
         leftClimber.getConfigurator().apply(config);
 
-        //TODO: MAKE SURE THIS WORKS!!!!
-        config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        //TODO: Individually tune the motors;
+        // //TODO: MAKE SURE THIS WORKS!!!!
+        // config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
-        config.Slot0 = Constants.Climber.rightPID;
+        // config.Slot0 = Constants.Climber.rightPID;
         
-        rightClimber.getConfigurator().apply(config);
+        // rightClimber.getConfigurator().apply(config);
        // rightClimber.setControl(new Follower(0, true)); //TODO: Figure out if the motors oppose each other
 
         leftMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, true, true);
-        rightMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, true, true);
+        // rightMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, true, true);
     }
 
     public void updateInputs(ClimberIOInputs inputs){
@@ -78,5 +80,27 @@ public class ClimberIOTalonFX implements ClimberIO{
     public void setRightClimberPos(double pos){
         rightMotionMagic.Position = pos;
         rightClimber.setControl(rightMotionMagic);
+    }
+
+    @Override
+    public void setClimberSpeed(double speed){
+        leftClimber.set(speed);
+    }
+
+    public void setkS(double kS){
+        config.Slot0.kS = kS;
+        leftClimber.getConfigurator().apply(config);
+    }
+    public void setkV(double kV){
+        config.Slot0.kV = kV;
+        leftClimber.getConfigurator().apply(config);
+    }
+    public void setkP(double kP){
+        config.Slot0.kP = kP;
+        leftClimber.getConfigurator().apply(config);
+    }
+    public void setKD(double kD){
+        config.Slot0.kD = kD;
+        leftClimber.getConfigurator().apply(config);
     }
 }

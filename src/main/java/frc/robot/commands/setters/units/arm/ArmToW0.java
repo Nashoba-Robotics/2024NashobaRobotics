@@ -14,11 +14,11 @@ public class ArmToW0 extends Command{
 
     @Override
     public void execute() {
-        arm.setArmPivot(Presets.Arm.W0_SHOOTER_POS);
+        arm.setArmPivot(Presets.Arm.PODIUM_SHOOTER_POS);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(arm.getArmPivotAngle().getRadians() - Presets.Arm.W0_SHOOTER_POS.getRadians()) <= Presets.Arm.POS_TOLERANCE.getRadians(); 
+        return Math.abs(arm.getArmPivotAngle().getRadians() - Presets.Arm.PODIUM_SHOOTER_POS.getRadians()) <= Presets.Arm.POS_TOLERANCE.getRadians(); 
     }
 }
