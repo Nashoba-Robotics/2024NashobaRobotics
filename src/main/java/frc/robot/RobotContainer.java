@@ -144,11 +144,11 @@ public class RobotContainer {
     puke.onTrue(new ToPuke());
     shootPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP)));
 
-    incrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Presets.Arm.SPEAKER_OFFSET.minus(Rotation2d.fromDegrees(2))));
-    decrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Presets.Arm.SPEAKER_OFFSET.plus(Rotation2d.fromDegrees(2))));
+    incrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Rotation2d.fromDegrees(Presets.Arm.SPEAKER_OFFSET.getDegrees() - 2)));
+    decrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Rotation2d.fromDegrees(Presets.Arm.SPEAKER_OFFSET.getDegrees() + 2)));
 
-    increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Presets.Arm.SPEAKER_SPEED.plus(Rotation2d.fromRadians(10))));
-    decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Presets.Arm.SPEAKER_SPEED.minus(Rotation2d.fromRadians(10))));
+    increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
+    decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() - 10)));
 
     operatorPrepShoot.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHOOT_PREP)));    
     shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
