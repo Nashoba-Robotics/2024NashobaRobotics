@@ -2,9 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
-public final class Presets {
+public class Presets {
 
-    public static final class Arm {
+    public static class Arm {
 
         //TODO: Shooter pos = -35 deg
         public static final Rotation2d W0_SHOOTER_POS = Rotation2d.fromDegrees(-35);
@@ -19,7 +19,7 @@ public final class Presets {
 
 
 
-        public static Rotation2d SPEAKER_SPEED = Rotation2d.fromRadians(400);
+        public static Rotation2d SPEAKER_SPEED = Rotation2d.fromRadians(375);
         public static final Rotation2d SPEAKER_SPEED_PREP = Rotation2d.fromRadians(200);
         public static final double SPEAKER_PERCENT = 0.9;
         public static final Rotation2d AMP_SPEED = Rotation2d.fromRadians(70.0);

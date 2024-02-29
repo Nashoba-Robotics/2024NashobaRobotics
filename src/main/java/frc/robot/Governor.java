@@ -41,7 +41,7 @@ public class Governor {
 
     public static void setRobotState(RobotState robotState, boolean override) {
         if(state == RobotState.TRANSITION && !override) queuedState = robotState;
-        if(robotState == RobotState.UNKNOWN || robotState == RobotState.MISC || robotState == RobotState.NEUTRAL) override = true;
+        if(robotState == RobotState.UNKNOWN || robotState == RobotState.MISC) override = true;
         if(override || state != RobotState.TRANSITION) {
             if(robotState != RobotState.UNKNOWN && robotState != RobotState.MISC) state = RobotState.TRANSITION;
             else state = robotState;

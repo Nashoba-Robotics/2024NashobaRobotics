@@ -23,6 +23,7 @@ import frc.robot.commands.AimToSpeakerCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SwerveTestCommand;
 import frc.robot.commands.test.ArmTuneCommand;
+import frc.robot.commands.auto.ContinuousArmToShoot;
 import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
@@ -33,6 +34,7 @@ import frc.robot.commands.setters.groups.ToIntake;
 import frc.robot.commands.setters.groups.ToNeutral;
 import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.groups.ToShoot;
+import frc.robot.commands.setters.units.arm.ArmToAmp;
 import frc.robot.commands.setters.units.arm.ArmToIntake;
 import frc.robot.commands.setters.units.arm.ArmToNeutral;
 import frc.robot.commands.setters.units.arm.ArmToShoot;
@@ -87,8 +89,8 @@ public class RobotContainer {
   private Trigger puke = joysticks.getDriverController().button(9);
   private Trigger shootPrep = joysticks.getDriverController().button(6);
 
-  private Trigger incrementAngle = joysticks.getOperatorController().button(8); //rt
-  private Trigger decrementAngle = joysticks.getOperatorController().button(7); //lt
+  private Trigger incrementAngle = joysticks.getOperatorController().button(8); //rt  Shot goes higher
+  private Trigger decrementAngle = joysticks.getOperatorController().button(7); //lt  Shot goes lower
 
   private Trigger increaseSpeed = joysticks.getOperatorController().button(6);  //rb
   private Trigger decreaseSpeed = joysticks.getOperatorController().button(5);  //lb
@@ -97,6 +99,8 @@ public class RobotContainer {
 
   private Trigger deployClimb = joysticks.getOperatorController().button(4);  //x
   private Trigger climb = joysticks.getOperatorController().button(3);  //A
+
+  public static AimToSpeakerCommand aimToSpeakerCommand = new AimToSpeakerCommand(drive, joysticks);
 
   public static enum NoteState{
     NONE,
@@ -140,8 +144,8 @@ public class RobotContainer {
     puke.onTrue(new ToPuke());
     shootPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP)));
 
-    incrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Presets.Arm.SPEAKER_OFFSET.plus(Rotation2d.fromDegrees(2))));
-    decrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Presets.Arm.SPEAKER_OFFSET.minus(Rotation2d.fromDegrees(2))));
+    incrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Presets.Arm.SPEAKER_OFFSET.minus(Rotation2d.fromDegrees(2))));
+    decrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Presets.Arm.SPEAKER_OFFSET.plus(Rotation2d.fromDegrees(2))));
 
     increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Presets.Arm.SPEAKER_SPEED.plus(Rotation2d.fromRadians(10))));
     decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Presets.Arm.SPEAKER_SPEED.minus(Rotation2d.fromRadians(10))));
@@ -202,14 +206,20 @@ public class RobotContainer {
   }
 
   private void configureEvents() {
-    NamedCommands.registerCommand("StartShooter", new InstantCommand(() -> arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED), arm));
+    NamedCommands.registerCommand("StartShooter", 
+      new SequentialCommandGroup(
+        new InstantCommand(() -> arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED), arm)
+        // new ContinuousArmToShoot()
+      )
+    );
     NamedCommands.registerCommand("Intake", new SequentialCommandGroup(
       new LoaderToIntake(),
             new ArmToIntake(),
             new ParallelCommandGroup(
                 new GrabberToIntake(),
                 new IntakeToIntake()
-            )
+            ).withTimeout(6)
+      // new ContinuousArmToShoot()
     ));
 
     NamedCommands.registerCommand("ShootCommand", new SequentialCommandGroup(

@@ -7,6 +7,8 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,14 +48,36 @@ public class Robot extends LoggedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    if(AprilTagManager.hasLeftTarget()
-        && AprilTagManager.getLeftAmbiguity() <= 0.2
-        && AprilTagManager.getLeftRobotPos() != null)
-          RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getLeftRobotPos().toPose2d(), AprilTagManager.getLeftTimestamp());
-    if(AprilTagManager.hasRightTarget()
-        && AprilTagManager.getRightAmbiguity() <= 0.2
-        && AprilTagManager.getRightRobotPos() != null)
-          RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getRightRobotPos().toPose2d(), AprilTagManager.getRightTimestamp());
+    Pose2d leftPose2d = AprilTagManager.getLeftRobotPos().toPose2d();
+    Pose2d rightPose2d = AprilTagManager.getRightRobotPos().toPose2d();
+
+    double leftError = leftPose2d.relativeTo(RobotContainer.drive.getPose()).getTranslation().getNorm();
+    double rightError = rightPose2d.relativeTo(RobotContainer.drive.getPose()).getTranslation().getNorm();
+
+    Logger.recordOutput("LeftErrorDist", leftError);
+    Logger.recordOutput("rightErrorDist", rightError);
+
+    if(DriverStation.isAutonomous()) {
+      if(AprilTagManager.hasLeftTarget()
+          && AprilTagManager.getLeftAmbiguity() <= 0.10
+          && AprilTagManager.getLeftRobotPos() != null
+          && leftError < 1)
+            RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getLeftRobotPos().toPose2d(), AprilTagManager.getLeftTimestamp());
+      if(AprilTagManager.hasRightTarget()
+          && AprilTagManager.getRightAmbiguity() <= 0.10
+          && AprilTagManager.getRightRobotPos() != null
+          && rightError < 1)
+            RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getRightRobotPos().toPose2d(), AprilTagManager.getRightTimestamp());
+    } else {
+      if(AprilTagManager.hasLeftTarget()
+          && AprilTagManager.getLeftAmbiguity() <= 0.10
+          && AprilTagManager.getLeftRobotPos() != null)
+            RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getLeftRobotPos().toPose2d(), AprilTagManager.getLeftTimestamp());
+      if(AprilTagManager.hasRightTarget()
+          && AprilTagManager.getRightAmbiguity() <= 0.10
+          && AprilTagManager.getRightRobotPos() != null)
+            RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getRightRobotPos().toPose2d(), AprilTagManager.getRightTimestamp());
+    }
 
     double y = Constants.Field.getSpeakerPos().getZ()-Constants.Robot.SHOOTER_HEIGHT;
     double dist = RobotContainer.drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());

@@ -64,7 +64,7 @@ public class DriveSubsystem extends SubsystemBase{
             getSwerveModulePositions(),
             new Pose2d(0, 0, getGyroAngle()),
             VecBuilder.fill(0.1, 0.1, 0.1),
-            VecBuilder.fill(5.0, 5.0, 0.9)
+            VecBuilder.fill(0.9, 0.9, 0.9)
             );
 
         AutoBuilder.configureHolonomic(
@@ -73,8 +73,8 @@ public class DriveSubsystem extends SubsystemBase{
                 this::getRobotRelativeSpeeds,
                 this::driveRobotRelative,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(5.0, 0.0, 0.0),
-                        new PIDConstants(6.0, 0.0, 0.0),
+                        new PIDConstants(2.0, 0.0, 0.0),
+                        new PIDConstants(8.0, 0.0, 0.0),
                         Constants.Drive.MAX_VELOCITY,
                         Constants.Drive.DIAGONAL,
                         new ReplanningConfig()

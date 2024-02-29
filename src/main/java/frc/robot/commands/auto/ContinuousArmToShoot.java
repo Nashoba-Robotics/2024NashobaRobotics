@@ -1,4 +1,4 @@
-package frc.robot.commands.setters.units.arm;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -13,13 +13,13 @@ import frc.robot.Governor.RobotState;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 
-public class ArmToShoot extends Command{
+public class ContinuousArmToShoot extends Command{
     ArmSubsystem arm = RobotContainer.arm;
     DriveSubsystem drive = RobotContainer.drive;
 
     double angle;
 
-    public ArmToShoot(){
+    public ContinuousArmToShoot(){
         angle = 0;
 
         addRequirements(arm);
@@ -33,7 +33,6 @@ public class ArmToShoot extends Command{
             angle = 0.925033 * Math.atan(0.673009*dist) - 1.57125 + 0.001;   //TODO: Add operator offset
         // angle = 0.435322 * Math.atan(0.797911*dist - 1.42314) - 0.768085;   //TODO: Add operator offset
 
-        angle += Presets.Arm.SPEAKER_OFFSET.getRadians();
         // } else {
         //     angle = -0.516972 * Math.atan(-1.29721*dist + 2.25625) - 0.962371;
         // }
@@ -42,7 +41,6 @@ public class ArmToShoot extends Command{
     }
     @Override
     public boolean isFinished() {
-        if(DriverStation.isAutonomous()) return Math.abs(arm.getArmPivotAngle().getRadians()-angle) <= Presets.Arm.POS_TOLERANCE.getRadians();
-        return Governor.getRobotState() != RobotState.SHOOT_PREP;
+        return false;
     }
 }

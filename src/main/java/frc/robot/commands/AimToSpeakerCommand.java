@@ -106,7 +106,7 @@ public class AimToSpeakerCommand extends Command{
             Constants.Field.getSpeakerPos().getY() - drive.getPose().getY(),
             Constants.Field.getSpeakerPos().getX() - drive.getPose().getX()));
             if(!flag) {
-                pidController.setP(10);
+                pidController.setP(8.5);
                 flag = true;
             }
         }
@@ -124,10 +124,7 @@ public class AimToSpeakerCommand extends Command{
         ;
 
         Logger.recordOutput("Current Angle", setState.position);
-        if(joysticks.getRightJoystickValues().x != 0)
-        chassisSpeeds.omegaRadiansPerSecond = -joysticks.getRightJoystickValues()
-        .shape(Constants.Joystick.TURN_DEAD_ZONE, Constants.Joystick.TURN_SENSITIVITY).x * Constants.Drive.MAX_ROTATION_VELOCITY;
-        else chassisSpeeds.omegaRadiansPerSecond = rotSpeed;
+        chassisSpeeds.omegaRadiansPerSecond = rotSpeed;
 
         drive.set(chassisSpeeds);
 
@@ -138,6 +135,7 @@ public class AimToSpeakerCommand extends Command{
 
     @Override
     public boolean isFinished() {
-        return Governor.getRobotState() != RobotState.SHOOT && Governor.getRobotState() != RobotState.SHOOT_PREP && Governor.getRobotState() != RobotState.TRANSITION;
+        return Governor.getRobotState() != RobotState.SHOOT && Governor.getRobotState() != RobotState.SHOOT_PREP && Governor.getRobotState() != RobotState.TRANSITION
+        || Math.abs(joysticks.getRightJoystickValues().x) >= 0.03;
     }
 }

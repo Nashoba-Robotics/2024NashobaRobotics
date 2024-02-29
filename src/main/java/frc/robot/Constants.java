@@ -26,8 +26,8 @@ public class Constants {
       public static final double PEAK_VOLTAGE = 12;
 
       public static final class AprilTags{
-            public static final String LEFT_CAMERA_NAME = "Ben's_Little_Buddy";
-            public static final String RIGHT_CAMERA_NAME = "Yi's_Little_Buddy";
+            public static final String LEFT_CAMERA_NAME = "Ben's_Little_Buddy (1)";
+            public static final String RIGHT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
 
             /* For PhotonEstimator
             *             ^ 
@@ -41,8 +41,8 @@ public class Constants {
             *      |            |
             *      --------------
             */
-            public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.35),Units.inchesToMeters(15),0, new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.35), Units.inchesToMeters(-15), 0, new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.35),Units.inchesToMeters(9.5),0, new Rotation3d(0, -15./360*TAU, 20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.35), Units.inchesToMeters(-9.5), 0, new Rotation3d(0, -15./360*TAU, -20.*Constants.TAU/360));
             // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(-11.42),Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
             // public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.42), Units.inchesToMeters(11.42), Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
 
@@ -343,7 +343,7 @@ public class Constants {
 
       public static final class Field {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
-            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.7, 2.36);
+            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 6, 2.36);
             public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(0, 8.20-5.6, 2.36);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
 

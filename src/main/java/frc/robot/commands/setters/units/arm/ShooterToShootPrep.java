@@ -16,7 +16,9 @@ public class ShooterToShootPrep extends Command{
 
     @Override
     public void execute() {
-        arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED.div(3).times(2));
+        // arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED.div(3).times(2));
+        arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+
     }
 
     @Override
