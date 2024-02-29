@@ -12,6 +12,8 @@ import frc.robot.commands.setters.groups.ToNeutral;
 import frc.robot.commands.setters.groups.ToShoot;
 import frc.robot.commands.setters.groups.ToShootPrep;
 import frc.robot.commands.setters.groups.ToSource;
+import frc.robot.subsystems.leds.LEDManager;
+import frc.robot.subsystems.leds.LEDManager.Color;
 
 public class Governor {
     private static RobotState state = RobotState.UNKNOWN;
@@ -47,6 +49,7 @@ public class Governor {
             else state = robotState;
             switch (robotState) {
                 case NEUTRAL:
+                    LEDManager.setColor(new Color(0, 0, 0));
                     toNeutral();
                     break;
                 case ZERO:
@@ -62,15 +65,19 @@ public class Governor {
                     toIntake();
                     break;
                 case SOURCE:
+                    LEDManager.setColor(new Color(0, 0, 255));
                     toSource();
                     break;
                 case SHOOT_PREP:
+                    LEDManager.setColor(new Color(0, 255, 255));
                     toShootPrep();
                     break;
                 case SHOOT:
+                    LEDManager.setColor(new Color(0, 255, 0));
                     toShoot();
                     break;
                 case AMP:
+                    LEDManager.setColor(new Color(255, 0, 255));
                     toAmp();
                     break;
                 case AMP_ADJ:

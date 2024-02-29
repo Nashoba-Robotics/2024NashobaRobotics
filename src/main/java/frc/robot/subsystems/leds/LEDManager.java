@@ -2,13 +2,30 @@ package frc.robot.subsystems.leds;
 
 import com.ctre.phoenix.led.CANdle;
 
-public class LEDManager {
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Governor;
+import frc.robot.RobotContainer;
+
+public class LEDManager extends SubsystemBase{
     private static CANdle candle;
 
     public LEDManager(){
         candle = new CANdle(0, "jerry");
 
         candle.configFactoryDefault();
+    }
+
+    @Override
+    public void periodic() {
+        switch (Governor.getRobotState()) {
+            case NEUTRAL:
+                if(RobotContainer.loader.getShooterSensor()) setColor(new Color(255, 255, 255));
+                else new Color(255, 0, 0);
+                break;
+        
+            default:
+                break;
+        }
     }
 
     public static void setColor(Color color){
@@ -22,5 +39,15 @@ public class LEDManager {
             this.g = g;
             this.b = b;
         }
+    }
+
+    public static enum LEDState{
+        DISABLED,
+        NEUTRAL,
+        INTAKE,
+        SOURCE,
+        SHOOT_PREP,
+        SHOOT,
+        HAVE_NOTE
     }
 }
