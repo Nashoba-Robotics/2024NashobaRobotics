@@ -12,7 +12,7 @@ public class ClimberTuneCommand extends Command{
     double lastkP = 0;
     double lastkD = 0;
 
-    ClimberTuneCommand(ClimberSubsytem climber){
+    public ClimberTuneCommand(ClimberSubsytem climber){
         this.climber = climber;
         addRequirements(climber);
     }

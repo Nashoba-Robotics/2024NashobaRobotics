@@ -9,6 +9,7 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Constants;
 
 public class ClimberIOTalonFX implements ClimberIO{
@@ -44,6 +45,7 @@ public class ClimberIOTalonFX implements ClimberIO{
 
         rightClimber.setControl(new Follower(Constants.Climber.LEFT_CLIMBER_PORT, true));
         leftClimber.getConfigurator().apply(config);
+        rightClimber.getConfigurator().apply(config);
 
         //TODO: Individually tune the motors;
         // //TODO: MAKE SURE THIS WORKS!!!!
@@ -80,6 +82,14 @@ public class ClimberIOTalonFX implements ClimberIO{
     public void setRightClimberPos(double pos){
         rightMotionMagic.Position = pos;
         rightClimber.setControl(rightMotionMagic);
+    }
+
+    public void setLeftClimberRotor(Rotation2d pos){
+        leftClimber.setPosition(pos.getRotations());
+    }
+
+    public void setRightClimberRotor(Rotation2d pos){
+        rightClimber.setPosition(pos.getRotations());
     }
 
     @Override

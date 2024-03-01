@@ -23,6 +23,8 @@ import frc.robot.commands.AimToSpeakerCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SwerveTestCommand;
 import frc.robot.commands.test.ArmTuneCommand;
+import frc.robot.commands.test.ClimberTestCommand;
+import frc.robot.commands.test.ClimberTuneCommand;
 import frc.robot.commands.auto.ContinuousArmToShoot;
 import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
@@ -41,6 +43,7 @@ import frc.robot.commands.setters.units.arm.ArmToShoot;
 import frc.robot.commands.setters.units.arm.ShooterToShoot;
 import frc.robot.commands.setters.units.intake.IntakeToIntake;
 import frc.robot.commands.setters.units.loader.GrabberToIntake;
+import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.setters.units.loader.LoaderToIntake;
 import frc.robot.commands.test.IntakeTestCommand;
 import frc.robot.commands.test.LoaderTuneCommand;
@@ -56,6 +59,7 @@ import frc.robot.commands.test.TurnTestCommand;
 import frc.robot.commands.test.TurnToTargetCommand;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.climber.ClimberSubsytem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
@@ -71,6 +75,7 @@ public class RobotContainer {
   public static final IntakeSubsystem intake = new IntakeSubsystem();
   public static final LoaderSubsystem loader = new LoaderSubsystem();
   public static final LEDManager leds = new LEDManager();
+  public static final ClimberSubsytem climber = new ClimberSubsytem();
   
   private static SendableChooser<Command> autoChooser;
 
@@ -91,14 +96,17 @@ public class RobotContainer {
   private Trigger puke = joysticks.getDriverController().button(9);
   private Trigger shootPrep = joysticks.getDriverController().button(6);
 
-  private Trigger incrementAngle = joysticks.getOperatorController().button(8); //rt  Shot goes higher
-  private Trigger decrementAngle = joysticks.getOperatorController().button(7); //lt  Shot goes lower
+  private Trigger incrementAngle = joysticks.getOperatorController().povUp(); //  Shot goes higher
+  private Trigger decrementAngle = joysticks.getOperatorController().povDown(); //  Shot goes lower
 
   private Trigger increaseSpeed = joysticks.getOperatorController().button(6);  //rb
   private Trigger decreaseSpeed = joysticks.getOperatorController().button(5);  //lb
 
   private boolean aimOverrideTriggered = false;
   private Trigger armAimOverride = joysticks.getOperatorController().button(-1).debounce(0.1);
+  private Trigger shootOveride = joysticks.getOperatorController().button(8);
+  //Drive override -> B
+  // Arm override -> Y
 
   private Trigger deployClimb = joysticks.getOperatorController().button(4);  //x
   private Trigger climb = joysticks.getOperatorController().button(3);  //A
@@ -167,6 +175,7 @@ public class RobotContainer {
       } 
     });
     armAimOverride.onFalse(new InstantCommand(()->aimOverrideTriggered = false));
+    shootOveride.onTrue(new GrabberToShoot());
 
     shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
   }
@@ -220,6 +229,10 @@ public class RobotContainer {
     // SmartDashboard.putData(new ToShoot());
 
     SmartDashboard.putData(new ManualShootCommand(loader, arm));
+    // SmartDashboard.putData(new ClimberTuneCommand(climber));
+    // SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
+    //     SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
+      SmartDashboard.putData(new ClimberTestCommand(climber));
   }
 
   private void configureEvents() {

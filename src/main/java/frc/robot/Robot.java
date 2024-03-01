@@ -8,6 +8,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -123,8 +124,10 @@ public class Robot extends LoggedRobot {
       new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
       );
 
-    CommandScheduler.getInstance().schedule(new President());
-    Governor.setRobotState(RobotState.NEUTRAL, true);
+    // CommandScheduler.getInstance().schedule(new President());
+    // Governor.setRobotState(RobotState.NEUTRAL, true);
+
+    Presets.Arm.SPEAKER_OFFSET = Rotation2d.fromDegrees(0);
   }
 
   @Override
