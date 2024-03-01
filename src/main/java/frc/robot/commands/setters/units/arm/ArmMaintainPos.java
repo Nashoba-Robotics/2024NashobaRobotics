@@ -27,7 +27,8 @@ public class ArmMaintainPos extends Command{
 
     @Override
     public boolean isFinished() {
-        return Math.abs(arm.getArmPivotAngle().getRadians() - currentPos.getRadians()) <= Presets.Arm.POS_TOLERANCE.getRadians();
+        // return Math.abs(arm.getArmPivotAngle().getRadians() - currentPos.getRadians()) <= Presets.Arm.POS_TOLERANCE.getRadians();
+        return true;
 
     }
 }

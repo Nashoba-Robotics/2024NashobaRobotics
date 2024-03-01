@@ -9,8 +9,6 @@ import frc.robot.commands.setters.units.arm.ArmToIntake;
 import frc.robot.commands.setters.units.intake.IntakeToIntake;
 import frc.robot.commands.setters.units.loader.GrabberToIntake;
 import frc.robot.commands.setters.units.loader.LoaderToIntake;
-import frc.robot.commands.setters.units.loader.NoteToLoader;
-import frc.robot.commands.setters.units.loader.NoteToShooter;
 
 public class ToIntake extends SequentialCommandGroup {
     
@@ -19,11 +17,9 @@ public class ToIntake extends SequentialCommandGroup {
             new StopAllRollers(),
             new LoaderToIntake(),
             new ArmToIntake(),
-            new ParallelCommandGroup(
-                new GrabberToIntake(),
-                new IntakeToIntake(),
-                Governor.getSetStateCommand(RobotState.INTAKE)
-            )
+            new GrabberToIntake(),
+            new IntakeToIntake(),
+            Governor.getSetStateCommand(RobotState.INTAKE)
         );
     }
 

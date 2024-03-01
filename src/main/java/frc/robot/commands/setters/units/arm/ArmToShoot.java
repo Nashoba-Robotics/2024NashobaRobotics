@@ -28,18 +28,26 @@ public class ArmToShoot extends Command{
     public void execute() {
         
         double dist = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
-        double angle = 0;
-        if(RobotContainer.drive.getPose().getY() > 4.04) {
-            angle = -0.435322 * Math.atan(-0.797911*dist + 1.42314) - 0.768085;
-        } else {
-            angle = -0.516972 * Math.atan(-1.29721*dist + 2.25625) - 0.962371;
-        }
+        angle = 0;
+        // if(RobotContainer.drive.getPose().getY() > 4.04) {
+            angle = 0.95 * Math.atan(0.673009*dist) - 1.57125 + 0.01;   //TODO: Add operator offset
+        // angle = 0.435322 * Math.atan(0.797911*dist - 1.42314) - 0.768085;   //TODO: Add operator offset
+
+        angle += Presets.Arm.SPEAKER_OFFSET.getRadians();
+        // } else {
+        //     angle = -0.516972 * Math.atan(-1.29721*dist + 2.25625) - 0.962371;
+        // }
        // TODO: Check if the angle is within our domain. 
-        arm.setArmPivot(Rotation2d.fromRadians(angle));
+
+       if(Presets.Arm.OVERRIDE_AUTOMATIC_AIM)
+        angle = Presets.Arm.PODIUM_SHOOTER_POS.getRadians() + Presets.Arm.SPEAKER_OFFSET.getRadians();
+
+        arm.setArmPivot(Rotation2d.fromRadians(angle));    //Adds on Operator Input
     }
     @Override
     public boolean isFinished() {
-        if(DriverStation.isAutonomous()) return Math.abs(arm.getArmPivotAngle().getRadians()-angle) <= Presets.Arm.POS_TOLERANCE.getRadians();
-        return Governor.getRobotState() != RobotState.SHOOT_PREP;
+        if(DriverStation.isAutonomous() && Governor.getRobotState() != RobotState.SHOOT_PREP) return Math.abs(angle - arm.getArmPivotAngle().getRadians()) < Presets.Arm.POS_TOLERANCE.getRadians() || !RobotContainer.loader.getShooterSensor();
+        else return Governor.getRobotState() != RobotState.SHOOT_PREP;
+
     }
 }
