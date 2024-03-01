@@ -28,11 +28,11 @@ public class Governor {
         UNKNOWN,    //Ohio
         MISC,   //Florida
 
-        TRANSITION,
+        TRANSITION, //Interstate Highway
 
         INTAKE, //Mississippi
         SOURCE, //Massachusetts
-        SHOOT_PREP,
+        SHOOT_PREP, //New Hampshire
         SHOOT,  //Texas
         AMP, //California
         AMP_ADJ
