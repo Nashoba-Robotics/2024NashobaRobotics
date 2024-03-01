@@ -2,6 +2,7 @@ package frc.robot;
 
 import java.util.ArrayList;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -46,10 +47,10 @@ public class Governor {
         if(robotState == RobotState.UNKNOWN || robotState == RobotState.MISC) override = true;
         if(override || state != RobotState.TRANSITION) {
             if(robotState != RobotState.UNKNOWN && robotState != RobotState.MISC) state = RobotState.TRANSITION;
+            if(DriverStation.isAutonomous()) state = robotState;
             else state = robotState;
             switch (robotState) {
                 case NEUTRAL:
-                    LEDManager.setColor(new Color(0, 0, 0));
                     toNeutral();
                     break;
                 case ZERO:
@@ -65,19 +66,15 @@ public class Governor {
                     toIntake();
                     break;
                 case SOURCE:
-                    LEDManager.setColor(new Color(0, 0, 255));
                     toSource();
                     break;
                 case SHOOT_PREP:
-                    LEDManager.setColor(new Color(0, 255, 255));
                     toShootPrep();
                     break;
                 case SHOOT:
-                    LEDManager.setColor(new Color(0, 255, 0));
                     toShoot();
                     break;
                 case AMP:
-                    LEDManager.setColor(new Color(255, 0, 255));
                     toAmp();
                     break;
                 case AMP_ADJ:

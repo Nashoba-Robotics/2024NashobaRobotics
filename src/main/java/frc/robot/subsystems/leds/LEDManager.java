@@ -28,7 +28,7 @@ public class LEDManager extends SubsystemBase{
         }
     }
 
-    public static void setColor(Color color){
+    public void setColor(Color color){
         candle.setLEDs(color.r, color.g, color.b);
     }
 

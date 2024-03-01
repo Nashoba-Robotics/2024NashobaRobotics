@@ -13,47 +13,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Governor.RobotState;
 import frc.robot.commands.AimToAmpCommand;
 import frc.robot.commands.AimToSpeakerCommand;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.SwerveTestCommand;
-import frc.robot.commands.test.ArmTuneCommand;
-import frc.robot.commands.auto.ContinuousArmToShoot;
-import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
-import frc.robot.commands.test.FindLoaderZero;
-// import frc.robot.commands.test.JangsCommand;
-import frc.robot.commands.setters.groups.ToIntake;
-import frc.robot.commands.setters.groups.ToNeutral;
 import frc.robot.commands.setters.groups.ToPuke;
-import frc.robot.commands.setters.groups.ToShoot;
-import frc.robot.commands.setters.units.arm.ArmToAmp;
-import frc.robot.commands.setters.units.arm.ArmToIntake;
-import frc.robot.commands.setters.units.arm.ArmToNeutral;
-import frc.robot.commands.setters.units.arm.ArmToShoot;
-import frc.robot.commands.setters.units.arm.ShooterToShoot;
-import frc.robot.commands.setters.units.intake.IntakeToIntake;
-import frc.robot.commands.setters.units.loader.GrabberToIntake;
-import frc.robot.commands.setters.units.loader.LoaderToIntake;
-import frc.robot.commands.test.IntakeTestCommand;
-import frc.robot.commands.test.LoaderTuneCommand;
 import frc.robot.commands.test.ManualShootCommand;
-import frc.robot.commands.test.OnTheFlytoPathCommand;
-import frc.robot.commands.test.ShooterTuneCommand;
-import frc.robot.commands.test.ResetOdometryCommand;
-import frc.robot.commands.test.ResetOdometryVision;
-import frc.robot.commands.test.SDFinder;
-import frc.robot.commands.test.ShooterTuneCommand;
-import frc.robot.commands.test.TuneDriveCommand;
-import frc.robot.commands.test.TurnTestCommand;
-import frc.robot.commands.test.TurnToTargetCommand;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
@@ -155,77 +125,35 @@ public class RobotContainer {
   }
 
   private void addShuffleBoardData() {
-    // SmartDashboard.putData(new SwerveTestCommand());
-    // SmartDashboard.putData(new DriveCommand(drive, joysticks));
-    // SmartDashboard.putData(new TurnTestCommand(drive));
-    // SmartDashboard.putData(new ResetOdometryCommand(drive));
-    // SmartDashboard.putData(new OnTheFlyTestCommand());
-    // SmartDashboard.putData(new OnTheFlytoPathCommand());
-    // SmartDashboard.putData(new ResetOdometryVision());
-
-    // SmartDashboard.putData(new SDFinder());
-    // SmartDashboard.putData(new OnTheFlytoPathCommand());
-    // SmartDashboard.putData(new TurnToTargetCommand(drive));
-    // SmartDashboard.putData(new FindLoaderZero(arm));
-
-    
-    
-
-
-      // SmartDashboard.putData(new ArmTuneCommand(arm));
-      // SmartDashboard.putData(new LoaderTuneCommand(loader));
-
-      // SmartDashboard.putData("Loader 0", new InstantCommand(()->{
-      //   loader.setPivotRotor(Rotation2d.fromRadians(0));
-      // }));
-      // SmartDashboard.putData(new InstantCommand(()->arm.setArmPivotRotor(Rotation2d.fromDegrees(0))));
-      // SmartDashboard.putData("Zero From Intake", new InstantCommand(()->arm.setArmPivotRotor(Presets.Arm.INTAKE_POS)));
-
-      // SmartDashboard.putData(new IntakeTestCommand(intake));
-
-      // SmartDashboard.putData(new ShooterTuneCommand(arm));
-
-      // SmartDashboard.putData(new ArmToNeutral());
-      // SmartDashboard.putData(new ArmToIntake());
-      // SmartDashboard.putData(new ArmToAmp());
-      // SmartDashboard.putData(new ArmToSource());
-
-    // SmartDashboard.putData(new LoaderToNeutral());
-    // SmartDashboard.putData(new LoaderToIntake());
-    // SmartDashboard.putData(new LoaderToSource());
-    // SmartDashboard.putData(new LoaderToAmp());
-
-    // SmartDashboard.putData(new SwerveTestCommand(drive));
-
-    // SmartDashboard.putData(new ToNeutral());
-    // SmartDashboard.putData(new ToIntake());
-    // // SmartDashboard.putData(new ToSubwooferShoot());
-    // SmartDashboard.putData(new ToShoot());
-
     SmartDashboard.putData(new ManualShootCommand(loader, arm));
   }
 
-  private void configureEvents() {
-    NamedCommands.registerCommand("StartShooter", 
-      new SequentialCommandGroup(
-        new InstantCommand(() -> arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED), arm)
-        // new ContinuousArmToShoot()
-      )
-    );
-    NamedCommands.registerCommand("Intake", new SequentialCommandGroup(
-      new LoaderToIntake(),
-            new ArmToIntake(),
-            new ParallelCommandGroup(
-                new GrabberToIntake(),
-                new IntakeToIntake()
-            ).withTimeout(6)
-      // new ContinuousArmToShoot()
+  private void configureEvents() {   
+    NamedCommands.registerCommand("ShootPrep", new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true)));
+    NamedCommands.registerCommand("Intake", new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true)));
+    NamedCommands.registerCommand("ShootWait", new SequentialCommandGroup(
+      new WaitUntilCommand(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean() {
+          return loader.getShooterSensor() && Governor.getRobotState() == RobotState.SHOOT_PREP;
+      }
+    }).withTimeout(2),
+      new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
+      new WaitUntilCommand(new BooleanSupplier() {
+        @Override
+        public boolean getAsBoolean() {
+            return Governor.getRobotState() != RobotState.SHOOT;
+        }
+      })
     ));
-
-    NamedCommands.registerCommand("ShootCommand", new SequentialCommandGroup(
-      new ArmToShoot(),
-      new ToShoot(),
-      new ArmToNeutral()
+    NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
+      new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
+      new WaitUntilCommand(new BooleanSupplier() {
+        @Override
+        public boolean getAsBoolean() {
+            return Governor.getRobotState() != RobotState.SHOOT;
+        }
+      })
     ));
   }
 

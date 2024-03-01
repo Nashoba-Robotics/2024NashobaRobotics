@@ -23,13 +23,14 @@ public class IntakeToIntake extends Command{
 
     @Override
     public void end(boolean interrupted) {
-        if(!interrupted) intake.setSpeed(0);
+        // if(!interrupted) intake.setSpeed(0);
     }
 
     
 
     @Override
     public boolean isFinished() {
-        return loader.getShooterSensor();
+        // return loader.getShooterSensor();
+        return true;
     }
 }

@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Governor.RobotState;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.President;
+import frc.robot.commands.auto.Dictator;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 
 public class Robot extends LoggedRobot {
@@ -108,6 +109,9 @@ public class Robot extends LoggedRobot {
       }, RobotContainer.arm, RobotContainer.loader
     ));
     robotContainer.getAutoCommand().schedule();
+    
+    
+    CommandScheduler.getInstance().schedule(new Dictator());
   }
 
   @Override
