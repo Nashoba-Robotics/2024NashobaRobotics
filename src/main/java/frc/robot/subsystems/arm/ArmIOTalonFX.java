@@ -64,6 +64,12 @@ public class ArmIOTalonFX implements ArmIO{
         inputs.bottomShooterStatorCurrent = shooter2.getStatorCurrent().getValueAsDouble();
         inputs.bottomShooterSupplyCurrent = shooter2.getSupplyCurrent().getValueAsDouble();
         inputs.bottomShooterVoltage = shooter2.getMotorVoltage().getValueAsDouble();
+
+        inputs.bottomShooterPosition = shooter2.getPosition().getValueAsDouble()*Constants.TAU;
+        inputs.bottomShooterSpeed = shooter2.getVelocity().getValueAsDouble()*Constants.TAU;
+        inputs.bottomShooterStatorCurrent = shooter2.getStatorCurrent().getValueAsDouble();
+        inputs.bottomShooterSupplyCurrent = shooter2.getSupplyCurrent().getValueAsDouble();
+        inputs.bottomShooterVoltage = shooter2.getMotorVoltage().getValueAsDouble();
     }
 
     @Override
@@ -80,6 +86,10 @@ public class ArmIOTalonFX implements ArmIO{
     public void setShooterSpeed(Rotation2d speed){
         shooterControl.Velocity = speed.getRotations();
         shooter.setControl(shooterControl);
+    }
+    @Override
+    public void setShooterPercentOutput(double speed){
+        shooter.set(speed);
     }
 
     public void setPivotSpeed(double speed){
@@ -151,6 +161,9 @@ public class ArmIOTalonFX implements ArmIO{
         shooterConfig.Voltage.PeakForwardVoltage = Constants.PEAK_VOLTAGE;
         shooterConfig.Voltage.PeakReverseVoltage = -Constants.PEAK_VOLTAGE;
         shooterConfig.Feedback.SensorToMechanismRatio = Constants.Arm.SHOOTER_GEAR_RATIO;
+        shooterConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+        shooterConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
+
 
         pivotConfigurator.apply(pivotConfig);
         shooterConfigurator.apply(shooterConfig);

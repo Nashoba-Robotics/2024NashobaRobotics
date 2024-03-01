@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7421583222796079,
-      "y": 6.679020381188911
+      "x": 1.42,
+      "y": 6.27
     },
-    "rotation": -120.0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "StartShooter"
+            "name": "ShootPrep"
           }
         },
         {
@@ -26,26 +26,13 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootCommand"
+            "name": "Shoot"
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "shootPos-p3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
+            "pathName": "shootPos-p3"
           }
         },
         {
@@ -57,26 +44,13 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootCommand"
+            "name": "Shoot"
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "shootPos-p4"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
+            "pathName": "shootPos-p4"
           }
         },
         {
@@ -88,7 +62,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootCommand"
+            "name": "Shoot"
           }
         }
       ]

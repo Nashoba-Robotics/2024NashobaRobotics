@@ -79,4 +79,7 @@ public class ArmSubsystem extends SubsystemBase{
     public TalonFX getShooterMotor() {
         return armIO.getShooterMotor();
     }
+    public void setShooterPercentOutput(double speed){
+        armIO.setShooterPercentOutput(speed);
+    }
 }

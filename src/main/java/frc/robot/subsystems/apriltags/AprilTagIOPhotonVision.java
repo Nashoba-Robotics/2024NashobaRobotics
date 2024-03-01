@@ -63,7 +63,7 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
         List<PhotonTrackedTarget> targets = r.getTargets();
         inputs.leftTagsSeen = targets.size();
 
-        int speakerID = DriverStation.getAlliance().get() == Alliance.Blue ? 7 : 4;
+        int speakerID = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? 7 : 4;
         for(PhotonTrackedTarget t : targets){
             if(t.getFiducialId() == speakerID){
                 inputs.leftDistToSpeaker = t.getBestCameraToTarget().getX()*t.getBestCameraToTarget().getX() + t.getBestCameraToTarget().getY()*t.getBestCameraToTarget().getY();

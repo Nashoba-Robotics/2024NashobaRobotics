@@ -1,0 +1,91 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.4243660570654477,
+      "y": 4.149542799085599
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootPrep"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "b2-shootPos"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "shootPos-p2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootWait"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p2-p1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootWait"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p1-p0"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootWait"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p0-p3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p3-shootPos"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Autos",
+  "choreoAuto": false
+}

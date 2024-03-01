@@ -13,47 +13,26 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Governor.RobotState;
 import frc.robot.commands.AimToAmpCommand;
 import frc.robot.commands.AimToSpeakerCommand;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.SwerveTestCommand;
-import frc.robot.commands.test.ArmTuneCommand;
-import frc.robot.commands.auto.amp.ToAmpCommand;
+import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
-import frc.robot.commands.setters.groups.ToIntake;
-import frc.robot.commands.setters.groups.ToNeutral;
 import frc.robot.commands.setters.groups.ToPuke;
-import frc.robot.commands.setters.groups.ToShoot;
-import frc.robot.commands.setters.units.arm.ArmToIntake;
-import frc.robot.commands.setters.units.arm.ArmToNeutral;
-import frc.robot.commands.setters.units.arm.ArmToShoot;
-import frc.robot.commands.setters.units.arm.ShooterToShoot;
-import frc.robot.commands.setters.units.intake.IntakeToIntake;
-import frc.robot.commands.setters.units.loader.GrabberToIntake;
-import frc.robot.commands.setters.units.loader.LoaderToIntake;
-import frc.robot.commands.test.IntakeTestCommand;
-import frc.robot.commands.test.LoaderTuneCommand;
+import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.test.ManualShootCommand;
-import frc.robot.commands.test.OnTheFlytoPathCommand;
-import frc.robot.commands.test.ShooterTuneCommand;
-import frc.robot.commands.test.ResetOdometryCommand;
-import frc.robot.commands.test.ResetOdometryVision;
-import frc.robot.commands.test.SDFinder;
-import frc.robot.commands.test.TuneDriveCommand;
-import frc.robot.commands.test.TurnTestCommand;
-import frc.robot.commands.test.TurnToTargetCommand;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.climber.ClimberSubsytem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
+import frc.robot.subsystems.leds.LEDManager;
 import frc.robot.subsystems.loader.LoaderSubsystem;
 
 public class RobotContainer {
@@ -64,6 +43,8 @@ public class RobotContainer {
   public static final ArmSubsystem arm = new ArmSubsystem();
   public static final IntakeSubsystem intake = new IntakeSubsystem();
   public static final LoaderSubsystem loader = new LoaderSubsystem();
+  public static final LEDManager leds = new LEDManager();
+  public static final ClimberSubsytem climber = new ClimberSubsytem();
   
   private static SendableChooser<Command> autoChooser;
 
@@ -82,8 +63,24 @@ public class RobotContainer {
   private Trigger scoreAmp = joysticks.getDriverController().button(3);
 
   private Trigger puke = joysticks.getDriverController().button(9);
-
   private Trigger shootPrep = joysticks.getDriverController().button(6);
+
+  private Trigger incrementAngle = joysticks.getOperatorController().povUp(); //  Shot goes higher
+  private Trigger decrementAngle = joysticks.getOperatorController().povDown(); //  Shot goes lower
+
+  private Trigger increaseSpeed = joysticks.getOperatorController().button(6);  //rb
+  private Trigger decreaseSpeed = joysticks.getOperatorController().button(5);  //lb
+
+  private boolean aimOverrideTriggered = false;
+  private Trigger armAimOverride = joysticks.getOperatorController().button(-1).debounce(0.1);
+  private Trigger shootOveride = joysticks.getOperatorController().button(8);
+  //Drive override -> B
+  // Arm override -> Y
+
+  private Trigger deployClimb = joysticks.getOperatorController().button(4);  //x
+  private Trigger climb = joysticks.getOperatorController().button(3);  //A
+
+  public static AimToSpeakerCommand aimToSpeakerCommand = new AimToSpeakerCommand(drive, joysticks);
 
   public static enum NoteState{
     NONE,
@@ -126,75 +123,68 @@ public class RobotContainer {
 
     puke.onTrue(new ToPuke());
     shootPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP)));
+
+    incrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Rotation2d.fromDegrees(Presets.Arm.SPEAKER_OFFSET.getDegrees() - 2)));
+    decrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Rotation2d.fromDegrees(Presets.Arm.SPEAKER_OFFSET.getDegrees() + 2)));
+
+    increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
+    decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() - 10)));
+
+    //TODO: Test this.
+    armAimOverride.onTrue(new InstantCommand(()->{Presets.Arm.OVERRIDE_AUTOMATIC_AIM = true; aimOverrideTriggered = true;})).and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean() {
+          return !Presets.Arm.OVERRIDE_AUTOMATIC_AIM && !aimOverrideTriggered;
+      } 
+    });
+    armAimOverride.onTrue(new InstantCommand(()->{Presets.Arm.OVERRIDE_AUTOMATIC_AIM = false; aimOverrideTriggered = true;})).and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean() {
+          return Presets.Arm.OVERRIDE_AUTOMATIC_AIM && !aimOverrideTriggered;
+      } 
+    });
+    armAimOverride.onFalse(new InstantCommand(()->aimOverrideTriggered = false));
+    shootOveride.onTrue(new GrabberToShoot());
+
     shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
   }
 
   private void addShuffleBoardData() {
-    // SmartDashboard.putData(new SwerveTestCommand());
-    // SmartDashboard.putData(new DriveCommand(drive, joysticks));
-    // SmartDashboard.putData(new TurnTestCommand(drive));
-    // SmartDashboard.putData(new ResetOdometryCommand(drive));
-    // SmartDashboard.putData(new OnTheFlyTestCommand());
-    // SmartDashboard.putData(new OnTheFlytoPathCommand());
-    // SmartDashboard.putData(new ResetOdometryVision());
-
-    // SmartDashboard.putData(new SDFinder());
-    // SmartDashboard.putData(new OnTheFlytoPathCommand());
-    // SmartDashboard.putData(new TurnToTargetCommand(drive));
-    // SmartDashboard.putData(new FindLoaderZero(arm));
-
-    
-    
-
-
-      // SmartDashboard.putData(new ArmTuneCommand(arm));
-      // SmartDashboard.putData(new LoaderTuneCommand(loader));
-
-      // SmartDashboard.putData("Loader 0", new InstantCommand(()->{
-      //   loader.setPivotRotor(Rotation2d.fromRadians(0));
-      // }));
-      // SmartDashboard.putData(new InstantCommand(()->arm.setArmPivotRotor(Rotation2d.fromDegrees(0))));
-      // SmartDashboard.putData("Zero From Intake", new InstantCommand(()->arm.setArmPivotRotor(Presets.Arm.INTAKE_POS)));
-
-      // SmartDashboard.putData(new IntakeTestCommand(intake));
-
-      // SmartDashboard.putData(new ShooterTuneCommand(arm));
-
-      // SmartDashboard.putData(new ArmToNeutral());
-      // SmartDashboard.putData(new ArmToIntake());
-      // SmartDashboard.putData(new ArmToAmp());
-      // SmartDashboard.putData(new ArmToSource());
-
-    // SmartDashboard.putData(new LoaderToNeutral());
-    // SmartDashboard.putData(new LoaderToIntake());
-    // SmartDashboard.putData(new LoaderToSource());
-    // SmartDashboard.putData(new LoaderToAmp());
-
-    // SmartDashboard.putData(new SwerveTestCommand(drive));
-
-    // SmartDashboard.putData(new ToNeutral());
-    // SmartDashboard.putData(new ToIntake());
-    // // SmartDashboard.putData(new ToSubwooferShoot());
-    // SmartDashboard.putData(new ToShoot());
-
     SmartDashboard.putData(new ManualShootCommand(loader, arm));
+    // SmartDashboard.putData(new ClimberTuneCommand(climber));
+    // SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
+    //     SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
+      SmartDashboard.putData(new ClimberTestCommand(climber));
   }
 
-  private void configureEvents() {
-    NamedCommands.registerCommand("StartShooter", new InstantCommand(() -> arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED), arm));
-    NamedCommands.registerCommand("Intake", new SequentialCommandGroup(
-      new LoaderToIntake(),
-            new ArmToIntake(),
-            new ParallelCommandGroup(
-                new GrabberToIntake(),
-                new IntakeToIntake()
-            )
+  private void configureEvents() {   
+    NamedCommands.registerCommand("ShootPrep", new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true)));
+    NamedCommands.registerCommand("Intake", new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true)));
+    NamedCommands.registerCommand("ShootWait", new SequentialCommandGroup(
+      new WaitUntilCommand(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean() {
+          return loader.getShooterSensor() && Governor.getRobotState() == RobotState.SHOOT_PREP;
+      }
+    }).withTimeout(2),
+      new AimToSpeakerCommand(drive, joysticks),
+      new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
+      new WaitUntilCommand(new BooleanSupplier() {
+        @Override
+        public boolean getAsBoolean() {
+            return Governor.getRobotState() != RobotState.SHOOT;
+        }
+      })
     ));
-
-    NamedCommands.registerCommand("ShootCommand", new SequentialCommandGroup(
-      new ArmToShoot(),
-      new ToShoot(),
-      new ArmToNeutral()
+    NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
+      new AimToSpeakerCommand(drive, joysticks),
+      new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
+      new WaitUntilCommand(new BooleanSupplier() {
+        @Override
+        public boolean getAsBoolean() {
+            return Governor.getRobotState() != RobotState.SHOOT;
+        }
+      })
     ));
   }
 

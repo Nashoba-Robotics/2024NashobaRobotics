@@ -2,6 +2,7 @@ package frc.robot;
 
 import java.util.ArrayList;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -12,6 +13,8 @@ import frc.robot.commands.setters.groups.ToNeutral;
 import frc.robot.commands.setters.groups.ToShoot;
 import frc.robot.commands.setters.groups.ToShootPrep;
 import frc.robot.commands.setters.groups.ToSource;
+import frc.robot.subsystems.leds.LEDManager;
+import frc.robot.subsystems.leds.LEDManager.Color;
 
 public class Governor {
     private static RobotState state = RobotState.UNKNOWN;
@@ -25,11 +28,11 @@ public class Governor {
         UNKNOWN,    //Ohio
         MISC,   //Florida
 
-        TRANSITION,
+        TRANSITION, //Interstate Highway
 
         INTAKE, //Mississippi
         SOURCE, //Massachusetts
-        SHOOT_PREP,
+        SHOOT_PREP, //New Hampshire
         SHOOT,  //Texas
         AMP, //California
         AMP_ADJ
@@ -44,6 +47,7 @@ public class Governor {
         if(robotState == RobotState.UNKNOWN || robotState == RobotState.MISC) override = true;
         if(override || state != RobotState.TRANSITION) {
             if(robotState != RobotState.UNKNOWN && robotState != RobotState.MISC) state = RobotState.TRANSITION;
+            if(DriverStation.isAutonomous()) state = robotState;
             else state = robotState;
             switch (robotState) {
                 case NEUTRAL:

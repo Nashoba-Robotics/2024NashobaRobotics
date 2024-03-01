@@ -28,13 +28,14 @@ public class GrabberToIntake extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        if(!interrupted) loader.setRollerSpeed(0);
+        // if(!interrupted) loader.setRollerSpeed(0);
     }
 
     @Override
     public boolean isFinished() {
         // return Math.abs(loader.getLoaderPivotAngle().getRadians() - Presets.Loader.INTAKE_SPEED.getRadians()) < Presets.Loader.SPEED_TOLERANCE.getRadians();
-        return loader.getShooterSensor();
+        // return loader.getShooterSensor();
+        return true;
     }
 
 }

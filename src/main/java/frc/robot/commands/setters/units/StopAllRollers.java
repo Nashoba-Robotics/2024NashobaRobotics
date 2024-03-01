@@ -1,6 +1,7 @@
 package frc.robot.commands.setters.units;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -18,9 +19,12 @@ public class StopAllRollers extends Command{
 
     @Override
     public void execute() {
-        arm.setShooterSpeed(Rotation2d.fromDegrees(0));
+        if(DriverStation.isTeleop()) {
+            arm.setShooterSpeed(Rotation2d.fromDegrees(0));
+        }
         loader.setRollerSpeed(0);
         intake.setSpeed(0);
+
     }
 
     @Override

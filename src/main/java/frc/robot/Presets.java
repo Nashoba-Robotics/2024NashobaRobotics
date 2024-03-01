@@ -2,26 +2,30 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
-public final class Presets {
+public class Presets {
 
-    public static final class Arm {
+    public static class Arm {
 
         //TODO: Shooter pos = -35 deg
-        public static final Rotation2d W0_SHOOTER_POS = Rotation2d.fromDegrees(-35);
+        public static final Rotation2d PODIUM_SHOOTER_POS = Rotation2d.fromDegrees(-35);
+        public static boolean OVERRIDE_AUTOMATIC_AIM = false;
+
+
         public static final Rotation2d AMP_POS = Rotation2d.fromDegrees(-54); //60 or 35
         public static final Rotation2d INTAKE_POS = Rotation2d.fromDegrees(-54);
         public static final Rotation2d NEUTRAL_POS = Rotation2d.fromDegrees(-54);
         // public static final Rotation2d SHOOT_POS = Rotation2d.fromRadians(0);
+        public static Rotation2d SPEAKER_OFFSET = Rotation2d.fromDegrees(0); //Operator Input
         public static final Rotation2d SOURCE_POS = Rotation2d.fromDegrees(42);
 
         public static final Rotation2d POS_TOLERANCE = Rotation2d.fromDegrees(4);
 
 
 
-        public static final Rotation2d SPEAKER_SPEED = Rotation2d.fromRadians(400);
+        public static Rotation2d SPEAKER_SPEED = Rotation2d.fromRadians(375);
         public static final Rotation2d SPEAKER_SPEED_PREP = Rotation2d.fromRadians(200);
         public static final double SPEAKER_PERCENT = 0.9;
-        public static final Rotation2d AMP_SPEED = Rotation2d.fromRadians(70.0);
+        public static final Rotation2d AMP_SPEED = Rotation2d.fromRadians(66.0);
 
         public static final Rotation2d SPEED_TOLERANCE = Rotation2d.fromRadians(2);
     }

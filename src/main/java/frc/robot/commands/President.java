@@ -8,11 +8,13 @@ import frc.robot.RobotContainer;
 import frc.robot.Governor.RobotState;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem.DriveState;
+import frc.robot.subsystems.joystick.JoystickSubsystem;
 import frc.robot.subsystems.loader.LoaderSubsystem;
 
 public class President extends Command {
     LoaderSubsystem loader = RobotContainer.loader;
     DriveSubsystem drive = RobotContainer.drive;
+    JoystickSubsystem joysticks = RobotContainer.joysticks;
 
     private boolean shootFlag;
     private Timer shootTimer;
@@ -23,6 +25,8 @@ public class President extends Command {
     private boolean queueFlag;
     private Timer queueTimer;
 
+    private AimToSpeakerCommand aimToSpeakerCommand;
+
     public President() {
         shootFlag = false;
         shootTimer = new Timer();
@@ -32,6 +36,8 @@ public class President extends Command {
 
         queueFlag = false;
         queueTimer = new Timer();
+
+        aimToSpeakerCommand = RobotContainer.aimToSpeakerCommand;
     }
 
     @Override
@@ -77,6 +83,9 @@ public class President extends Command {
                 break;
             case SHOOT_PREP:
                 // drive.state = DriveState.AIM_TO_SPEAKER;
+                if(Math.abs(joysticks.getRightJoystickValues().x) <= 0.03
+                && !CommandScheduler.getInstance().isScheduled(aimToSpeakerCommand))
+                CommandScheduler.getInstance().schedule(aimToSpeakerCommand);
                 break;
             case SHOOT:
                 if(!shootFlag){

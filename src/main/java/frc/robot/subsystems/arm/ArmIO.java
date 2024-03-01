@@ -39,6 +39,7 @@ public interface ArmIO {
      public abstract void setPivotSpeed(double speed);
      public abstract void setPivotRotorPos(Rotation2d pos);
      public abstract void setShooterSpeed(Rotation2d speed);
+     public abstract void setShooterPercentOutput(double speed);
      public abstract void setShooterPercent(double speed);
 
      public abstract void setPivotkG(double kG);
