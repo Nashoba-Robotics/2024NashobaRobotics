@@ -135,6 +135,9 @@ public class AimToSpeakerCommand extends Command{
 
     @Override
     public boolean isFinished() {
+        if(DriverStation.isAutonomous()) {
+            return feedForwardProfile.isFinished(t.get());
+        } else
         return Governor.getRobotState() != RobotState.SHOOT && Governor.getRobotState() != RobotState.SHOOT_PREP && Governor.getRobotState() != RobotState.TRANSITION
         || Math.abs(joysticks.getRightJoystickValues().x) >= 0.03;
     }

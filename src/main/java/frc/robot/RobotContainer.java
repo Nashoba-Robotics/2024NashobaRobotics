@@ -167,6 +167,7 @@ public class RobotContainer {
           return loader.getShooterSensor() && Governor.getRobotState() == RobotState.SHOOT_PREP;
       }
     }).withTimeout(2),
+      new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
@@ -176,6 +177,7 @@ public class RobotContainer {
       })
     ));
     NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
+      new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override

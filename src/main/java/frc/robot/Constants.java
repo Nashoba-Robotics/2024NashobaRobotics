@@ -347,7 +347,7 @@ public class Constants {
       public static final class Field {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
             public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 6, 2.36);
-            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(0, 8.20-5.6, 2.36);
+            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.2, 2.36); //y = 5.6
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
 
             public static final Translation3d getSpeakerPos(){
