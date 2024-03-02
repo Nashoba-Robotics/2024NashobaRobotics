@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Governor.RobotState;
+import frc.robot.commands.CANdleCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.President;
 import frc.robot.commands.auto.Dictator;
@@ -96,6 +97,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void disabledInit() {
+    CANdleCommand.disabledAnimate();
   }
 
   @Override
@@ -103,6 +105,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void autonomousInit() {
+    CANdleCommand.autoAnimate();
     CommandScheduler.getInstance().schedule(new InstantCommand(
       ()->{
         RobotContainer.arm.setArmPivotRotor(Presets.Arm.INTAKE_POS);
@@ -122,7 +125,7 @@ public class Robot extends LoggedRobot {
   public void teleopInit() {
     //Cancels everything from auto
     CommandScheduler.getInstance().cancelAll();
-
+    CANdleCommand.teleopAnimate();
     CommandScheduler.getInstance().setDefaultCommand(
       RobotContainer.drive,
       new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
