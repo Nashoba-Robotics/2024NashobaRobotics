@@ -19,6 +19,8 @@ public class LEDManager extends SubsystemBase{
 
     private static final int LED_COUNT = 83;
 
+    private boolean clearAnimationFlag = false;
+
     public LEDManager(){
         candle = new CANdle(0, "jerry");
 
@@ -34,20 +36,26 @@ public class LEDManager extends SubsystemBase{
     @Override
     public void periodic() {
         if(DriverStation.isAutonomous()){
-            // candle.animate(new RainbowAnimation(1, 0.2, 0, false, 0));
-            setColor(new Color(0, 0, 0));
+            candle.animate(new RainbowAnimation(0.8, 0.4, LED_COUNT, false, 0), 0);
+            // setColor(new Color(0, 0, 0));
+            clearAnimationFlag = true;
         }
         else if(DriverStation.isDisabled()){
-            // candle.animate(new LarsonAnimation(0, 0, 0, 0, 0, 0, BounceMode.Back, 0));
-            setColor(new Color(0xFF, 0x10, 0x0));
+            candle.animate(new LarsonAnimation(0xFF, 0x10, 0x0, 0, 0.4, LED_COUNT, BounceMode.Back, 8), 0);
+            clearAnimationFlag = true;
+            // setColor(new Color(0xFF, 0x10, 0x0));
         }
         else{
+            if(clearAnimationFlag){
+                candle.clearAnimation(0);
+                clearAnimationFlag = false;
+            }
             RobotState currState = Governor.getRobotState();
             if(currState != lastState){
                 switch (currState) {
                     case NEUTRAL:
                         if(RobotContainer.loader.getShooterSensor()) setColor(new Color(255, 255, 255));
-                        else new Color(255, 0, 0);
+                        else setColor(new Color(255, 0, 0));
                         break;
                     case INTAKE:
                         setColor(new Color(255, 0, 255));
@@ -61,7 +69,11 @@ public class LEDManager extends SubsystemBase{
                     case AMP:
                         setColor(new Color(0, 255, 255));
                         break;
+                    case MISC:
+                        setColor(new Color(0x9, 0x22, 0x15));
+                        break;
                     default:
+                    setColor(new Color(0, 0, 0));
                         break;
                 }
 

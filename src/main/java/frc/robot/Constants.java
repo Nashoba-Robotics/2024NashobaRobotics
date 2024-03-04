@@ -103,7 +103,7 @@ public class Constants {
 
             public static final Slot0Configs SHOOTER_PID = new Slot0Configs()
             .withKV(0.0117419).withKS(0.030)
-            .withKP(0.09).withKI(0).withKD(0);
+            .withKP(0.07).withKI(0).withKD(0);
       }
 
       public static class Climber{
@@ -204,8 +204,8 @@ public class Constants {
             public static final double kDriveGearRatio = 50./14 * 16/28 * 45/15;
             public static final double kSteerGearRatio = 21.428571428571427;
             // private static final double kWheelRadiusInches = 1.840; //Direction of resistence
-            private static final double kWheelRadiusInches = 1.9159; //Direction of less-resistence
-            // private static final double kWheelRadiusInches = 1.925; //Comp
+            // private static final double kWheelRadiusInches = 1.9159; //Direction of less-resistence
+            private static final double kWheelRadiusInches = 1.925; //Comp
 
             public static final double WHEEL_RADIUS = Units.inchesToMeters(kWheelRadiusInches);
 
@@ -346,9 +346,11 @@ public class Constants {
 
       public static final class Field {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
-            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 6, 2.36);
-            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.2, 2.36); //y = 5.6
+            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.75, 2.36);
+            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.45, 2.36); //y = 5.6
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
+            public static final double LENGTH = 16.451;
+            public static final double WIDTH = 8.211;
 
             public static final Translation3d getSpeakerPos(){
                   return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? BLUE_SPEAKER_POSITION : RED_SPEAKER_POSITION;

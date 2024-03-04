@@ -61,24 +61,34 @@ public class Robot extends LoggedRobot {
 
     if(DriverStation.isAutonomous()) {
       if(AprilTagManager.hasLeftTarget()
-          && AprilTagManager.getLeftAmbiguity() <= 0.10
+          && AprilTagManager.getLeftAmbiguity() <= 0.15
           && AprilTagManager.getLeftRobotPos() != null
-          && leftError < 1)
-            RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getLeftRobotPos().toPose2d(), AprilTagManager.getLeftTimestamp());
+          && leftError < 1
+          && leftPose2d.getX() > 0 && leftPose2d.getX() < Constants.Field.LENGTH
+          && leftPose2d.getY() > 0 && leftPose2d.getY() < Constants.Field.WIDTH)
+            RobotContainer.drive.updateOdometryWithVision(leftPose2d, AprilTagManager.getLeftTimestamp());
       if(AprilTagManager.hasRightTarget()
-          && AprilTagManager.getRightAmbiguity() <= 0.10
+          && AprilTagManager.getRightAmbiguity() <= 0.15
           && AprilTagManager.getRightRobotPos() != null
-          && rightError < 1)
-            RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getRightRobotPos().toPose2d(), AprilTagManager.getRightTimestamp());
+          && rightError < 1
+          && rightPose2d.getX() > 0 && rightPose2d.getX() < Constants.Field.LENGTH
+          && rightPose2d.getY() > 0 && rightPose2d.getY() < Constants.Field.WIDTH)
+            RobotContainer.drive.updateOdometryWithVision(rightPose2d, AprilTagManager.getRightTimestamp());
     } else {
       if(AprilTagManager.hasLeftTarget()
-          && AprilTagManager.getLeftAmbiguity() <= 0.10
-          && AprilTagManager.getLeftRobotPos() != null)
-            RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getLeftRobotPos().toPose2d(), AprilTagManager.getLeftTimestamp());
+          && AprilTagManager.getLeftAmbiguity() <= 0.15
+          && AprilTagManager.getLeftRobotPos() != null
+          && leftError < 5
+          && leftPose2d.getX() > 0 && leftPose2d.getX() < Constants.Field.LENGTH
+          && leftPose2d.getY() > 0 && leftPose2d.getY() < Constants.Field.WIDTH)
+            RobotContainer.drive.updateOdometryWithVision(leftPose2d, AprilTagManager.getLeftTimestamp());
       if(AprilTagManager.hasRightTarget()
-          && AprilTagManager.getRightAmbiguity() <= 0.10
-          && AprilTagManager.getRightRobotPos() != null)
-            RobotContainer.drive.updateOdometryWithVision(AprilTagManager.getRightRobotPos().toPose2d(), AprilTagManager.getRightTimestamp());
+          && AprilTagManager.getRightAmbiguity() <= 0.15
+          && AprilTagManager.getRightRobotPos() != null
+          && rightError < 5
+          && rightPose2d.getX() > 0 && rightPose2d.getX() < Constants.Field.LENGTH
+          && rightPose2d.getY() > 0 && rightPose2d.getY() < Constants.Field.WIDTH)
+            RobotContainer.drive.updateOdometryWithVision(rightPose2d, AprilTagManager.getRightTimestamp());
     }
 
     double y = Constants.Field.getSpeakerPos().getZ()-Constants.Robot.SHOOTER_HEIGHT;
@@ -128,10 +138,11 @@ public class Robot extends LoggedRobot {
       new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
       );
 
-    // CommandScheduler.getInstance().schedule(new President());
-    // Governor.setRobotState(RobotState.NEUTRAL, true);
+    CommandScheduler.getInstance().schedule(new President());
+    Governor.setRobotState(RobotState.NEUTRAL, true);
 
     Presets.Arm.SPEAKER_OFFSET = Rotation2d.fromDegrees(0);
+
   }
 
   @Override

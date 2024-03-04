@@ -1,5 +1,7 @@
 package frc.robot.subsystems.joystick;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants;
 import frc.robot.lib.util.JoystickValues;
@@ -26,7 +28,8 @@ public class JoystickIOSwitchController implements JoystickIO{
 
     @Override
     public JoystickValues getLeftJoystickValues(){
-        return new JoystickValues(driveController.getX(), -driveController.getY());
+        int multiplier = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? 1 : -1;
+        return new JoystickValues(driveController.getX() * multiplier, -driveController.getY() * multiplier);
     }
     @Override
     public JoystickValues getRightJoystickValues(){

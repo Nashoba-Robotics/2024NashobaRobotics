@@ -42,7 +42,6 @@ public class AimToSpeakerCommand extends Command{
 
     boolean flag;
 
-    int allianceMultiplier;
 
     public AimToSpeakerCommand(DriveSubsystem drive, JoystickSubsystem joysticks){
         targetAngle = new Rotation2d();
@@ -62,7 +61,6 @@ public class AimToSpeakerCommand extends Command{
 
         flag = false;
 
-        allianceMultiplier = 1;
     }
 
     @Override
@@ -79,7 +77,6 @@ public class AimToSpeakerCommand extends Command{
 
     @Override
     public void execute() {
-        allianceMultiplier = DriverStation.getAlliance().get() == Alliance.Blue ? 1 : -1;
 
         ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
 

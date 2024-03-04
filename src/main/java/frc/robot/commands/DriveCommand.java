@@ -28,7 +28,6 @@ public class DriveCommand extends Command{
 
     private ChassisSpeeds chassisSpeeds;
 
-    private int allianceMultiplier;
 
     private ProfiledPIDController angleController = new ProfiledPIDController(
         0, 0, 0, 
@@ -44,7 +43,6 @@ public class DriveCommand extends Command{
         leftJoystickValues = new JoystickValues(0, 0);
         rightJoystickValues = new JoystickValues(0, 0);
 
-        allianceMultiplier = 1;
     }
 
     @Override
@@ -56,7 +54,6 @@ public class DriveCommand extends Command{
 
     @Override
     public void execute() {
-        allianceMultiplier = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? 1 : -1;
 
         leftJoystickValues = joysticks.getLeftJoystickValues()
             .shape(Constants.Joystick.MOVE_DEAD_ZONE, Constants.Joystick.TURN_SENSITIVITY)
@@ -72,8 +69,8 @@ public class DriveCommand extends Command{
         // rightJoystickValues = joysticks.getRightOperatorValues()
         //     .shape(Constants.Joystick.TURN_DEAD_ZONE, Constants.Joystick.TURN_SENSITIVITY);
 
-        chassisSpeeds.vxMetersPerSecond = leftJoystickValues.x * Constants.Drive.MAX_VELOCITY * allianceMultiplier;
-        chassisSpeeds.vyMetersPerSecond = leftJoystickValues.y * Constants.Drive.MAX_VELOCITY * allianceMultiplier;
+        chassisSpeeds.vxMetersPerSecond = leftJoystickValues.x * Constants.Drive.MAX_VELOCITY;
+        chassisSpeeds.vyMetersPerSecond = leftJoystickValues.y * Constants.Drive.MAX_VELOCITY;
 
 
         DriveState turnState = drive.state;

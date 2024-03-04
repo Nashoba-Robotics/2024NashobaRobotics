@@ -86,7 +86,8 @@ public class LoaderSubsystem extends SubsystemBase{
     }
 
     public boolean getLoaderSensor(){
-        return loaderInputs.loaderSensor;
+        // return loaderInputs.loaderSensor;
+        return false; // TODO: change
     }
 
     public boolean getShooterSensor(){
