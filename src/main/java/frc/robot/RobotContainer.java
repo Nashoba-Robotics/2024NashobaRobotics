@@ -80,6 +80,8 @@ public class RobotContainer {
   private Trigger deployClimb = joysticks.getOperatorController().button(4);  //x
   private Trigger climb = joysticks.getOperatorController().button(3);  //A
 
+  // private Trigger resetOdometryFromCamera = joysticks.getDriverController.button(11);
+
   public static AimToSpeakerCommand aimToSpeakerCommand = new AimToSpeakerCommand(drive, joysticks);
 
   public static enum NoteState{
@@ -123,6 +125,7 @@ public class RobotContainer {
 
     puke.onTrue(new ToPuke());
     shootPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP)));
+    shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
 
     incrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Rotation2d.fromDegrees(Presets.Arm.SPEAKER_OFFSET.getDegrees() - 2)));
     decrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Rotation2d.fromDegrees(Presets.Arm.SPEAKER_OFFSET.getDegrees() + 2)));
@@ -146,7 +149,7 @@ public class RobotContainer {
     armAimOverride.onFalse(new InstantCommand(()->aimOverrideTriggered = false));
     shootOveride.onTrue(new GrabberToShoot());
 
-    shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
+    
   }
 
   private void addShuffleBoardData() {
@@ -166,7 +169,7 @@ public class RobotContainer {
       public boolean getAsBoolean() {
           return loader.getShooterSensor() && Governor.getRobotState() == RobotState.SHOOT_PREP;
       }
-    }).withTimeout(2),
+    }).withTimeout(3),
       new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
       new WaitUntilCommand(new BooleanSupplier() {
@@ -174,7 +177,7 @@ public class RobotContainer {
         public boolean getAsBoolean() {
             return Governor.getRobotState() != RobotState.SHOOT;
         }
-      })
+      }).withTimeout(3)
     ));
     NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
       new AimToSpeakerCommand(drive, joysticks),
@@ -184,7 +187,7 @@ public class RobotContainer {
         public boolean getAsBoolean() {
             return Governor.getRobotState() != RobotState.SHOOT;
         }
-      })
+      }).withTimeout(3)
     ));
   }
 

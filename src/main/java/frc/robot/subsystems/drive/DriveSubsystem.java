@@ -24,6 +24,8 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.lib.math.NRUnits;
@@ -39,6 +41,8 @@ public class DriveSubsystem extends SubsystemBase{
 
     private boolean fieldCentric;
 
+    private Field2d field;
+
     public static enum DriveState {
         DRIVER,
         AIM_TO_SPEAKER,
@@ -47,6 +51,7 @@ public class DriveSubsystem extends SubsystemBase{
     public DriveState state;
 
     public DriveSubsystem() {
+        field = new Field2d();
         gyroIO = new GyroIOPigeon2();
 
         fieldCentric = true;
@@ -64,7 +69,7 @@ public class DriveSubsystem extends SubsystemBase{
             getSwerveModulePositions(),
             new Pose2d(0, 0, getGyroAngle()),
             VecBuilder.fill(0.1, 0.1, 0.1),
-            VecBuilder.fill(0.9, 0.9, 0.9)
+            VecBuilder.fill(0.9, 0.9, 10)
             );
 
         AutoBuilder.configureHolonomic(
@@ -317,5 +322,10 @@ public class DriveSubsystem extends SubsystemBase{
 
         Logger.recordOutput("Pose", pose);
         Logger.recordOutput("GetGyroAngle", getGyroAngle().getRadians());
+
+
+        field.setRobotPose(pose);
+        SmartDashboard.putData(field);
+
     }
 }
