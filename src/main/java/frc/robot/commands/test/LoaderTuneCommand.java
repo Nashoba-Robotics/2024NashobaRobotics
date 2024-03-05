@@ -9,11 +9,11 @@ import frc.robot.subsystems.loader.LoaderSubsystem;
 
 public class LoaderTuneCommand extends Command{
     LoaderSubsystem loader;
-    double lastkG = 0.01;
-    double lastkS = 0.02;
-    double lastKV = 0.845;
-    double lastKP = 45;
-    double lastKD = 1.2;
+    double lastkG = 0.0;
+    double lastkS = 0.0;
+    double lastKV = 0;
+    double lastKP = 0;
+    double lastKD = 0;
     public LoaderTuneCommand(LoaderSubsystem loader){
         this.loader = loader;
         addRequirements(loader);
@@ -77,6 +77,7 @@ public class LoaderTuneCommand extends Command{
             lastKD = kD;
         }
 
+        Logger.recordOutput("Loader pivot deg", loader.getPivotAngle().getDegrees());
         Logger.recordOutput("Error", Math.abs(targetPos.getRadians()-loader.getPivotAngle().getRadians()));
     }
 

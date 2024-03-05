@@ -20,6 +20,7 @@ import frc.robot.Governor.RobotState;
 import frc.robot.commands.AimToAmpCommand;
 import frc.robot.commands.AimToSpeakerCommand;
 import frc.robot.commands.test.ClimberTestCommand;
+import frc.robot.commands.test.LoaderTuneCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
@@ -157,7 +158,9 @@ public class RobotContainer {
     // SmartDashboard.putData(new ClimberTuneCommand(climber));
     // SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
     //     SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
-      SmartDashboard.putData(new ClimberTestCommand(climber));
+      // SmartDashboard.putData(new ClimberTestCommand(climber));
+      SmartDashboard.putData(new LoaderTuneCommand(loader));
+      SmartDashboard.putData(new InstantCommand(()->loader.setPivotRotor(Rotation2d.fromDegrees(0))));
   }
 
   private void configureEvents() {   

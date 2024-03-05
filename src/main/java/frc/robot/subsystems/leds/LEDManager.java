@@ -17,7 +17,7 @@ public class LEDManager extends SubsystemBase{
     private static CANdle candle;
     private RobotState lastState;
 
-    private static final int LED_COUNT = 83;
+    private static final int LED_COUNT = 85;
 
     private boolean clearAnimationFlag = false;
 
@@ -35,15 +35,15 @@ public class LEDManager extends SubsystemBase{
 
     @Override
     public void periodic() {
-        if(DriverStation.isAutonomous()){
-            candle.animate(new RainbowAnimation(0.8, 0.4, LED_COUNT, false, 0), 0);
-            // setColor(new Color(0, 0, 0));
-            clearAnimationFlag = true;
-        }
-        else if(DriverStation.isDisabled()){
+        if(DriverStation.isDisabled()){
             candle.animate(new LarsonAnimation(0xFF, 0x10, 0x0, 0, 0.4, LED_COUNT, BounceMode.Back, 8), 0);
             clearAnimationFlag = true;
             // setColor(new Color(0xFF, 0x10, 0x0));
+        }
+        else if(DriverStation.isAutonomous()){
+            candle.animate(new RainbowAnimation(0.8, 0.4, LED_COUNT, false, 0), 0);
+            // setColor(new Color(0, 0, 0));
+            clearAnimationFlag = true;
         }
         else{
             if(clearAnimationFlag){

@@ -99,7 +99,7 @@ public class Constants {
             public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 50;
 
             public static final InvertedValue SHOOTER_INVERTED = InvertedValue.CounterClockwise_Positive;
-            public static final NeutralModeValue SHOOTER_NEUTRAL_MODE = NeutralModeValue.Brake;
+            public static final NeutralModeValue SHOOTER_NEUTRAL_MODE = NeutralModeValue.Coast;
 
             public static final Slot0Configs SHOOTER_PID = new Slot0Configs()
             .withKV(0.0117419).withKS(0.030)
@@ -386,7 +386,9 @@ public class Constants {
             public static final int LOADER_SENSOR_PORT = 0;
             public static final int SHOOTER_SENSOR_PORT = 1;
 
-            public static final double PIVOT_GEAR_RATIO = 9.*7*30/18;
+            // public static final double PIVOT_GEAR_RATIO = 9.*7*30/18;
+            public static final double PIVOT_GEAR_RATIO = 70.;
+
             public static final double ROLLER_GEAR_RATIO = 7;
 
             public static final double PIVOT_STATOR_CURRENT_LIMIT = 20;
@@ -395,16 +397,16 @@ public class Constants {
             public static final Rotation2d PIVOT_FORWARD_SOFT_LIMIT = Rotation2d.fromDegrees(100);
             public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromDegrees(-30);
 
-            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 2;   //2
-            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0.95;
+            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 1;   //2
+            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0.5;
             public static final double PIVOT_MOTION_MAGIC_JERK = 0;
 
             public static final InvertedValue PIVOT_INVERTED = InvertedValue.CounterClockwise_Positive;
             public static final NeutralModeValue PIVOT_NEUTRAL_MODE = NeutralModeValue.Brake;
 
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
-            .withKV(0.845).withKS(0.02)
-            .withKP(45).withKI(0).withKD(1.2);
+            .withKV(1.3).withKS(0.025)
+            .withKP(45).withKI(0).withKD(0);
             // .withKV(0).withKS(0)
             // .withKP(0).withKI(0).withKD(0);
 
@@ -414,7 +416,7 @@ public class Constants {
             public static final double ROLLER_SUPPLY_CURRENT_LIMIT = 60;
 
             public static final InvertedValue ROLLER_INVERTED = InvertedValue.Clockwise_Positive;
-            public static final NeutralModeValue ROLLER_NEUTRAL_MODE = NeutralModeValue.Brake;
+            public static final NeutralModeValue ROLLER_NEUTRAL_MODE = NeutralModeValue.Coast;
 
             public static final Slot0Configs ROLLER_PID = new Slot0Configs()
             .withKV(0).withKS(0)
