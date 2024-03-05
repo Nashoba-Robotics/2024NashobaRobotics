@@ -24,8 +24,11 @@ import frc.robot.commands.test.LoaderTuneCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
+import frc.robot.commands.setters.groups.ToNewAmp;
+import frc.robot.commands.setters.groups.ToNewAmpAdj;
 import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
+import frc.robot.commands.setters.units.loader.NoteToAmp;
 import frc.robot.commands.test.ManualShootCommand;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -159,8 +162,9 @@ public class RobotContainer {
     // SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
     //     SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
       // SmartDashboard.putData(new ClimberTestCommand(climber));
-      SmartDashboard.putData(new LoaderTuneCommand(loader));
-      SmartDashboard.putData(new InstantCommand(()->loader.setPivotRotor(Rotation2d.fromDegrees(0))));
+    SmartDashboard.putData("Amp Prep", new ToNewAmpAdj());
+    SmartDashboard.putData("Amp Score", new ToNewAmp());
+    SmartDashboard.putData(new NoteToAmp());
   }
 
   private void configureEvents() {   

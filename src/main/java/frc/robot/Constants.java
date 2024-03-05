@@ -84,7 +84,7 @@ public class Constants {
             public static final Rotation2d PIVOT_FORWARD_SOFT_LIMIT = Rotation2d.fromDegrees(120);
             public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromDegrees(-50);
 
-            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 0.5;
+            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 1;
             public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0.95;
             public static final double PIVOT_MOTION_MAGIC_JERK = 0;
 
@@ -398,7 +398,7 @@ public class Constants {
             public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromDegrees(-30);
 
             public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 1;   //2
-            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0.5;
+            public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 1.35;
             public static final double PIVOT_MOTION_MAGIC_JERK = 0;
 
             public static final InvertedValue PIVOT_INVERTED = InvertedValue.CounterClockwise_Positive;
