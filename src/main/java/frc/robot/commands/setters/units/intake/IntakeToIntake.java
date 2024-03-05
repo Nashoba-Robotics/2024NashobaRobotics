@@ -1,5 +1,6 @@
 package frc.robot.commands.setters.units.intake;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Presets;
 import frc.robot.RobotContainer;
@@ -12,6 +13,12 @@ public class IntakeToIntake extends Command{
 
     public IntakeToIntake(){
         addRequirements(intake);
+    }
+
+    @Override
+    public void initialize() {
+        double intakeSpeed = loader.getShooterSensor() ? 0 : Presets.Intake.INTAKE_SPEED;
+        intake.setSpeed(intakeSpeed);
     }
 
     @Override

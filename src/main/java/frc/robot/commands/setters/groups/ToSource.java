@@ -18,7 +18,7 @@ public class ToSource extends SequentialCommandGroup {
             new StopAllRollers(),
             new LoaderToNeutral(),  //Figure out a way to check if we are already at source position
             new ArmToSource(),
-            new LoaderToSource(),
+            // new LoaderToSource(),
             Governor.getSetStateCommand(RobotState.SOURCE),
             new GrabberToSource()
         );

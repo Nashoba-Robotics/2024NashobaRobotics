@@ -79,13 +79,13 @@ public class President extends Command {
                 if(loader.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
                 break;
             case SOURCE:
-                if(loader.getLoaderSensor()) Governor.setRobotState(RobotState.NEUTRAL);
+                if(loader.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
                 break;
             case SHOOT_PREP:
                 // drive.state = DriveState.AIM_TO_SPEAKER;
-                if(Math.abs(joysticks.getRightJoystickValues().x) <= 0.03
-                && !CommandScheduler.getInstance().isScheduled(aimToSpeakerCommand))
-                CommandScheduler.getInstance().schedule(aimToSpeakerCommand);
+                // if(Math.abs(joysticks.getRightJoystickValues().x) <= 0.03
+                // && !CommandScheduler.getInstance().isScheduled(aimToSpeakerCommand))
+                // CommandScheduler.getInstance().schedule(aimToSpeakerCommand);
                 break;
             case SHOOT:
                 if(!shootFlag){
