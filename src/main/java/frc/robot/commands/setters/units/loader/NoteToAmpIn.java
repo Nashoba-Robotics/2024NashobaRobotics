@@ -4,15 +4,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.loader.LoaderSubsystem;
 
-public class NoteToAmp extends Command{
+public class NoteToAmpIn extends Command{
     LoaderSubsystem loader = RobotContainer.loader;
 
-    public NoteToAmp(){
+    public NoteToAmpIn(){
         addRequirements(loader);
     }
+
     @Override
     public void execute() {
-        loader.setRollerSpeed(0.3);
+        loader.setRollerSpeed(-0.1);
     }
 
     @Override
@@ -22,6 +23,6 @@ public class NoteToAmp extends Command{
 
     @Override
     public boolean isFinished() {
-        return !loader.getLoaderSensor();
+        return loader.getLoaderSensor();
     }
 }

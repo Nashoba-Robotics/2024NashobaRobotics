@@ -9,10 +9,17 @@ import frc.robot.subsystems.loader.LoaderSubsystem;
 public class NoteToShooter extends Command{
     LoaderSubsystem loader = RobotContainer.loader;
     Timer timer;
+    boolean override;
 
     public NoteToShooter(){
         timer = new Timer();
         addRequirements(loader);
+        override = false;
+    }
+    public NoteToShooter(boolean override){
+        timer = new Timer();
+        addRequirements(loader);
+        this.override = override;
     }
 
     @Override
@@ -34,6 +41,8 @@ public class NoteToShooter extends Command{
 
     @Override
     public boolean isFinished() {
-        return loader.getShooterSensor() || timer.get() > 0.5;   //TODO: Check initially if we actually have a note
+        // return loader.getShooterSensor() || timer.get() > 0.5 || override;   //TODO: Check initially if we actually have a note
+        return loader.getShooterSensor() || (timer.get() > 0.2 && !loader.getLoaderSensor());   //TODO: Check initially if we actually have a note
+
     }
 }
