@@ -36,7 +36,7 @@ public class LEDManager extends SubsystemBase{
     @Override
     public void periodic() {
         if(DriverStation.isDisabled()){
-            candle.animate(new LarsonAnimation(0xFF, 0x10, 0x0, 0, 0.4, LED_COUNT, BounceMode.Back, 8), 0);
+            candle.animate(new LarsonAnimation(0xFF, 0x10, 0x0, 0, 0.4, LED_COUNT, BounceMode.Back, 8, 8), 0);
             clearAnimationFlag = true;
             // setColor(new Color(0xFF, 0x10, 0x0));
         }
@@ -54,11 +54,14 @@ public class LEDManager extends SubsystemBase{
             if(currState != lastState){
                 switch (currState) {
                     case NEUTRAL:
-                        if(RobotContainer.loader.getShooterSensor()) setColor(new Color(255, 255, 255));
+                        if(RobotContainer.loader.getShooterSensor() || RobotContainer.loader.getLoaderSensor()) setColor(new Color(255, 255, 255));
                         else setColor(new Color(255, 0, 0));
                         break;
                     case INTAKE:
                         setColor(new Color(255, 0, 255));
+                        break;
+                    case SOURCE:
+                        setColor(new Color(255, 105, 180));
                         break;
                     case SHOOT_PREP:
                         setColor(new Color(255, 255, 0));
@@ -69,11 +72,14 @@ public class LEDManager extends SubsystemBase{
                     case AMP:
                         setColor(new Color(0, 255, 255));
                         break;
+                    case AMP_ADJ:
+                        setColor(new Color(0, 255, 255));
+                        break;
                     case MISC:
                         setColor(new Color(0x9, 0x22, 0x15));
                         break;
                     default:
-                    setColor(new Color(0, 0, 0));
+                        setColor(new Color(0, 0, 0));
                         break;
                 }
 

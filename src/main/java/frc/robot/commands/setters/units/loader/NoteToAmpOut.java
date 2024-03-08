@@ -2,19 +2,17 @@ package frc.robot.commands.setters.units.loader;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.RobotContainer.NoteState;
 import frc.robot.subsystems.loader.LoaderSubsystem;
 
-public class NoteToLoaderOut extends Command {
-    
-    private LoaderSubsystem loader = RobotContainer.loader;
+public class NoteToAmpOut extends Command{
+    LoaderSubsystem loader = RobotContainer.loader;
 
-    public NoteToLoaderOut() {
+    public NoteToAmpOut(){
         addRequirements(loader);
     }
-
+    @Override
     public void execute() {
-        loader.setRollerSpeed(0.1);
+        loader.setRollerSpeed(0.25);
     }
 
     @Override
@@ -24,9 +22,6 @@ public class NoteToLoaderOut extends Command {
 
     @Override
     public boolean isFinished() {
-        return !loader.getLoaderSensor() || loader.getShooterSensor();
-        // return !loader.getLoaderSensor();
-
+        return !loader.getLoaderSensor() && !loader.getShooterSensor();
     }
-
 }
