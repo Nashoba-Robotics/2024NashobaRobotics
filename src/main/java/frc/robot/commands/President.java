@@ -20,6 +20,7 @@ public class President extends Command {
     private Timer shootTimer;
 
     private boolean ampFlag;
+    private boolean ampSensorFlag;
     private Timer ampTimer;
 
     private boolean queueFlag;
@@ -108,11 +109,13 @@ public class President extends Command {
                         ampTimer.restart();
                         ampFlag = true;
                 }
-                if(ampFlag && ampTimer.get() > 1
-                && !RobotContainer.loader.getLoaderSensor()
-                && !RobotContainer.loader.getShooterSensor()){
-                    Governor.setRobotState(RobotState.NEUTRAL);
+                if(!ampSensorFlag && loader.getLoaderSensor()){
+                    ampSensorFlag = true;
+                }
+                if(ampFlag && !loader.getLoaderSensor() && ampSensorFlag){
+                    Governor.setRobotState(RobotState.NEUTRAL, false, true);
                     ampFlag = false;
+                    ampSensorFlag = false;
                     ampTimer.stop();
                 } 
                break; 

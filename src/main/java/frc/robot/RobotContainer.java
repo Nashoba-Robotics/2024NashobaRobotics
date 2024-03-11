@@ -28,8 +28,11 @@ import frc.robot.commands.test.LoaderTuneCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
+import frc.robot.commands.setters.groups.ToNewAmp;
+import frc.robot.commands.setters.groups.ToNewAmpAdj;
 import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
+import frc.robot.commands.setters.units.loader.NoteToAmpOut;
 import frc.robot.commands.test.ManualShootCommand;
 import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.lib.util.LinearRegressionModel;
@@ -91,6 +94,8 @@ public class RobotContainer {
   private Trigger aimedToLow = joysticks.getOperatorController().button(2); //B
   private Trigger aimedJustRight = joysticks.getOperatorController().button(3); //A
 
+  private Trigger prep90 = joysticks.getOperatorController().button(10);
+
   // private Trigger resetOdometryFromCamera = joysticks.getDriverController.button(11);
 
   public static AimToSpeakerCommand aimToSpeakerCommand = new AimToSpeakerCommand(drive, joysticks);
@@ -126,9 +131,9 @@ public class RobotContainer {
 
     neutralMode.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.NEUTRAL, true)));
 
-    scoreAmp.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP)));
+    scoreAmp.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP, false)));
     toAmpPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP_ADJ)));
-    toAmpPrep.onTrue(new AimToAmpCommand(drive, joysticks));
+    // toAmpPrep.onTrue(new AimToAmpCommand(drive, joysticks));
     // toAmpPrep.onTrue(new ToAmpCommand());
 
     toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE))); // TODO: check if we can call onTrue twice and have both commands still work
@@ -184,6 +189,7 @@ public class RobotContainer {
     }));
 
     
+    prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));             
   }
 
   private void addShuffleBoardData() {
@@ -192,8 +198,9 @@ public class RobotContainer {
     // SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
     //     SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
       // SmartDashboard.putData(new ClimberTestCommand(climber));
-      SmartDashboard.putData(new LoaderTuneCommand(loader));
-      SmartDashboard.putData(new InstantCommand(()->loader.setPivotRotor(Rotation2d.fromDegrees(0))));
+    SmartDashboard.putData("Amp Prep", new ToNewAmpAdj());
+    SmartDashboard.putData("Amp Score", new ToNewAmp());
+    SmartDashboard.putData(new NoteToAmpOut());
   }
 
   private void configureEvents() {   
