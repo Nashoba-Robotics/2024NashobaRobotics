@@ -52,7 +52,7 @@ public class Constants {
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
-            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/WPIAprilTagPositions.JSON";
+            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/WPIAprilTagPositions.JSON";
 
             public static final double getXSD(double distance) {
                   return 0.0312*distance - 0.0494;
@@ -426,6 +426,9 @@ public class Constants {
       public static final class Misc {
         public static final int GYRO_PORT = 0;
         public static final String PIGEON_CANBUS = "jerry";
+
+        public static final double DELETE_DISTANCE_RANGE = 0.5; //m
+        public static final double OPERATOR_ANGLE_CORRECTION = 0.1; //rad
 
       }
       public static final class Robot{

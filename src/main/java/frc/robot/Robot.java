@@ -1,5 +1,11 @@
 package frc.robot;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -10,6 +16,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,11 +26,12 @@ import frc.robot.Governor.RobotState;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.President;
 import frc.robot.commands.auto.Dictator;
+import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 
 public class Robot extends LoggedRobot {
 
-  private RobotContainer robotContainer;
+  public RobotContainer robotContainer;
 
   @Override
   public void robotInit() {
@@ -43,7 +51,9 @@ public class Robot extends LoggedRobot {
     Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
     
     robotContainer = new RobotContainer();
-    Tabs.addTab("April Tags");  
+    Tabs.addTab("April Tags");
+
+    
   }
 
   @Override
@@ -106,6 +116,25 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void disabledInit() {
+    try {
+      ArrayList<double[]> points = DistanceToArmAngleModel.getInstance().getUntransformedPoints();
+
+            FileWriter fileWriter = new FileWriter(new File("U/distanceToArmAngle.txt"));
+
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            bufferedWriter.write(DistanceToArmAngleModel.getInstance().getEquation() + "\n");
+
+            for(int i = 0; i < points.size(); i++) {
+                bufferedWriter.write(points.get(i)[0] + " " + points.get(i)[1]);
+                if(i != points.size() - 1) bufferedWriter.write("\n");
+            }
+
+            bufferedWriter.close();
+            System.out.println("yay");
+        } catch(Exception e) {
+            System.out.println("UH OH");
+        }
   }
 
   @Override

@@ -1,5 +1,8 @@
 package frc.robot;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.function.BooleanSupplier;
 
 import org.littletonrobotics.junction.Logger;
@@ -9,6 +12,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,6 +31,8 @@ import frc.robot.commands.auto.source.ToSource2Command;
 import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.test.ManualShootCommand;
+import frc.robot.lib.util.DistanceToArmAngleModel;
+import frc.robot.lib.util.LinearRegressionModel;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.climber.ClimberSubsytem;
@@ -78,8 +84,12 @@ public class RobotContainer {
   //Drive override -> B
   // Arm override -> Y
 
-  private Trigger deployClimb = joysticks.getOperatorController().button(4);  //x
-  private Trigger climb = joysticks.getOperatorController().button(3);  //A
+  private Trigger deployClimb = joysticks.getOperatorController().button(0);
+  private Trigger climb = joysticks.getOperatorController().button(0);
+
+  private Trigger aimedToHigh = joysticks.getOperatorController().button(4); //X
+  private Trigger aimedToLow = joysticks.getOperatorController().button(2); //B
+  private Trigger aimedJustRight = joysticks.getOperatorController().button(3); //A
 
   // private Trigger resetOdometryFromCamera = joysticks.getDriverController.button(11);
 
@@ -97,7 +107,6 @@ public class RobotContainer {
     addShuffleBoardData();
     configureBindings();
     configureEvents();
-
     // Logging callback for target robot pose
       PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
           Logger.recordOutput("TargetPose", pose);
@@ -149,6 +158,30 @@ public class RobotContainer {
     });
     armAimOverride.onFalse(new InstantCommand(()->aimOverrideTriggered = false));
     shootOveride.onTrue(new GrabberToShoot());
+
+    aimedToHigh.onTrue(new InstantCommand(() -> {
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();
+      double distance = instance.lastDistanceToShoot;
+      DistanceToArmAngleModel.getInstance().updateModel(
+        new double[] {distance, instance.applyFunction(distance) + Constants.Misc.OPERATOR_ANGLE_CORRECTION},
+        true);
+    }));
+
+    aimedToLow.onTrue(new InstantCommand(() -> {
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();
+      double distance = instance.lastDistanceToShoot;
+      DistanceToArmAngleModel.getInstance().updateModel(
+        new double[] {distance, instance.applyFunction(distance) - Constants.Misc.OPERATOR_ANGLE_CORRECTION},
+        true);
+    }));
+
+    aimedJustRight.onTrue(new InstantCommand(() -> {
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();
+      double distance = instance.lastDistanceToShoot;
+      DistanceToArmAngleModel.getInstance().updateModel(
+        new double[] {distance, instance.applyFunction(distance)},
+        false);
+    }));
 
     
   }
@@ -242,4 +275,5 @@ public class RobotContainer {
   public Command getAutoCommand() {
     return autoChooser.getSelected();
   }
+
 }

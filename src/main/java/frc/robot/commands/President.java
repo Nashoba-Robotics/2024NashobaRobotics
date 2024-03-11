@@ -2,12 +2,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants;
 import frc.robot.Governor;
 import frc.robot.RobotContainer;
 import frc.robot.Governor.RobotState;
+import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.subsystems.drive.DriveSubsystem;
-import frc.robot.subsystems.drive.DriveSubsystem.DriveState;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
 import frc.robot.subsystems.loader.LoaderSubsystem;
 
@@ -95,6 +95,7 @@ public class President extends Command {
                 if(shootFlag && shootTimer.get() > 0.1
                 && !RobotContainer.loader.getLoaderSensor()
                 && !RobotContainer.loader.getShooterSensor()){
+                    DistanceToArmAngleModel.getInstance().lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
                     Governor.setRobotState(RobotState.NEUTRAL);
                     shootFlag = false;
                     shootTimer.stop();
