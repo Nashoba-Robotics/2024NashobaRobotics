@@ -20,7 +20,6 @@ public class Presets {
         public static final Rotation2d INTAKE_POS = Rotation2d.fromDegrees(-54);
         public static final Rotation2d NEUTRAL_POS = Rotation2d.fromDegrees(-54);
         // public static final Rotation2d SHOOT_POS = Rotation2d.fromRadians(0);
-        public static Rotation2d SPEAKER_OFFSET = Rotation2d.fromDegrees(0); //Operator Input
         public static final Rotation2d SOURCE_POS = Rotation2d.fromDegrees(42);
 
         public static final Rotation2d POS_TOLERANCE = Rotation2d.fromDegrees(4);

@@ -170,7 +170,6 @@ public class Robot extends LoggedRobot {
     CommandScheduler.getInstance().schedule(new President());
     Governor.setRobotState(RobotState.NEUTRAL, true);
 
-    Presets.Arm.SPEAKER_OFFSET = Rotation2d.fromDegrees(0);
 
   }
 

@@ -1,8 +1,5 @@
 package frc.robot;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.function.BooleanSupplier;
 
 import org.littletonrobotics.junction.Logger;
@@ -12,7 +9,6 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,10 +17,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Governor.RobotState;
-import frc.robot.commands.AimToAmpCommand;
 import frc.robot.commands.AimToSpeakerCommand;
-import frc.robot.commands.test.ClimberTestCommand;
-import frc.robot.commands.test.LoaderTuneCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
@@ -35,7 +28,6 @@ import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.setters.units.loader.NoteToAmpOut;
 import frc.robot.commands.test.ManualShootCommand;
 import frc.robot.lib.util.DistanceToArmAngleModel;
-import frc.robot.lib.util.LinearRegressionModel;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.climber.ClimberSubsytem;
@@ -74,9 +66,6 @@ public class RobotContainer {
 
   private Trigger puke = joysticks.getDriverController().button(9);
   private Trigger shootPrep = joysticks.getDriverController().button(6);
-
-  private Trigger incrementAngle = joysticks.getOperatorController().povUp(); //  Shot goes higher
-  private Trigger decrementAngle = joysticks.getOperatorController().povDown(); //  Shot goes lower
 
   private Trigger increaseSpeed = joysticks.getOperatorController().button(6);  //rb
   private Trigger decreaseSpeed = joysticks.getOperatorController().button(5);  //lb
@@ -142,8 +131,6 @@ public class RobotContainer {
     shootPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP)));
     shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
 
-    incrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Rotation2d.fromDegrees(Presets.Arm.SPEAKER_OFFSET.getDegrees() - 2)));
-    decrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Rotation2d.fromDegrees(Presets.Arm.SPEAKER_OFFSET.getDegrees() + 2)));
 
     increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
     decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() - 10)));
