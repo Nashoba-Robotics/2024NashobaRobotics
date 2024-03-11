@@ -38,17 +38,19 @@ import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
 import frc.robot.subsystems.leds.LEDManager;
 import frc.robot.subsystems.loader.LoaderSubsystem;
+import frc.robot.subsystems.sensors.SensorManager;
 
 public class RobotContainer {
 
   public static final DriveSubsystem drive = new DriveSubsystem();
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
-  public static final AprilTagManager aprilTags = new AprilTagManager();
+  private static final AprilTagManager aprilTags = new AprilTagManager();
   public static final ArmSubsystem arm = new ArmSubsystem();
   public static final IntakeSubsystem intake = new IntakeSubsystem();
   public static final LoaderSubsystem loader = new LoaderSubsystem();
   public static final LEDManager leds = new LEDManager();
   public static final ClimberSubsytem climber = new ClimberSubsytem();
+  public static final SensorManager sensors = new SensorManager();
   
   private static SendableChooser<Command> autoChooser;
 
@@ -176,7 +178,7 @@ public class RobotContainer {
       new WaitUntilCommand(new BooleanSupplier() {
       @Override
       public boolean getAsBoolean() {
-          return loader.getShooterSensor() && Governor.getRobotState() == RobotState.SHOOT_PREP;
+          return sensors.getShooterSensor() && Governor.getRobotState() == RobotState.SHOOT_PREP;
       }
     }).withTimeout(3),
       new AimToSpeakerCommand(drive, joysticks),

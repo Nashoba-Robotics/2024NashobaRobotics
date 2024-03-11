@@ -24,9 +24,6 @@ public class LoaderIOTalonFX implements LoaderIO {
     private TalonFXConfigurator rollerConfigurator;
     private VelocityDutyCycle rollerController;
 
-    private DigitalInput loaderSensor;
-    private DigitalInput shooterSensor;
-
     public LoaderIOTalonFX() {
         pivot = new TalonFX(Constants.Loader.PIVOT_PORT, Constants.Loader.CANBUS);
         pivotConfig = new TalonFXConfiguration();
@@ -37,9 +34,6 @@ public class LoaderIOTalonFX implements LoaderIO {
         rollerConfig = new TalonFXConfiguration();
         rollerConfigurator = roller.getConfigurator();
         rollerController = new VelocityDutyCycle(0);
-
-        loaderSensor = new DigitalInput(Constants.Loader.LOADER_SENSOR_PORT);
-        shooterSensor = new DigitalInput(Constants.Loader.SHOOTER_SENSOR_PORT);
 
         config();
     }
@@ -101,9 +95,6 @@ public class LoaderIOTalonFX implements LoaderIO {
         inputs.rollerSupplyCurrent = roller.getSupplyCurrent().getValueAsDouble();
         inputs.rollerStatorCurrent = roller.getStatorCurrent().getValueAsDouble();
         inputs.rollerVoltage = roller.getMotorVoltage().getValueAsDouble();
-
-        inputs.loaderSensor = !loaderSensor.get();
-        inputs.shooterSensor = !shooterSensor.get();
     }
 
     private void config() { //TODO: Make Current limits true

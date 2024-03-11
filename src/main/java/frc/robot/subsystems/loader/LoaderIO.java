@@ -24,9 +24,6 @@ public interface LoaderIO {
         public double rollerVoltage = 0; //volts
         public double rollerStatorCurrent = 0; //amps
         public double rollerSupplyCurrent = 0; //amps
-
-        public boolean loaderSensor = false;
-        public boolean shooterSensor = false;
     }
 
     public default void updateInputs(LoaderIOInputs inputs) {}

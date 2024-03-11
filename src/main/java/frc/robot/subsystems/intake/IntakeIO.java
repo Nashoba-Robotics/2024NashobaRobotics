@@ -10,6 +10,8 @@ public interface IntakeIO {
         public double intakeStatorCurrent = 0;  //Amps
         public double intakeSupplyCurrent = 0; //Amps
         public double intakeVoltage = 0;    //Volts
+
+        public boolean intakeSensor = false;
     }
     public default void updateInputs(IntakeIOInputs inputs){}
 

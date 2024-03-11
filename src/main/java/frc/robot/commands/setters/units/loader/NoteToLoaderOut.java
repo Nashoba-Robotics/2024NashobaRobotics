@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.RobotContainer.NoteState;
 import frc.robot.subsystems.loader.LoaderSubsystem;
+import frc.robot.subsystems.sensors.SensorManager;
 
 public class NoteToLoaderOut extends Command {
     
@@ -24,7 +25,7 @@ public class NoteToLoaderOut extends Command {
 
     @Override
     public boolean isFinished() {
-        return !loader.getLoaderSensor() || loader.getShooterSensor();
+        return !RobotContainer.sensors.getLoaderSensor() || RobotContainer.sensors.getShooterSensor();
         // return !loader.getLoaderSensor();
 
     }

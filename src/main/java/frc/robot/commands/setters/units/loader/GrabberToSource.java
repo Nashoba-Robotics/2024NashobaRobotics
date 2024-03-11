@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Presets;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.loader.LoaderSubsystem;
+import frc.robot.subsystems.sensors.SensorManager;
 
 public class GrabberToSource extends Command{
     LoaderSubsystem loader = RobotContainer.loader;
@@ -14,13 +15,13 @@ public class GrabberToSource extends Command{
 
     @Override
     public void initialize() {
-        double speed = loader.getLoaderSensor() ? 0 : Presets.Loader.SOURCE_SPEED;
+        double speed = RobotContainer.sensors.getLoaderSensor() ? 0 : Presets.Loader.SOURCE_SPEED;
         loader.setRollerSpeed(speed);
     }
 
     @Override
     public void execute() {
-        double speed = loader.getLoaderSensor() ? 0 : Presets.Loader.SOURCE_SPEED;
+        double speed = RobotContainer.sensors.getLoaderSensor() ? 0 : Presets.Loader.SOURCE_SPEED;
         loader.setRollerSpeed(speed);
     }
 

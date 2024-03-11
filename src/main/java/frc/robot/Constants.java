@@ -9,11 +9,13 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Unit;
@@ -352,8 +354,17 @@ public class Constants {
             public static final double LENGTH = 16.451;
             public static final double WIDTH = 8.211;
 
+            //TODO: Check if this works!!
             public static final Translation3d getSpeakerPos(){
-                  return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? BLUE_SPEAKER_POSITION : RED_SPEAKER_POSITION;
+                  double noteSpeed = 1;
+                  ChassisSpeeds fieldRelSpeeds = RobotContainer.drive.getFieldRelativeSpeeds();
+                  Pose2d robotPos = RobotContainer.drive.getPose();
+                  Translation3d speakerPos = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? BLUE_SPEAKER_POSITION : RED_SPEAKER_POSITION;
+                  double t = Math.abs((robotPos.getX()-speakerPos.getX())/(noteSpeed*RobotContainer.drive.getPose().getRotation().getCos()));
+                  double xOffset = fieldRelSpeeds.vxMetersPerSecond * t;
+                  double yOffset = fieldRelSpeeds.vyMetersPerSecond * t;
+                  Translation3d newSpeakerPos = new Translation3d(speakerPos.getX()-xOffset, speakerPos.getY()-yOffset, speakerPos.getZ());
+                  return newSpeakerPos;
             }
       }
 
@@ -382,9 +393,6 @@ public class Constants {
 
             public static final int PIVOT_PORT = 12;
             public static final int ROLLER_PORT = 13;
-
-            public static final int LOADER_SENSOR_PORT = 0;
-            public static final int SHOOTER_SENSOR_PORT = 1;
 
             // public static final double PIVOT_GEAR_RATIO = 9.*7*30/18;
             public static final double PIVOT_GEAR_RATIO = 70.;
@@ -430,6 +438,12 @@ public class Constants {
       }
       public static final class Robot{
             public static final double SHOOTER_HEIGHT = 0.65; //m
+      }
+      public static final class Sensors{
+            public static final int SHOOTER_PORT_1 = 1;
+            public static final int SHOOTER_PORT_2 = 3;
+            public static final int LOADER_PORT = 0;
+            public static final int INTAKE_PORT = 2;
       }
 
 }
