@@ -114,7 +114,7 @@ public class President extends Command {
                     ampSensorFlag = true;
                 }
                 if(ampFlag && !RobotContainer.sensors.getLoaderSensor() && ampSensorFlag){
-                    Governor.setRobotState(RobotState.NEUTRAL, false, true);
+                    Governor.setRobotState(RobotState.NEUTRAL, false);
                     ampFlag = false;
                     ampSensorFlag = false;
                     ampTimer.stop();

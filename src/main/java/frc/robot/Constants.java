@@ -355,6 +355,8 @@ public class Constants {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
             public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.75, 2.36);
             public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.45, 2.36); //y = 5.6
+            public static final Translation3d BLUE_STATION = new Translation3d(4.37, 4.94, 0);
+            public static final Translation3d RED_STATION = new Translation3d(12.081, 4.94, 0);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
             public static final double LENGTH = 16.451;
             public static final double WIDTH = 8.211;
@@ -370,6 +372,10 @@ public class Constants {
                   // double yOffset = fieldRelSpeeds.vyMetersPerSecond * t;
                   // Translation3d newSpeakerPos = new Translation3d(speakerPos.getX()-xOffset, speakerPos.getY()-yOffset, speakerPos.getZ());
                   return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? BLUE_SPEAKER_POSITION : RED_SPEAKER_POSITION;
+            }
+
+            public static final Translation3d getStation(){
+                  return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? BLUE_STATION : RED_STATION;
             }
       }
 

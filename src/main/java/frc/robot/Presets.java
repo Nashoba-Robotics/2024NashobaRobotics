@@ -21,6 +21,8 @@ public class Presets {
         public static final Rotation2d NEUTRAL_POS = Rotation2d.fromDegrees(-54);
         // public static final Rotation2d SHOOT_POS = Rotation2d.fromRadians(0);
         public static final Rotation2d SOURCE_POS = Rotation2d.fromDegrees(42);
+        public static final Rotation2d SHUTTLE_POS = Rotation2d.fromDegrees(-5);
+
 
         public static final Rotation2d POS_TOLERANCE = Rotation2d.fromDegrees(4);
 
@@ -30,6 +32,7 @@ public class Presets {
         public static final Rotation2d SPEAKER_SPEED_PREP = Rotation2d.fromRadians(200);
         public static final double SPEAKER_PERCENT = 0.9;
         public static final Rotation2d AMP_SPEED = Rotation2d.fromRadians(62.0);
+        public static final Rotation2d SHUTTLE_SPEED = Rotation2d.fromRadians(200);
 
         public static final Rotation2d SPEED_TOLERANCE = Rotation2d.fromRadians(2);
     }
@@ -45,7 +48,7 @@ public class Presets {
         public static final Rotation2d INTAKE_POS = Rotation2d.fromRadians(0);
         public static final Rotation2d NEUTRAL_POS = Rotation2d.fromRadians(0);
         public static final Rotation2d SHOOT_POS = Rotation2d.fromRadians(0);
-        public static final Rotation2d SOURCE_POS = Rotation2d.fromDegrees(18);
+        public static final Rotation2d SOURCE_POS = Rotation2d.fromDegrees(0);
 
         public static final Rotation2d POS_TOLERANCE = Rotation2d.fromDegrees(2);
 
@@ -53,6 +56,7 @@ public class Presets {
         public static final double INTAKE_SPEED = -0.3;
         public static final double SHOOT_SPEED = -1;
         public static final double SOURCE_SPEED = -0.3;
+        public static final double SHUTTLE_SPEED = -0.9;
         public static final double TO_SHOOTER_TRANSITION = -0.3;
         public static final double TO_LOADER_TRANSITION = 0.3;
 

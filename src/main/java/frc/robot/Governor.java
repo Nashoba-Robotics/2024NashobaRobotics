@@ -15,6 +15,8 @@ import frc.robot.commands.setters.groups.ToNewAmp;
 import frc.robot.commands.setters.groups.ToNewAmpAdj;
 import frc.robot.commands.setters.groups.ToShoot;
 import frc.robot.commands.setters.groups.ToShootPrep;
+import frc.robot.commands.setters.groups.ToShuttle;
+import frc.robot.commands.setters.groups.ToShuttlePrep;
 import frc.robot.commands.setters.groups.ToSource;
 import frc.robot.subsystems.leds.LEDManager;
 import frc.robot.subsystems.leds.LEDManager.Color;
@@ -38,7 +40,9 @@ public class Governor {
         SHOOT_PREP, //New Hampshire
         SHOOT,  //Texas
         AMP, //California
-        AMP_ADJ
+        AMP_ADJ,
+        SHUTTLE,
+        SHUTTLE_ADJ
     }
 
     public static void setRobotState(RobotState robotState) {
@@ -82,47 +86,11 @@ public class Governor {
                 case AMP_ADJ:
                     toAmpAdj();
                     break;
-            }
-        }
-    }
-
-    public static void setRobotState(RobotState robotState, boolean override, boolean neutralOverride) {
-        if(state == RobotState.TRANSITION && !override) queuedState = robotState;
-        if(robotState == RobotState.UNKNOWN || robotState == RobotState.MISC) override = true;
-        if(override || state != RobotState.TRANSITION) {
-            if(robotState != RobotState.UNKNOWN && robotState != RobotState.MISC) state = RobotState.TRANSITION;
-            if(DriverStation.isAutonomous()) state = robotState;
-            else state = robotState;
-            switch (robotState) {
-                case NEUTRAL:
-                    toNeutral(neutralOverride);
+                case SHUTTLE:
+                    toShuttle();
                     break;
-                case ZERO:
-                    break;
-                case UNKNOWN:
-                    break;
-                case MISC:
-                    break;
-                case TRANSITION:
-                    System.out.println("How did I get here?");
-                    break;
-                case INTAKE:
-                    toIntake();
-                    break;
-                case SOURCE:
-                    toSource();
-                    break;
-                case SHOOT_PREP:
-                    toShootPrep();
-                    break;
-                case SHOOT:
-                    toShoot();
-                    break;
-                case AMP:
-                    toAmp();
-                    break;
-                case AMP_ADJ:
-                    toAmpAdj();
+                case SHUTTLE_ADJ:
+                    toShuttleAdj();
                     break;
             }
         }
@@ -143,9 +111,6 @@ public class Governor {
     private static void toNeutral() {
         CommandScheduler.getInstance().schedule(new ToNeutral());
     }
-    private static void toNeutral(boolean override){
-        CommandScheduler.getInstance().schedule(new ToNeutral());
-    }
     private static void toIntake() {
         CommandScheduler.getInstance().schedule(new ToIntake());
     }
@@ -163,6 +128,12 @@ public class Governor {
     }
     private static void toAmpAdj() {
         CommandScheduler.getInstance().schedule(new ToNewAmpAdj());
+    }
+    private static void toShuttle(){
+        CommandScheduler.getInstance().schedule(new ToShuttle());
+    }
+    private static void toShuttleAdj(){
+        CommandScheduler.getInstance().schedule(new ToShuttlePrep());
     }
 
     public static Command getSetStateCommand(RobotState state) {

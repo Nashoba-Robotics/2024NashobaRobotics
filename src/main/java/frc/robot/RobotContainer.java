@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Governor.RobotState;
 import frc.robot.commands.AimToSpeakerCommand;
+import frc.robot.commands.AimToStation;
 import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
@@ -25,6 +26,8 @@ import frc.robot.commands.auto.source.ToSource2Command;
 import frc.robot.commands.setters.groups.ToNewAmp;
 import frc.robot.commands.setters.groups.ToNewAmpAdj;
 import frc.robot.commands.setters.groups.ToPuke;
+import frc.robot.commands.setters.groups.ToShuttle;
+import frc.robot.commands.setters.groups.ToShuttlePrep;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.setters.units.loader.NoteToAmpOut;
 import frc.robot.commands.test.ManualShootCommand;
@@ -69,6 +72,9 @@ public class RobotContainer {
 
   private Trigger puke = joysticks.getDriverController().button(9);
   private Trigger shootPrep = joysticks.getDriverController().button(6);
+
+  private Trigger shuttle = joysticks.getDriverController().button(4);
+  private Trigger shuttlePrep = joysticks.getDriverController().button(1);
 
   private Trigger increaseSpeed = joysticks.getOperatorController().button(6);  //rb
   private Trigger decreaseSpeed = joysticks.getOperatorController().button(5);  //lb
@@ -137,6 +143,9 @@ public class RobotContainer {
     shootPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP)));
     shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
 
+    shuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE)));
+    shuttlePrep.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE_ADJ)));
+    shuttlePrep.onTrue(new AimToStation(drive, joysticks));
 
     increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
     decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() - 10)));

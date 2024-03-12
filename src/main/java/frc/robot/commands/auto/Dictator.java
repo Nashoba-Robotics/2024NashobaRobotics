@@ -58,6 +58,8 @@ public class Dictator extends Command{
                 break;
             case AMP:
                break; 
+            case SHUTTLE:
+                break;
             default:
                 break;
         }
