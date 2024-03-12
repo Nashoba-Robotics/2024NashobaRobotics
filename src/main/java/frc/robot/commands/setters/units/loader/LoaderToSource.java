@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Presets;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.loader.LoaderSubsystem;
+import frc.robot.subsystems.sensors.SensorManager;
 
 public class LoaderToSource extends Command{
     LoaderSubsystem loader = RobotContainer.loader;
@@ -14,12 +15,12 @@ public class LoaderToSource extends Command{
 
     @Override
     public void execute() {
-        if(!loader.getLoaderSensor() && !loader.getShooterSensor()) loader.setPivot(Presets.Loader.SOURCE_POS);
+        if(!RobotContainer.sensors.getLoaderSensor() && !RobotContainer.sensors.getShooterSensor()) loader.setPivot(Presets.Loader.SOURCE_POS);
     }
 
     @Override
     public boolean isFinished() {
         return Math.abs(loader.getPivotAngle().getRadians() - Presets.Loader.SOURCE_POS.getRadians()) <= Presets.Loader.POS_TOLERANCE.getRadians()
-        || loader.getLoaderSensor() || loader.getShooterSensor();
+        || RobotContainer.sensors.getLoaderSensor() || RobotContainer.sensors.getShooterSensor();
     }
 }

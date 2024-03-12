@@ -8,6 +8,7 @@ import frc.robot.Presets;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.loader.LoaderSubsystem;
+import frc.robot.subsystems.sensors.SensorManager;
 
 public class GrabberToIntake extends Command {
     private LoaderSubsystem loader = RobotContainer.loader;    
@@ -22,7 +23,7 @@ public class GrabberToIntake extends Command {
 
     @Override
     public void execute() {
-        double loaderSpeed = loader.getShooterSensor() ? 0 : Presets.Loader.INTAKE_SPEED;
+        double loaderSpeed = RobotContainer.sensors.getShooterSensor() ? 0 : Presets.Loader.INTAKE_SPEED;
         loader.setRollerSpeed(loaderSpeed);
     }
 

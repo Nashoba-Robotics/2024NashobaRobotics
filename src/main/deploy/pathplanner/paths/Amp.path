@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 1.7998534793434797,
-        "y": 7.672402256841565
+        "y": 7.8
       },
       "prevControl": {
         "x": 1.7998534793434797,
-        "y": 7.490484711095165
+        "y": 7.6180824542536
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp",
+  "folder": null,
   "previewStartingState": {
     "rotation": 90.0,
     "velocity": 0

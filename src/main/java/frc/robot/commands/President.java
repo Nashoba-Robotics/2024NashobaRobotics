@@ -10,6 +10,7 @@ import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
 import frc.robot.subsystems.loader.LoaderSubsystem;
+import frc.robot.subsystems.sensors.SensorManager;
 
 public class President extends Command {
     LoaderSubsystem loader = RobotContainer.loader;
@@ -77,10 +78,10 @@ public class President extends Command {
                 //TODO:
                 break;
             case INTAKE:
-                if(loader.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
+                if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
                 break;
             case SOURCE:
-                if(loader.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
+                if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
                 break;
             case SHOOT_PREP:
                 // drive.state = DriveState.AIM_TO_SPEAKER;
@@ -94,8 +95,8 @@ public class President extends Command {
                     shootFlag = true;
                 }
                 if(shootFlag && shootTimer.get() > 0.1
-                && !RobotContainer.loader.getLoaderSensor()
-                && !RobotContainer.loader.getShooterSensor()){
+                && !RobotContainer.sensors.getLoaderSensor()
+                && !RobotContainer.sensors.getShooterSensor()){
                     DistanceToArmAngleModel.getInstance().lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
                     Governor.setRobotState(RobotState.NEUTRAL);
                     shootFlag = false;
@@ -109,10 +110,10 @@ public class President extends Command {
                         ampTimer.restart();
                         ampFlag = true;
                 }
-                if(!ampSensorFlag && loader.getLoaderSensor()){
+                if(!ampSensorFlag && RobotContainer.sensors.getLoaderSensor()){
                     ampSensorFlag = true;
                 }
-                if(ampFlag && !loader.getLoaderSensor() && ampSensorFlag){
+                if(ampFlag && !RobotContainer.sensors.getLoaderSensor() && ampSensorFlag){
                     Governor.setRobotState(RobotState.NEUTRAL, false, true);
                     ampFlag = false;
                     ampSensorFlag = false;

@@ -9,11 +9,13 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Unit;
@@ -26,8 +28,8 @@ public class Constants {
       public static final double PEAK_VOLTAGE = 12;
 
       public static final class AprilTags{
-            public static final String LEFT_CAMERA_NAME = "Ben's_Little_Buddy (1)";
-            public static final String RIGHT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
+            public static final String RIGHT_CAMERA_NAME = "Ben's_Little_Buddy (1)";
+            public static final String LEFT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
 
             /* For PhotonEstimator
             *             ^ 
@@ -72,6 +74,9 @@ public class Constants {
             public static final int SHOOTER_PORT = 10;
             public static final int SHOOTER_PORT_2 = 11;
 
+            public static final int ENCODER_PORT = 4;
+            public static final double ENCODER_OFFSET = 0.55469;
+
             public static final int SHOOTER_SENSOR_PORT = 0;
             public static final int LOADER_SENSOR_PORT = 1;
 
@@ -84,7 +89,7 @@ public class Constants {
             public static final Rotation2d PIVOT_FORWARD_SOFT_LIMIT = Rotation2d.fromDegrees(120);
             public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromDegrees(-50);
 
-            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 1.5;
+            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 1.25;
             public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0.95;
             public static final double PIVOT_MOTION_MAGIC_JERK = 0;
 
@@ -92,8 +97,10 @@ public class Constants {
             public static final NeutralModeValue PIVOT_NEUTRAL_MODE = NeutralModeValue.Brake;
 
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
+            // .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
+            // .withKP(80).withKI(0).withKD(0.6);
             .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
-            .withKP(80).withKI(0).withKD(0.6);
+            .withKP(5).withKI(0).withKD(0.0);
 
             public static final double SHOOTER_STATOR_CURRENT_LIMIT = 80;
             public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 50;
@@ -352,7 +359,16 @@ public class Constants {
             public static final double LENGTH = 16.451;
             public static final double WIDTH = 8.211;
 
+            //TODO: Check if this works!!
             public static final Translation3d getSpeakerPos(){
+                  // double noteSpeed = 1;
+                  // ChassisSpeeds fieldRelSpeeds = RobotContainer.drive.getFieldRelativeSpeeds();
+                  // Pose2d robotPos = RobotContainer.drive.getPose();
+                  // Translation3d speakerPos = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? BLUE_SPEAKER_POSITION : RED_SPEAKER_POSITION;
+                  // double t = Math.abs((robotPos.getX()-speakerPos.getX())/(noteSpeed*RobotContainer.drive.getPose().getRotation().getCos()));
+                  // double xOffset = fieldRelSpeeds.vxMetersPerSecond * t;
+                  // double yOffset = fieldRelSpeeds.vyMetersPerSecond * t;
+                  // Translation3d newSpeakerPos = new Translation3d(speakerPos.getX()-xOffset, speakerPos.getY()-yOffset, speakerPos.getZ());
                   return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? BLUE_SPEAKER_POSITION : RED_SPEAKER_POSITION;
             }
       }
@@ -382,9 +398,6 @@ public class Constants {
 
             public static final int PIVOT_PORT = 12;
             public static final int ROLLER_PORT = 13;
-
-            public static final int LOADER_SENSOR_PORT = 0;
-            public static final int SHOOTER_SENSOR_PORT = 1;
 
             // public static final double PIVOT_GEAR_RATIO = 9.*7*30/18;
             public static final double PIVOT_GEAR_RATIO = 70.;
@@ -433,6 +446,12 @@ public class Constants {
       }
       public static final class Robot{
             public static final double SHOOTER_HEIGHT = 0.65; //m
+      }
+      public static final class Sensors{
+            public static final int SHOOTER_PORT_1 = 1;
+            public static final int SHOOTER_PORT_2 = 3;
+            public static final int LOADER_PORT = 0;
+            public static final int INTAKE_PORT = 2;
       }
 
 }

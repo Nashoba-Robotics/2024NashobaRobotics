@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Governor;
 import frc.robot.RobotContainer;
 import frc.robot.Governor.RobotState;
+import frc.robot.subsystems.sensors.SensorManager;
 
 public class LEDManager extends SubsystemBase{
     private static CANdle candle;
@@ -54,7 +55,7 @@ public class LEDManager extends SubsystemBase{
             if(currState != lastState){
                 switch (currState) {
                     case NEUTRAL:
-                        if(RobotContainer.loader.getShooterSensor() || RobotContainer.loader.getLoaderSensor()) setColor(new Color(255, 255, 255));
+                        if(RobotContainer.sensors.getShooterSensor() || RobotContainer.sensors.getLoaderSensor()) setColor(new Color(255, 255, 255));
                         else setColor(new Color(255, 0, 0));
                         break;
                     case INTAKE:

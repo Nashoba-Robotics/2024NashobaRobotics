@@ -13,6 +13,7 @@ import frc.robot.Governor.RobotState;
 import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.sensors.SensorManager;
 
 public class ArmToShoot extends Command{
     ArmSubsystem arm = RobotContainer.arm;
@@ -37,7 +38,7 @@ public class ArmToShoot extends Command{
     }
     @Override
     public boolean isFinished() {
-        if(DriverStation.isAutonomous() && Governor.getRobotState() != RobotState.SHOOT_PREP) return Math.abs(angle - arm.getArmPivotAngle().getRadians()) < Presets.Arm.POS_TOLERANCE.getRadians() || !RobotContainer.loader.getShooterSensor();
+        if(DriverStation.isAutonomous() && Governor.getRobotState() != RobotState.SHOOT_PREP) return Math.abs(angle - arm.getArmPivotAngle().getRadians()) < Presets.Arm.POS_TOLERANCE.getRadians() || !RobotContainer.sensors.getShooterSensor();
         else return Governor.getRobotState() != RobotState.SHOOT_PREP;
 
     }

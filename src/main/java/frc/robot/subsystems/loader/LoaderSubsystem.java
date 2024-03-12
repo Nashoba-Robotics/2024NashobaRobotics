@@ -22,10 +22,6 @@ public class LoaderSubsystem extends SubsystemBase{
     public void periodic() {
         loaderIO.updateInputs(loaderInputs);
         Logger.processInputs("Loader", loaderInputs);
-
-        if(getLoaderSensor()) RobotContainer.noteState = NoteState.LOADER;
-        else if(getShooterSensor()) RobotContainer.noteState = NoteState.SHOOTER;
-        else RobotContainer.noteState = NoteState.NONE;
     }
 
     //Sets the angle of the loader pivot (Currently relative to the arm, should probably make it field relative)
@@ -83,14 +79,5 @@ public class LoaderSubsystem extends SubsystemBase{
     }
     public void setPivotConfig(TalonFXConfiguration config) {
         loaderIO.setPivotConfig(config);
-    }
-
-    public boolean getLoaderSensor(){
-        return loaderInputs.loaderSensor;
-        // return false; // TODO: change
-    }
-
-    public boolean getShooterSensor(){
-        return loaderInputs.shooterSensor;
     }
 }
