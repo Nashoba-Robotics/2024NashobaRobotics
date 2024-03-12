@@ -17,10 +17,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Governor.RobotState;
-import frc.robot.commands.AimToAmpCommand;
 import frc.robot.commands.AimToSpeakerCommand;
-import frc.robot.commands.test.ClimberTestCommand;
-import frc.robot.commands.test.LoaderTuneCommand;
+import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
@@ -30,6 +28,7 @@ import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.setters.units.loader.NoteToAmpOut;
 import frc.robot.commands.test.ManualShootCommand;
+import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.climber.ClimberSubsytem;
@@ -38,17 +37,19 @@ import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
 import frc.robot.subsystems.leds.LEDManager;
 import frc.robot.subsystems.loader.LoaderSubsystem;
+import frc.robot.subsystems.sensors.SensorManager;
 
 public class RobotContainer {
 
   public static final DriveSubsystem drive = new DriveSubsystem();
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
-  public static final AprilTagManager aprilTags = new AprilTagManager();
+  private static final AprilTagManager aprilTags = new AprilTagManager();
   public static final ArmSubsystem arm = new ArmSubsystem();
   public static final IntakeSubsystem intake = new IntakeSubsystem();
   public static final LoaderSubsystem loader = new LoaderSubsystem();
   public static final LEDManager leds = new LEDManager();
   public static final ClimberSubsytem climber = new ClimberSubsytem();
+  public static final SensorManager sensors = new SensorManager();
   
   private static SendableChooser<Command> autoChooser;
 
@@ -69,20 +70,21 @@ public class RobotContainer {
   private Trigger puke = joysticks.getDriverController().button(9);
   private Trigger shootPrep = joysticks.getDriverController().button(6);
 
-  private Trigger incrementAngle = joysticks.getOperatorController().povUp(); //  Shot goes higher
-  private Trigger decrementAngle = joysticks.getOperatorController().povDown(); //  Shot goes lower
-
   private Trigger increaseSpeed = joysticks.getOperatorController().button(6);  //rb
   private Trigger decreaseSpeed = joysticks.getOperatorController().button(5);  //lb
 
   private boolean aimOverrideTriggered = false;
-  private Trigger armAimOverride = joysticks.getOperatorController().button(-1).debounce(0.1);
+  // private Trigger armAimOverride = joysticks.getOperatorController().button(-1).debounce(0.1);
   private Trigger shootOveride = joysticks.getOperatorController().button(8);
   //Drive override -> B
   // Arm override -> Y
 
-  private Trigger deployClimb = joysticks.getOperatorController().button(4);  //x
-  private Trigger climb = joysticks.getOperatorController().button(3);  //A
+  // private Trigger deployClimb = joysticks.getOperatorController().button(0);
+  // private Trigger climb = joysticks.getOperatorController().button(0);
+
+  private Trigger aimedToHigh = joysticks.getOperatorController().button(4); //X
+  private Trigger aimedToLow = joysticks.getOperatorController().button(2); //B
+  private Trigger aimedJustRight = joysticks.getOperatorController().button(3); //A
 
   private Trigger prep90 = joysticks.getOperatorController().button(10);
 
@@ -102,7 +104,6 @@ public class RobotContainer {
     addShuffleBoardData();
     configureBindings();
     configureEvents();
-
     // Logging callback for target robot pose
       PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
           Logger.recordOutput("TargetPose", pose);
@@ -122,10 +123,13 @@ public class RobotContainer {
 
     neutralMode.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.NEUTRAL, true)));
 
-    scoreAmp.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP, false)));
+    scoreAmp.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP, true)));
     toAmpPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP_ADJ)));
     // toAmpPrep.onTrue(new AimToAmpCommand(drive, joysticks));
-    // toAmpPrep.onTrue(new ToAmpCommand());
+    toAmpPrep.onTrue(new SequentialCommandGroup(
+      new ToAmpCommand(),
+      new InstantCommand(() -> Governor.setRobotState(RobotState.AMP))
+    ));
 
     toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE))); // TODO: check if we can call onTrue twice and have both commands still work
 
@@ -133,28 +137,51 @@ public class RobotContainer {
     shootPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP)));
     shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
 
-    incrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Rotation2d.fromDegrees(Presets.Arm.SPEAKER_OFFSET.getDegrees() - 2)));
-    decrementAngle.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_OFFSET = Rotation2d.fromDegrees(Presets.Arm.SPEAKER_OFFSET.getDegrees() + 2)));
 
     increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
     decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() - 10)));
 
     //TODO: Test this.
-    armAimOverride.onTrue(new InstantCommand(()->{Presets.Arm.OVERRIDE_AUTOMATIC_AIM = true; aimOverrideTriggered = true;})).and(new BooleanSupplier() {
-      @Override
-      public boolean getAsBoolean() {
-          return !Presets.Arm.OVERRIDE_AUTOMATIC_AIM && !aimOverrideTriggered;
-      } 
-    });
-    armAimOverride.onTrue(new InstantCommand(()->{Presets.Arm.OVERRIDE_AUTOMATIC_AIM = false; aimOverrideTriggered = true;})).and(new BooleanSupplier() {
-      @Override
-      public boolean getAsBoolean() {
-          return Presets.Arm.OVERRIDE_AUTOMATIC_AIM && !aimOverrideTriggered;
-      } 
-    });
-    armAimOverride.onFalse(new InstantCommand(()->aimOverrideTriggered = false));
+    // armAimOverride.onTrue(new InstantCommand(()->{Presets.Arm.OVERRIDE_AUTOMATIC_AIM = true; aimOverrideTriggered = true;})).and(new BooleanSupplier() {
+    //   @Override
+    //   public boolean getAsBoolean() {
+    //       return !Presets.Arm.OVERRIDE_AUTOMATIC_AIM && !aimOverrideTriggered;
+    //   } 
+    // });
+    // armAimOverride.onTrue(new InstantCommand(()->{Presets.Arm.OVERRIDE_AUTOMATIC_AIM = false; aimOverrideTriggered = true;})).and(new BooleanSupplier() {
+    //   @Override
+    //   public boolean getAsBoolean() {
+    //       return Presets.Arm.OVERRIDE_AUTOMATIC_AIM && !aimOverrideTriggered;
+    //   } 
+    // });
+    // armAimOverride.onFalse(new InstantCommand(()->aimOverrideTriggered = false));
     shootOveride.onTrue(new GrabberToShoot());
 
+    aimedToHigh.onTrue(new InstantCommand(() -> {
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();
+      double distance = instance.lastDistanceToShoot;
+      DistanceToArmAngleModel.getInstance().updateModel(
+        new double[] {distance, instance.applyFunction(distance) + Constants.Misc.OPERATOR_ANGLE_CORRECTION},
+        true);
+    }));
+
+    aimedToLow.onTrue(new InstantCommand(() -> {
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();
+      double distance = instance.lastDistanceToShoot;
+      DistanceToArmAngleModel.getInstance().updateModel(
+        new double[] {distance, instance.applyFunction(distance) - Constants.Misc.OPERATOR_ANGLE_CORRECTION},
+        true);
+    }));
+
+    aimedJustRight.onTrue(new InstantCommand(() -> {
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();
+      double distance = instance.lastDistanceToShoot;
+      DistanceToArmAngleModel.getInstance().updateModel(
+        new double[] {distance, instance.applyFunction(distance)},
+        false);
+    }));
+
+    
     prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));             
   }
 
@@ -176,7 +203,7 @@ public class RobotContainer {
       new WaitUntilCommand(new BooleanSupplier() {
       @Override
       public boolean getAsBoolean() {
-          return loader.getShooterSensor() && Governor.getRobotState() == RobotState.SHOOT_PREP;
+          return sensors.getShooterSensor() && Governor.getRobotState() == RobotState.SHOOT_PREP;
       }
     }).withTimeout(3),
       new AimToSpeakerCommand(drive, joysticks),
@@ -248,4 +275,5 @@ public class RobotContainer {
   public Command getAutoCommand() {
     return autoChooser.getSelected();
   }
+
 }

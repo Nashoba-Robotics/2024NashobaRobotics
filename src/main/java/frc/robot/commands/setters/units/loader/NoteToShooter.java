@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Presets;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.loader.LoaderSubsystem;
+import frc.robot.subsystems.sensors.SensorManager;
 
 public class NoteToShooter extends Command{
     LoaderSubsystem loader = RobotContainer.loader;
@@ -30,7 +31,7 @@ public class NoteToShooter extends Command{
 
     @Override
     public void execute() {
-        double speed = loader.getShooterSensor() ? 0 : Presets.Loader.TO_SHOOTER_TRANSITION;
+        double speed = RobotContainer.sensors.getShooterSensor() ? 0 : Presets.Loader.TO_SHOOTER_TRANSITION;
         loader.setRollerSpeed(speed);
     }
 
@@ -42,7 +43,7 @@ public class NoteToShooter extends Command{
     @Override
     public boolean isFinished() {
         // return loader.getShooterSensor() || timer.get() > 0.5 || override;   //TODO: Check initially if we actually have a note
-        return loader.getShooterSensor() || (timer.get() > 0.2 && !loader.getLoaderSensor());   //TODO: Check initially if we actually have a note
+        return RobotContainer.sensors.getShooterSensor() || (timer.get() > 0.2 && !RobotContainer.sensors.getLoaderSensor());   //TODO: Check initially if we actually have a note
 
     }
 }

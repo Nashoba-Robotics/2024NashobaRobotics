@@ -1,13 +1,17 @@
 package frc.robot.subsystems.arm;
 
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -17,9 +21,11 @@ import frc.robot.Constants;
 public class ArmIOTalonFX implements ArmIO{
     private TalonFX shooter, shooter2;
     private TalonFX pivot;
+    private CANcoder encoder;
 
     private TalonFXConfiguration shooterConfig, pivotConfig;
     private TalonFXConfigurator shooterConfigurator, pivotConfigurator;
+    private CANcoderConfiguration encoderConfig;
 
     private VelocityDutyCycle shooterControl;
     private MotionMagicDutyCycle pivotControl;
@@ -27,6 +33,9 @@ public class ArmIOTalonFX implements ArmIO{
     public ArmIOTalonFX(){
         shooter = new TalonFX(Constants.Arm.SHOOTER_PORT, Constants.Arm.CANBUS);
         shooter2 = new TalonFX(Constants.Arm.SHOOTER_PORT_2, Constants.Arm.CANBUS);
+        encoder = new CANcoder(Constants.Arm.ENCODER_PORT, "jerry");
+
+        encoderConfig = new CANcoderConfiguration();
 
         Follower follower = new Follower(Constants.Arm.SHOOTER_PORT, false);
         shooter2.setControl(follower);
@@ -48,6 +57,7 @@ public class ArmIOTalonFX implements ArmIO{
     @Override
     public void updateInputs(ArmIOInputs inputs){
         inputs.pivotRotorPosition = pivot.getPosition().getValueAsDouble()*Constants.TAU;
+        inputs.pivotAbsolutePosition = encoder.getAbsolutePosition().getValueAsDouble()*Constants.TAU;
         inputs.pivotSpeed = pivot.getVelocity().getValue()*Constants.TAU;
         inputs.pivotStatorCurrent = pivot.getStatorCurrent().getValueAsDouble();
         inputs.pivotSupplyCurrent = pivot.getSupplyCurrent().getValueAsDouble();
@@ -146,7 +156,12 @@ public class ArmIOTalonFX implements ArmIO{
         pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.Arm.PIVOT_REVERSE_SOFT_LIMIT.getRotations();
         pivotConfig.Voltage.PeakForwardVoltage = Constants.PEAK_VOLTAGE;
         pivotConfig.Voltage.PeakReverseVoltage = -Constants.PEAK_VOLTAGE;
-        pivotConfig.Feedback.SensorToMechanismRatio = Constants.Arm.PIVOT_GEAR_RATIO;
+
+        // pivotConfig.Feedback.SensorToMechanismRatio = Constants.Arm.PIVOT_GEAR_RATIO;
+        pivotConfig.Feedback.SensorToMechanismRatio = 100./36;
+        pivotConfig.Feedback.FeedbackRemoteSensorID = Constants.Arm.ENCODER_PORT;
+        pivotConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+        pivotConfig.Feedback.RotorToSensorRatio = 102.4 * 36. / 100.;
 
         shooterConfig.Audio.BeepOnBoot = true;
         shooterConfig.Audio.BeepOnConfig = true;
@@ -164,9 +179,14 @@ public class ArmIOTalonFX implements ArmIO{
         shooterConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
         shooterConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
 
+        encoderConfig.MagnetSensor.MagnetOffset = Constants.Arm.ENCODER_OFFSET;
+        encoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+        encoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+
 
         pivotConfigurator.apply(pivotConfig);
         shooterConfigurator.apply(shooterConfig);
         shooter2.getConfigurator().apply(shooterConfig);
+        encoder.getConfigurator().apply(encoderConfig);
     }
 }

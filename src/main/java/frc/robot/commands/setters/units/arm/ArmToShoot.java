@@ -10,8 +10,10 @@ import frc.robot.Governor;
 import frc.robot.Presets;
 import frc.robot.RobotContainer;
 import frc.robot.Governor.RobotState;
+import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.sensors.SensorManager;
 
 public class ArmToShoot extends Command{
     ArmSubsystem arm = RobotContainer.arm;
@@ -28,26 +30,15 @@ public class ArmToShoot extends Command{
     public void execute() {
         
         double dist = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
-        angle = 0;
-        // if(RobotContainer.drive.getPose().getY() > 4.04) {
-            angle = 0.92 * Math.atan(0.673009*dist) - 1.57125 + 0.06;
-        // angle = 0.435322 * Math.atan(0.797911*dist - 1.42314) - 0.768085;
-        if(dist > 4) angle += 0.02;
+        angle = DistanceToArmAngleModel.getInstance().applyFunction(dist);
 
-        angle += Presets.Arm.SPEAKER_OFFSET.getRadians();
-        // } else {
-        //     angle = -0.516972 * Math.atan(-1.29721*dist + 2.25625) - 0.962371;
-        // }
-       // TODO: Check if the angle is within our domain. 
+       if(Presets.Arm.OVERRIDE_AUTOMATIC_AIM) angle = Presets.Arm.PODIUM_SHOOTER_POS.getRadians();
 
-       if(Presets.Arm.OVERRIDE_AUTOMATIC_AIM)
-        angle = Presets.Arm.PODIUM_SHOOTER_POS.getRadians() + Presets.Arm.SPEAKER_OFFSET.getRadians();
-
-        arm.setArmPivot(Rotation2d.fromRadians(angle));    //Adds on Operator Input
+        arm.setArmPivot(Rotation2d.fromRadians(angle));
     }
     @Override
     public boolean isFinished() {
-        if(DriverStation.isAutonomous() && Governor.getRobotState() != RobotState.SHOOT_PREP) return Math.abs(angle - arm.getArmPivotAngle().getRadians()) < Presets.Arm.POS_TOLERANCE.getRadians() || !RobotContainer.loader.getShooterSensor();
+        if(DriverStation.isAutonomous() && Governor.getRobotState() != RobotState.SHOOT_PREP) return Math.abs(angle - arm.getArmPivotAngle().getRadians()) < Presets.Arm.POS_TOLERANCE.getRadians() || !RobotContainer.sensors.getShooterSensor();
         else return Governor.getRobotState() != RobotState.SHOOT_PREP;
 
     }
