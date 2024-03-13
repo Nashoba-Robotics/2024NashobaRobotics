@@ -15,10 +15,6 @@ import frc.robot.commands.setters.units.loader.NoteToShooter;
 public class ToPuke extends SequentialCommandGroup{
     public ToPuke(){
         addCommands(
-            new StopAllRollers(),
-            new LoaderToNeutral(),
-            new NoteToShooter(),
-            new ArmToNeutral(),
             Governor.getSetStateCommand(RobotState.MISC),
             new ParallelCommandGroup(
                 new InstantCommand(()->RobotContainer.intake.setSpeed(-Presets.Intake.INTAKE_SPEED), RobotContainer.intake),

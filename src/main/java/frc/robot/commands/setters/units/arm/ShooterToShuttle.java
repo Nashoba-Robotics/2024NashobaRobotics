@@ -21,6 +21,7 @@ public class ShooterToShuttle extends Command{
 
     @Override
     public boolean isFinished() {
-        return arm.getShooterSpeed().getRadians() >= speed.getRadians();
+        // return arm.getShooterSpeed().getRadians() >= speed.getRadians();
+        return true;
     }
 }

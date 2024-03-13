@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4243660570654477,
-      "y": 4.149542799085599
+      "x": 1.47,
+      "y": 6.9
     },
     "rotation": 180.0
   },
@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "b2-shootPos"
+            "pathName": "b0-s0"
           }
         },
         {
@@ -32,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "shootPos-p2"
+            "pathName": "s0-p0"
           }
         },
         {
@@ -44,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "p2-p1"
+            "pathName": "p0-p1"
           }
         },
         {
@@ -56,7 +56,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "p1-p0"
+            "pathName": "p1-p2"
           }
         },
         {
@@ -68,19 +68,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "p0-p4"
+            "pathName": "p2-p5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "p4-shootPos"
+            "pathName": "p5-shootPos"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "ShootWait"
           }
         }
       ]

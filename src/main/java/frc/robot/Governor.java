@@ -25,6 +25,7 @@ public class Governor {
     private static RobotState state = RobotState.UNKNOWN;
 
     private static RobotState queuedState = RobotState.UNKNOWN;
+    private static RobotState lastState = RobotState.UNKNOWN;
     
     public enum RobotState {
         NEUTRAL,    //Wyoming
@@ -50,6 +51,7 @@ public class Governor {
     }
 
     public static void setRobotState(RobotState robotState, boolean override) {
+        lastState = state;
         if(state == RobotState.TRANSITION && !override) queuedState = robotState;
         if(robotState == RobotState.UNKNOWN || robotState == RobotState.MISC) override = true;
         if(override || state != RobotState.TRANSITION) {
@@ -99,6 +101,9 @@ public class Governor {
     public static RobotState getRobotState() {
         return state;
     }
+    public static RobotState getLastRobotState(){
+        return lastState;
+    }
 
     public static RobotState getQueuedState() {
         return queuedState;
@@ -137,6 +142,7 @@ public class Governor {
     }
 
     public static Command getSetStateCommand(RobotState state) {
+        lastState = Governor.state;
         return new InstantCommand(() -> Governor.state = state);
     }
 

@@ -88,8 +88,8 @@ public class AimToStation extends Command{
 
         if(feedForwardProfile.isFinished(t.get())) {
             targetAngle = Rotation2d.fromRadians(Math.atan2(
-            Constants.Field.getSpeakerPos().getY() - drive.getPose().getY(),
-            Constants.Field.getSpeakerPos().getX() - drive.getPose().getX()));
+            Constants.Field.getStation().getY() - drive.getPose().getY(),
+            Constants.Field.getStation().getX() - drive.getPose().getX()));
             if(!flag) {
                 pidController.setP(6);
                 flag = true;

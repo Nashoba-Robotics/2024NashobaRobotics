@@ -50,7 +50,7 @@ public class RobotContainer {
   public static final ArmSubsystem arm = new ArmSubsystem();
   public static final IntakeSubsystem intake = new IntakeSubsystem();
   public static final LoaderSubsystem loader = new LoaderSubsystem();
-  public static final LEDManager leds = new LEDManager();
+  // public static final LEDManager leds = new LEDManager();
   public static final ClimberSubsytem climber = new ClimberSubsytem();
   public static final SensorManager sensors = new SensorManager();
   
@@ -209,12 +209,17 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootPrep", new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true)));
     NamedCommands.registerCommand("Intake", new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true)));
     NamedCommands.registerCommand("ShootWait", new SequentialCommandGroup(
+      new InstantCommand(()->{
+        SmartDashboard.putBoolean("HI", false);
+        SmartDashboard.putBoolean("Yo", false);
+    }),
       new WaitUntilCommand(new BooleanSupplier() {
       @Override
       public boolean getAsBoolean() {
           return sensors.getShooterSensor() && Governor.getRobotState() == RobotState.SHOOT_PREP;
       }
-    }).withTimeout(3),
+    }).withTimeout(5),
+      new InstantCommand(()->SmartDashboard.putBoolean("HI", true)),
       new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
       new WaitUntilCommand(new BooleanSupplier() {
@@ -222,7 +227,8 @@ public class RobotContainer {
         public boolean getAsBoolean() {
             return Governor.getRobotState() != RobotState.SHOOT;
         }
-      }).withTimeout(3)
+      }).withTimeout(3),
+      new InstantCommand(()->SmartDashboard.putBoolean("Yo", true))
     ));
     NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
       new AimToSpeakerCommand(drive, joysticks),
@@ -232,7 +238,7 @@ public class RobotContainer {
         public boolean getAsBoolean() {
             return Governor.getRobotState() != RobotState.SHOOT;
         }
-      }).withTimeout(3)
+      }).withTimeout(3) //Consider adding additional loader sensor
     ));
   }
 

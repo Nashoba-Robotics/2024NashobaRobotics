@@ -28,7 +28,7 @@ public class Constants {
       public static final double PEAK_VOLTAGE = 12;
 
       public static final class AprilTags{
-            public static final String RIGHT_CAMERA_NAME = "Ben's_Little_Buddy (1)";
+            public static final String RIGHT_CAMERA_NAME = "Yi's_Little_Buddy";
             public static final String LEFT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
 
             /* For PhotonEstimator
@@ -75,7 +75,7 @@ public class Constants {
             public static final int SHOOTER_PORT_2 = 11;
 
             public static final int ENCODER_PORT = 4;
-            public static final double ENCODER_OFFSET = 0.55469;
+            public static final double ENCODER_OFFSET = 0.324219 + 0.309467 + 0.008842;
 
             public static final int SHOOTER_SENSOR_PORT = 0;
             public static final int LOADER_SENSOR_PORT = 1;
@@ -89,7 +89,7 @@ public class Constants {
             public static final Rotation2d PIVOT_FORWARD_SOFT_LIMIT = Rotation2d.fromDegrees(120);
             public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromDegrees(-50);
 
-            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 1.25;
+            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 1.5;
             public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0.95;
             public static final double PIVOT_MOTION_MAGIC_JERK = 0;
 
@@ -353,8 +353,8 @@ public class Constants {
 
       public static final class Field {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
-            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.75, 2.36);
-            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.45, 2.36); //y = 5.6
+            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.90, 2.36); //y = 5.75
+            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.45, 2.36); //y = 5.45
             public static final Translation3d BLUE_STATION = new Translation3d(4.37, 4.94, 0);
             public static final Translation3d RED_STATION = new Translation3d(12.081, 4.94, 0);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);

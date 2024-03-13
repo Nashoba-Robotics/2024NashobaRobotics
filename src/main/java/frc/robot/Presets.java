@@ -32,7 +32,7 @@ public class Presets {
         public static final Rotation2d SPEAKER_SPEED_PREP = Rotation2d.fromRadians(200);
         public static final double SPEAKER_PERCENT = 0.9;
         public static final Rotation2d AMP_SPEED = Rotation2d.fromRadians(62.0);
-        public static final Rotation2d SHUTTLE_SPEED = Rotation2d.fromRadians(200);
+        public static final Rotation2d SHUTTLE_SPEED = Rotation2d.fromRadians(300);
 
         public static final Rotation2d SPEED_TOLERANCE = Rotation2d.fromRadians(2);
     }
