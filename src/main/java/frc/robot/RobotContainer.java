@@ -23,8 +23,8 @@ import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
-import frc.robot.commands.setters.groups.ToNewAmp;
-import frc.robot.commands.setters.groups.ToNewAmpAdj;
+import frc.robot.commands.setters.groups.ToAmp;
+import frc.robot.commands.setters.groups.ToAmpAdj;
 import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.groups.ToShuttle;
 import frc.robot.commands.setters.groups.ToShuttlePrep;
@@ -32,6 +32,7 @@ import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.setters.units.loader.NoteToAmpOut;
 import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.test.ManualShootCommand;
+import frc.robot.commands.test.TestServoCommand;
 import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -136,7 +137,12 @@ public class RobotContainer {
     toAmpPrep.onTrue(new SequentialCommandGroup(
       new ToAmpCommand(),
       new InstantCommand(() -> Governor.setRobotState(RobotState.AMP))
-    ));
+    ).until(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean() {
+          return joysticks.getRightJoystickValues().x > 0.2;
+      }
+    }));
 
     toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE))); // TODO: check if we can call onTrue twice and have both commands still work
 
@@ -204,6 +210,8 @@ public class RobotContainer {
     // SmartDashboard.putData("Amp Prep", new ToNewAmpAdj());
     // SmartDashboard.putData("Amp Score", new ToNewAmp());
     // SmartDashboard.putData(new NoteToAmpOut());
+
+    SmartDashboard.putData(new TestServoCommand(climber));
   }
 
   private void configureEvents() {   

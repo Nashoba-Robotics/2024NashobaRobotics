@@ -23,6 +23,10 @@ public class Presets {
         public static final Rotation2d SOURCE_POS = Rotation2d.fromDegrees(42);
         public static final Rotation2d SHUTTLE_POS = Rotation2d.fromDegrees(-5);
 
+        public static final Rotation2d CLIMB_PREP_POS = Rotation2d.fromRadians(0);
+        public static final Rotation2d CLIMB_POS = Rotation2d.fromRadians(0);
+        public static final Rotation2d TRAP_POS = Rotation2d.fromRadians(0);
+
 
         public static final Rotation2d POS_TOLERANCE = Rotation2d.fromDegrees(4);
 
@@ -35,6 +39,16 @@ public class Presets {
         public static final Rotation2d SHUTTLE_SPEED = Rotation2d.fromRadians(300);
 
         public static final Rotation2d SPEED_TOLERANCE = Rotation2d.fromRadians(2);
+    }
+
+    public static final class Climber {
+        public static final double CLIMB_PREP_POS = 0;
+        public static final double CLIMB_POS = 0;
+        public static final double TRAP_POS = 0;
+
+        public static final double POS_TOLERANCE = 0;
+
+        public static double SERVO_CLIMB_POS = 0;
     }
 
     public static final class Intake {
@@ -50,6 +64,10 @@ public class Presets {
         public static final Rotation2d SHOOT_POS = Rotation2d.fromRadians(0);
         public static final Rotation2d SOURCE_POS = Rotation2d.fromDegrees(0);
 
+        public static final Rotation2d CLIMB_PREP_POS = Rotation2d.fromRadians(0);
+        public static final Rotation2d CLIMB_POS = Rotation2d.fromRadians(0);
+        public static final Rotation2d TRAP_POS = Rotation2d.fromRadians(0);
+
         public static final Rotation2d POS_TOLERANCE = Rotation2d.fromDegrees(2);
 
         public static final double AMP_SPEED = -0.9;
@@ -59,6 +77,7 @@ public class Presets {
         public static final double SHUTTLE_SPEED = -0.9;
         public static final double TO_SHOOTER_TRANSITION = -0.3;
         public static final double TO_LOADER_TRANSITION = 0.3;
+        public static final double TRAP_SPEED = 0;
 
         public static final Rotation2d SPEED_TOLERANCE = Rotation2d.fromRadians(0);
     }
