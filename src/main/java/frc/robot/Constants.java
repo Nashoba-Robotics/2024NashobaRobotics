@@ -28,8 +28,10 @@ public class Constants {
       public static final double PEAK_VOLTAGE = 12;
 
       public static final class AprilTags{
-            public static final String RIGHT_CAMERA_NAME = "Yi's_Little_Buddy";
-            public static final String LEFT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
+            public static final String FRONT_RIGHT_CAMERA_NAME = "Yi's_Little_Buddy";
+            public static final String FRONT_LEFT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
+            // public static final String BACK_LEFT_CAMERA_NAME = "Eshaan's_Little_Buddy";
+            // public static final String BACK_RIGHT_CAMERA_NAME = "Azul's_Little_Buddy";
 
             /* For PhotonEstimator
             *             ^ 
@@ -43,13 +45,10 @@ public class Constants {
             *      |            |
             *      --------------
             */
-            public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.35),Units.inchesToMeters(9.5),0, new Rotation3d(0, -15./360*TAU, 20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.35), Units.inchesToMeters(-9.5), 0, new Rotation3d(0, -15./360*TAU, -20.*Constants.TAU/360));
-            // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(-11.42),Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
-            // public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.42), Units.inchesToMeters(11.42), Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
-
-            // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.94),Units.inchesToMeters(10.25)+0.25,Units.inchesToMeters(-8.75), new Rotation3d(0, -35./360*TAU, 20*TAU/360));
-            // public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.94)-0.4, Units.inchesToMeters(-10.25)+0.6, Units.inchesToMeters(0), new Rotation3d(0, -35*TAU/360, -20*TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_FRONT_LEFT = new Transform3d(Units.inchesToMeters(11.35),Units.inchesToMeters(9.5),0, new Rotation3d(0, -15./360*TAU, 20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_FRONT_RIGHT = new Transform3d(Units.inchesToMeters(11.35), Units.inchesToMeters(-9.5), 0, new Rotation3d(0, -15./360*TAU, -20.*Constants.TAU/360));
+            // public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(10.758), 0, new Rotation3d(0, -36./360*TAU, -20./360*TAU));
+            // public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(-10.758), 0, new Rotation3d(0, -36./360*TAU, 20./360*TAU));
             
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
@@ -75,7 +74,7 @@ public class Constants {
             public static final int SHOOTER_PORT_2 = 11;
 
             public static final int ENCODER_PORT = 4;
-            public static final double ENCODER_OFFSET = 0.324219 + 0.309467 + 0.008842;
+            public static final double ENCODER_OFFSET = 0.324219 + 0.309467 + 0.008842-0.061894;
 
             public static final int SHOOTER_SENSOR_PORT = 0;
             public static final int LOADER_SENSOR_PORT = 1;
@@ -87,7 +86,7 @@ public class Constants {
             public static final double PIVOT_SUPPLY_CURRENT_LIMIT = 15.0;
 
             public static final Rotation2d PIVOT_FORWARD_SOFT_LIMIT = Rotation2d.fromDegrees(120);
-            public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromDegrees(-50);
+            public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromRadians(-0.86);
 
             public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 1.5;
             public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0.95;
@@ -116,8 +115,8 @@ public class Constants {
       public static class Climber{
             public static final String CANBUS = "jerry";
             
-            public static final int LEFT_CLIMBER_PORT = 14;
-            public static final int RIGHT_CLIMBER_PORT = 15;
+            public static final int LEFT_CLIMBER_PORT = 15;
+            public static final int RIGHT_CLIMBER_PORT = 14;
 
             public static final InvertedValue leftInvert = InvertedValue.Clockwise_Positive;
 
@@ -157,22 +156,22 @@ public class Constants {
             public static final double MAX_ROTATION_ACCELERATION = 0;
 
             public static final Slot0Configs steerGains0 = new Slot0Configs()
-            .withKP(100).withKI(0).withKD(0.0)
+            .withKP(60).withKI(0).withKD(0.0)
                   // .withKP(0).withKI(0).withKD(0)
             .withKS(0.16).withKV(2.80).withKA(0);
 
             public static final Slot0Configs steerGains1 = new Slot0Configs()
-            .withKP(100).withKI(0).withKD(0.0)
+            .withKP(60).withKI(0).withKD(0.0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.18).withKV(2.84).withKA(0);
             
             public static final Slot0Configs steerGains2 = new Slot0Configs()
-            .withKP(100).withKI(0).withKD(0.0)
+            .withKP(60).withKI(0).withKD(0.0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.19).withKV(2.85).withKA(0);
 
             public static final Slot0Configs steerGains3 = new Slot0Configs()
-            .withKP(100).withKI(0).withKD(0.0)
+            .withKP(60).withKI(0).withKD(0.0)
             .withKS(0.19).withKV(2.91).withKA(0); 
 
 
@@ -210,9 +209,7 @@ public class Constants {
 
             public static final double kDriveGearRatio = 50./14 * 16/28 * 45/15;
             public static final double kSteerGearRatio = 21.428571428571427;
-            // private static final double kWheelRadiusInches = 1.840; //Direction of resistence
-            // private static final double kWheelRadiusInches = 1.9159; //Direction of less-resistence
-            private static final double kWheelRadiusInches = 1.925; //Comp
+            private static final double kWheelRadiusInches = 1.94425; //Comp
 
             public static final double WHEEL_RADIUS = Units.inchesToMeters(kWheelRadiusInches);
 

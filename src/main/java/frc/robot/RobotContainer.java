@@ -30,6 +30,7 @@ import frc.robot.commands.setters.groups.ToShuttle;
 import frc.robot.commands.setters.groups.ToShuttlePrep;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.setters.units.loader.NoteToAmpOut;
+import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.test.ManualShootCommand;
 import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.subsystems.apriltags.AprilTagManager;
@@ -50,7 +51,7 @@ public class RobotContainer {
   public static final ArmSubsystem arm = new ArmSubsystem();
   public static final IntakeSubsystem intake = new IntakeSubsystem();
   public static final LoaderSubsystem loader = new LoaderSubsystem();
-  // public static final LEDManager leds = new LEDManager();
+  public static final LEDManager leds = new LEDManager();
   public static final ClimberSubsytem climber = new ClimberSubsytem();
   public static final SensorManager sensors = new SensorManager();
   
@@ -195,31 +196,26 @@ public class RobotContainer {
   }
 
   private void addShuffleBoardData() {
-    SmartDashboard.putData(new ManualShootCommand(loader, arm));
+    // SmartDashboard.putData(new ManualShootCommand(loader, arm));
     // SmartDashboard.putData(new ClimberTuneCommand(climber));
     // SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
     //     SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
-      // SmartDashboard.putData(new ClimberTestCommand(climber));
-    SmartDashboard.putData("Amp Prep", new ToNewAmpAdj());
-    SmartDashboard.putData("Amp Score", new ToNewAmp());
-    SmartDashboard.putData(new NoteToAmpOut());
+      SmartDashboard.putData(new ClimberTestCommand(climber));
+    // SmartDashboard.putData("Amp Prep", new ToNewAmpAdj());
+    // SmartDashboard.putData("Amp Score", new ToNewAmp());
+    // SmartDashboard.putData(new NoteToAmpOut());
   }
 
   private void configureEvents() {   
     NamedCommands.registerCommand("ShootPrep", new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true)));
     NamedCommands.registerCommand("Intake", new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true)));
     NamedCommands.registerCommand("ShootWait", new SequentialCommandGroup(
-      new InstantCommand(()->{
-        SmartDashboard.putBoolean("HI", false);
-        SmartDashboard.putBoolean("Yo", false);
-    }),
       new WaitUntilCommand(new BooleanSupplier() {
       @Override
       public boolean getAsBoolean() {
           return sensors.getShooterSensor() && Governor.getRobotState() == RobotState.SHOOT_PREP;
       }
     }).withTimeout(5),
-      new InstantCommand(()->SmartDashboard.putBoolean("HI", true)),
       new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
       new WaitUntilCommand(new BooleanSupplier() {
@@ -227,8 +223,7 @@ public class RobotContainer {
         public boolean getAsBoolean() {
             return Governor.getRobotState() != RobotState.SHOOT;
         }
-      }).withTimeout(3),
-      new InstantCommand(()->SmartDashboard.putBoolean("Yo", true))
+      }).withTimeout(3)
     ));
     NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
       new AimToSpeakerCommand(drive, joysticks),

@@ -17,17 +17,17 @@ public class AprilTagManager extends SubsystemBase {
         io.updateInputs(inputs);
         Logger.processInputs("Camera", inputs);
 
-        if(inputs.leftHasTarget && inputs.leftPos != null)
-            Logger.recordOutput("RobotPos (Camera)", inputs.leftPos.toPose2d());
+        if(inputs.frontLeftHasTarget && inputs.frontLeftPos != null)
+            Logger.recordOutput("RobotPos (Camera)", inputs.frontLeftPos.toPose2d());
     }
 
     //Returns whether or not we can see at least 1 april tag
     public static boolean hasLeftTarget(){
-        return inputs.leftHasTarget;
+        return inputs.frontLeftHasTarget;
     }
     //Returns the timestamp of a frame (Only used for vision integration into odometry)
     public static double getLeftTimestamp(){
-        return inputs.leftTimeStamp;
+        return inputs.frontLeftTimeStamp;
     }
     //Returns the ambiguity ratio of the targets (High ambiguity = bad)
     public static double getLeftAmbiguity(){
@@ -40,7 +40,7 @@ public class AprilTagManager extends SubsystemBase {
 
     //Returns the robot position as a Pose3d
     public static Pose3d getLeftRobotPos(){
-        return inputs.leftPos;
+        return inputs.frontLeftPos;
     }
 
     //Returns whether or not we can see at least 1 april tag
