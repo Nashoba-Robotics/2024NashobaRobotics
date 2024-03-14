@@ -2,10 +2,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
 import frc.robot.Governor;
 import frc.robot.RobotContainer;
 import frc.robot.Governor.RobotState;
+import frc.robot.Presets;
 import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
@@ -24,6 +27,9 @@ public class President extends Command {
     private boolean ampSensorFlag;
     private Timer ampTimer;
 
+    private boolean shuttleFlag;
+    private Timer shuttleTimer;
+
     private boolean queueFlag;
     private Timer queueTimer;
 
@@ -39,6 +45,9 @@ public class President extends Command {
         queueFlag = false;
         queueTimer = new Timer();
 
+        shuttleFlag = false;
+        shuttleTimer = new Timer();
+
         aimToSpeakerCommand = RobotContainer.aimToSpeakerCommand;
     }
 
@@ -46,6 +55,7 @@ public class President extends Command {
     public void initialize() {
         shootFlag = false;
         ampFlag = false;
+        shuttleFlag = false;
     }
 
     @Override
@@ -73,6 +83,8 @@ public class President extends Command {
             case NEUTRAL:
                 // drive.state = DriveState.DRIVER;
                 // if(loader.getShooterSensor()) Governor.setRobotState(RobotState.SHOOT_PREP);
+                if(RobotContainer.sensors.getShooterSensor() && Governor.getLastRobotState()==RobotState.INTAKE) 
+                    CommandScheduler.getInstance().schedule(new InstantCommand(()->RobotContainer.intake.setSpeed(-0.1), RobotContainer.intake));
                 break;
             case TRANSITION:
                 //TODO:
@@ -114,12 +126,25 @@ public class President extends Command {
                     ampSensorFlag = true;
                 }
                 if(ampFlag && !RobotContainer.sensors.getLoaderSensor() && ampSensorFlag){
-                    Governor.setRobotState(RobotState.NEUTRAL, false, true);
+                    Governor.setRobotState(RobotState.NEUTRAL, false);
                     ampFlag = false;
                     ampSensorFlag = false;
                     ampTimer.stop();
                 } 
                break; 
+            case SHUTTLE:
+                if(!shuttleFlag){
+                    shuttleTimer.restart();
+                    shuttleFlag = true;
+                }
+                if(shuttleFlag 
+                && !RobotContainer.sensors.getShooterSensor() 
+                && shuttleTimer.get()>0.1){
+                    shuttleFlag = false;
+                    shuttleTimer.stop();
+                    Governor.setRobotState(RobotState.NEUTRAL);
+                }
+                break;
             default:
                 break;
         }

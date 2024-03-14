@@ -22,11 +22,7 @@ public class DistanceToArmAngleModel {
     public static DistanceToArmAngleModel getInstance() {
         
         if(instance == null) {
-            try {
-                instance = new DistanceToArmAngleModel(new File(Filesystem.getDeployDirectory().getPath() + "/distanceToArmAngle.txt"), Constants.Misc.DELETE_DISTANCE_RANGE);
-            } catch(Exception e) {
-                instance = new DistanceToArmAngleModel(new ArrayList<>(), Constants.Misc.DELETE_DISTANCE_RANGE);
-            }
+            newInstance();
         }
 
         return instance;
@@ -47,6 +43,8 @@ public class DistanceToArmAngleModel {
         this.untransformedPoints = distanceToAnglePoints;
         this.transformedPoints = new ArrayList<>();
 
+        this.deleteRange = deleteRange;
+
         for(double[] point : distanceToAnglePoints) {
             transformedPoints.add(transformPoint(point));
         }
@@ -58,6 +56,9 @@ public class DistanceToArmAngleModel {
         lastDistanceToShoot = 0;
         this.untransformedPoints = new ArrayList<>();
         this.transformedPoints = new ArrayList<>();
+
+        this.deleteRange = deleteRange;
+
         try {
             Scanner s = new Scanner(distanceToAnglePointsFile);
 
@@ -82,11 +83,9 @@ public class DistanceToArmAngleModel {
 
             for(int i = 0; i < untransformedPoints.size(); i++) {
                 double dist = Math.abs(point[0] - untransformedPoints.get(i)[0]);
-                if(dist < deleteRange) {
-                    if(dist < minDist) {
-                        indexOfLowestValue = i;
-                        minDist = dist;
-                    }
+                if(dist < deleteRange && dist < minDist) {
+                    indexOfLowestValue = i;
+                    minDist = dist;
                 }
             }
 

@@ -8,6 +8,7 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.proto.Photon;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -17,35 +18,55 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Constants;
 
 public class AprilTagIOPhotonVision implements AprilTagIO{
-    PhotonCamera leftCamera;
-    PhotonCamera rightCamera;
-    PhotonPoseEstimator leftPoseEstimator;
-    PhotonPoseEstimator rightPoseEstimator;
+    PhotonCamera frontLeftCamera;
+    PhotonCamera frontRightCamera;
+    PhotonCamera backLeftCamera;
+    PhotonCamera backRightCamera;
+    PhotonPoseEstimator frontLeftPoseEstimator;
+    PhotonPoseEstimator frontRightPoseEstimator;
+    PhotonPoseEstimator backLeftPoseEstimator;
+    PhotonPoseEstimator backRightPoseEstimator;
     AprilTagFieldLayout layout;
     boolean exists;
 
     public AprilTagIOPhotonVision(){
-        rightCamera = new PhotonCamera(Constants.AprilTags.RIGHT_CAMERA_NAME);   //Right
-        leftCamera = new PhotonCamera(Constants.AprilTags.LEFT_CAMERA_NAME);   //Left
+        frontRightCamera = new PhotonCamera(Constants.AprilTags.FRONT_RIGHT_CAMERA_NAME);   //Right
+        frontLeftCamera = new PhotonCamera(Constants.AprilTags.FRONT_LEFT_CAMERA_NAME);   //Left
+        backLeftCamera = new PhotonCamera(Constants.AprilTags.BACK_LEFT_CAMERA_NAME);
+        backRightCamera = new PhotonCamera(Constants.AprilTags.BACK_RIGHT_CAMERA_NAME);
         
         try{
             layout = new AprilTagFieldLayout(Constants.AprilTags.LAYOUT_PATH);
-            leftPoseEstimator = new PhotonPoseEstimator(
+            frontLeftPoseEstimator = new PhotonPoseEstimator(
                 layout, 
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-                leftCamera,
-                Constants.AprilTags.ROBOT_TO_CAMERA_LEFT);
+                frontLeftCamera,
+                Constants.AprilTags.ROBOT_TO_CAMERA_FRONT_LEFT);
 
-            rightPoseEstimator = new PhotonPoseEstimator(
+            frontRightPoseEstimator = new PhotonPoseEstimator(
                 layout,
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-                rightCamera,
-                Constants.AprilTags.ROBOT_TO_CAMERA_RIGHT);
+                frontRightCamera,
+                Constants.AprilTags.ROBOT_TO_CAMERA_FRONT_RIGHT);
+            
+            backLeftPoseEstimator = new PhotonPoseEstimator(
+                layout,
+                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
+                backLeftCamera,
+                Constants.AprilTags.ROBOT_TO_CAMERA_BACK_LEFT);
+            
+            backRightPoseEstimator = new PhotonPoseEstimator(
+                layout, 
+                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
+                backRightCamera,
+                Constants.AprilTags.ROBOT_TO_CAMERA_BACK_RIGHT);
             
             exists = true;
 
-            leftPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
-            rightPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+            frontLeftPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+            frontRightPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+            backLeftPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+            backRightPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 
         } catch(IOException e){
             DriverStation.reportError("Unable to open trajectory: " + Constants.AprilTags.LAYOUT_PATH, e.getStackTrace());
@@ -54,10 +75,10 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
     }
 
     public void updateInputs(AprilTagIOInputs inputs){
-        PhotonPipelineResult r = leftCamera.getLatestResult();
-        inputs.leftHasTarget = r.hasTargets();
+        PhotonPipelineResult r = frontLeftCamera.getLatestResult();
+        inputs.frontLeftHasTarget = r.hasTargets();
 
-        if(inputs.leftHasTarget) inputs.leftYaw = r.getBestTarget().getYaw() * Constants.TAU/360;
+        if(inputs.frontLeftHasTarget) inputs.leftYaw = r.getBestTarget().getYaw() * Constants.TAU/360;
         else inputs.leftYaw = 0;
 
         List<PhotonTrackedTarget> targets = r.getTargets();
@@ -78,20 +99,20 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
             inputs.leftAmbiguity = 0;
         }
 
-        Optional<EstimatedRobotPose> estimator = leftPoseEstimator.update();
+        Optional<EstimatedRobotPose> estimator = frontLeftPoseEstimator.update();
         
         if(!exists){
-            inputs.leftPos = null;
+            inputs.frontLeftPos = null;
         }
         else if(estimator.isPresent()){
-            inputs.leftPos = estimator.get().estimatedPose;
-            inputs.leftPose2d = inputs.leftPos.toPose2d();
+            inputs.frontLeftPos = estimator.get().estimatedPose;
+            inputs.frontLeftPose2d = inputs.frontLeftPos.toPose2d();
 
-            inputs.leftTimeStamp = r.getTimestampSeconds();
+            inputs.frontLeftTimeStamp = r.getTimestampSeconds();
         }
 
 
-        r = rightCamera.getLatestResult();
+        r = frontRightCamera.getLatestResult();
         inputs.rightHasTarget = r.hasTargets();
 
         if(inputs.rightHasTarget) inputs.rightYaw = r.getBestTarget().getYaw() * Constants.TAU/360;
@@ -114,7 +135,7 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
             inputs.rightAmbiguity = 0;
         }
 
-        estimator = rightPoseEstimator.update();
+        estimator = frontRightPoseEstimator.update();
         
         if(!exists){
             inputs.rightPos = null;
@@ -126,7 +147,49 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
             inputs.rightTimeStamp = r.getTimestampSeconds();
         }
 
-        
+        r = backLeftCamera.getLatestResult();
+        inputs.backLeftHasTarget = r.hasTargets();
+
+        int backLeftTagsSeen = r.getTargets().size();
+        if(backLeftTagsSeen == 1){
+            inputs.backLeftAmbiguity = r.getTargets().get(0).getPoseAmbiguity();
+        }
+        else{
+            inputs.backLeftAmbiguity = 0;
+        }
+
+        estimator = backLeftPoseEstimator.update();
+        if(!exists){
+            inputs.backLeftPos = null;
+        }
+        else if(estimator.isPresent()){
+            inputs.backLeftPos = estimator.get().estimatedPose;
+            inputs.backLeftPose2d = inputs.backLeftPos.toPose2d();
+
+            inputs.backLeftTimeStamp = r.getTimestampSeconds();
+        }
+
+        r = backRightCamera.getLatestResult();
+        inputs.backRightHasTarget = r.hasTargets();
+
+        int backRightTagsSeen = r.getTargets().size();
+        if(backRightTagsSeen == 1){
+            inputs.backRightAmbiguity = r.getTargets().get(0).getPoseAmbiguity();
+        }
+        else{
+            inputs.backRightAmbiguity = 0;
+        }
+
+        estimator = backRightPoseEstimator.update();
+        if(!exists){
+            inputs.backRightPos = null;
+        }
+        else if(estimator.isPresent()){
+            inputs.backRightPos = estimator.get().estimatedPose;
+            inputs.backRightPose2d = inputs.backRightPos.toPose2d();
+
+            inputs.backRightTimeStamp = r.getTimestampSeconds();
+        }
     }
 
     public void switchPipeline(){

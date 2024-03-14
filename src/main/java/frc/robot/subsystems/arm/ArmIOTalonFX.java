@@ -150,7 +150,7 @@ public class ArmIOTalonFX implements ArmIO{
         pivotConfig.MotorOutput.Inverted = Constants.Arm.PIVOT_INVERTED;
         pivotConfig.MotorOutput.NeutralMode = Constants.Arm.PIVOT_NEUTRAL_MODE;
         pivotConfig.Slot0 = Constants.Arm.PIVOT_PID;
-        pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+        pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
         pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
         pivotConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.Arm.PIVOT_FORWARD_SOFT_LIMIT.getRotations();
         pivotConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.Arm.PIVOT_REVERSE_SOFT_LIMIT.getRotations();

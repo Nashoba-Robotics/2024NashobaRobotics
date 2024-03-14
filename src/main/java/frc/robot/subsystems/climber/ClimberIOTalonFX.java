@@ -5,16 +5,18 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
-import com.ctre.phoenix6.signals.GravityTypeValue;
-import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Servo;
 import frc.robot.Constants;
 
 public class ClimberIOTalonFX implements ClimberIO{
     private TalonFX leftClimber;
     private TalonFX rightClimber;
+
+    private Servo leftServo;
+    private Servo rightServo;
 
     private TalonFXConfiguration config;
     private MotionMagicDutyCycle leftMotionMagic;
@@ -23,6 +25,9 @@ public class ClimberIOTalonFX implements ClimberIO{
     public ClimberIOTalonFX(){
         leftClimber = new TalonFX(Constants.Climber.LEFT_CLIMBER_PORT, Constants.Climber.CANBUS);
         rightClimber = new TalonFX(Constants.Climber.RIGHT_CLIMBER_PORT, Constants.Climber.CANBUS);
+
+        leftServo = new Servo(Constants.Arm.LEFT_SERVO_CHANNEL);
+        rightServo = new Servo(Constants.Arm.RIGHT_SERVO_CHANNEL);
 
         config = new TalonFXConfiguration();
         config.Audio.BeepOnBoot = true;
@@ -90,6 +95,11 @@ public class ClimberIOTalonFX implements ClimberIO{
 
     public void setRightClimberRotor(Rotation2d pos){
         rightClimber.setPosition(pos.getRotations());
+    }
+
+    public void setServo(double pos) {
+        leftServo.set(pos);
+        rightServo.set(pos);
     }
 
     @Override
