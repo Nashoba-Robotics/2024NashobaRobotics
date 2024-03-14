@@ -64,4 +64,36 @@ public class AprilTagManager extends SubsystemBase {
     public static Pose3d getRightRobotPos(){
         return inputs.rightPos;
     }
+
+    public static boolean hasBackLeftTarget(){
+        return inputs.backLeftHasTarget;
+    }
+
+    public double getBackLeftTimestamp(){
+        return inputs.backLeftTimeStamp;
+    }
+
+    public double getBackLeftAmbiguity(){
+        return inputs.backLeftAmbiguity;
+    }
+    
+    public Pose3d getBackLeftPos(){
+        return inputs.backLeftPos;
+    }
+
+    public static boolean hasBackRightTarget(){
+        return inputs.backRightHasTarget;
+    }
+
+    public double getBackRightTimestamp(){
+        return inputs.backRightTimeStamp;
+    }
+
+    public double getBackRightAmbiguity(){
+        return inputs.backRightAmbiguity;
+    }
+    
+    public Pose3d getBackRightPos(){
+        return inputs.backRightPos;
+    }
 }

@@ -32,8 +32,8 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
     public AprilTagIOPhotonVision(){
         frontRightCamera = new PhotonCamera(Constants.AprilTags.FRONT_RIGHT_CAMERA_NAME);   //Right
         frontLeftCamera = new PhotonCamera(Constants.AprilTags.FRONT_LEFT_CAMERA_NAME);   //Left
-        // backLeftCamera = new PhotonCamera(Constants.AprilTags.BACK_LEFT_CAMERA_NAME);
-        // backRightCamera = new PhotonCamera(Constants.AprilTags.BACK_RIGHT_CAMERA_NAME);
+        backLeftCamera = new PhotonCamera(Constants.AprilTags.BACK_LEFT_CAMERA_NAME);
+        backRightCamera = new PhotonCamera(Constants.AprilTags.BACK_RIGHT_CAMERA_NAME);
         
         try{
             layout = new AprilTagFieldLayout(Constants.AprilTags.LAYOUT_PATH);
@@ -49,24 +49,24 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
                 frontRightCamera,
                 Constants.AprilTags.ROBOT_TO_CAMERA_FRONT_RIGHT);
             
-            // backLeftPoseEstimator = new PhotonPoseEstimator(
-            //     layout,
-            //     PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
-            //     backLeftCamera,
-            //     Constants.AprilTags.ROBOT_TO_CAMERA_BACK_LEFT);
+            backLeftPoseEstimator = new PhotonPoseEstimator(
+                layout,
+                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
+                backLeftCamera,
+                Constants.AprilTags.ROBOT_TO_CAMERA_BACK_LEFT);
             
-            // backRightPoseEstimator = new PhotonPoseEstimator(
-            //     layout, 
-            //     PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
-            //     backRightCamera,
-            //     Constants.AprilTags.ROBOT_TO_CAMERA_BACK_RIGHT);
+            backRightPoseEstimator = new PhotonPoseEstimator(
+                layout, 
+                PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
+                backRightCamera,
+                Constants.AprilTags.ROBOT_TO_CAMERA_BACK_RIGHT);
             
             exists = true;
 
             frontLeftPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
             frontRightPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
-            // backLeftPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
-            // backRightPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+            backLeftPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+            backRightPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 
         } catch(IOException e){
             DriverStation.reportError("Unable to open trajectory: " + Constants.AprilTags.LAYOUT_PATH, e.getStackTrace());
@@ -147,7 +147,49 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
             inputs.rightTimeStamp = r.getTimestampSeconds();
         }
 
-        
+        r = backLeftCamera.getLatestResult();
+        inputs.backLeftHasTarget = r.hasTargets();
+
+        int backLeftTagsSeen = r.getTargets().size();
+        if(backLeftTagsSeen == 1){
+            inputs.backLeftAmbiguity = r.getTargets().get(0).getPoseAmbiguity();
+        }
+        else{
+            inputs.backLeftAmbiguity = 0;
+        }
+
+        estimator = backLeftPoseEstimator.update();
+        if(!exists){
+            inputs.backLeftPos = null;
+        }
+        else if(estimator.isPresent()){
+            inputs.backLeftPos = estimator.get().estimatedPose;
+            inputs.backLeftPose2d = inputs.backLeftPos.toPose2d();
+
+            inputs.backLeftTimeStamp = r.getTimestampSeconds();
+        }
+
+        r = backRightCamera.getLatestResult();
+        inputs.backRightHasTarget = r.hasTargets();
+
+        int backRightTagsSeen = r.getTargets().size();
+        if(backRightTagsSeen == 1){
+            inputs.backRightAmbiguity = r.getTargets().get(0).getPoseAmbiguity();
+        }
+        else{
+            inputs.backRightAmbiguity = 0;
+        }
+
+        estimator = backRightPoseEstimator.update();
+        if(!exists){
+            inputs.backRightPos = null;
+        }
+        else if(estimator.isPresent()){
+            inputs.backRightPos = estimator.get().estimatedPose;
+            inputs.backRightPose2d = inputs.backRightPos.toPose2d();
+
+            inputs.backRightTimeStamp = r.getTimestampSeconds();
+        }
     }
 
     public void switchPipeline(){

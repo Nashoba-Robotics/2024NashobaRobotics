@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import com.fasterxml.jackson.databind.node.POJONode;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 
@@ -34,10 +36,14 @@ public interface AprilTagIO{
         double leftDistToSpeaker = 0;
         double rightDistToSpeaker = 0;
 
-        public double backLeftTimeStampe = 0;   //ms
+        public Pose3d backLeftPos = new Pose3d();
+        public Pose2d backLeftPose2d = new Pose2d();
+        public double backLeftTimeStamp = 0;   //ms
         public boolean backLeftHasTarget = false;
         public double backLeftAmbiguity = 0;
 
+        public Pose3d backRightPos = new Pose3d();
+        public Pose2d backRightPose2d = new Pose2d();
         public double backRightTimeStamp = 0;   //ms
         public boolean backRightHasTarget = false;
         public double backRightAmbiguity = 0;
