@@ -215,7 +215,7 @@ public class RobotContainer {
       public boolean getAsBoolean() {
           return sensors.getShooterSensor() && Governor.getRobotState() == RobotState.SHOOT_PREP;
       }
-    }).withTimeout(5),
+    }).withTimeout(3),
       new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
       new WaitUntilCommand(new BooleanSupplier() {
