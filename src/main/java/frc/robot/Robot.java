@@ -125,7 +125,7 @@ public class Robot extends LoggedRobot {
     try {
       ArrayList<double[]> points = DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).getUntransformedPoints();
 
-            FileWriter fileWriter = new FileWriter(new File("U/" + Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE.split(".")[0] + Timer.getFPGATimestamp() + ".txt"));
+            FileWriter fileWriter = new FileWriter(new File("U/regressionModel" + Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE.split(".")[0] + Timer.getFPGATimestamp() + ".txt"));
 
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
@@ -147,7 +147,7 @@ public class Robot extends LoggedRobot {
         try {
       ArrayList<double[]> points = DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE).getUntransformedPoints();
 
-            FileWriter fileWriter = new FileWriter(new File("U/" + Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE.split(".")[0] + Timer.getFPGATimestamp() + ".txt"));
+            FileWriter fileWriter = new FileWriter(new File("U/regresssionModel" + Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE.split(".")[0] + Timer.getFPGATimestamp() + ".txt"));
 
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
