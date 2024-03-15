@@ -50,6 +50,8 @@ public class RobotContainer {
   public static final LEDManager leds = new LEDManager();
   public static final ClimberSubsytem climber = new ClimberSubsytem();
   public static final SensorManager sensors = new SensorManager();
+
+  public static String lastModelForShot = Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE;
   
   private static SendableChooser<Command> autoChooser;
 
@@ -169,25 +171,25 @@ public class RobotContainer {
     shootOveride.onTrue(new GrabberToShoot());
 
     aimedToHigh.onTrue(new InstantCommand(() -> {
-      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE);
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(lastModelForShot);
       double distance = instance.lastDistanceToShoot;
-      DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).updateModel(
+      DistanceToArmAngleModel.getInstance(lastModelForShot).updateModel(
         new double[] {distance, instance.applyFunction(distance) + Constants.Misc.OPERATOR_ANGLE_CORRECTION},
         true);
     }));
 
     aimedToLow.onTrue(new InstantCommand(() -> {
-      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE);
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(lastModelForShot);
       double distance = instance.lastDistanceToShoot;
-      DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).updateModel(
+      DistanceToArmAngleModel.getInstance(lastModelForShot).updateModel(
         new double[] {distance, instance.applyFunction(distance) - Constants.Misc.OPERATOR_ANGLE_CORRECTION},
         true);
     }));
 
     aimedJustRight.onTrue(new InstantCommand(() -> {
-      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE);
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(lastModelForShot);
       double distance = instance.lastDistanceToShoot;
-      DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).updateModel(
+      DistanceToArmAngleModel.getInstance(lastModelForShot).updateModel(
         new double[] {distance, instance.applyFunction(distance)},
         false);
     }));

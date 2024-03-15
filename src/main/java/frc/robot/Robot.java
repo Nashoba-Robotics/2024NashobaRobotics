@@ -62,6 +62,10 @@ public class Robot extends LoggedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
+    System.out.println("Amp: " + DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).getEquation());
+    System.out.println("Stage: " + DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE).getEquation());
+    
+
     Pose2d leftPose2d = AprilTagManager.getLeftRobotPos().toPose2d();
     Pose2d rightPose2d = AprilTagManager.getRightRobotPos().toPose2d();
 
@@ -128,6 +132,28 @@ public class Robot extends LoggedRobot {
             bufferedWriter.flush();
 
             bufferedWriter.write(DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).getEquation() + "\n");
+
+            for(int i = 0; i < points.size(); i++) {
+                bufferedWriter.write(points.get(i)[0] + " " + points.get(i)[1]);
+                if(i != points.size() - 1) bufferedWriter.write("\n");
+            }
+
+            bufferedWriter.close();
+            System.out.println("yay");
+        } catch(Exception e) {
+            System.out.println("UH OH");
+        }
+
+        try {
+      ArrayList<double[]> points = DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE).getUntransformedPoints();
+
+            FileWriter fileWriter = new FileWriter(new File("U/" + Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE.split(".")[0] + Timer.getFPGATimestamp() + ".txt"));
+
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            bufferedWriter.flush();
+
+            bufferedWriter.write(DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE).getEquation() + "\n");
 
             for(int i = 0; i < points.size(); i++) {
                 bufferedWriter.write(points.get(i)[0] + " " + points.get(i)[1]);

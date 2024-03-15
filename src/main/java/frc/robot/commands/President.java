@@ -109,7 +109,13 @@ public class President extends Command {
                 if(shootFlag && shootTimer.get() > 0.1
                 && !RobotContainer.sensors.getLoaderSensor()
                 && !RobotContainer.sensors.getShooterSensor()){
-                    DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                    if(drive.getPose().getTranslation().getY() < 4.2) {
+                        RobotContainer.lastModelForShot = Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE;
+                        DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                    } else {
+                        RobotContainer.lastModelForShot = Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE;
+                        DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                    }
                     Governor.setRobotState(RobotState.NEUTRAL);
                     shootFlag = false;
                     shootTimer.stop();
