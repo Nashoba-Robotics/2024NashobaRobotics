@@ -202,7 +202,7 @@ public class RobotContainer {
   }
 
   private void addShuffleBoardData() {
-    // SmartDashboard.putData(new ManualShootCommand(loader, arm));
+    SmartDashboard.putData(new ManualShootCommand(loader, arm));
     // SmartDashboard.putData(new ClimberTuneCommand(climber));
     // SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
     //     SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
