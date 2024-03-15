@@ -107,7 +107,8 @@ public class Robot extends LoggedRobot {
     // }
 
     double dist = RobotContainer.drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
-    Logger.recordOutput("Aim Distance", dist);
+    Logger.recordOutput("Regression/Aim Distance", dist);
+    Logger.recordOutput("Regression/ArmSetAngle", DistanceToArmAngleModel.getInstance().applyFunction(dist));
 
     SmartDashboard.putString("RobotState", Governor.getRobotState().toString());
     SmartDashboard.putString("QueuedState", Governor.getQueuedState().toString());
