@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Governor.RobotState;
@@ -226,22 +227,26 @@ public class RobotContainer {
     }).withTimeout(3),
       new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
+      new WaitCommand(0.2),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
         public boolean getAsBoolean() {
-            return Governor.getRobotState() != RobotState.SHOOT;
+            return Governor.getDesiredRobotState() != RobotState.SHOOT;
         }
-      }).withTimeout(3)
+      }).withTimeout(3),
+      new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true))
     ));
     NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
       new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
+      new WaitCommand(0.2),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
         public boolean getAsBoolean() {
-            return Governor.getRobotState() != RobotState.SHOOT;
+            return Governor.getDesiredRobotState() != RobotState.SHOOT;
         }
-      }).withTimeout(3) //Consider adding additional loader sensor
+      }).withTimeout(3), //Consider adding additional loader sensor
+      new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true))
     ));
   }
 

@@ -38,7 +38,7 @@ public class ArmToShoot extends Command{
     }
     @Override
     public boolean isFinished() {
-        if(DriverStation.isAutonomous() && Governor.getRobotState() != RobotState.SHOOT_PREP) return Math.abs(angle - arm.getArmPivotAngle().getRadians()) < Presets.Arm.POS_TOLERANCE.getRadians() || !RobotContainer.sensors.getShooterSensor();
+        if(DriverStation.isAutonomous() && Governor.getDesiredRobotState() == RobotState.SHOOT) return Math.abs(angle - arm.getArmPivotAngle().getRadians()) < Presets.Arm.POS_TOLERANCE.getRadians() || !RobotContainer.sensors.getShooterSensor();
         else return Governor.getRobotState() != RobotState.SHOOT_PREP;
 
     }

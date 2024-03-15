@@ -114,6 +114,7 @@ public class Robot extends LoggedRobot {
     SmartDashboard.putString("QueuedState", Governor.getQueuedState().toString());
     Logger.recordOutput("RobotState/RobotState", Governor.getRobotState().toString());
     Logger.recordOutput("RobotState/QueuedState", Governor.getQueuedState().toString());
+    Logger.recordOutput("RobotState/LastState", Governor.getDesiredRobotState().toString());
   }
 
   @Override
