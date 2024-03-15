@@ -31,7 +31,7 @@ public class Constants {
             public static final String FRONT_RIGHT_CAMERA_NAME = "Yi's_Little_Buddy";
             public static final String FRONT_LEFT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
             public static final String BACK_LEFT_CAMERA_NAME = "Eshaan's_Little_Buddy";
-            public static final String BACK_RIGHT_CAMERA_NAME = "Azul's_Little_Buddy";
+            public static final String BACK_RIGHT_CAMERA_NAME = "Ben's_Little_Buddy";
 
             /* For PhotonEstimator
             *             ^ 
@@ -53,7 +53,7 @@ public class Constants {
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
-            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/AprilTagPositions.json";
+            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/URIPositions.json";
 
             public static final double getXSD(double distance) {
                   return 0.0312*distance - 0.0494;
