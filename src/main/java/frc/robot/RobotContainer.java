@@ -135,8 +135,8 @@ public class RobotContainer {
     toAmpPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP_ADJ)));
     // toAmpPrep.onTrue(new AimToAmpCommand(drive, joysticks));
     toAmpPrep.onTrue(new SequentialCommandGroup(
-      new ToAmpCommand(),
-      new InstantCommand(() -> Governor.setRobotState(RobotState.AMP))
+      new ToAmpCommand()
+      // new InstantCommand(() -> Governor.setRobotState(RobotState.AMP))
     ).until(new BooleanSupplier() {
       @Override
       public boolean getAsBoolean() {

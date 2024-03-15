@@ -120,9 +120,11 @@ public class Robot extends LoggedRobot {
     try {
       ArrayList<double[]> points = DistanceToArmAngleModel.getInstance().getUntransformedPoints();
 
-            FileWriter fileWriter = new FileWriter(new File("U/distanceToArmAngle.txt"));
+            FileWriter fileWriter = new FileWriter(new File("U/distanceToArmAngle" + Timer.getFPGATimestamp() + ".txt"));
 
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            bufferedWriter.flush();
 
             bufferedWriter.write(DistanceToArmAngleModel.getInstance().getEquation() + "\n");
 

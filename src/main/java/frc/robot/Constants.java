@@ -53,7 +53,7 @@ public class Constants {
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
-            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/WPIAprilTagPositions.JSON";
+            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/AprilTagPositions.json";
 
             public static final double getXSD(double distance) {
                   return 0.0312*distance - 0.0494;
@@ -353,7 +353,7 @@ public class Constants {
 
       public static final class Field {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
-            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.90, 2.36); //y = 5.75
+            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.75, 2.36); //y = 5.75
             public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.45, 2.36); //y = 5.45
             public static final Translation3d BLUE_STATION = new Translation3d(4.37, 4.94, 0);
             public static final Translation3d RED_STATION = new Translation3d(12.081, 4.94, 0);
