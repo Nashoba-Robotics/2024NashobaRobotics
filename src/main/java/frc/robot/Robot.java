@@ -118,15 +118,15 @@ public class Robot extends LoggedRobot {
   @Override
   public void disabledInit() {
     try {
-      ArrayList<double[]> points = DistanceToArmAngleModel.getInstance().getUntransformedPoints();
+      ArrayList<double[]> points = DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).getUntransformedPoints();
 
-            FileWriter fileWriter = new FileWriter(new File("U/distanceToArmAngle" + Timer.getFPGATimestamp() + ".txt"));
+            FileWriter fileWriter = new FileWriter(new File("U/" + Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE.split(".")[0] + Timer.getFPGATimestamp() + ".txt"));
 
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
             bufferedWriter.flush();
 
-            bufferedWriter.write(DistanceToArmAngleModel.getInstance().getEquation() + "\n");
+            bufferedWriter.write(DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).getEquation() + "\n");
 
             for(int i = 0; i < points.size(); i++) {
                 bufferedWriter.write(points.get(i)[0] + " " + points.get(i)[1]);

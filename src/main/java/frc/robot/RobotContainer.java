@@ -23,13 +23,8 @@ import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
-import frc.robot.commands.setters.groups.ToAmp;
-import frc.robot.commands.setters.groups.ToAmpAdj;
 import frc.robot.commands.setters.groups.ToPuke;
-import frc.robot.commands.setters.groups.ToShuttle;
-import frc.robot.commands.setters.groups.ToShuttlePrep;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
-import frc.robot.commands.setters.units.loader.NoteToAmpOut;
 import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.test.ManualShootCommand;
 import frc.robot.commands.test.TestServoCommand;
@@ -174,25 +169,25 @@ public class RobotContainer {
     shootOveride.onTrue(new GrabberToShoot());
 
     aimedToHigh.onTrue(new InstantCommand(() -> {
-      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE);
       double distance = instance.lastDistanceToShoot;
-      DistanceToArmAngleModel.getInstance().updateModel(
+      DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).updateModel(
         new double[] {distance, instance.applyFunction(distance) + Constants.Misc.OPERATOR_ANGLE_CORRECTION},
         true);
     }));
 
     aimedToLow.onTrue(new InstantCommand(() -> {
-      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE);
       double distance = instance.lastDistanceToShoot;
-      DistanceToArmAngleModel.getInstance().updateModel(
+      DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).updateModel(
         new double[] {distance, instance.applyFunction(distance) - Constants.Misc.OPERATOR_ANGLE_CORRECTION},
         true);
     }));
 
     aimedJustRight.onTrue(new InstantCommand(() -> {
-      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE);
       double distance = instance.lastDistanceToShoot;
-      DistanceToArmAngleModel.getInstance().updateModel(
+      DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).updateModel(
         new double[] {distance, instance.applyFunction(distance)},
         false);
     }));

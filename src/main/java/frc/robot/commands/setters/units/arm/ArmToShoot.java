@@ -30,7 +30,7 @@ public class ArmToShoot extends Command{
     public void execute() {
         
         double dist = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
-        angle = DistanceToArmAngleModel.getInstance().applyFunction(dist);
+        angle = DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).applyFunction(dist);
 
        if(Presets.Arm.OVERRIDE_AUTOMATIC_AIM) angle = Presets.Arm.PODIUM_SHOOTER_POS.getRadians();
 
