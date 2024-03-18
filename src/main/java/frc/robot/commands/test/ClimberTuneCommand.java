@@ -1,5 +1,6 @@
 package frc.robot.commands.test;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.climber.ClimberSubsytem;
@@ -21,17 +22,17 @@ public class ClimberTuneCommand extends Command{
     public void initialize() {
         SmartDashboard.putNumber("Climber Pos", 0);
 
-        SmartDashboard.putNumber("Climb kS", lastkS);
-        SmartDashboard.putNumber("Climb kV", lastkV);
-        SmartDashboard.putNumber("Climb kP", lastkP);
-        SmartDashboard.putNumber("Climb kD", lastkD);
+        SmartDashboard.putNumber("Climber kS", lastkS);
+        SmartDashboard.putNumber("Climber kV", lastkV);
+        SmartDashboard.putNumber("Climber kP", lastkP);
+        SmartDashboard.putNumber("Climber kD", lastkD);
 
     }
 
     @Override
     public void execute() {
         double pos = SmartDashboard.getNumber("Climber Pos", 0);
-        climber.setClimberPos(pos);
+        climber.setClimberPos(Rotation2d.fromRadians(pos));
 
         double kS = SmartDashboard.getNumber("Climber kS", 0);
         if(kS != lastkS){

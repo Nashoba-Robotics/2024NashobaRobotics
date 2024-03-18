@@ -29,6 +29,7 @@ public class ClimberIOTalonFX implements ClimberIO{
         config.Audio.BeepOnConfig = false;
         config.CurrentLimits.StatorCurrentLimitEnable = false;
         config.CurrentLimits.StatorCurrentLimit = Constants.Climber.STATOR_LIMIT;
+        config.CurrentLimits.SupplyCurrentLimitEnable = false;
         config.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
         config.Feedback.SensorToMechanismRatio = Constants.Climber.GEAR_RATIO;
         config.FutureProofConfigs = true;
@@ -40,12 +41,17 @@ public class ClimberIOTalonFX implements ClimberIO{
         config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.Climber.FORWARD_SOFT_LIMIT;
         config.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
         config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.Climber.REVERSE_SOFT_LIMIT;
+        config.HardwareLimitSwitch.ForwardLimitEnable = false;
+        config.HardwareLimitSwitch.ReverseLimitEnable = false;
+
+        config.MotionMagic.MotionMagicCruiseVelocity = 0.5;
+        config.MotionMagic.MotionMagicAcceleration = 0.5;
         
         config.Slot0 = Constants.Climber.leftPID;
 
-        rightClimber.setControl(new Follower(Constants.Climber.LEFT_CLIMBER_PORT, true));
+        // rightClimber.setControl(new Follower(Constants.Climber.LEFT_CLIMBER_PORT, true));
         leftClimber.getConfigurator().apply(config);
-        rightClimber.getConfigurator().apply(config);
+        // rightClimber.getConfigurator().apply(config);
 
         //TODO: Individually tune the motors;
         // //TODO: MAKE SURE THIS WORKS!!!!
@@ -56,7 +62,7 @@ public class ClimberIOTalonFX implements ClimberIO{
         // rightClimber.getConfigurator().apply(config);
        // rightClimber.setControl(new Follower(0, true)); //TODO: Figure out if the motors oppose each other
 
-        leftMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, true, true);
+        leftMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, false, false);
         // rightMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, true, true);
     }
 
@@ -73,14 +79,14 @@ public class ClimberIOTalonFX implements ClimberIO{
     }
 
     @Override
-    public void setLeftClimberPos(double pos){
-        leftMotionMagic.Position = pos;
+    public void setLeftClimberPos(Rotation2d pos){
+        leftMotionMagic.Position = pos.getRotations();
         leftClimber.setControl(leftMotionMagic);
     }
 
     @Override
-    public void setRightClimberPos(double pos){
-        rightMotionMagic.Position = pos;
+    public void setRightClimberPos(Rotation2d pos){
+        rightMotionMagic.Position = pos.getRotations();
         rightClimber.setControl(rightMotionMagic);
     }
 

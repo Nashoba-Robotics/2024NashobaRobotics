@@ -31,6 +31,7 @@ import frc.robot.commands.setters.groups.ToShuttlePrep;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.setters.units.loader.NoteToAmpOut;
 import frc.robot.commands.test.ClimberTestCommand;
+import frc.robot.commands.test.ClimberTuneCommand;
 import frc.robot.commands.test.ManualShootCommand;
 import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.subsystems.apriltags.AprilTagManager;
@@ -47,7 +48,7 @@ public class RobotContainer {
 
   public static final DriveSubsystem drive = new DriveSubsystem();
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
-  private static final AprilTagManager aprilTags = new AprilTagManager();
+  // private static final AprilTagManager aprilTags = new AprilTagManager();
   public static final ArmSubsystem arm = new ArmSubsystem();
   public static final IntakeSubsystem intake = new IntakeSubsystem();
   public static final LoaderSubsystem loader = new LoaderSubsystem();
@@ -197,9 +198,9 @@ public class RobotContainer {
 
   private void addShuffleBoardData() {
     // SmartDashboard.putData(new ManualShootCommand(loader, arm));
-    // SmartDashboard.putData(new ClimberTuneCommand(climber));
-    // SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
-    //     SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
+    SmartDashboard.putData(new ClimberTuneCommand(climber));
+    SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
+        SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
       SmartDashboard.putData(new ClimberTestCommand(climber));
     // SmartDashboard.putData("Amp Prep", new ToNewAmpAdj());
     // SmartDashboard.putData("Amp Score", new ToNewAmp());
