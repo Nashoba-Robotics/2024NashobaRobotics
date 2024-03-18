@@ -25,17 +25,22 @@ public class ToNeutral extends SequentialCommandGroup {
         nShoot = new NoteToShooter();
         addCommands(
             new StopAllRollers(),
-            new NoteToLoaderOut(),
+            // new NoteToLoaderOut(),
             new ParallelCommandGroup(
                 new SequentialCommandGroup(
                     lNeut,
                     nShoot
                 ),
                 new SequentialCommandGroup(    
-                    new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(-35))),  //TODO: Tune this value
+                    new InstantCommand(()->
+                    {
+                        if(RobotContainer.arm.getArmPivotAngle().getDegrees() > -35)
+                            RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(-35));
+                    }
+                    ),
                     new WaitUntilCommand(new BooleanSupplier() {
                         public boolean getAsBoolean(){
-                            return nShoot.isFinished();
+                            return nShoot.isFinished(); //TODO: FBP
                         }
                     }),
                     new ArmToNeutral()

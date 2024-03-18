@@ -7,6 +7,7 @@ import frc.robot.Governor;
 import frc.robot.RobotContainer;
 import frc.robot.Governor.RobotState;
 import frc.robot.subsystems.loader.LoaderSubsystem;
+import frc.robot.subsystems.sensors.SensorManager;
 
 public class Dictator extends Command{
     private LoaderSubsystem loader = RobotContainer.loader;
@@ -27,7 +28,7 @@ public class Dictator extends Command{
     @Override
     public void execute() {
 
-        if(shootFlag && Governor.getRobotState() != RobotState.SHOOT) shootFlag = false;
+        if(shootFlag && Governor.getDesiredRobotState() != RobotState.SHOOT) shootFlag = false;
 
         switch (Governor.getRobotState()) {
             case NEUTRAL:
@@ -35,7 +36,7 @@ public class Dictator extends Command{
             case TRANSITION:
                 break;
             case INTAKE:
-                if(loader.getShooterSensor()) Governor.setRobotState(RobotState.SHOOT_PREP);
+                if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.SHOOT_PREP);
                 break;
             case SOURCE:
                 // if(loader.getLoaderSensor()) Governor.setRobotState(RobotState.NEUTRAL);
@@ -43,13 +44,14 @@ public class Dictator extends Command{
             case SHOOT_PREP:
                 break;
             case SHOOT:
-                if(!shootFlag){
+                if(!shootFlag
+                && !RobotContainer.sensors.getLoaderSensor()
+                && !RobotContainer.sensors.getShooterSensor()){
                     shootTimer.restart();
                     shootFlag = true;
                 }
-                if(shootFlag && shootTimer.get() > 0.1
-                && !RobotContainer.loader.getLoaderSensor()
-                && !RobotContainer.loader.getShooterSensor()){
+                if(shootFlag && shootTimer.get() > 0.2
+                ){
                     Governor.setRobotState(RobotState.INTAKE);
                     shootFlag = false;
                     shootTimer.stop();
@@ -57,6 +59,8 @@ public class Dictator extends Command{
                 break;
             case AMP:
                break; 
+            case SHUTTLE:
+                break;
             default:
                 break;
         }

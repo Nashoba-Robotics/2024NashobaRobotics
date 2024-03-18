@@ -9,11 +9,13 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Unit;
@@ -26,8 +28,10 @@ public class Constants {
       public static final double PEAK_VOLTAGE = 12;
 
       public static final class AprilTags{
-            public static final String LEFT_CAMERA_NAME = "Ben's_Little_Buddy (1)";
-            public static final String RIGHT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
+            public static final String FRONT_RIGHT_CAMERA_NAME = "Yi's_Little_Buddy";
+            public static final String FRONT_LEFT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
+            public static final String BACK_LEFT_CAMERA_NAME = "Eshaan's_Little_Buddy";
+            public static final String BACK_RIGHT_CAMERA_NAME = "Ben's_Little_Buddy";
 
             /* For PhotonEstimator
             *             ^ 
@@ -41,18 +45,15 @@ public class Constants {
             *      |            |
             *      --------------
             */
-            public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.35),Units.inchesToMeters(9.5),0, new Rotation3d(0, -15./360*TAU, 20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.35), Units.inchesToMeters(-9.5), 0, new Rotation3d(0, -15./360*TAU, -20.*Constants.TAU/360));
-            // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.42),Units.inchesToMeters(-11.42),Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, -20.*Constants.TAU/360));
-            // public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.42), Units.inchesToMeters(11.42), Units.inchesToMeters(8.75), new Rotation3d(0, -35./360*TAU, 20.*Constants.TAU/360));
-
-            // public static final Transform3d ROBOT_TO_CAMERA_LEFT = new Transform3d(Units.inchesToMeters(11.94),Units.inchesToMeters(10.25)+0.25,Units.inchesToMeters(-8.75), new Rotation3d(0, -35./360*TAU, 20*TAU/360));
-            // public static final Transform3d ROBOT_TO_CAMERA_RIGHT = new Transform3d(Units.inchesToMeters(11.94)-0.4, Units.inchesToMeters(-10.25)+0.6, Units.inchesToMeters(0), new Rotation3d(0, -35*TAU/360, -20*TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_FRONT_LEFT = new Transform3d(Units.inchesToMeters(11.35),Units.inchesToMeters(9.5),0, new Rotation3d(0, -15./360*TAU, 20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_FRONT_RIGHT = new Transform3d(Units.inchesToMeters(11.35), Units.inchesToMeters(-9.5), 0, new Rotation3d(0, -15./360*TAU, -20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(-10.758), 0, new Rotation3d(0, -36./360*TAU, -20./360*TAU + TAU/2));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(10.758), 0, new Rotation3d(0, -36./360*TAU, 20./360*TAU-TAU/2));
             
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
-            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/WPIAprilTagPositions.JSON";
+            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/URIPositions.json";
 
             public static final double getXSD(double distance) {
                   return 0.0312*distance - 0.0494;
@@ -72,6 +73,12 @@ public class Constants {
             public static final int SHOOTER_PORT = 10;
             public static final int SHOOTER_PORT_2 = 11;
 
+            public static final int LEFT_SERVO_CHANNEL = 8;
+            public static final int RIGHT_SERVO_CHANNEL = 6;
+
+            public static final int ENCODER_PORT = 4;
+            public static final double ENCODER_OFFSET = -0.366941;
+
             public static final int SHOOTER_SENSOR_PORT = 0;
             public static final int LOADER_SENSOR_PORT = 1;
 
@@ -82,7 +89,7 @@ public class Constants {
             public static final double PIVOT_SUPPLY_CURRENT_LIMIT = 15.0;
 
             public static final Rotation2d PIVOT_FORWARD_SOFT_LIMIT = Rotation2d.fromDegrees(120);
-            public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromDegrees(-50);
+            public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromRadians(-0.86);
 
             public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 1.5;
             public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0.95;
@@ -92,8 +99,10 @@ public class Constants {
             public static final NeutralModeValue PIVOT_NEUTRAL_MODE = NeutralModeValue.Brake;
 
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
+            // .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
+            // .withKP(80).withKI(0).withKD(0.6);
             .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
-            .withKP(80).withKI(0).withKD(0.6);
+            .withKP(5).withKI(0).withKD(0.0);
 
             public static final double SHOOTER_STATOR_CURRENT_LIMIT = 80;
             public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 50;
@@ -109,8 +118,8 @@ public class Constants {
       public static class Climber{
             public static final String CANBUS = "jerry";
             
-            public static final int LEFT_CLIMBER_PORT = 14;
-            public static final int RIGHT_CLIMBER_PORT = 15;
+            public static final int LEFT_CLIMBER_PORT = 15;
+            public static final int RIGHT_CLIMBER_PORT = 14;
 
             public static final InvertedValue leftInvert = InvertedValue.Clockwise_Positive;
 
@@ -150,22 +159,22 @@ public class Constants {
             public static final double MAX_ROTATION_ACCELERATION = 0;
 
             public static final Slot0Configs steerGains0 = new Slot0Configs()
-            .withKP(100).withKI(0).withKD(0.0)
+            .withKP(60).withKI(0).withKD(0.0)
                   // .withKP(0).withKI(0).withKD(0)
             .withKS(0.16).withKV(2.80).withKA(0);
 
             public static final Slot0Configs steerGains1 = new Slot0Configs()
-            .withKP(100).withKI(0).withKD(0.0)
+            .withKP(60).withKI(0).withKD(0.0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.18).withKV(2.84).withKA(0);
             
             public static final Slot0Configs steerGains2 = new Slot0Configs()
-            .withKP(100).withKI(0).withKD(0.0)
+            .withKP(60).withKI(0).withKD(0.0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.19).withKV(2.85).withKA(0);
 
             public static final Slot0Configs steerGains3 = new Slot0Configs()
-            .withKP(100).withKI(0).withKD(0.0)
+            .withKP(60).withKI(0).withKD(0.0)
             .withKS(0.19).withKV(2.91).withKA(0); 
 
 
@@ -203,9 +212,7 @@ public class Constants {
 
             public static final double kDriveGearRatio = 50./14 * 16/28 * 45/15;
             public static final double kSteerGearRatio = 21.428571428571427;
-            // private static final double kWheelRadiusInches = 1.840; //Direction of resistence
-            // private static final double kWheelRadiusInches = 1.9159; //Direction of less-resistence
-            private static final double kWheelRadiusInches = 1.925; //Comp
+            private static final double kWheelRadiusInches = 1.94425; //Comp
 
             public static final double WHEEL_RADIUS = Units.inchesToMeters(kWheelRadiusInches);
 
@@ -346,14 +353,29 @@ public class Constants {
 
       public static final class Field {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
-            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.75, 2.36);
-            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.45, 2.36); //y = 5.6
+            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.75, 2.36); //y = 5.75
+            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.45, 2.36); //y = 5.45
+            public static final Translation3d BLUE_STATION = new Translation3d(4.37, 4.94, 0);
+            public static final Translation3d RED_STATION = new Translation3d(12.081, 4.94, 0);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
             public static final double LENGTH = 16.451;
             public static final double WIDTH = 8.211;
 
+            //TODO: Check if this works!!
             public static final Translation3d getSpeakerPos(){
+                  // double noteSpeed = 1;
+                  // ChassisSpeeds fieldRelSpeeds = RobotContainer.drive.getFieldRelativeSpeeds();
+                  // Pose2d robotPos = RobotContainer.drive.getPose();
+                  // Translation3d speakerPos = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? BLUE_SPEAKER_POSITION : RED_SPEAKER_POSITION;
+                  // double t = Math.abs((robotPos.getX()-speakerPos.getX())/(noteSpeed*RobotContainer.drive.getPose().getRotation().getCos()));
+                  // double xOffset = fieldRelSpeeds.vxMetersPerSecond * t;
+                  // double yOffset = fieldRelSpeeds.vyMetersPerSecond * t;
+                  // Translation3d newSpeakerPos = new Translation3d(speakerPos.getX()-xOffset, speakerPos.getY()-yOffset, speakerPos.getZ());
                   return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? BLUE_SPEAKER_POSITION : RED_SPEAKER_POSITION;
+            }
+
+            public static final Translation3d getStation(){
+                  return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? BLUE_STATION : RED_STATION;
             }
       }
 
@@ -382,9 +404,6 @@ public class Constants {
 
             public static final int PIVOT_PORT = 12;
             public static final int ROLLER_PORT = 13;
-
-            public static final int LOADER_SENSOR_PORT = 0;
-            public static final int SHOOTER_SENSOR_PORT = 1;
 
             // public static final double PIVOT_GEAR_RATIO = 9.*7*30/18;
             public static final double PIVOT_GEAR_RATIO = 70.;
@@ -427,9 +446,18 @@ public class Constants {
         public static final int GYRO_PORT = 0;
         public static final String PIGEON_CANBUS = "jerry";
 
+        public static final double DELETE_DISTANCE_RANGE = 0.5; //m
+        public static final double OPERATOR_ANGLE_CORRECTION = 0.1; //rad
+
       }
       public static final class Robot{
             public static final double SHOOTER_HEIGHT = 0.65; //m
+      }
+      public static final class Sensors{
+            public static final int SHOOTER_PORT_1 = 1;
+            public static final int SHOOTER_PORT_2 = 3;
+            public static final int LOADER_PORT = 0;
+            public static final int INTAKE_PORT = 2;
       }
 
 }

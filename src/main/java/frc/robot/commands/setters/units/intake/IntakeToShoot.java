@@ -16,8 +16,7 @@ public class IntakeToShoot extends Command{
 
     @Override
     public void execute() {
-        double intakeSpeed = Presets.Intake.INTAKE_SPEED;
-        intake.setSpeed(intakeSpeed);
+        intake.setSpeed(Presets.Intake.SHOOT_SPEED);
 
     }
 

@@ -6,6 +6,7 @@ import frc.robot.Presets;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.loader.LoaderSubsystem;
+import frc.robot.subsystems.sensors.SensorManager;
 
 public class IntakeToIntake extends Command{
     IntakeSubsystem intake = RobotContainer.intake;
@@ -17,13 +18,13 @@ public class IntakeToIntake extends Command{
 
     @Override
     public void initialize() {
-        double intakeSpeed = loader.getShooterSensor() ? 0 : Presets.Intake.INTAKE_SPEED;
+        double intakeSpeed = RobotContainer.sensors.getShooterSensor() ? 0 : Presets.Intake.INTAKE_SPEED;
         intake.setSpeed(intakeSpeed);
     }
 
     @Override
     public void execute() {
-        double intakeSpeed = loader.getShooterSensor() ? 0 : Presets.Intake.INTAKE_SPEED;
+        double intakeSpeed = RobotContainer.sensors.getShooterSensor() ? 0 : Presets.Intake.INTAKE_SPEED;
         intake.setSpeed(intakeSpeed);
 
     }

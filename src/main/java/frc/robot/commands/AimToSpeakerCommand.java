@@ -103,7 +103,7 @@ public class AimToSpeakerCommand extends Command{
             Constants.Field.getSpeakerPos().getY() - drive.getPose().getY(),
             Constants.Field.getSpeakerPos().getX() - drive.getPose().getX()));
             if(!flag) {
-                pidController.setP(8.5);
+                pidController.setP(6);
                 flag = true;
             }
         }
@@ -116,9 +116,9 @@ public class AimToSpeakerCommand extends Command{
 
         State setState = feedForwardProfile.calculate(t.get(), startStateUnconstrained, goalState);
 
-        double rotSpeed = setState.velocity
-        + pidController.calculate(drive.getYaw().getRadians(), setState.position)
-        ;
+        double rotSpeed = feedForwardProfile.isFinished(t.get()) ? pidController.calculate(drive.getPose().getRotation().getRadians(), targetAngle.getRadians()) :
+        setState.velocity
+        + pidController.calculate(drive.getYaw().getRadians(), setState.position);
 
         Logger.recordOutput("Current Angle", setState.position);
         chassisSpeeds.omegaRadiansPerSecond = rotSpeed;

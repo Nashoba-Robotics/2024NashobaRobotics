@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Presets;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.sensors.SensorManager;
 
 public class ArmToSource extends Command{
     ArmSubsystem arm = RobotContainer.arm;
@@ -15,12 +16,12 @@ public class ArmToSource extends Command{
 
     @Override
     public void execute() {
-        if(!RobotContainer.loader.getLoaderSensor() && !RobotContainer.loader.getShooterSensor()) arm.setArmPivot(Presets.Arm.SOURCE_POS);
+        if(!RobotContainer.sensors.getLoaderSensor() && !RobotContainer.sensors.getShooterSensor()) arm.setArmPivot(Presets.Arm.SOURCE_POS);
     }
 
     @Override
     public boolean isFinished() {
         return Math.abs(arm.getArmPivotAngle().getRadians() - Presets.Arm.SOURCE_POS.getRadians()) <= Presets.Arm.POS_TOLERANCE.getRadians()
-        || RobotContainer.loader.getLoaderSensor() || RobotContainer.loader.getShooterSensor();
+        || RobotContainer.sensors.getLoaderSensor() || RobotContainer.sensors.getShooterSensor();
     }
 }

@@ -20,8 +20,8 @@ public class ToShoot extends SequentialCommandGroup {
             new InstantCommand(() -> RobotContainer.loader.setRollerSpeed(0), RobotContainer.loader),
             new ArmToShoot().withTimeout(2),
             new ArmMaintainPos(),
-            Governor.getSetStateCommand(RobotState.SHOOT),
             new ShooterToShoot().withTimeout(2),
+            Governor.getSetStateCommand(RobotState.SHOOT),
             new ParallelCommandGroup(
                 new GrabberToShoot()
                 // new IntakeToShoot()

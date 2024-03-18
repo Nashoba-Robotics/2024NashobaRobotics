@@ -68,13 +68,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "p0-p3"
+            "pathName": "p0-p4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "p3-shootPos"
+            "pathName": "p4-shootPos"
           }
         },
         {

@@ -28,6 +28,8 @@ public interface ClimberIO {
     public abstract void setLeftClimberRotor(Rotation2d pos);
     public abstract void setRightClimberRotor(Rotation2d pos);
 
+    public void setServo(double pos);
+
 
     public abstract void setkS(double kS);
     public abstract void setkV(double kV);
