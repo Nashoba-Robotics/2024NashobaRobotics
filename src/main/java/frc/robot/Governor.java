@@ -28,6 +28,7 @@ public class Governor {
     private static RobotState state = RobotState.UNKNOWN;
 
     private static RobotState queuedState = RobotState.UNKNOWN;
+    private static RobotState desiredState = RobotState.UNKNOWN;
     private static RobotState lastState = RobotState.UNKNOWN;
     
     public enum RobotState {
@@ -58,12 +59,12 @@ public class Governor {
     }
 
     public static void setRobotState(RobotState robotState, boolean override) {
+        desiredState = robotState;
         lastState = state;
         if(state == RobotState.TRANSITION && !override) queuedState = robotState;
         if(robotState == RobotState.UNKNOWN || robotState == RobotState.MISC) override = true;
         if(override || state != RobotState.TRANSITION) {
             if(robotState != RobotState.UNKNOWN && robotState != RobotState.MISC) state = RobotState.TRANSITION;
-            if(DriverStation.isAutonomous()) state = robotState;
             switch (robotState) {
                 case NEUTRAL:
                     toNeutral();
@@ -117,7 +118,10 @@ public class Governor {
     public static RobotState getRobotState() {
         return state;
     }
-    public static RobotState getLastRobotState(){
+    public static RobotState getDesiredRobotState(){
+        return desiredState;
+    }
+    public static RobotState getLastRobotState()  {
         return lastState;
     }
 
@@ -167,7 +171,7 @@ public class Governor {
     }
 
     public static Command getSetStateCommand(RobotState state) {
-        lastState = Governor.state;
+        lastState = state;
         return new InstantCommand(() -> Governor.state = state);
     }
 

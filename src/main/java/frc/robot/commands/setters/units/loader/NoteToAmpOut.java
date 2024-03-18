@@ -25,6 +25,6 @@ public class NoteToAmpOut extends Command{
 
     @Override
     public boolean isFinished() {
-        return Governor.getLastRobotState() == RobotState.AMP_ADJ || (!RobotContainer.sensors.getLoaderSensor() && !RobotContainer.sensors.getShooterSensor());
+        return (Governor.getDesiredRobotState() == RobotState.AMP && Governor.getLastRobotState() == RobotState.AMP_ADJ) || (!RobotContainer.sensors.getLoaderSensor() && !RobotContainer.sensors.getShooterSensor());
     }
 }

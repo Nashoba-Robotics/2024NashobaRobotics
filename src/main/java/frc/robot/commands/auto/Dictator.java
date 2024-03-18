@@ -28,7 +28,7 @@ public class Dictator extends Command{
     @Override
     public void execute() {
 
-        if(shootFlag && Governor.getRobotState() != RobotState.SHOOT) shootFlag = false;
+        if(shootFlag && Governor.getDesiredRobotState() != RobotState.SHOOT) shootFlag = false;
 
         switch (Governor.getRobotState()) {
             case NEUTRAL:
@@ -44,13 +44,14 @@ public class Dictator extends Command{
             case SHOOT_PREP:
                 break;
             case SHOOT:
-                if(!shootFlag){
+                if(!shootFlag
+                && !RobotContainer.sensors.getLoaderSensor()
+                && !RobotContainer.sensors.getShooterSensor()){
                     shootTimer.restart();
                     shootFlag = true;
                 }
-                if(shootFlag && shootTimer.get() > 0.1
-                && !RobotContainer.sensors.getLoaderSensor()
-                && !RobotContainer.sensors.getShooterSensor()){
+                if(shootFlag && shootTimer.get() > 0.2
+                ){
                     Governor.setRobotState(RobotState.INTAKE);
                     shootFlag = false;
                     shootTimer.stop();
