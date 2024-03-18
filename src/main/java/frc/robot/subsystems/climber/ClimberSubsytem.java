@@ -46,11 +46,16 @@ public class ClimberSubsytem extends SubsystemBase{
         io.setRightClimberRotor(pos);
     }
 
-    public double getLeftRad(double pos){
+    public double getLeftRad(){
         return inputs.leftClimberRotorPos;
     }
-    public double getRightRad(double pos){
+    public double getRightRad(){
         return inputs.rightClimberRotorPos;
+    }
+
+
+    public void setServo(double pos) {
+        io.setServo(pos);
     }
 
     public void setkS(double kS){

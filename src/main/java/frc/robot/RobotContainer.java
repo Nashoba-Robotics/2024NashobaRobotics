@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Governor.RobotState;
@@ -23,8 +24,8 @@ import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
-import frc.robot.commands.setters.groups.ToNewAmp;
-import frc.robot.commands.setters.groups.ToNewAmpAdj;
+import frc.robot.commands.setters.groups.ToAmp;
+import frc.robot.commands.setters.groups.ToAmpAdj;
 import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.groups.ToShuttle;
 import frc.robot.commands.setters.groups.ToShuttlePrep;
@@ -33,6 +34,7 @@ import frc.robot.commands.setters.units.loader.NoteToAmpOut;
 import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.test.ClimberTuneCommand;
 import frc.robot.commands.test.ManualShootCommand;
+import frc.robot.commands.test.TestServoCommand;
 import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -96,6 +98,7 @@ public class RobotContainer {
 
   private Trigger prep90 = joysticks.getOperatorController().button(10);
 
+
   // private Trigger resetOdometryFromCamera = joysticks.getDriverController.button(11);
 
   public static AimToSpeakerCommand aimToSpeakerCommand = new AimToSpeakerCommand(drive, joysticks);
@@ -124,6 +127,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+
     zeroGyro.onTrue(new InstantCommand(()-> drive.zeroAngle()));
 
     groundIntake.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE)));
@@ -133,11 +137,16 @@ public class RobotContainer {
 
     scoreAmp.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP, true)));
     toAmpPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP_ADJ)));
-    // toAmpPrep.onTrue(new AimToAmpCommand(drive, joysticks));
     toAmpPrep.onTrue(new SequentialCommandGroup(
-      new ToAmpCommand(),
-      new InstantCommand(() -> Governor.setRobotState(RobotState.AMP))
-    ));
+      new ToAmpCommand()
+      // new InstantCommand(() -> Governor.setRobotState(RobotState.AMP))
+    ).until(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean() {
+          return joysticks.getRightJoystickValues().x > 0.2 || (Governor.getRobotState() != RobotState.AMP_ADJ && Governor.getRobotState() != RobotState.TRANSITION);
+      }
+    })
+    );
 
     toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE))); // TODO: check if we can call onTrue twice and have both commands still work
 
@@ -197,14 +206,16 @@ public class RobotContainer {
   }
 
   private void addShuffleBoardData() {
-    // SmartDashboard.putData(new ManualShootCommand(loader, arm));
-    SmartDashboard.putData(new ClimberTuneCommand(climber));
-    SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
-        SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
+    SmartDashboard.putData(new ManualShootCommand(loader, arm));
+    // SmartDashboard.putData(new ClimberTuneCommand(climber));
+    // SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
+    //     SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
       SmartDashboard.putData(new ClimberTestCommand(climber));
     // SmartDashboard.putData("Amp Prep", new ToNewAmpAdj());
     // SmartDashboard.putData("Amp Score", new ToNewAmp());
     // SmartDashboard.putData(new NoteToAmpOut());
+
+    SmartDashboard.putData(new TestServoCommand(climber));
   }
 
   private void configureEvents() {   
@@ -219,22 +230,26 @@ public class RobotContainer {
     }).withTimeout(3),
       new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
+      new WaitCommand(0.2),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
         public boolean getAsBoolean() {
-            return Governor.getRobotState() != RobotState.SHOOT;
+            return Governor.getDesiredRobotState() != RobotState.SHOOT;
         }
-      }).withTimeout(3)
+      }).withTimeout(3),
+      new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true))
     ));
     NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
       new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
+      new WaitCommand(0.2),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
         public boolean getAsBoolean() {
-            return Governor.getRobotState() != RobotState.SHOOT;
+            return Governor.getDesiredRobotState() != RobotState.SHOOT;
         }
-      }).withTimeout(3) //Consider adding additional loader sensor
+      }).withTimeout(3), //Consider adding additional loader sensor
+      new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true))
     ));
   }
 

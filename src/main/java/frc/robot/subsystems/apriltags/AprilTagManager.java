@@ -69,15 +69,15 @@ public class AprilTagManager extends SubsystemBase {
         return inputs.backLeftHasTarget;
     }
 
-    public double getBackLeftTimestamp(){
+    public static double getBackLeftTimestamp(){
         return inputs.backLeftTimeStamp;
     }
 
-    public double getBackLeftAmbiguity(){
+    public static double getBackLeftAmbiguity(){
         return inputs.backLeftAmbiguity;
     }
     
-    public Pose3d getBackLeftPos(){
+    public static Pose3d getBackLeftPos(){
         return inputs.backLeftPos;
     }
 
@@ -85,15 +85,15 @@ public class AprilTagManager extends SubsystemBase {
         return inputs.backRightHasTarget;
     }
 
-    public double getBackRightTimestamp(){
+    public static double getBackRightTimestamp(){
         return inputs.backRightTimeStamp;
     }
 
-    public double getBackRightAmbiguity(){
+    public static double getBackRightAmbiguity(){
         return inputs.backRightAmbiguity;
     }
     
-    public Pose3d getBackRightPos(){
+    public static Pose3d getBackRightPos(){
         return inputs.backRightPos;
     }
 }

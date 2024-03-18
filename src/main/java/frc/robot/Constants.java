@@ -31,7 +31,7 @@ public class Constants {
             public static final String FRONT_RIGHT_CAMERA_NAME = "Yi's_Little_Buddy";
             public static final String FRONT_LEFT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
             public static final String BACK_LEFT_CAMERA_NAME = "Eshaan's_Little_Buddy";
-            public static final String BACK_RIGHT_CAMERA_NAME = "Azul's_Little_Buddy";
+            public static final String BACK_RIGHT_CAMERA_NAME = "Ben's_Little_Buddy";
 
             /* For PhotonEstimator
             *             ^ 
@@ -47,13 +47,13 @@ public class Constants {
             */
             public static final Transform3d ROBOT_TO_CAMERA_FRONT_LEFT = new Transform3d(Units.inchesToMeters(11.35),Units.inchesToMeters(9.5),0, new Rotation3d(0, -15./360*TAU, 20.*Constants.TAU/360));
             public static final Transform3d ROBOT_TO_CAMERA_FRONT_RIGHT = new Transform3d(Units.inchesToMeters(11.35), Units.inchesToMeters(-9.5), 0, new Rotation3d(0, -15./360*TAU, -20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(10.758), 0, new Rotation3d(0, -36./360*TAU, -20./360*TAU));
-            public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(-10.758), 0, new Rotation3d(0, -36./360*TAU, 20./360*TAU));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(-10.758), 0, new Rotation3d(0, -36./360*TAU, -20./360*TAU + TAU/2));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(10.758), 0, new Rotation3d(0, -36./360*TAU, 20./360*TAU-TAU/2));
             
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
-            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/WPIAprilTagPositions.JSON";
+            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/URIPositions.json";
 
             public static final double getXSD(double distance) {
                   return 0.0312*distance - 0.0494;
@@ -73,8 +73,11 @@ public class Constants {
             public static final int SHOOTER_PORT = 10;
             public static final int SHOOTER_PORT_2 = 11;
 
+            public static final int LEFT_SERVO_CHANNEL = 8;
+            public static final int RIGHT_SERVO_CHANNEL = 6;
+
             public static final int ENCODER_PORT = 4;
-            public static final double ENCODER_OFFSET = 0.324219 + 0.309467 + 0.008842-0.061894;
+            public static final double ENCODER_OFFSET = -0.366941;
 
             public static final int SHOOTER_SENSOR_PORT = 0;
             public static final int LOADER_SENSOR_PORT = 1;
@@ -350,7 +353,7 @@ public class Constants {
 
       public static final class Field {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
-            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.90, 2.36); //y = 5.75
+            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.75, 2.36); //y = 5.75
             public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.45, 2.36); //y = 5.45
             public static final Translation3d BLUE_STATION = new Translation3d(4.37, 4.94, 0);
             public static final Translation3d RED_STATION = new Translation3d(12.081, 4.94, 0);

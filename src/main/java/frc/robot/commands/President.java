@@ -83,8 +83,8 @@ public class President extends Command {
             case NEUTRAL:
                 // drive.state = DriveState.DRIVER;
                 // if(loader.getShooterSensor()) Governor.setRobotState(RobotState.SHOOT_PREP);
-                if(RobotContainer.sensors.getShooterSensor() && Governor.getLastRobotState()==RobotState.INTAKE) 
-                    CommandScheduler.getInstance().schedule(new InstantCommand(()->RobotContainer.intake.setSpeed(-0.1), RobotContainer.intake));
+                // if(RobotContainer.sensors.getShooterSensor() && Governor.getLastRobotState()==RobotState.INTAKE) 
+                //     CommandScheduler.getInstance().schedule(new InstantCommand(()->RobotContainer.intake.setSpeed(-0.1), RobotContainer.intake));
                 break;
             case TRANSITION:
                 //TODO:
