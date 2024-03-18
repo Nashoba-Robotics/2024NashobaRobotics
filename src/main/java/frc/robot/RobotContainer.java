@@ -97,6 +97,7 @@ public class RobotContainer {
 
   private Trigger prep90 = joysticks.getOperatorController().button(10);
 
+
   // private Trigger resetOdometryFromCamera = joysticks.getDriverController.button(11);
 
   public static AimToSpeakerCommand aimToSpeakerCommand = new AimToSpeakerCommand(drive, joysticks);
@@ -125,6 +126,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+
     zeroGyro.onTrue(new InstantCommand(()-> drive.zeroAngle()));
 
     groundIntake.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE)));
@@ -134,16 +136,16 @@ public class RobotContainer {
 
     scoreAmp.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP, true)));
     toAmpPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP_ADJ)));
-    // toAmpPrep.onTrue(new AimToAmpCommand(drive, joysticks));
     toAmpPrep.onTrue(new SequentialCommandGroup(
       new ToAmpCommand()
       // new InstantCommand(() -> Governor.setRobotState(RobotState.AMP))
     ).until(new BooleanSupplier() {
       @Override
       public boolean getAsBoolean() {
-          return joysticks.getRightJoystickValues().x > 0.2;
+          return joysticks.getRightJoystickValues().x > 0.2 || (Governor.getRobotState() != RobotState.AMP_ADJ && Governor.getRobotState() != RobotState.TRANSITION);
       }
-    }));
+    })
+    );
 
     toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE))); // TODO: check if we can call onTrue twice and have both commands still work
 

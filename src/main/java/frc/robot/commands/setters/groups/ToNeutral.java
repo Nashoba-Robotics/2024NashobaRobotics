@@ -25,7 +25,7 @@ public class ToNeutral extends SequentialCommandGroup {
         nShoot = new NoteToShooter();
         addCommands(
             new StopAllRollers(),
-            new NoteToLoaderOut(),
+            // new NoteToLoaderOut(),
             new ParallelCommandGroup(
                 new SequentialCommandGroup(
                     lNeut,

@@ -4,7 +4,6 @@ import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.LarsonAnimation;
 import com.ctre.phoenix.led.RainbowAnimation;
-import com.ctre.phoenix.led.StrobeAnimation;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
 
@@ -37,7 +36,6 @@ public class LEDManager extends SubsystemBase{
 
     @Override
     public void periodic() {
-        RobotState currState = Governor.getRobotState();
         if(DriverStation.isDisabled()){
             candle.animate(new LarsonAnimation(0xFF, 0x10, 0x0, 0, 0.4, LED_COUNT, BounceMode.Back, 8, 8), 0);
             clearAnimationFlag = true;
@@ -53,19 +51,19 @@ public class LEDManager extends SubsystemBase{
                 candle.clearAnimation(0);
                 clearAnimationFlag = false;
             }
-            
+            RobotState currState = Governor.getRobotState();
             if(currState != lastState){
                 switch (currState) {
                     case NEUTRAL:
-                        if(RobotContainer.sensors.getShooterSensor()) {
+                        if(RobotContainer.sensors.getShooterSensor()){
                             if(RobotContainer.sensors.getLoaderSensor()){
                                 setColor(new Color(0, 255, 0));
                             }
                             else{
-                                flash(new Color(87, 255, 139));
+                                setColor(new Color(255, 0, 0));
                             }
-                            
-                        }
+
+                        } 
                         else setColor(new Color(255, 255, 255));
                         break;
                     case INTAKE:
@@ -102,11 +100,6 @@ public class LEDManager extends SubsystemBase{
 
     public void setColor(Color color){
         candle.setLEDs(color.r, color.g, color.b);
-        clearAnimationFlag = true;
-    }
-
-    public void flash(Color color){
-        candle.animate(new StrobeAnimation(color.r, color.g, color.b, 0, 0.2, LED_COUNT-8, 8));
     }
 
     public static class Color{
