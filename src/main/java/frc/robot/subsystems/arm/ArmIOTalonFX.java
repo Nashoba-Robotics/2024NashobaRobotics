@@ -52,6 +52,8 @@ public class ArmIOTalonFX implements ArmIO{
         pivotControl = new MotionMagicDutyCycle(0);
 
         config();
+
+        // shooter.setPosition(encoder.getAbsolutePosition().getValueAsDouble() * 36./100);
     }
 
     @Override

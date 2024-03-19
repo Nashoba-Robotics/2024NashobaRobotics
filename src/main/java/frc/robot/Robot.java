@@ -72,6 +72,12 @@ public class Robot extends LoggedRobot {
     double leftError = leftPose2d.relativeTo(RobotContainer.drive.getPose()).getTranslation().getNorm();
     double rightError = rightPose2d.relativeTo(RobotContainer.drive.getPose()).getTranslation().getNorm();
 
+    Pose2d backLeftPose2d = AprilTagManager.getBackLeftPos().toPose2d();
+    Pose2d backRightPose2d = AprilTagManager.getBackRightPos().toPose2d();
+
+    double backLeftError = backLeftPose2d.relativeTo(RobotContainer.drive.getPose()).getTranslation().getNorm();
+    double backRightError = backRightPose2d.relativeTo(RobotContainer.drive.getPose()).getTranslation().getNorm();
+
     Logger.recordOutput("LeftErrorDist", leftError);
     Logger.recordOutput("rightErrorDist", rightError);
 
@@ -84,6 +90,7 @@ public class Robot extends LoggedRobot {
             && leftPose2d.getX() > 0 && leftPose2d.getX() < Constants.Field.LENGTH
             && leftPose2d.getY() > 0 && leftPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(leftPose2d, AprilTagManager.getLeftTimestamp());
+
         if(AprilTagManager.hasRightTarget()
             && AprilTagManager.getRightAmbiguity() <= 0.15
             && AprilTagManager.getRightRobotPos() != null
@@ -91,6 +98,22 @@ public class Robot extends LoggedRobot {
             && rightPose2d.getX() > 0 && rightPose2d.getX() < Constants.Field.LENGTH
             && rightPose2d.getY() > 0 && rightPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(rightPose2d, AprilTagManager.getRightTimestamp());
+
+              if(AprilTagManager.hasBackLeftTarget()
+            && AprilTagManager.getBackLeftAmbiguity() <= 0.15
+            && AprilTagManager.getBackLeftPos() != null
+            && backLeftError < 1
+            && backLeftPose2d.getX() > 0 && backLeftPose2d.getX() < Constants.Field.LENGTH
+            && backLeftPose2d.getY() > 0 && backLeftPose2d.getY() < Constants.Field.WIDTH)
+              RobotContainer.drive.updateOdometryWithVision(backLeftPose2d, AprilTagManager.getBackLeftTimestamp());
+
+              if(AprilTagManager.hasBackRightTarget()
+            && AprilTagManager.getBackRightAmbiguity() <= 0.15
+            && AprilTagManager.getBackRightPos() != null
+            && backRightError < 1
+            && backRightPose2d.getX() > 0 && backRightPose2d.getX() < Constants.Field.LENGTH
+            && backRightPose2d.getY() > 0 && backRightPose2d.getY() < Constants.Field.WIDTH)
+              RobotContainer.drive.updateOdometryWithVision(backRightPose2d, AprilTagManager.getBackRightTimestamp());
       } else {
         if(AprilTagManager.hasLeftTarget()
             && AprilTagManager.getLeftAmbiguity() <= 0.15
@@ -106,6 +129,23 @@ public class Robot extends LoggedRobot {
             && rightPose2d.getX() > 0 && rightPose2d.getX() < Constants.Field.LENGTH
             && rightPose2d.getY() > 0 && rightPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(rightPose2d, AprilTagManager.getRightTimestamp());
+
+        if(AprilTagManager.hasBackLeftTarget()
+            && AprilTagManager.getBackLeftAmbiguity() <= 0.15
+            && AprilTagManager.getBackLeftPos() != null
+            && backLeftError < 2
+            && backLeftPose2d.getX() > 0 && backLeftPose2d.getX() < Constants.Field.LENGTH
+            && backLeftPose2d.getY() > 0 && backLeftPose2d.getY() < Constants.Field.WIDTH)
+              RobotContainer.drive.updateOdometryWithVision(backLeftPose2d, AprilTagManager.getBackLeftTimestamp());
+
+              if(AprilTagManager.hasBackRightTarget()
+            && AprilTagManager.getBackRightAmbiguity() <= 0.15
+            && AprilTagManager.getBackRightPos() != null
+            && backRightError < 2
+            
+            && backRightPose2d.getX() > 0 && backRightPose2d.getX() < Constants.Field.LENGTH
+            && backRightPose2d.getY() > 0 && backRightPose2d.getY() < Constants.Field.WIDTH)
+              RobotContainer.drive.updateOdometryWithVision(backRightPose2d, AprilTagManager.getBackRightTimestamp());
       }
     //   jank.restart();
     // }
@@ -118,6 +158,7 @@ public class Robot extends LoggedRobot {
     SmartDashboard.putString("QueuedState", Governor.getQueuedState().toString());
     Logger.recordOutput("RobotState/RobotState", Governor.getRobotState().toString());
     Logger.recordOutput("RobotState/QueuedState", Governor.getQueuedState().toString());
+    Logger.recordOutput("RobotState/LastState", Governor.getDesiredRobotState().toString());
   }
 
   @Override

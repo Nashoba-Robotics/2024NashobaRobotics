@@ -25,8 +25,8 @@ public class ToAmpAdj extends SequentialCommandGroup{
                             return RobotContainer.arm.getArmPivotAngle().getDegrees() >= -30;
                         }
                     }),
-                    new NoteToAmpOut(),
-                    new LoaderToAmp()
+                    new NoteToAmpOut()
+                    // new LoaderToAmp()
                     // new NoteToAmpIn()
                     
                 )
