@@ -15,6 +15,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.Odometry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -55,7 +56,9 @@ public class Robot extends LoggedRobot {
     robotContainer = new RobotContainer();
     Tabs.addTab("April Tags");
 
-    jank.start();    
+    jank.start();
+
+    RobotContainer.odometryFlag = false;
   }
 
   @Override
@@ -114,14 +117,14 @@ public class Robot extends LoggedRobot {
         if(AprilTagManager.hasLeftTarget()
             && AprilTagManager.getLeftAmbiguity() <= 0.15
             && AprilTagManager.getLeftRobotPos() != null
-            && leftError < 5
+            // && leftError < 5
             && leftPose2d.getX() > 0 && leftPose2d.getX() < Constants.Field.LENGTH
             && leftPose2d.getY() > 0 && leftPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(leftPose2d, AprilTagManager.getLeftTimestamp());
         if(AprilTagManager.hasRightTarget()
             && AprilTagManager.getRightAmbiguity() <= 0.15
             && AprilTagManager.getRightRobotPos() != null
-            && rightError < 5
+            // && rightError < 5
             && rightPose2d.getX() > 0 && rightPose2d.getX() < Constants.Field.LENGTH
             && rightPose2d.getY() > 0 && rightPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(rightPose2d, AprilTagManager.getRightTimestamp());
@@ -129,7 +132,7 @@ public class Robot extends LoggedRobot {
         if(AprilTagManager.hasBackLeftTarget()
             && AprilTagManager.getBackLeftAmbiguity() <= 0.15
             && AprilTagManager.getBackLeftPos() != null
-            && backLeftError < 2
+            // && backLeftError < 2
             && backLeftPose2d.getX() > 0 && backLeftPose2d.getX() < Constants.Field.LENGTH
             && backLeftPose2d.getY() > 0 && backLeftPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(backLeftPose2d, AprilTagManager.getBackLeftTimestamp());
@@ -137,14 +140,13 @@ public class Robot extends LoggedRobot {
               if(AprilTagManager.hasBackRightTarget()
             && AprilTagManager.getBackRightAmbiguity() <= 0.15
             && AprilTagManager.getBackRightPos() != null
-            && backRightError < 2
-            
+            // && backRightError < 2
             && backRightPose2d.getX() > 0 && backRightPose2d.getX() < Constants.Field.LENGTH
             && backRightPose2d.getY() > 0 && backRightPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(backRightPose2d, AprilTagManager.getBackRightTimestamp());
       }
-    //   jank.restart();
-    // }
+    
+      SmartDashboard.putBoolean("ODOFlag", RobotContainer.odometryFlag);
 
     double dist = RobotContainer.drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
     Logger.recordOutput("Regression/Aim Distance", dist);
@@ -180,6 +182,8 @@ public class Robot extends LoggedRobot {
         } catch(Exception e) {
             System.out.println("UH OH");
         }
+
+        RobotContainer.odometryFlag = false;
   }
 
   @Override
@@ -197,6 +201,7 @@ public class Robot extends LoggedRobot {
     
     
     CommandScheduler.getInstance().schedule(new Dictator());
+    RobotContainer.odometryFlag = true;
   }
 
   @Override

@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 8.294662148822114,
-        "y": 5.67
+        "y": 5.75
       },
       "prevControl": null,
       "nextControl": {
         "x": 7.116914612941307,
-        "y": 6.378603467680007
+        "y": 6.458603467680007
       },
       "isLocked": false,
       "linkedName": null
@@ -30,7 +30,25 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "P4Check",
+      "waypointRelativePos": 0.35,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "P4Check"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

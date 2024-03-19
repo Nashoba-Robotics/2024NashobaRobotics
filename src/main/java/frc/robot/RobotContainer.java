@@ -112,6 +112,8 @@ public class RobotContainer {
 
   public static NoteState noteState = NoteState.NONE;
 
+  public static boolean odometryFlag = false;
+
   public RobotContainer() {
     addShuffleBoardData();
     configureBindings();

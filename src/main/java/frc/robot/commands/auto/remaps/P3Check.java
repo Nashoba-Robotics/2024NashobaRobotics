@@ -10,6 +10,7 @@ public class P3Check extends Command {
     
     @Override
     public void initialize() {
+
         if(!RobotContainer.sensors.getLoaderSensor() && !RobotContainer.sensors.getShooterSensor()) {
             CommandScheduler.getInstance().schedule(AutoBuilder.buildAuto("NoP3"));
         }
