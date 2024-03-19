@@ -62,6 +62,10 @@ public class Robot extends LoggedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
+    System.out.println("Amp: " + DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).getEquation());
+    System.out.println("Stage: " + DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE).getEquation());
+    
+
     Pose2d leftPose2d = AprilTagManager.getLeftRobotPos().toPose2d();
     Pose2d rightPose2d = AprilTagManager.getRightRobotPos().toPose2d();
 
@@ -107,7 +111,8 @@ public class Robot extends LoggedRobot {
     // }
 
     double dist = RobotContainer.drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
-    Logger.recordOutput("Aim Distance", dist);
+    Logger.recordOutput("Regression/Aim Distance", dist);
+    Logger.recordOutput("Regression/ArmSetAngle", DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).applyFunction(dist));
 
     SmartDashboard.putString("RobotState", Governor.getRobotState().toString());
     SmartDashboard.putString("QueuedState", Governor.getQueuedState().toString());
@@ -120,13 +125,35 @@ public class Robot extends LoggedRobot {
     try {
       ArrayList<double[]> points = DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).getUntransformedPoints();
 
-            FileWriter fileWriter = new FileWriter(new File("U/" + Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE.split(".")[0] + Timer.getFPGATimestamp() + ".txt"));
+            FileWriter fileWriter = new FileWriter(new File("U/regressionModel" + Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE.split(".")[0] + Timer.getFPGATimestamp() + ".txt"));
 
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
             bufferedWriter.flush();
 
             bufferedWriter.write(DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).getEquation() + "\n");
+
+            for(int i = 0; i < points.size(); i++) {
+                bufferedWriter.write(points.get(i)[0] + " " + points.get(i)[1]);
+                if(i != points.size() - 1) bufferedWriter.write("\n");
+            }
+
+            bufferedWriter.close();
+            System.out.println("yay");
+        } catch(Exception e) {
+            System.out.println("UH OH");
+        }
+
+        try {
+      ArrayList<double[]> points = DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE).getUntransformedPoints();
+
+            FileWriter fileWriter = new FileWriter(new File("U/regresssionModel" + Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE.split(".")[0] + Timer.getFPGATimestamp() + ".txt"));
+
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            bufferedWriter.flush();
+
+            bufferedWriter.write(DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE).getEquation() + "\n");
 
             for(int i = 0; i < points.size(); i++) {
                 bufferedWriter.write(points.get(i)[0] + " " + points.get(i)[1]);
