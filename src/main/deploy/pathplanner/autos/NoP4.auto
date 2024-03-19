@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 6.088177569873658,
+      "y": 6.332987610419666
+    },
+    "rotation": 177.71236418811205
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Check-p5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p5-shootPos"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Remapping",
+  "choreoAuto": false
+}
