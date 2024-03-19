@@ -35,13 +35,13 @@ public class DistanceToArmAngleModel {
         if(instanceMap == null) instanceMap = new HashMap<>();
 
         try {
-            String ext = fileName.split(".")[1];
+            String ext = fileName.split("\\.")[1];
             if(ext.equals("pts")) {
                 instanceMap.put(
                     fileName,
                     new DistanceToArmAngleModel(new File(Filesystem.getDeployDirectory().getPath() + "/" + fileName), Constants.Misc.DELETE_DISTANCE_RANGE)
                 );
-            } else if(ext.equals("eqs")) {
+            } else if(ext.equals("eq")) {
                 Scanner s = new Scanner(new File(Filesystem.getDeployDirectory().getPath() + "/" + fileName));
                 String line = s.nextLine();
                 s.close();
