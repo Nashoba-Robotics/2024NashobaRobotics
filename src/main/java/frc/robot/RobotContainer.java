@@ -1,5 +1,9 @@
 package frc.robot;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.function.BooleanSupplier;
 
 import org.littletonrobotics.junction.Logger;
@@ -9,6 +13,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -52,7 +57,7 @@ public class RobotContainer {
   public static final ClimberSubsytem climber = new ClimberSubsytem();
   public static final SensorManager sensors = new SensorManager();
 
-  public static String lastModelForShot = Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE;
+  public static String lastModelForShot = Constants.FileNames.ARM_ANGLE_CLOSE;
   
   private static SendableChooser<Command> autoChooser;
 
@@ -296,6 +301,31 @@ public class RobotContainer {
 
   public Command getAutoCommand() {
     return autoChooser.getSelected();
+  }
+
+  public static void writeRegressionFile(String fileName) {
+    try {
+      ArrayList<double[]> points = DistanceToArmAngleModel.getInstance(fileName).getUntransformedPoints();
+
+            FileWriter fileWriter = new FileWriter(new File("U/regressionModel/" + fileName.split("\\.")[0] + Timer.getFPGATimestamp() + ".txt"));
+
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            bufferedWriter.flush();
+
+            bufferedWriter.write(DistanceToArmAngleModel.getInstance(fileName).getEquation() + "\n");
+
+            for(int i = 0; i < points.size(); i++) {
+                bufferedWriter.write(points.get(i)[0] + " " + points.get(i)[1]);
+                if(i != points.size() - 1) bufferedWriter.write("\n");
+            }
+
+            bufferedWriter.close();
+            System.out.println("yay");
+        } catch(Exception e) {
+            System.out.println("UH OH");
+            System.out.println(e);
+        }
   }
 
 }

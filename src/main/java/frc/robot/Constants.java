@@ -448,11 +448,14 @@ public class Constants {
 
         public static final double DELETE_DISTANCE_RANGE = 0.5; //m
         public static final double OPERATOR_ANGLE_CORRECTION = 0.1; //rad
-
-        public static final String DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE = "distanceToArmAngleAmpSide.eq";
-        public static final String DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE = "distanceToArmAngleStageSide.eq";
-
       }
+
+      public static final class FileNames {
+            public static final String ARM_ANGLE_CLOSE = "armAngleClose.eq";
+            public static final String ARM_ANGLE_FAR_AMP = "armAngleFarAmp.eq";
+            public static final String ARM_ANGLE_FAR_SOURCE = "armAngleFarSource.eq";
+      }
+
       public static final class Robot{
             public static final double SHOOTER_HEIGHT = 0.65; //m
       }

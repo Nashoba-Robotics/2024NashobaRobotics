@@ -32,9 +32,24 @@ public class ArmToShoot extends Command{
     public void execute() {
         
         double dist = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
-        angle = RobotContainer.drive.getPose().getY() > 4.1 ?
-            DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).applyFunction(dist) :
-            DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE).applyFunction(dist);
+        if(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+            if(RobotContainer.drive.getPose().getX() < 3.15) {
+                angle = DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_CLOSE).applyFunction(dist);
+            } else {
+                angle = RobotContainer.drive.getPose().getY() > 4.1 ?
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_FAR_AMP).applyFunction(dist) :
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_FAR_SOURCE).applyFunction(dist);
+            }
+        } else {
+            if(RobotContainer.drive.getPose().getX() > Constants.Field.LENGTH - 3.15) {
+                angle = DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_CLOSE).applyFunction(dist);
+            } else {
+                angle = RobotContainer.drive.getPose().getY() > 4.1 ?
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_FAR_AMP).applyFunction(dist) :
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_FAR_SOURCE).applyFunction(dist);
+            }
+        }
+        
 
         Logger.recordOutput("SetAngle", angle);
 
