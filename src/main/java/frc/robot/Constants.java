@@ -449,7 +449,7 @@ public class Constants {
         public static final double DELETE_DISTANCE_RANGE = 0.5; //m
         public static final double OPERATOR_ANGLE_CORRECTION = 0.1; //rad
 
-        public static final String DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE = "distanceToArmAngleAmpSide.pts";
+        public static final String DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE = "distanceToArmAngleAmpSide.eq";
         public static final String DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE = "distanceToArmAngleStageSide.eq";
 
       }

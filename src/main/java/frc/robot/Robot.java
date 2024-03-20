@@ -62,10 +62,6 @@ public class Robot extends LoggedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    System.out.println("Amp: " + DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).getEquation());
-    System.out.println("Stage: " + DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE).getEquation());
-    
-
     Pose2d leftPose2d = AprilTagManager.getLeftRobotPos().toPose2d();
     Pose2d rightPose2d = AprilTagManager.getRightRobotPos().toPose2d();
 
@@ -118,14 +114,14 @@ public class Robot extends LoggedRobot {
         if(AprilTagManager.hasLeftTarget()
             && AprilTagManager.getLeftAmbiguity() <= 0.15
             && AprilTagManager.getLeftRobotPos() != null
-            && leftError < 5
+            // && leftError < 5
             && leftPose2d.getX() > 0 && leftPose2d.getX() < Constants.Field.LENGTH
             && leftPose2d.getY() > 0 && leftPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(leftPose2d, AprilTagManager.getLeftTimestamp());
         if(AprilTagManager.hasRightTarget()
             && AprilTagManager.getRightAmbiguity() <= 0.15
             && AprilTagManager.getRightRobotPos() != null
-            && rightError < 5
+            // && rightError < 5
             && rightPose2d.getX() > 0 && rightPose2d.getX() < Constants.Field.LENGTH
             && rightPose2d.getY() > 0 && rightPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(rightPose2d, AprilTagManager.getRightTimestamp());
@@ -133,7 +129,7 @@ public class Robot extends LoggedRobot {
         if(AprilTagManager.hasBackLeftTarget()
             && AprilTagManager.getBackLeftAmbiguity() <= 0.15
             && AprilTagManager.getBackLeftPos() != null
-            && backLeftError < 2
+            // && backLeftError < 2
             && backLeftPose2d.getX() > 0 && backLeftPose2d.getX() < Constants.Field.LENGTH
             && backLeftPose2d.getY() > 0 && backLeftPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(backLeftPose2d, AprilTagManager.getBackLeftTimestamp());
@@ -141,7 +137,7 @@ public class Robot extends LoggedRobot {
               if(AprilTagManager.hasBackRightTarget()
             && AprilTagManager.getBackRightAmbiguity() <= 0.15
             && AprilTagManager.getBackRightPos() != null
-            && backRightError < 2
+            // && backRightError < 2
             
             && backRightPose2d.getX() > 0 && backRightPose2d.getX() < Constants.Field.LENGTH
             && backRightPose2d.getY() > 0 && backRightPose2d.getY() < Constants.Field.WIDTH)
@@ -166,7 +162,7 @@ public class Robot extends LoggedRobot {
     try {
       ArrayList<double[]> points = DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE).getUntransformedPoints();
 
-            FileWriter fileWriter = new FileWriter(new File("U/regressionModel" + Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE.split(".")[0] + Timer.getFPGATimestamp() + ".txt"));
+            FileWriter fileWriter = new FileWriter(new File("U/regressionModel" + Constants.Misc.DISTANCE_TO_ARM_ANGLE_AMP_SIDE_FILE.split("\\.")[0] + Timer.getFPGATimestamp() + ".txt"));
 
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
@@ -183,12 +179,13 @@ public class Robot extends LoggedRobot {
             System.out.println("yay");
         } catch(Exception e) {
             System.out.println("UH OH");
+            System.out.println(e);
         }
 
         try {
       ArrayList<double[]> points = DistanceToArmAngleModel.getInstance(Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE).getUntransformedPoints();
 
-            FileWriter fileWriter = new FileWriter(new File("U/regresssionModel" + Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE.split(".")[0] + Timer.getFPGATimestamp() + ".txt"));
+            FileWriter fileWriter = new FileWriter(new File("U/regresssionModel" + Constants.Misc.DISTANCE_TO_ARM_ANGLE_STAGE_SIDE_FILE.split("\\.")[0] + Timer.getFPGATimestamp() + ".txt"));
 
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
@@ -205,6 +202,7 @@ public class Robot extends LoggedRobot {
             System.out.println("yay");
         } catch(Exception e) {
             System.out.println("UH OH");
+            System.out.println(e);
         }
   }
 
