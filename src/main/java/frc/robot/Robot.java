@@ -150,40 +150,23 @@ public class Robot extends LoggedRobot {
 
     double dist = RobotContainer.drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
     Logger.recordOutput("Regression/Aim Distance", dist);
-    Logger.recordOutput("Regression/ArmSetAngle", DistanceToArmAngleModel.getInstance().applyFunction(dist));
+    Logger.recordOutput("Regression/ArmSetAngle", DistanceToArmAngleModel.getInstance(RobotContainer.lastModelForShot).applyFunction(dist));
 
     SmartDashboard.putString("RobotState", Governor.getRobotState().toString());
     SmartDashboard.putString("QueuedState", Governor.getQueuedState().toString());
     Logger.recordOutput("RobotState/RobotState", Governor.getRobotState().toString());
     Logger.recordOutput("RobotState/QueuedState", Governor.getQueuedState().toString());
     Logger.recordOutput("RobotState/LastState", Governor.getDesiredRobotState().toString());
+
+    Logger.recordOutput("LastRegressionModel", RobotContainer.lastModelForShot);
   }
 
   @Override
   public void disabledInit() {
-    try {
-      ArrayList<double[]> points = DistanceToArmAngleModel.getInstance().getUntransformedPoints();
 
-            FileWriter fileWriter = new FileWriter(new File("U/distanceToArmAngle" + Timer.getFPGATimestamp() + ".txt"));
-
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-            bufferedWriter.flush();
-
-            bufferedWriter.write(DistanceToArmAngleModel.getInstance().getEquation() + "\n");
-
-            for(int i = 0; i < points.size(); i++) {
-                bufferedWriter.write(points.get(i)[0] + " " + points.get(i)[1]);
-                if(i != points.size() - 1) bufferedWriter.write("\n");
-            }
-
-            bufferedWriter.close();
-            System.out.println("yay");
-        } catch(Exception e) {
-            System.out.println("UH OH");
-        }
-
-        RobotContainer.odometryFlag = false;
+    RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_CLOSE);
+    RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_AMP);
+    RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_SOURCE);
   }
 
   @Override
