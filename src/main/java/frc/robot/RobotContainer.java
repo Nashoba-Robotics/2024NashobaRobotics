@@ -26,6 +26,8 @@ import frc.robot.Governor.RobotState;
 import frc.robot.commands.AimToSpeakerCommand;
 import frc.robot.commands.AimToStation;
 import frc.robot.commands.auto.amp.ToAmpCommand;
+import frc.robot.commands.auto.remaps.P3Check;
+import frc.robot.commands.auto.remaps.P4Check;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
@@ -111,6 +113,8 @@ public class RobotContainer {
   }
 
   public static NoteState noteState = NoteState.NONE;
+
+  public static boolean odometryFlag = false;
 
   public RobotContainer() {
     addShuffleBoardData();
@@ -252,6 +256,9 @@ public class RobotContainer {
       }).withTimeout(3), //Consider adding additional loader sensor
       new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true))
     ));
+
+    NamedCommands.registerCommand("P3Check", new P3Check());
+    NamedCommands.registerCommand("P4Check", new P4Check());
   }
 
   private int sourceIndex;

@@ -15,6 +15,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.Odometry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -55,7 +56,9 @@ public class Robot extends LoggedRobot {
     robotContainer = new RobotContainer();
     Tabs.addTab("April Tags");
 
-    jank.start();    
+    jank.start();
+
+    RobotContainer.odometryFlag = false;
   }
 
   @Override
@@ -138,13 +141,12 @@ public class Robot extends LoggedRobot {
             && AprilTagManager.getBackRightAmbiguity() <= 0.15
             && AprilTagManager.getBackRightPos() != null
             // && backRightError < 2
-            
             && backRightPose2d.getX() > 0 && backRightPose2d.getX() < Constants.Field.LENGTH
             && backRightPose2d.getY() > 0 && backRightPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(backRightPose2d, AprilTagManager.getBackRightTimestamp());
       }
-    //   jank.restart();
-    // }
+    
+      SmartDashboard.putBoolean("ODOFlag", RobotContainer.odometryFlag);
 
     double dist = RobotContainer.drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
     Logger.recordOutput("Regression/Aim Distance", dist);
@@ -161,6 +163,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void disabledInit() {
+
     RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_CLOSE);
     RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_AMP);
     RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_SOURCE);
@@ -181,6 +184,7 @@ public class Robot extends LoggedRobot {
     
     
     CommandScheduler.getInstance().schedule(new Dictator());
+    RobotContainer.odometryFlag = true;
   }
 
   @Override
