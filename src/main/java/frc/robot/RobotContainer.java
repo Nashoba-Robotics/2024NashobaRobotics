@@ -1,5 +1,9 @@
 package frc.robot;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.function.BooleanSupplier;
 
 import org.littletonrobotics.junction.Logger;
@@ -9,6 +13,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,13 +29,8 @@ import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
-import frc.robot.commands.setters.groups.ToAmp;
-import frc.robot.commands.setters.groups.ToAmpAdj;
 import frc.robot.commands.setters.groups.ToPuke;
-import frc.robot.commands.setters.groups.ToShuttle;
-import frc.robot.commands.setters.groups.ToShuttlePrep;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
-import frc.robot.commands.setters.units.loader.NoteToAmpOut;
 import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.test.ManualShootCommand;
 import frc.robot.commands.test.TestServoCommand;
@@ -56,6 +56,8 @@ public class RobotContainer {
   public static final LEDManager leds = new LEDManager();
   public static final ClimberSubsytem climber = new ClimberSubsytem();
   public static final SensorManager sensors = new SensorManager();
+
+  public static String lastModelForShot = Constants.FileNames.ARM_ANGLE_CLOSE;
   
   private static SendableChooser<Command> autoChooser;
 
@@ -177,25 +179,25 @@ public class RobotContainer {
     shootOveride.onTrue(new GrabberToShoot());
 
     aimedToHigh.onTrue(new InstantCommand(() -> {
-      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(lastModelForShot);
       double distance = instance.lastDistanceToShoot;
-      DistanceToArmAngleModel.getInstance().updateModel(
+      DistanceToArmAngleModel.getInstance(lastModelForShot).updateModel(
         new double[] {distance, instance.applyFunction(distance) + Constants.Misc.OPERATOR_ANGLE_CORRECTION},
         true);
     }));
 
     aimedToLow.onTrue(new InstantCommand(() -> {
-      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(lastModelForShot);
       double distance = instance.lastDistanceToShoot;
-      DistanceToArmAngleModel.getInstance().updateModel(
+      DistanceToArmAngleModel.getInstance(lastModelForShot).updateModel(
         new double[] {distance, instance.applyFunction(distance) - Constants.Misc.OPERATOR_ANGLE_CORRECTION},
         true);
     }));
 
     aimedJustRight.onTrue(new InstantCommand(() -> {
-      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(lastModelForShot);
       double distance = instance.lastDistanceToShoot;
-      DistanceToArmAngleModel.getInstance().updateModel(
+      DistanceToArmAngleModel.getInstance(lastModelForShot).updateModel(
         new double[] {distance, instance.applyFunction(distance)},
         false);
     }));
@@ -299,6 +301,31 @@ public class RobotContainer {
 
   public Command getAutoCommand() {
     return autoChooser.getSelected();
+  }
+
+  public static void writeRegressionFile(String fileName) {
+    try {
+      ArrayList<double[]> points = DistanceToArmAngleModel.getInstance(fileName).getUntransformedPoints();
+
+            FileWriter fileWriter = new FileWriter(new File("U/regressionModel/" + fileName.split("\\.")[0] + Timer.getFPGATimestamp() + ".txt"));
+
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            bufferedWriter.flush();
+
+            bufferedWriter.write(DistanceToArmAngleModel.getInstance(fileName).getEquation() + "\n");
+
+            for(int i = 0; i < points.size(); i++) {
+                bufferedWriter.write(points.get(i)[0] + " " + points.get(i)[1]);
+                if(i != points.size() - 1) bufferedWriter.write("\n");
+            }
+
+            bufferedWriter.close();
+            System.out.println("yay");
+        } catch(Exception e) {
+            System.out.println("UH OH");
+            System.out.println(e);
+        }
   }
 
 }
