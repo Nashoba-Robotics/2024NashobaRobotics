@@ -79,74 +79,108 @@ public class President extends Command {
             queueFlag = false;
         }
 
-        switch (Governor.getRobotState()) {
-            case NEUTRAL:
-                // drive.state = DriveState.DRIVER;
-                // if(loader.getShooterSensor()) Governor.setRobotState(RobotState.SHOOT_PREP);
-                // if(RobotContainer.sensors.getShooterSensor() && Governor.getLastRobotState()==RobotState.INTAKE) 
-                //     CommandScheduler.getInstance().schedule(new InstantCommand(()->RobotContainer.intake.setSpeed(-0.1), RobotContainer.intake));
-                break;
-            case TRANSITION:
-                //TODO:
-                break;
-            case INTAKE:
-                if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
-                break;
-            case SOURCE:
-                if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
-                break;
-            case SHOOT_PREP:
-                // drive.state = DriveState.AIM_TO_SPEAKER;
-                // if(Math.abs(joysticks.getRightJoystickValues().x) <= 0.03
-                // && !CommandScheduler.getInstance().isScheduled(aimToSpeakerCommand))
-                // CommandScheduler.getInstance().schedule(aimToSpeakerCommand);
-                break;
-            case SHOOT:
-                if(!shootFlag){
-                    shootTimer.restart();
-                    shootFlag = true;
-                }
-                if(shootFlag && shootTimer.get() > 0.1
-                && !RobotContainer.sensors.getLoaderSensor()
-                && !RobotContainer.sensors.getShooterSensor()){
-                    DistanceToArmAngleModel.getInstance().lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
-                    Governor.setRobotState(RobotState.NEUTRAL);
-                    shootFlag = false;
-                    shootTimer.stop();
-                } 
+        if(!Governor.cleanUp){
+            switch (Governor.getRobotState()) {
+                case NEUTRAL:
+                    // if(loader.getShooterSensor()) Governor.setRobotState(RobotState.SHOOT_PREP);
+                    // if(RobotContainer.sensors.getShooterSensor() && Governor.getLastRobotState()==RobotState.INTAKE) 
+                    //     CommandScheduler.getInstance().schedule(new InstantCommand(()->RobotContainer.intake.setSpeed(-0.1), RobotContainer.intake));
+                    break;
+                case TRANSITION:
+                    //TODO:
+                    break;
+                case INTAKE:
+                    if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
+                    break;
+                case SOURCE:
+                    if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
+                    break;
+                case SHOOT_PREP:
 
-                //TODO: When odometry is in a certain range, go to shoot prep
-                break;
-            case AMP:
-                if(!ampFlag){
-                        ampTimer.restart();
-                        ampFlag = true;
-                }
-                if(!ampSensorFlag && RobotContainer.sensors.getLoaderSensor()){
-                    ampSensorFlag = true;
-                }
-                if(ampFlag && !RobotContainer.sensors.getLoaderSensor() && ampSensorFlag){
-                    Governor.setRobotState(RobotState.NEUTRAL, false);
-                    ampFlag = false;
-                    ampSensorFlag = false;
-                    ampTimer.stop();
-                } 
-               break; 
-            case SHUTTLE:
-                if(!shuttleFlag){
-                    shuttleTimer.restart();
-                    shuttleFlag = true;
-                }
-                if(shuttleFlag 
-                && !RobotContainer.sensors.getShooterSensor() 
-                && shuttleTimer.get()>0.1){
-                    shuttleFlag = false;
-                    shuttleTimer.stop();
-                    Governor.setRobotState(RobotState.NEUTRAL);
-                }
-                break;
-            default:
-                break;
+                    break;
+                case SHOOT:
+                    if(!shootFlag){
+                        shootTimer.restart();
+                        shootFlag = true;
+                    }
+                    if(shootFlag && shootTimer.get() > 0.1
+                    && !RobotContainer.sensors.getLoaderSensor()
+                    && !RobotContainer.sensors.getShooterSensor()){
+                        DistanceToArmAngleModel.getInstance().lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                        Governor.setRobotState(RobotState.NEUTRAL);
+                        shootFlag = false;
+                        shootTimer.stop();
+                    } 
+
+                    //TODO: When odometry is in a certain range, go to shoot prep
+                    break;
+                case AMP:
+                    if(!ampFlag){
+                            ampTimer.restart();
+                            ampFlag = true;
+                    }
+                    if(!ampSensorFlag && RobotContainer.sensors.getLoaderSensor()){
+                        ampSensorFlag = true;
+                    }
+                    if(ampFlag && !RobotContainer.sensors.getLoaderSensor() && ampSensorFlag){
+                        Governor.setRobotState(RobotState.NEUTRAL, false);
+                        ampFlag = false;
+                        ampSensorFlag = false;
+                        ampTimer.stop();
+                    } 
+                break; 
+                case SHUTTLE:
+                    if(!shuttleFlag){
+                        shuttleTimer.restart();
+                        shuttleFlag = true;
+                    }
+                    if(shuttleFlag 
+                    && !RobotContainer.sensors.getShooterSensor() 
+                    && shuttleTimer.get()>0.1){
+                        shuttleFlag = false;
+                        shuttleTimer.stop();
+                        Governor.setRobotState(RobotState.NEUTRAL);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        else{
+            switch (Governor.getRobotState()) {
+                case INTAKE:
+                    if(RobotContainer.sensors.getShooterSensor())
+                        Governor.setRobotState(RobotState.SHOOT_PREP);
+                    break;
+                case SHOOT_PREP:
+                    double dist = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                    double angle = DistanceToArmAngleModel.getInstance().applyFunction(dist);
+
+                    //Don't shoot if we're too close
+                    if(drive.getPose().getX() > 1.28 && drive.getPose().getX() < Constants.Field.LENGTH-1.28
+                    && Math.abs(RobotContainer.arm.getArmPivotAngle().getRadians()-angle) < Presets.Arm.POS_TOLERANCE.getRadians())
+                        Governor.setRobotState(RobotState.SHOOT);
+                    break;
+                case SHOOT:
+                    if(!shootFlag){
+                        shootTimer.restart();
+                        shootFlag = true;
+                    }
+                    if(shootFlag && shootTimer.get() > 0.1
+                    && !RobotContainer.sensors.getLoaderSensor()
+                    && !RobotContainer.sensors.getShooterSensor()){
+                        DistanceToArmAngleModel.getInstance().lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                        Governor.setRobotState(RobotState.INTAKE);
+                        shootFlag = false;
+                        shootTimer.stop();
+                    }
+                    break;
+
+                default:
+                    Governor.setRobotState(RobotState.INTAKE);
+                    break;
+            }
         }
     }
 

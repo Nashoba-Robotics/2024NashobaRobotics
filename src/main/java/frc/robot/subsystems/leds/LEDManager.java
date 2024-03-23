@@ -37,6 +37,7 @@ public class LEDManager extends SubsystemBase{
     @Override
     public void periodic() {
         if(DriverStation.isDisabled()){
+            //TODO: Add check to see if the pivot motor was initizlied correctly
             candle.animate(new LarsonAnimation(0xFF, 0x10, 0x0, 0, 0.4, LED_COUNT, BounceMode.Back, 8, 8), 0);
             clearAnimationFlag = true;
             // setColor(new Color(0xFF, 0x10, 0x0));

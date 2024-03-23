@@ -30,6 +30,8 @@ public class Governor {
     private static RobotState queuedState = RobotState.UNKNOWN;
     private static RobotState desiredState = RobotState.UNKNOWN;
     private static RobotState lastState = RobotState.UNKNOWN;
+
+    public static boolean cleanUp = false;
     
     public enum RobotState {
         NEUTRAL,    //Wyoming
@@ -175,5 +177,7 @@ public class Governor {
         return new InstantCommand(() -> Governor.state = state);
     }
 
-
+    public static void setCleanupMode(boolean clean){
+        cleanUp = clean;
+    }
 }
