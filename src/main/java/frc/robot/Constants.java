@@ -73,8 +73,8 @@ public class Constants {
             public static final int SHOOTER_PORT = 10;
             public static final int SHOOTER_PORT_2 = 11;
 
-            public static final int LEFT_SERVO_CHANNEL = 8;
-            public static final int RIGHT_SERVO_CHANNEL = 6;
+            public static final int LEFT_SERVO_CHANNEL = 0;
+            public static final int RIGHT_SERVO_CHANNEL = 1;
 
             public static final int ENCODER_PORT = 4;
             public static final double ENCODER_OFFSET = -0.366941;

@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Governor.RobotState;
 import frc.robot.commands.AimToSpeakerCommand;
 import frc.robot.commands.AimToStation;
+import frc.robot.commands.ToggleCleanUpCommand;
 import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
@@ -78,6 +79,8 @@ public class RobotContainer {
 
   private Trigger shuttle = joysticks.getDriverController().button(4);
   private Trigger shuttlePrep = joysticks.getDriverController().button(1);
+
+  private Trigger cleanUpMode = joysticks.getDriverController().button(11);
 
   private Trigger increaseSpeed = joysticks.getOperatorController().button(6);  //rb
   private Trigger decreaseSpeed = joysticks.getOperatorController().button(5);  //lb
@@ -201,7 +204,9 @@ public class RobotContainer {
     }));
 
     
-    prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));             
+    prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));   
+    
+    cleanUpMode.toggleOnTrue(new ToggleCleanUpCommand());
   }
 
   private void addShuffleBoardData() {
