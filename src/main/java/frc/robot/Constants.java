@@ -53,7 +53,7 @@ public class Constants {
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
-            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/URIPositions.json";
+            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/WPIPracticePositions.json";
 
             public static final double getXSD(double distance) {
                   return 0.0312*distance - 0.0494;
@@ -162,22 +162,22 @@ public class Constants {
             public static final double MAX_ROTATION_ACCELERATION = 0;
 
             public static final Slot0Configs steerGains0 = new Slot0Configs()
-            .withKP(60).withKI(0).withKD(0.0)
+            .withKP(20).withKI(0).withKD(0.0)
                   // .withKP(0).withKI(0).withKD(0)
             .withKS(0.16).withKV(2.80).withKA(0);
 
             public static final Slot0Configs steerGains1 = new Slot0Configs()
-            .withKP(60).withKI(0).withKD(0.0)
+            .withKP(20).withKI(0).withKD(0.0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.18).withKV(2.84).withKA(0);
             
             public static final Slot0Configs steerGains2 = new Slot0Configs()
-            .withKP(60).withKI(0).withKD(0.0)
+            .withKP(20).withKI(0).withKD(0.0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.19).withKV(2.85).withKA(0);
 
             public static final Slot0Configs steerGains3 = new Slot0Configs()
-            .withKP(60).withKI(0).withKD(0.0)
+            .withKP(20).withKI(0).withKD(0.0)
             .withKS(0.19).withKV(2.91).withKA(0); 
 
 
@@ -206,7 +206,7 @@ public class Constants {
             private static final ClosedLoopOutputType steerClosedLoopOutput = ClosedLoopOutputType.Voltage;
             private static final ClosedLoopOutputType driveClosedLoopOutput = ClosedLoopOutputType.Voltage;
 
-            private static final double kSlipCurrentA = 60;
+            public static final double kSlipCurrentA = 60;
 
             public static final double kSpeedAt12VoltsMps = MAX_VELOCITY;
 
@@ -451,8 +451,14 @@ public class Constants {
 
         public static final double DELETE_DISTANCE_RANGE = 0.5; //m
         public static final double OPERATOR_ANGLE_CORRECTION = 0.1; //rad
-
       }
+
+      public static final class FileNames {
+            public static final String ARM_ANGLE_CLOSE = "armAngleClose.eq";
+            public static final String ARM_ANGLE_FAR_AMP = "armAngleFarAmp.eq";
+            public static final String ARM_ANGLE_FAR_SOURCE = "armAngleFarSource.eq";
+      }
+
       public static final class Robot{
             public static final double SHOOTER_HEIGHT = 0.65; //m
       }
