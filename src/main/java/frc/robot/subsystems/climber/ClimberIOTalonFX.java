@@ -34,8 +34,10 @@ public class ClimberIOTalonFX implements ClimberIO{
         config.Audio.BeepOnConfig = false;
         config.CurrentLimits.StatorCurrentLimitEnable = false;
         config.CurrentLimits.StatorCurrentLimit = Constants.Climber.STATOR_LIMIT;
+
         config.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
         config.Feedback.SensorToMechanismRatio = Constants.Climber.GEAR_RATIO;
+
         config.FutureProofConfigs = true;
         config.MotorOutput.Inverted = Constants.Climber.leftInvert;
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -45,6 +47,9 @@ public class ClimberIOTalonFX implements ClimberIO{
         config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.Climber.FORWARD_SOFT_LIMIT;
         config.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
         config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.Climber.REVERSE_SOFT_LIMIT;
+
+        config.MotionMagic.MotionMagicCruiseVelocity = Constants.Climber.CRUISE_VELOCITY;
+        config.MotionMagic.MotionMagicAcceleration = Constants.Climber.ACCELERATION;
         
         config.Slot0 = Constants.Climber.leftPID;
 
@@ -61,25 +66,25 @@ public class ClimberIOTalonFX implements ClimberIO{
         // rightClimber.getConfigurator().apply(config);
        // rightClimber.setControl(new Follower(0, true)); //TODO: Figure out if the motors oppose each other
 
-        leftMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, true, true);
+        leftMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, false, false);
         // rightMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, true, true);
     }
 
     public void updateInputs(ClimberIOInputs inputs){
-        inputs.leftClimberRotorPos = leftClimber.getRotorPosition().getValueAsDouble()*Constants.TAU;
+        inputs.leftClimberRotorPos = leftClimber.getPosition().getValueAsDouble()*Constants.TAU;
         inputs.leftClimberSpeed = leftClimber.getRotorVelocity().getValueAsDouble()*Constants.TAU;
         inputs.leftClimberStatorCurrent = leftClimber.getStatorCurrent().getValueAsDouble();
         inputs.leftClimberVoltage = leftClimber.getMotorVoltage().getValueAsDouble();
 
-        inputs.rightClimberRotorPos = rightClimber.getRotorPosition().getValueAsDouble()*Constants.TAU;
+        inputs.rightClimberRotorPos = rightClimber.getPosition().getValueAsDouble()*Constants.TAU;
         inputs.rightClimberSpeed = rightClimber.getRotorVelocity().getValueAsDouble()*Constants.TAU;
         inputs.rightClimberStatorCurrent = rightClimber.getStatorCurrent().getValueAsDouble();
         inputs.rightClimberVoltage = rightClimber.getMotorVoltage().getValueAsDouble();
     }
 
     @Override
-    public void setLeftClimberPos(double pos){
-        leftMotionMagic.Position = pos;
+    public void setLeftClimberPos(Rotation2d pos){
+        leftMotionMagic.Position = pos.getRotations();
         leftClimber.setControl(leftMotionMagic);
     }
 
