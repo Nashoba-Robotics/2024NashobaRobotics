@@ -33,6 +33,7 @@ import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
 import frc.robot.commands.setters.groups.ToPuke;
+import frc.robot.commands.setters.groups.ToShuttlePrep;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.test.ClimberTuneCommand;
