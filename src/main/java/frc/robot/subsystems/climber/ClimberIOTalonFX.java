@@ -115,17 +115,21 @@ public class ClimberIOTalonFX implements ClimberIO{
     public void setkS(double kS){
         config.Slot0.kS = kS;
         leftClimber.getConfigurator().apply(config);
+        rightClimber.getConfigurator().apply(config);
     }
     public void setkV(double kV){
         config.Slot0.kV = kV;
         leftClimber.getConfigurator().apply(config);
+        rightClimber.getConfigurator().apply(config);
     }
     public void setkP(double kP){
         config.Slot0.kP = kP;
         leftClimber.getConfigurator().apply(config);
+        rightClimber.getConfigurator().apply(config);
     }
     public void setKD(double kD){
         config.Slot0.kD = kD;
         leftClimber.getConfigurator().apply(config);
+        rightClimber.getConfigurator().apply(config);
     }
 }
