@@ -122,6 +122,7 @@ public class Constants {
             public static final int RIGHT_CLIMBER_PORT = 14;
 
             public static final InvertedValue leftInvert = InvertedValue.Clockwise_Positive;
+            public static final InvertedValue rightInvert = InvertedValue.CounterClockwise_Positive;
 
             public static final double STATOR_LIMIT = 0;
             public static final double GEAR_RATIO = (125.*22/32);
@@ -134,10 +135,10 @@ public class Constants {
 
             public static final Slot0Configs leftPID = new Slot0Configs()
             .withKS(0.02).withKV(0.8333).withKA(0)
-            .withKP(0).withKI(0).withKD(0.0); 
+            .withKP(20).withKI(0).withKD(0.0); 
             public static final Slot0Configs rightPID = new Slot0Configs()
-            .withKS(0).withKV(0).withKA(0)
-            .withKP(0).withKI(0).withKD(0.0); 
+            .withKS(0.02).withKV(0.8333).withKA(0)
+            .withKP(20).withKI(0).withKD(0.0); 
       }
 
 
@@ -183,22 +184,22 @@ public class Constants {
 
 
             private static final Slot0Configs driveGains0 = new Slot0Configs()
-            .withKP(0.41).withKI(0).withKD(0)
+            .withKP(0.21).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.27).withKV(0.1234).withKA(0);
 
             private static final Slot0Configs driveGains1 = new Slot0Configs()
-            .withKP(0.41).withKI(0).withKD(0)
+            .withKP(0.21).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.27).withKV(0.1234).withKA(0);
 
             private static final Slot0Configs driveGains2 = new Slot0Configs()
-            .withKP(0.41).withKI(0).withKD(0)
+            .withKP(0.21).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.27).withKV(0.1234).withKA(0);
 
             private static final Slot0Configs driveGains3 = new Slot0Configs()
-            .withKP(0.41).withKI(0).withKD(0)
+            .withKP(0.21).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.27).withKV(0.1234).withKA(0);
 

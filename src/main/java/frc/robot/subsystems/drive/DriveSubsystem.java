@@ -55,7 +55,7 @@ public class DriveSubsystem extends SubsystemBase{
         field = new Field2d();
         gyroIO = new GyroIOPigeon2();
 
-        fieldCentric = true;
+        fieldCentric = false;
 
         modules = new Module[] {
             new Module(0, Constants.Drive.CANBUS),
