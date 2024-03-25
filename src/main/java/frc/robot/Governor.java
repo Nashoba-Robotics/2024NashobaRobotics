@@ -48,8 +48,11 @@ public class Governor {
         SHOOT,  //Texas
         AMP, //California
         AMP_ADJ,
-        SHUTTLE,
-        SHUTTLE_ADJ,
+
+        SHUTTLE_HIGH,
+        SHUTTLE_HIGH_ADJ,
+        SHUTTLE_LOW,
+        SHUTTLE_LOW_ADJ,
 
         CLIMB,
         CLIMB_PREP,
@@ -98,11 +101,17 @@ public class Governor {
                 case AMP_ADJ:
                     toAmpAdj();
                     break;
-                case SHUTTLE:
-                    toShuttle();
+                case SHUTTLE_HIGH:
+                    toShuttleHigh();
                     break;
-                case SHUTTLE_ADJ:
-                    toShuttleAdj();
+                case SHUTTLE_HIGH_ADJ:
+                    toShuttleHighAdj();
+                    break;
+                case SHUTTLE_LOW:
+                    toShuttleLow();
+                    break;
+                case SHUTTLE_LOW_ADJ:
+                    toShuttleLowAdj();
                     break;
                 case CLIMB:
                     toClimb();
@@ -156,11 +165,17 @@ public class Governor {
     private static void toAmpAdj() {
         CommandScheduler.getInstance().schedule(new ToAmpAdj());
     }
-    private static void toShuttle(){
+    private static void toShuttleHigh(){
         CommandScheduler.getInstance().schedule(new ToShuttle());
     }
-    private static void toShuttleAdj(){
-        CommandScheduler.getInstance().schedule(new ToShuttlePrep());
+    private static void toShuttleHighAdj(){
+        CommandScheduler.getInstance().schedule(RobotContainer.highShuttlePrep);
+    }
+    private static void toShuttleLow(){
+        CommandScheduler.getInstance().schedule(new ToShuttle());
+    }
+    private static void toShuttleLowAdj(){
+        CommandScheduler.getInstance().schedule(RobotContainer.lowShuttlePrep);
     }
     private static void toClimb() {
         CommandScheduler.getInstance().schedule(new ToClimb());

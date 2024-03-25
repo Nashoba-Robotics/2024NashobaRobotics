@@ -77,8 +77,12 @@ public class RobotContainer {
   private Trigger puke = joysticks.getDriverController().button(9);
   private Trigger shootPrep = joysticks.getDriverController().button(6);
 
-  private Trigger shuttle = joysticks.getDriverController().button(4);
-  private Trigger shuttlePrep = joysticks.getDriverController().button(1);
+  private Trigger highShuttle = joysticks.getDriverController().button(4);
+  private Trigger lowShuttle = joysticks.getDriverController().button(1);
+  public static ToShuttlePrep highShuttlePrep = new ToShuttlePrep(true);
+  public static ToShuttlePrep lowShuttlePrep = new ToShuttlePrep(false);
+  private boolean lowButtonPressed = false;
+  private boolean highButtonPressed = false;
 
   private Trigger cleanUpMode = joysticks.getDriverController().button(11);
 
@@ -156,9 +160,9 @@ public class RobotContainer {
     shootPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP)));
     shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
 
-    shuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE)));
-    shuttlePrep.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE_ADJ)));
-    shuttlePrep.onTrue(new AimToStation(drive, joysticks));
+    highShuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE)));
+    lowShuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE_ADJ)));
+    lowShuttle.onTrue(new AimToStation(drive, joysticks));
 
     increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
     decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() - 10)));
@@ -206,6 +210,7 @@ public class RobotContainer {
     
     prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));   
     
+    //TODO: Does this work?
     cleanUpMode.toggleOnTrue(new ToggleCleanUpCommand());
   }
 

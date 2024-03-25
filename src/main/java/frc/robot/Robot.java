@@ -207,10 +207,10 @@ public class Robot extends LoggedRobot {
     //Cancels everything from auto
     CommandScheduler.getInstance().cancelAll();
 
-    // CommandScheduler.getInstance().setDefaultCommand(
-    //   RobotContainer.drive,
-    //   new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
-    //   );
+    CommandScheduler.getInstance().setDefaultCommand(
+      RobotContainer.drive,
+      new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
+      );
 
     // CommandScheduler.getInstance().schedule(new President());
     // Governor.setRobotState(RobotState.NEUTRAL, true);

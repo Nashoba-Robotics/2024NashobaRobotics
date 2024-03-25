@@ -13,13 +13,13 @@ import frc.robot.commands.setters.units.loader.LoaderToNeutral;
 import frc.robot.commands.setters.units.loader.NoteToShooter;
 
 public class ToShuttlePrep extends SequentialCommandGroup{
-    public ToShuttlePrep(){
+    public ToShuttlePrep(boolean high){
         addCommands(
             new StopAllRollers(),
             new LoaderToNeutral(),
             new NoteToShooter(),
             new InstantCommand(()->RobotContainer.arm.setShooterSpeed(Presets.Arm.SHUTTLE_SPEED), RobotContainer.arm),
-            new ArmToShuttle(),
+            new ArmToShuttle(high),
             Governor.getSetStateCommand(RobotState.SHUTTLE_ADJ),
             new ShooterToShuttle()
         );
