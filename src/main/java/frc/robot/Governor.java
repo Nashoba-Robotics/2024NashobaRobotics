@@ -49,6 +49,8 @@ public class Governor {
         AMP, //California
         AMP_ADJ,
 
+        SHUTTLE,
+        SHUTTLE_ADJ,
         SHUTTLE_HIGH,
         SHUTTLE_HIGH_ADJ,
         SHUTTLE_LOW,

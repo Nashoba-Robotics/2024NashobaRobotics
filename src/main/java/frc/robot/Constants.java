@@ -77,7 +77,7 @@ public class Constants {
             public static final int RIGHT_SERVO_CHANNEL = 1;
 
             public static final int ENCODER_PORT = 4;
-            public static final double ENCODER_OFFSET = -0.366941;
+            public static final double ENCODER_OFFSET = -0.482771 - 0.000575;//482771
 
             public static final int SHOOTER_SENSOR_PORT = 0;
             public static final int LOADER_SENSOR_PORT = 1;
@@ -102,7 +102,7 @@ public class Constants {
             // .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
             // .withKP(80).withKI(0).withKD(0.6);
             .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
-            .withKP(5).withKI(0).withKD(0.0);
+            .withKP(4.5).withKI(0).withKD(0.0);
 
             public static final double SHOOTER_STATOR_CURRENT_LIMIT = 80;
             public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 50;
@@ -125,6 +125,8 @@ public class Constants {
 
             public static final double STATOR_LIMIT = 0;
             public static final double GEAR_RATIO = 4.*4*5*22/32;
+
+            public static final double CRUISE_VELOCITY = 0; //1.1636
 
             public static final double FORWARD_SOFT_LIMIT = 0;
             public static final double REVERSE_SOFT_LIMIT = 0;

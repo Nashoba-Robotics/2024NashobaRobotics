@@ -162,7 +162,7 @@ public class ArmIOTalonFX implements ArmIO{
         // pivotConfig.Feedback.SensorToMechanismRatio = Constants.Arm.PIVOT_GEAR_RATIO;
         pivotConfig.Feedback.SensorToMechanismRatio = 100./36;
         pivotConfig.Feedback.FeedbackRemoteSensorID = Constants.Arm.ENCODER_PORT;
-        pivotConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+        pivotConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.SyncCANcoder;
         pivotConfig.Feedback.RotorToSensorRatio = 102.4 * 36. / 100.;
 
         shooterConfig.Audio.BeepOnBoot = true;

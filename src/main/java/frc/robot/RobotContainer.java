@@ -33,6 +33,7 @@ import frc.robot.commands.setters.groups.ToShuttlePrep;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.setters.units.loader.NoteToAmpOut;
 import frc.robot.commands.test.ClimberTestCommand;
+import frc.robot.commands.test.ClimberTuneCommand;
 import frc.robot.commands.test.ManualShootCommand;
 import frc.robot.commands.test.TestServoCommand;
 import frc.robot.lib.util.DistanceToArmAngleModel;
@@ -160,8 +161,8 @@ public class RobotContainer {
     shootPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP)));
     shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
 
-    highShuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE)));
-    lowShuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE_ADJ)));
+    // highShuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE)));
+    // lowShuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE_ADJ)));
     lowShuttle.onTrue(new AimToStation(drive, joysticks));
 
     increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
@@ -216,10 +217,10 @@ public class RobotContainer {
 
   private void addShuffleBoardData() {
     SmartDashboard.putData(new ManualShootCommand(loader, arm));
-    // SmartDashboard.putData(new ClimberTuneCommand(climber));
-    // SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
-    //     SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
-      SmartDashboard.putData(new ClimberTestCommand(climber));
+    SmartDashboard.putData(new ClimberTuneCommand(climber));
+    SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
+    SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
+      // SmartDashboard.putData(new ClimberTestCommand(climber));
     // SmartDashboard.putData("Amp Prep", new ToNewAmpAdj());
     // SmartDashboard.putData("Amp Score", new ToNewAmp());
     // SmartDashboard.putData(new NoteToAmpOut());
