@@ -28,10 +28,10 @@ public class Constants {
       public static final double PEAK_VOLTAGE = 12;
 
       public static final class AprilTags{
-            public static final String FRONT_RIGHT_CAMERA_NAME = "Yi's_Little_Buddy";
-            public static final String FRONT_LEFT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
-            public static final String BACK_LEFT_CAMERA_NAME = "Eshaan's_Little_Buddy";
-            public static final String BACK_RIGHT_CAMERA_NAME = "Ben's_Little_Buddy";
+            public static final String FRONT_RIGHT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
+            public static final String FRONT_LEFT_CAMERA_NAME = "Ben's_Little_Buddy (1)";
+            public static final String BACK_RIGHT_CAMERA_NAME = "Eshaan's_Little_Buddy";
+            public static final String BACK_LEFT_CAMERA_NAME = "Ben's_Little_Buddy";
 
             /* For PhotonEstimator
             *             ^ 
@@ -47,8 +47,8 @@ public class Constants {
             */
             public static final Transform3d ROBOT_TO_CAMERA_FRONT_LEFT = new Transform3d(Units.inchesToMeters(11.35),Units.inchesToMeters(9.5),0, new Rotation3d(0, -15./360*TAU, 20.*Constants.TAU/360));
             public static final Transform3d ROBOT_TO_CAMERA_FRONT_RIGHT = new Transform3d(Units.inchesToMeters(11.35), Units.inchesToMeters(-9.5), 0, new Rotation3d(0, -15./360*TAU, -20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(-10.758), 0, new Rotation3d(0, -36./360*TAU, -20./360*TAU + TAU/2));
-            public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(10.758), 0, new Rotation3d(0, -36./360*TAU, 20./360*TAU-TAU/2));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(10.758), 0, new Rotation3d(0, -36./360*TAU, 20./360*TAU + TAU/2));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(-10.758), 0, new Rotation3d(0, -36./360*TAU, -20./360*TAU-TAU/2));
             
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
@@ -77,7 +77,7 @@ public class Constants {
             public static final int RIGHT_SERVO_CHANNEL = 6;
 
             public static final int ENCODER_PORT = 4;
-            public static final double ENCODER_OFFSET = -0.366941;
+            public static final double ENCODER_OFFSET = -0.483346;
 
             public static final int SHOOTER_SENSOR_PORT = 0;
             public static final int LOADER_SENSOR_PORT = 1;
@@ -159,43 +159,43 @@ public class Constants {
             public static final double MAX_ROTATION_ACCELERATION = 0;
 
             public static final Slot0Configs steerGains0 = new Slot0Configs()
-            .withKP(20).withKI(0).withKD(0.0)
+            .withKP(100).withKI(0).withKD(0.0)
                   // .withKP(0).withKI(0).withKD(0)
             .withKS(0.16).withKV(2.80).withKA(0);
 
             public static final Slot0Configs steerGains1 = new Slot0Configs()
-            .withKP(20).withKI(0).withKD(0.0)
+            .withKP(100).withKI(0).withKD(0.0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.18).withKV(2.84).withKA(0);
             
             public static final Slot0Configs steerGains2 = new Slot0Configs()
-            .withKP(20).withKI(0).withKD(0.0)
+            .withKP(100).withKI(0).withKD(0.0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.19).withKV(2.85).withKA(0);
 
             public static final Slot0Configs steerGains3 = new Slot0Configs()
-            .withKP(20).withKI(0).withKD(0.0)
+            .withKP(100).withKI(0).withKD(0.0)
             .withKS(0.19).withKV(2.91).withKA(0); 
 
 
 
             private static final Slot0Configs driveGains0 = new Slot0Configs()
-            .withKP(0.41).withKI(0).withKD(0)
+            .withKP(0.27).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.27).withKV(0.1234).withKA(0);
 
             private static final Slot0Configs driveGains1 = new Slot0Configs()
-            .withKP(0.41).withKI(0).withKD(0)
+            .withKP(0.27).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.27).withKV(0.1234).withKA(0);
 
             private static final Slot0Configs driveGains2 = new Slot0Configs()
-            .withKP(0.41).withKI(0).withKD(0)
+            .withKP(0.27).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.27).withKV(0.1234).withKA(0);
 
             private static final Slot0Configs driveGains3 = new Slot0Configs()
-            .withKP(0.41).withKI(0).withKD(0)
+            .withKP(0.27).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.27).withKV(0.1234).withKA(0);
 

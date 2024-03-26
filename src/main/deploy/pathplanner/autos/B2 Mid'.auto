@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "b2-shootPos"
+            "pathName": "b2-shootPos'"
           }
         },
         {
@@ -32,19 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "shootPos-p2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootWait"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "p2-p7"
+            "pathName": "shootPos-p7'"
           }
         },
         {

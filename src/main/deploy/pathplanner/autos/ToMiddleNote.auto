@@ -44,25 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "p2-p7"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "p7-shootPos"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "shootPos-p6"
+            "pathName": "p2-p6"
           }
         },
         {

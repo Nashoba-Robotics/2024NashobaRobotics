@@ -15,20 +15,28 @@ public class Dictator extends Command{
     private boolean shootFlag;
     private Timer shootTimer;
 
+    private boolean shuttleFlag;
+    private Timer shuttleTimer;
+
     public Dictator() {
         shootFlag = false;
         shootTimer = new Timer();
+
+        shuttleFlag = false;
+        shuttleTimer = new Timer();
     }
 
     @Override
     public void initialize() {
         shootFlag = false;
+        shuttleFlag = false;
     }
 
     @Override
     public void execute() {
 
         if(shootFlag && Governor.getDesiredRobotState() != RobotState.SHOOT) shootFlag = false;
+        if(shuttleFlag && Governor.getDesiredRobotState() != RobotState.SHUTTLE) shuttleFlag = false;
 
         switch (Governor.getRobotState()) {
             case NEUTRAL:
@@ -60,6 +68,18 @@ public class Dictator extends Command{
             case AMP:
                break; 
             case SHUTTLE:
+                if(!shuttleFlag
+                && !RobotContainer.sensors.getLoaderSensor()
+                && !RobotContainer.sensors.getShooterSensor()){
+                    shuttleTimer.restart();
+                    shuttleFlag = true;
+                }
+                if(shuttleFlag && shuttleTimer.get() > 0.2
+                ){
+                    Governor.setRobotState(RobotState.INTAKE);
+                    shuttleFlag = false;
+                    shuttleTimer.stop();
+                } 
                 break;
             default:
                 break;

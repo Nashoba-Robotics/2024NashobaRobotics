@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 8.286009678824307,
-        "y": 7.45
+        "y": 7.35
       },
       "prevControl": null,
       "nextControl": {
         "x": 6.216400883025519,
-        "y": 7.366822518773238
+        "y": 7.266822518773237
       },
       "isLocked": false,
       "linkedName": null
@@ -30,28 +30,10 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "CheckPiece",
-      "waypointRelativePos": 0.25,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "P3Check"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 3.3,
+    "maxAcceleration": 4.2,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -61,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Auto",
+  "folder": null,
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

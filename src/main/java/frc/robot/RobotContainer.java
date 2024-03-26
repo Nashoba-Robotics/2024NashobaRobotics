@@ -235,7 +235,6 @@ public class RobotContainer {
     }).withTimeout(3),
       new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
-      new WaitCommand(0.2),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
         public boolean getAsBoolean() {
@@ -247,7 +246,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
       new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
-      new WaitCommand(0.2),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
         public boolean getAsBoolean() {
@@ -256,6 +254,18 @@ public class RobotContainer {
       }).withTimeout(3), //Consider adding additional loader sensor
       new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true))
     ));
+
+    NamedCommands.registerCommand("Disrupt", new SequentialCommandGroup(
+      new InstantCommand(() -> Governor.setRobotState(RobotState.MISC, true)),
+      new InstantCommand(() -> {
+        intake.setSpeed(Presets.Intake.INTAKE_SPEED);
+        loader.setRollerSpeed(-0.9);
+        arm.setShooterPercent(0.2);
+      }),
+      new WaitCommand(0.8),
+      new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true))
+      )
+    );
 
     NamedCommands.registerCommand("P3Check", new P3Check());
     NamedCommands.registerCommand("P4Check", new P4Check());
