@@ -18,7 +18,8 @@ public class ClimberIOTalonFX implements ClimberIO{
     private Servo leftServo;
     private Servo rightServo;
 
-    private TalonFXConfiguration config;
+    private TalonFXConfiguration leftConfig;
+    private TalonFXConfiguration rightConfig;
     private MotionMagicDutyCycle leftMotionMagic;
     private MotionMagicDutyCycle rightMotionMagic;
 
@@ -29,28 +30,57 @@ public class ClimberIOTalonFX implements ClimberIO{
         leftServo = new Servo(Constants.Arm.LEFT_SERVO_CHANNEL);
         rightServo = new Servo(Constants.Arm.RIGHT_SERVO_CHANNEL);
 
-        config = new TalonFXConfiguration();
-        config.Audio.BeepOnBoot = true;
-        config.Audio.BeepOnConfig = false;
-        config.CurrentLimits.StatorCurrentLimitEnable = false;
-        config.CurrentLimits.StatorCurrentLimit = Constants.Climber.STATOR_LIMIT;
-        config.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-        config.Feedback.SensorToMechanismRatio = Constants.Climber.GEAR_RATIO;
-        config.FutureProofConfigs = true;
-        config.MotorOutput.Inverted = Constants.Climber.leftInvert;
-        config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-        config.Voltage.PeakForwardVoltage = 12;
-        config.Voltage.PeakReverseVoltage = -12;
-        config.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
-        config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.Climber.FORWARD_SOFT_LIMIT;
-        config.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
-        config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.Climber.REVERSE_SOFT_LIMIT;
-        
-        config.Slot0 = Constants.Climber.leftPID;
+        leftConfig = new TalonFXConfiguration();
+        leftConfig.Audio.BeepOnBoot = true;
+        leftConfig.Audio.BeepOnConfig = false;
+        leftConfig.CurrentLimits.StatorCurrentLimitEnable = false;
+        leftConfig.CurrentLimits.StatorCurrentLimit = Constants.Climber.STATOR_LIMIT;
 
-        rightClimber.setControl(new Follower(Constants.Climber.LEFT_CLIMBER_PORT, true));
-        leftClimber.getConfigurator().apply(config);
-        rightClimber.getConfigurator().apply(config);
+        leftConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
+        leftConfig.Feedback.SensorToMechanismRatio = Constants.Climber.GEAR_RATIO;
+
+        leftConfig.FutureProofConfigs = true;
+        leftConfig.MotorOutput.Inverted = Constants.Climber.leftInvert;
+        leftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        leftConfig.Voltage.PeakForwardVoltage = 12;
+        leftConfig.Voltage.PeakReverseVoltage = -12;
+        leftConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+        leftConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.Climber.FORWARD_SOFT_LIMIT;
+        leftConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
+        leftConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.Climber.REVERSE_SOFT_LIMIT;
+
+        leftConfig.MotionMagic.MotionMagicCruiseVelocity = Constants.Climber.CRUISE_VELOCITY;
+        leftConfig.MotionMagic.MotionMagicAcceleration = Constants.Climber.ACCELERATION;
+        
+        leftConfig.Slot0 = Constants.Climber.leftPID;
+        //*********************** */
+        rightConfig = new TalonFXConfiguration();
+        rightConfig.Audio.BeepOnBoot = true;
+        rightConfig.Audio.BeepOnConfig = false;
+        rightConfig.CurrentLimits.StatorCurrentLimitEnable = false;
+        rightConfig.CurrentLimits.StatorCurrentLimit = Constants.Climber.STATOR_LIMIT;
+
+        rightConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
+        rightConfig.Feedback.SensorToMechanismRatio = Constants.Climber.GEAR_RATIO;
+
+        rightConfig.FutureProofConfigs = true;
+        rightConfig.MotorOutput.Inverted = Constants.Climber.rightInvert;
+        rightConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        rightConfig.Voltage.PeakForwardVoltage = 12;
+        rightConfig.Voltage.PeakReverseVoltage = -12;
+        rightConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+        rightConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.Climber.FORWARD_SOFT_LIMIT;
+        rightConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
+        rightConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.Climber.REVERSE_SOFT_LIMIT;
+
+        rightConfig.MotionMagic.MotionMagicCruiseVelocity = Constants.Climber.CRUISE_VELOCITY;
+        rightConfig.MotionMagic.MotionMagicAcceleration = Constants.Climber.ACCELERATION;
+        
+        rightConfig.Slot0 = Constants.Climber.rightPID;
+
+        leftClimber.getConfigurator().apply(leftConfig);
+        
+        rightClimber.getConfigurator().apply(rightConfig);
 
         //TODO: Individually tune the motors;
         // //TODO: MAKE SURE THIS WORKS!!!!
@@ -61,31 +91,33 @@ public class ClimberIOTalonFX implements ClimberIO{
         // rightClimber.getConfigurator().apply(config);
        // rightClimber.setControl(new Follower(0, true)); //TODO: Figure out if the motors oppose each other
 
-        leftMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, true, true);
+        leftMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, false, false);
+        rightMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, false, false);
+
         // rightMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, true, true);
     }
 
     public void updateInputs(ClimberIOInputs inputs){
-        inputs.leftClimberRotorPos = leftClimber.getRotorPosition().getValueAsDouble()*Constants.TAU;
+        inputs.leftClimberRotorPos = leftClimber.getPosition().getValueAsDouble()*Constants.TAU;
         inputs.leftClimberSpeed = leftClimber.getRotorVelocity().getValueAsDouble()*Constants.TAU;
         inputs.leftClimberStatorCurrent = leftClimber.getStatorCurrent().getValueAsDouble();
         inputs.leftClimberVoltage = leftClimber.getMotorVoltage().getValueAsDouble();
 
-        inputs.rightClimberRotorPos = rightClimber.getRotorPosition().getValueAsDouble()*Constants.TAU;
+        inputs.rightClimberRotorPos = rightClimber.getPosition().getValueAsDouble()*Constants.TAU;
         inputs.rightClimberSpeed = rightClimber.getRotorVelocity().getValueAsDouble()*Constants.TAU;
         inputs.rightClimberStatorCurrent = rightClimber.getStatorCurrent().getValueAsDouble();
         inputs.rightClimberVoltage = rightClimber.getMotorVoltage().getValueAsDouble();
     }
 
     @Override
-    public void setLeftClimberPos(double pos){
-        leftMotionMagic.Position = pos;
+    public void setLeftClimberPos(Rotation2d pos){
+        leftMotionMagic.Position = pos.getRotations();
         leftClimber.setControl(leftMotionMagic);
     }
 
     @Override
-    public void setRightClimberPos(double pos){
-        rightMotionMagic.Position = pos;
+    public void setRightClimberPos(Rotation2d pos){
+        rightMotionMagic.Position = pos.getRotations();
         rightClimber.setControl(rightMotionMagic);
     }
 
@@ -108,19 +140,27 @@ public class ClimberIOTalonFX implements ClimberIO{
     }
 
     public void setkS(double kS){
-        config.Slot0.kS = kS;
-        leftClimber.getConfigurator().apply(config);
+        leftConfig.Slot0.kS = kS;
+        rightConfig.Slot0.kS = kS;
+        leftClimber.getConfigurator().apply(leftConfig);
+        rightClimber.getConfigurator().apply(rightConfig);
     }
     public void setkV(double kV){
-        config.Slot0.kV = kV;
-        leftClimber.getConfigurator().apply(config);
+        leftConfig.Slot0.kV = kV;
+        rightConfig.Slot0.kV = kV;
+        leftClimber.getConfigurator().apply(leftConfig);
+        rightClimber.getConfigurator().apply(rightConfig);
     }
     public void setkP(double kP){
-        config.Slot0.kP = kP;
-        leftClimber.getConfigurator().apply(config);
+        leftConfig.Slot0.kP = kP;
+        rightConfig.Slot0.kP = kP;
+        leftClimber.getConfigurator().apply(leftConfig);
+        rightClimber.getConfigurator().apply(rightConfig);
     }
     public void setKD(double kD){
-        config.Slot0.kD = kD;
-        leftClimber.getConfigurator().apply(config);
+        leftConfig.Slot0.kD = kD;
+        rightConfig.Slot0.kD = kD;
+        leftClimber.getConfigurator().apply(leftConfig);
+        rightClimber.getConfigurator().apply(rightConfig);
     }
 }

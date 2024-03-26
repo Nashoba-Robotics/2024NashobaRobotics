@@ -27,12 +27,12 @@ public class ClimberSubsytem extends SubsystemBase{
         //setClimberPos(SOME CONVERSION);
     }
 
-    public void setClimberPos(double pos){
+    public void setClimberPos(Rotation2d pos){
         io.setLeftClimberPos(pos);
         // io.setRightClimberPos(pos);
     }
 
-    public void setLeftClimberPos(double pos){
+    public void setLeftClimberPos(Rotation2d pos){
         io.setLeftClimberPos(pos);
     }
     public void setRightClimberPos(double pos){

@@ -43,9 +43,9 @@ public class Presets {
     }
 
     public static final class Climber {
-        public static final double CLIMB_PREP_POS = 0;
-        public static final double CLIMB_POS = 0;
-        public static final double TRAP_POS = 0;
+        public static final Rotation2d CLIMB_PREP_POS = Rotation2d.fromRadians(0);
+        public static final Rotation2d CLIMB_POS = Rotation2d.fromRadians(0);
+        public static final Rotation2d TRAP_POS = Rotation2d.fromRadians(0);
 
         public static final double POS_TOLERANCE = 0;
 

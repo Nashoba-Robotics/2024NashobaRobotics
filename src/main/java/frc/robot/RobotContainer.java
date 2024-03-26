@@ -162,6 +162,25 @@ public class RobotContainer {
     shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
 
     // highShuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE)));
+    highShuttle.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean(){
+        return !highShuttlePrep.isScheduled() && !highButtonPressed;
+      }
+    }).onTrue(highShuttlePrep);
+    highShuttle.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean(){
+        return highShuttlePrep.isScheduled() && !highButtonPressed;
+      }
+    }).onTrue(new ToShuttle());
+
+    highShuttle.onTrue(new InstantCommand(()->highButtonPressed = true));
+    highShuttle.onTrue(new InstantCommand(()->highButtonPressed = false));
+
+    
+
+
     // lowShuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE_ADJ)));
     lowShuttle.onTrue(new AimToStation(drive, joysticks));
 
