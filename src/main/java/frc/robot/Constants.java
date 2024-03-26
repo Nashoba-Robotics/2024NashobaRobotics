@@ -27,43 +27,6 @@ public class Constants {
       public static final double TAU = 2 * Math.PI;
       public static final double PEAK_VOLTAGE = 12;
 
-      public static final class AprilTags{
-            public static final String FRONT_RIGHT_CAMERA_NAME = "Yi's_Little_Buddy";
-            public static final String FRONT_LEFT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
-            public static final String BACK_LEFT_CAMERA_NAME = "Eshaan's_Little_Buddy";
-            public static final String BACK_RIGHT_CAMERA_NAME = "Ben's_Little_Buddy";
-
-            /* For PhotonEstimator
-            *             ^ 
-            *             |
-            *             Z        
-            *      --------------
-            *      |            |
-            *      |            |
-            *<-- X |     *Y     |
-            *      |            |
-            *      |            |
-            *      --------------
-            */
-            public static final Transform3d ROBOT_TO_CAMERA_FRONT_LEFT = new Transform3d(Units.inchesToMeters(11.35),Units.inchesToMeters(9.5),0, new Rotation3d(0, -15./360*TAU, 20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_FRONT_RIGHT = new Transform3d(Units.inchesToMeters(11.35), Units.inchesToMeters(-9.5), 0, new Rotation3d(0, -15./360*TAU, -20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(-10.758), 0, new Rotation3d(0, -36./360*TAU, -20./360*TAU + TAU/2));
-            public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(10.758), 0, new Rotation3d(0, -36./360*TAU, 20./360*TAU-TAU/2));
-            
-
-            //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
-            //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
-            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/URIPositions.json";
-
-            public static final double getXSD(double distance) {
-                  return 0.0312*distance - 0.0494;
-            }
-
-            public static final double getYSD(double distance) {
-                  return 0.0656*distance - 0.129;
-            }
-      }
-
     public static final class Arm{
             public static final String PIVOT_CANBUS = "jerry";
             public static final String CANBUS = "rio";
@@ -113,6 +76,48 @@ public class Constants {
             public static final Slot0Configs SHOOTER_PID = new Slot0Configs()
             .withKV(0.0117419).withKS(0.030)
             .withKP(0.05).withKI(0).withKD(0);
+      }
+
+      public static final class Cameras{
+            public static final String FRONT_RIGHT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
+            public static final String FRONT_LEFT_CAMERA_NAME = "Ben's_Little_Buddy (1)";
+            public static final String BACK_LEFT_CAMERA_NAME = "Ben's_Little_Buddy";
+            public static final String BACK_RIGHT_CAMERA_NAME = "Eshaan's_Little_Buddy";
+
+            /* For PhotonEstimator
+            *             ^ 
+            *             |
+            *             Z        
+            *      --------------
+            *      |            |
+            *      |            |
+            *<-- X |     *Y     |
+            *      |            |
+            *      |            |
+            *      --------------
+            */
+            public static final Transform3d ROBOT_TO_CAMERA_FRONT_LEFT = new Transform3d(Units.inchesToMeters(11.35),Units.inchesToMeters(9.5),0, new Rotation3d(0, -15./360*TAU, 20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_FRONT_RIGHT = new Transform3d(Units.inchesToMeters(11.35), Units.inchesToMeters(-9.5), 0, new Rotation3d(0, -15./360*TAU, -20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(-10.758), 0, new Rotation3d(0, -36./360*TAU, -20./360*TAU + TAU/2));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(10.758), 0, new Rotation3d(0, -36./360*TAU, 20./360*TAU-TAU/2));
+            
+
+            //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
+            //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
+            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/URIPositions.json";
+
+            public static final double getXSD(double distance) {
+                  return 0.0312*distance - 0.0494;
+            }
+
+            public static final double getYSD(double distance) {
+                  return 0.0656*distance - 0.129;
+            }
+
+            public static class NoteDetection{
+                  public static final String CAMERA_NAME = "HD_USB_Camera";
+                  public static final Transform3d ROBOT_TO_CAMERA = new Transform3d(0, 0, 0, new Rotation3d());
+            }
       }
 
       public static class Climber{

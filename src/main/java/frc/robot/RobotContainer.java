@@ -43,6 +43,7 @@ import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
 import frc.robot.subsystems.leds.LEDManager;
 import frc.robot.subsystems.loader.LoaderSubsystem;
+import frc.robot.subsystems.notedetection.NoteDetector;
 import frc.robot.subsystems.sensors.SensorManager;
 
 public class RobotContainer {
@@ -50,6 +51,7 @@ public class RobotContainer {
   public static final DriveSubsystem drive = new DriveSubsystem();
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
   private static final AprilTagManager aprilTags = new AprilTagManager();
+  private static final NoteDetector noteDetector = new NoteDetector();
   public static final ArmSubsystem arm = new ArmSubsystem();
   public static final IntakeSubsystem intake = new IntakeSubsystem();
   public static final LoaderSubsystem loader = new LoaderSubsystem();

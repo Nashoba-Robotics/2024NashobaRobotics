@@ -30,36 +30,36 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
     boolean exists;
 
     public AprilTagIOPhotonVision(){
-        frontRightCamera = new PhotonCamera(Constants.AprilTags.FRONT_RIGHT_CAMERA_NAME);   //Right
-        frontLeftCamera = new PhotonCamera(Constants.AprilTags.FRONT_LEFT_CAMERA_NAME);   //Left
-        backLeftCamera = new PhotonCamera(Constants.AprilTags.BACK_LEFT_CAMERA_NAME);
-        backRightCamera = new PhotonCamera(Constants.AprilTags.BACK_RIGHT_CAMERA_NAME);
+        frontRightCamera = new PhotonCamera(Constants.Cameras.FRONT_RIGHT_CAMERA_NAME);   //Right
+        frontLeftCamera = new PhotonCamera(Constants.Cameras.FRONT_LEFT_CAMERA_NAME);   //Left
+        backLeftCamera = new PhotonCamera(Constants.Cameras.BACK_LEFT_CAMERA_NAME);
+        backRightCamera = new PhotonCamera(Constants.Cameras.BACK_RIGHT_CAMERA_NAME);
         
         try{
-            layout = new AprilTagFieldLayout(Constants.AprilTags.LAYOUT_PATH);
+            layout = new AprilTagFieldLayout(Constants.Cameras.LAYOUT_PATH);
             frontLeftPoseEstimator = new PhotonPoseEstimator(
                 layout, 
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
                 frontLeftCamera,
-                Constants.AprilTags.ROBOT_TO_CAMERA_FRONT_LEFT);
+                Constants.Cameras.ROBOT_TO_CAMERA_FRONT_LEFT);
 
             frontRightPoseEstimator = new PhotonPoseEstimator(
                 layout,
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
                 frontRightCamera,
-                Constants.AprilTags.ROBOT_TO_CAMERA_FRONT_RIGHT);
+                Constants.Cameras.ROBOT_TO_CAMERA_FRONT_RIGHT);
             
             backLeftPoseEstimator = new PhotonPoseEstimator(
                 layout,
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
                 backLeftCamera,
-                Constants.AprilTags.ROBOT_TO_CAMERA_BACK_LEFT);
+                Constants.Cameras.ROBOT_TO_CAMERA_BACK_LEFT);
             
             backRightPoseEstimator = new PhotonPoseEstimator(
                 layout, 
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
                 backRightCamera,
-                Constants.AprilTags.ROBOT_TO_CAMERA_BACK_RIGHT);
+                Constants.Cameras.ROBOT_TO_CAMERA_BACK_RIGHT);
             
             exists = true;
 
@@ -69,7 +69,7 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
             backRightPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 
         } catch(IOException e){
-            DriverStation.reportError("Unable to open trajectory: " + Constants.AprilTags.LAYOUT_PATH, e.getStackTrace());
+            DriverStation.reportError("Unable to open trajectory: " + Constants.Cameras.LAYOUT_PATH, e.getStackTrace());
             exists = false; 
         }
     }
