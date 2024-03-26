@@ -26,14 +26,14 @@ public class ArmToShuttle extends Command{
 
     @Override
     public void initialize() {
-        Pose2d pose = RobotContainer.drive.getPose();
-        switch (DriverStation.getAlliance().orElse(Alliance.Blue)){
-            case Blue:
-                if(pose.getX() <= Constants.Field.LENGTH/2 + 0.5)
-                break;
-            case Red:
-                break;
-        }
+        // Pose2d pose = RobotContainer.drive.getPose();
+        // switch (DriverStation.getAlliance().orElse(Alliance.Blue)){
+        //     case Blue:
+        //         if(pose.getX() <= Constants.Field.LENGTH/2 + 0.5)
+        //         break;
+        //     case Red:
+        //         break;
+        // }
         targetPos = lob ? Presets.Arm.HIGH_SHUTTLE_POS : Presets.Arm.LOW_SHUTTLE_POS;
     }
 

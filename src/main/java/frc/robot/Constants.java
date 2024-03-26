@@ -122,11 +122,13 @@ public class Constants {
             public static final int RIGHT_CLIMBER_PORT = 14;
 
             public static final InvertedValue leftInvert = InvertedValue.Clockwise_Positive;
+            public static final InvertedValue rightInvert = InvertedValue.CounterClockwise_Positive;
 
             public static final double STATOR_LIMIT = 0;
             public static final double GEAR_RATIO = 4.*4*5*22/32;
 
             public static final double CRUISE_VELOCITY = 0; //1.1636
+            public static final double ACCELERATION = 0;
 
             public static final double FORWARD_SOFT_LIMIT = 0;
             public static final double REVERSE_SOFT_LIMIT = 0;

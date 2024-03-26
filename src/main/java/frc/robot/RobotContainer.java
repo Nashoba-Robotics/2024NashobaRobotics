@@ -82,8 +82,11 @@ public class RobotContainer {
   private Trigger lowShuttle = joysticks.getDriverController().button(1);
   public static ToShuttlePrep highShuttlePrep = new ToShuttlePrep(true);
   public static ToShuttlePrep lowShuttlePrep = new ToShuttlePrep(false);
-  private boolean lowButtonPressed = false;
+  public static ToShuttle highShuttleCmd = new ToShuttle(true);
+  public static ToShuttle lowShuttleCmd = new ToShuttle(false);
+  public static boolean lowButtonPressed = false;
   private boolean highButtonPressed = false;
+  private boolean thingRan = false;
 
   private Trigger cleanUpMode = joysticks.getDriverController().button(11);
 
@@ -165,24 +168,56 @@ public class RobotContainer {
     highShuttle.and(new BooleanSupplier() {
       @Override
       public boolean getAsBoolean(){
-        return !highShuttlePrep.isScheduled() && !highButtonPressed;
+        return !highShuttlePrep.isScheduled() && !highShuttleCmd.isScheduled() && !thingRan;
       }
-    }).onTrue(highShuttlePrep);
+    }).onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.SHUTTLE_HIGH_ADJ);
+      thingRan = true;
+    }));
+
     highShuttle.and(new BooleanSupplier() {
       @Override
       public boolean getAsBoolean(){
-        return highShuttlePrep.isScheduled() && !highButtonPressed;
+        return highShuttlePrep.isScheduled() &&!highShuttleCmd.isScheduled() && !thingRan;
       }
-    }).onTrue(new ToShuttle());
+    }).onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.SHUTTLE_HIGH);
+      thingRan = true;
+    }));
 
-    highShuttle.onTrue(new InstantCommand(()->highButtonPressed = true));
-    highShuttle.onTrue(new InstantCommand(()->highButtonPressed = false));
+    highShuttle.onFalse(new InstantCommand(()->thingRan = false));
+
+    lowShuttle.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean(){
+        return !lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
+      }
+    }).onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.SHUTTLE_LOW_ADJ);
+      thingRan = true;
+    }
+    ));
+
+    lowShuttle.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean(){
+        return lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
+      }
+    }).onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.SHUTTLE_LOW);
+      thingRan = true;
+    }));
+
+    // lowShuttle.onTrue(new InstantCommand(()->lowButtonPressed = true));
+    lowShuttle.onFalse(new InstantCommand(()->thingRan = false));
+
+    
 
     
 
 
     // lowShuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE_ADJ)));
-    lowShuttle.onTrue(new AimToStation(drive, joysticks));
+    lowShuttle.or(()->highShuttle.getAsBoolean()).onTrue(new AimToStation(drive, joysticks));
 
     increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
     decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() - 10)));

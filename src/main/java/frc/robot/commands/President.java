@@ -142,6 +142,32 @@ public class President extends Command {
                         Governor.setRobotState(RobotState.NEUTRAL);
                     }
                     break;
+                case SHUTTLE_HIGH:
+                    if(!shuttleFlag){
+                        shuttleTimer.restart();
+                        shuttleFlag = true;
+                    }
+                    if(shuttleFlag 
+                    && !RobotContainer.sensors.getShooterSensor() 
+                    && shuttleTimer.get()>0.1){
+                        shuttleFlag = false;
+                        shuttleTimer.stop();
+                        Governor.setRobotState(RobotState.NEUTRAL);
+                    }
+                    break;
+                case SHUTTLE_LOW:
+                    if(!shuttleFlag){
+                        shuttleTimer.restart();
+                        shuttleFlag = true;
+                    }
+                    if(shuttleFlag 
+                    && !RobotContainer.sensors.getShooterSensor() 
+                    && shuttleTimer.get()>0.1){
+                        shuttleFlag = false;
+                        shuttleTimer.stop();
+                        Governor.setRobotState(RobotState.NEUTRAL);
+                    }
+                    break;
                 default:
                     break;
             }

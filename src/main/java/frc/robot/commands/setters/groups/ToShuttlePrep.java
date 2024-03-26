@@ -20,8 +20,8 @@ public class ToShuttlePrep extends SequentialCommandGroup{
             new NoteToShooter(),
             new InstantCommand(()->RobotContainer.arm.setShooterSpeed(Presets.Arm.SHUTTLE_SPEED), RobotContainer.arm),
             new ArmToShuttle(high),
-            Governor.getSetStateCommand(RobotState.SHUTTLE_ADJ),
-            new ShooterToShuttle()
+            Governor.getSetStateCommand(high ? RobotState.SHUTTLE_HIGH_ADJ : RobotState.SHUTTLE_LOW_ADJ),
+            new ShooterToShuttle(high)
         );
     }
 }

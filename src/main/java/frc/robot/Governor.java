@@ -168,13 +168,13 @@ public class Governor {
         CommandScheduler.getInstance().schedule(new ToAmpAdj());
     }
     private static void toShuttleHigh(){
-        CommandScheduler.getInstance().schedule(new ToShuttle());
+        CommandScheduler.getInstance().schedule(RobotContainer.highShuttleCmd);
     }
     private static void toShuttleHighAdj(){
         CommandScheduler.getInstance().schedule(RobotContainer.highShuttlePrep);
     }
     private static void toShuttleLow(){
-        CommandScheduler.getInstance().schedule(new ToShuttle());
+        CommandScheduler.getInstance().schedule(RobotContainer.lowShuttleCmd);
     }
     private static void toShuttleLowAdj(){
         CommandScheduler.getInstance().schedule(RobotContainer.lowShuttlePrep);
