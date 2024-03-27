@@ -33,6 +33,7 @@ public class Presets {
 
 
 
+        public static Rotation2d COAST_SPEED = Rotation2d.fromRadians(100);
         public static Rotation2d SPEAKER_SPEED = Rotation2d.fromRadians(375); // 375
         public static final Rotation2d SPEAKER_SPEED_PREP = Rotation2d.fromRadians(200);
         public static final double SPEAKER_PERCENT = 0.9;

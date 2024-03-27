@@ -1,6 +1,9 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -80,6 +83,21 @@ public class President extends Command {
         }
 
         if(!Governor.cleanUp){
+            Pose2d drivePos = RobotContainer.drive.getPose();
+            switch (DriverStation.getAlliance().orElse(Alliance.Blue)) {
+                case Blue:
+                    if(drivePos.getX() <= Constants.Field.LENGTH/2 && RobotContainer.sensors.getShooterSensor()){
+                        RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+                    }
+                    else if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean())RobotContainer.arm.setShooterPercent(0.2);
+                    break;
+                case Red:
+                    if(drivePos.getX() >= Constants.Field.LENGTH/2 && RobotContainer.sensors.getShooterSensor()){
+                        RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+                    }
+                    else if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean())RobotContainer.arm.setShooterPercent(0.2);
+                    break;
+            }
             switch (Governor.getRobotState()) {
                 case NEUTRAL:
                     // if(loader.getShooterSensor()) Governor.setRobotState(RobotState.SHOOT_PREP);

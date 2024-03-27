@@ -220,9 +220,6 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void teleopPeriodic() {
-    SmartDashboard.putBoolean("Low Shuttle Prep", RobotContainer.lowShuttlePrep.isScheduled());
-    SmartDashboard.putBoolean("Low Shuttle", RobotContainer.highShuttleCmd.isScheduled());
-    SmartDashboard.putBoolean("Low Button Prsd", RobotContainer.lowButtonPressed);
   }
 
   @Override

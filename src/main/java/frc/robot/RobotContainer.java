@@ -95,7 +95,7 @@ public class RobotContainer {
 
   private boolean aimOverrideTriggered = false;
   // private Trigger armAimOverride = joysticks.getOperatorController().button(-1).debounce(0.1);
-  private Trigger shootOveride = joysticks.getOperatorController().button(8);
+  // private Trigger shootOveride = joysticks.getOperatorController().button(8);
   //Drive override -> B
   // Arm override -> Y
 
@@ -107,6 +107,7 @@ public class RobotContainer {
   private Trigger aimedJustRight = joysticks.getOperatorController().button(3); //A
 
   private Trigger prep90 = joysticks.getOperatorController().button(10);
+  public static Trigger cleanupUnscoredNotesTrigger = joysticks.getOperatorController().button(8);  //RT (Runs the shooter)
 
 
   // private Trigger resetOdometryFromCamera = joysticks.getDriverController.button(11);
@@ -217,7 +218,7 @@ public class RobotContainer {
 
 
     // lowShuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE_ADJ)));
-    lowShuttle.or(()->highShuttle.getAsBoolean()).onTrue(new AimToStation(drive, joysticks));
+    lowShuttle.or(()->highShuttle.getAsBoolean()).onTrue(new AimToSpeakerCommand(drive, joysticks));
 
     increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
     decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() - 10)));
@@ -236,7 +237,8 @@ public class RobotContainer {
     //   } 
     // });
     // armAimOverride.onFalse(new InstantCommand(()->aimOverrideTriggered = false));
-    shootOveride.onTrue(new GrabberToShoot());
+    // shootOveride.onTrue(new GrabberToShoot());
+    cleanupUnscoredNotesTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED)));
 
     aimedToHigh.onTrue(new InstantCommand(() -> {
       DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();

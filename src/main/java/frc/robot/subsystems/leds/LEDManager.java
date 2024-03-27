@@ -128,7 +128,7 @@ public class LEDManager extends SubsystemBase{
     }
 
     public void setColor(Color color){
-        candle.setLEDs(color.r, color.g, color.b, 0, LED_COUNT-8, 8);
+        candle.setLEDs(color.r, color.g, color.b, 0, 8, LED_COUNT-8);
     }
     public void setColor(Color color, int startId, int length){
         candle.setLEDs(color.r, color.g, color.b, 0, startId, length);

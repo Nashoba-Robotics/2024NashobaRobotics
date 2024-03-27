@@ -162,7 +162,7 @@ public class ArmIOTalonFX implements ArmIO{
         // pivotConfig.Feedback.SensorToMechanismRatio = Constants.Arm.PIVOT_GEAR_RATIO;
         pivotConfig.Feedback.SensorToMechanismRatio = 100./36;
         pivotConfig.Feedback.FeedbackRemoteSensorID = Constants.Arm.ENCODER_PORT;
-        pivotConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.SyncCANcoder;
+        pivotConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
         pivotConfig.Feedback.RotorToSensorRatio = 102.4 * 36. / 100.;
 
         shooterConfig.Audio.BeepOnBoot = true;
@@ -180,6 +180,10 @@ public class ArmIOTalonFX implements ArmIO{
         shooterConfig.Feedback.SensorToMechanismRatio = Constants.Arm.SHOOTER_GEAR_RATIO;
         shooterConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
         shooterConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
+        // shooterConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = 5;
+        // shooterConfig.ClosedLoopRamps.TorqueClosedLoopRampPeriod = 0;
+        shooterConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = 1;
+        
 
         encoderConfig.MagnetSensor.MagnetOffset = Constants.Arm.ENCODER_OFFSET;
         encoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
