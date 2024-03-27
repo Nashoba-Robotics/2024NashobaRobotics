@@ -1,8 +1,11 @@
 package frc.robot.commands.auto;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants;
 import frc.robot.Governor;
 import frc.robot.RobotContainer;
 import frc.robot.Governor.RobotState;
@@ -44,7 +47,12 @@ public class Dictator extends Command{
             case TRANSITION:
                 break;
             case INTAKE:
-                if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.SHOOT_PREP);
+                // if(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+                    if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
+                // } else {
+                //     if(RobotContainer.sensors.getShooterSensor()
+                //     && RobotContainer.drive.getPose().getX() < Constants.Field.LENGTH - 4) Governor.setRobotState(RobotState.NEUTRAL);
+                // }
                 break;
             case SOURCE:
                 // if(loader.getLoaderSensor()) Governor.setRobotState(RobotState.NEUTRAL);
@@ -60,7 +68,8 @@ public class Dictator extends Command{
                 }
                 if(shootFlag && shootTimer.get() > 0.2
                 ){
-                    Governor.setRobotState(RobotState.INTAKE);
+                    if(RobotContainer.disruptFlag) Governor.setRobotState(RobotState.INTAKE);
+                    else Governor.setRobotState(RobotState.NEUTRAL);
                     shootFlag = false;
                     shootTimer.stop();
                 } 

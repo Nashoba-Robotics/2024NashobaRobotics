@@ -30,8 +30,8 @@ public class Constants {
       public static final class AprilTags{
             public static final String FRONT_RIGHT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
             public static final String FRONT_LEFT_CAMERA_NAME = "Ben's_Little_Buddy (1)";
-            public static final String BACK_RIGHT_CAMERA_NAME = "Eshaan's_Little_Buddy";
-            public static final String BACK_LEFT_CAMERA_NAME = "Ben's_Little_Buddy";
+            public static final String BACK_RIGHT_CAMERA_NAME = "Azul's_Little_Buddy";
+            public static final String BACK_LEFT_CAMERA_NAME = "Eshaan's_Little_Buddy (1)";
 
             /* For PhotonEstimator
             *             ^ 

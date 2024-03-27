@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.286290322580646,
-        "y": 0.773956598839124
+        "x": 2.37,
+        "y": 6.66
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.56749534332402,
-        "y": 2.5806669159634614
+        "x": 3.2200902642546025,
+        "y": 7.424710016086699
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.286290322580646,
-        "y": 2.4386788680984774
+        "x": 8.29389152296823,
+        "y": 7.377855741822595
       },
       "prevControl": {
-        "x": 7.142131511114875,
-        "y": 3.791751921466806
+        "x": 6.201661116285197,
+        "y": 7.423522328526138
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,10 +32,27 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
-      "waypointRelativePos": 0.45,
+      "name": "Disrupt",
+      "waypointRelativePos": 0.05,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Disrupt2"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0.8,
+      "command": {
+        "type": "parallel",
         "data": {
           "commands": [
             {
@@ -50,20 +67,20 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.2,
-    "maxAcceleration": 4.2,
+    "maxVelocity": 3.8,
+    "maxAcceleration": 3.8,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 136.48074035538988,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 140.61552180199894,
+    "rotation": -144.18869156391344,
     "velocity": 0
   },
   "useDefaultConstraints": false

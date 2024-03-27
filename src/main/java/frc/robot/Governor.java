@@ -65,6 +65,7 @@ public class Governor {
         if(robotState == RobotState.UNKNOWN || robotState == RobotState.MISC) override = true;
         if(override || state != RobotState.TRANSITION) {
             if(robotState != RobotState.UNKNOWN) state = RobotState.TRANSITION;
+            if(robotState == RobotState.MISC) state = RobotState.MISC;
             switch (robotState) {
                 case NEUTRAL:
                     toNeutral();
@@ -75,6 +76,7 @@ public class Governor {
                     break;
                 case MISC:
                     state = RobotState.MISC;
+                    CommandScheduler.getInstance().schedule(new InstantCommand(()->{}, RobotContainer.arm, RobotContainer.loader, RobotContainer.intake));
                     break;
                 case TRANSITION:
                     System.out.println("How did I get here?");
