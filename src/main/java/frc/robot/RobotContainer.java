@@ -106,6 +106,8 @@ public class RobotContainer {
 
   public static AimToSpeakerCommand aimToSpeakerCommand = new AimToSpeakerCommand(drive, joysticks);
 
+  public static boolean disruptFlag = false;
+
   public static enum NoteState{
     NONE,
     SHOOTER,
@@ -223,19 +225,19 @@ public class RobotContainer {
     SmartDashboard.putData(new TestServoCommand(climber));
   }
 
-  private void configureEvents() {   
+  private void configureEvents() {
+    NamedCommands.registerCommand("Neutral", new InstantCommand(() -> Governor.setRobotState(RobotState.NEUTRAL, true)));
     NamedCommands.registerCommand("ShootPrep", new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true)));
     NamedCommands.registerCommand("Intake", new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true)));
     NamedCommands.registerCommand("ShootWait", new SequentialCommandGroup(
       new WaitUntilCommand(new BooleanSupplier() {
       @Override
       public boolean getAsBoolean() {
-          return sensors.getShooterSensor() && Governor.getRobotState() == RobotState.SHOOT_PREP;
+          return sensors.getShooterSensor() && Governor.getRobotState() == RobotState.NEUTRAL;
       }
     }).withTimeout(3),
       new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
-      new WaitCommand(0.2),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
         public boolean getAsBoolean() {
@@ -247,15 +249,47 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
       new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
-      new WaitCommand(0.2),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
         public boolean getAsBoolean() {
             return Governor.getDesiredRobotState() != RobotState.SHOOT;
         }
-      }).withTimeout(3), //Consider adding additional loader sensor
-      new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true))
+      }).withTimeout(3)
     ));
+    NamedCommands.registerCommand("ShootDisrupt", new SequentialCommandGroup(
+      new InstantCommand(() -> disruptFlag = true),
+      new AimToSpeakerCommand(drive, joysticks),
+      new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
+      new WaitUntilCommand(new BooleanSupplier() {
+        @Override
+        public boolean getAsBoolean() {
+            return Governor.getDesiredRobotState() != RobotState.SHOOT;
+        }
+      }).withTimeout(3),
+      new InstantCommand(() -> disruptFlag = false)
+    ));
+
+    NamedCommands.registerCommand("Disrupt", new SequentialCommandGroup(
+      new InstantCommand(() -> Governor.setRobotState(RobotState.MISC, true)),
+      new InstantCommand(() -> {
+        intake.setSpeed(Presets.Intake.INTAKE_SPEED);
+        loader.setRollerSpeed(-0.9);
+        arm.setShooterPercent(0.2);
+        arm.setArmPivot(Presets.Arm.NEUTRAL_POS);
+      })
+      )
+    );
+
+    NamedCommands.registerCommand("Disrupt2", new SequentialCommandGroup(
+      new InstantCommand(() -> Governor.setRobotState(RobotState.MISC, true)),
+      new InstantCommand(() -> {
+        intake.setSpeed(Presets.Intake.INTAKE_SPEED);
+        loader.setRollerSpeed(-0.9);
+        arm.setShooterPercent(0.5);
+        arm.setArmPivot(Presets.Arm.NEUTRAL_POS);
+      })
+      )
+    );
 
     NamedCommands.registerCommand("P3Check", new P3Check());
     NamedCommands.registerCommand("P4Check", new P4Check());

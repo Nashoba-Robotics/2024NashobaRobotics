@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 8.286009678824307,
-        "y": 7.45
+        "y": 7.35
       },
       "prevControl": null,
       "nextControl": {
         "x": 6.216400883025519,
-        "y": 7.366822518773238
+        "y": 7.266822518773237
       },
       "isLocked": false,
       "linkedName": null
@@ -32,10 +32,27 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "CheckPiece",
-      "waypointRelativePos": 0.25,
+      "name": "ShootPrep",
+      "waypointRelativePos": 0.4,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ShootPrep"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CheckP3",
+      "waypointRelativePos": 0.15,
+      "command": {
+        "type": "parallel",
         "data": {
           "commands": [
             {
@@ -50,8 +67,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 3.8,
+    "maxAcceleration": 3.8,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -61,7 +78,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Auto",
+  "folder": null,
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

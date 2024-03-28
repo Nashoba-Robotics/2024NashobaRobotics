@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4243660570654477,
-      "y": 4.149542799085599
+      "x": 1.47,
+      "y": 6.9
     },
     "rotation": 180.0
   },
@@ -14,7 +14,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "b2-shootPos"
+            "pathName": "b0-s0"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootDisrupt"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "s0-p3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p3-shootPos"
           }
         },
         {
@@ -26,25 +44,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "shootPos-p2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootWait"
+            "pathName": "shootPos-p4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "p2-p7"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "p7-shootPos"
+            "pathName": "p4-shootPos"
           }
         },
         {
@@ -56,37 +62,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "shootPos-p6"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "p6-shootPos"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "shootPos'-p5"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "p5-shootPos"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "pathName": "shootPos-p5"
           }
         }
       ]

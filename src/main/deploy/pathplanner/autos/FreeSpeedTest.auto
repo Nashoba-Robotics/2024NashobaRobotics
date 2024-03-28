@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 7.316899735651323,
-      "y": 6.157388004590824
+      "x": 1.4243660570654477,
+      "y": 4.149542799085599
     },
-    "rotation": 177.71236418811205
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -14,24 +14,30 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Check-p5"
+            "pathName": "b2-shootPos"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "p5-shootPos"
+            "pathName": "shootPos-p2"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Shoot"
+            "pathName": "p2-p7"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p7-shootPos"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Test",
   "choreoAuto": false
 }

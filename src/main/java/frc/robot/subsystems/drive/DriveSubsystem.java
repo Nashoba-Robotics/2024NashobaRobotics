@@ -70,7 +70,7 @@ public class DriveSubsystem extends SubsystemBase{
             getSwerveModulePositions(),
             new Pose2d(0, 0, getGyroAngle()),
             VecBuilder.fill(0.1, 0.1, 0.1),
-            VecBuilder.fill(0.9, 0.9, 10)
+            VecBuilder.fill(3, 3, 10)
             );
 
         AutoBuilder.configureHolonomic(
