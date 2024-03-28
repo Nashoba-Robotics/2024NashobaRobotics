@@ -80,7 +80,6 @@ public class Robot extends LoggedRobot {
     Logger.recordOutput("LeftErrorDist", leftError);
     Logger.recordOutput("rightErrorDist", rightError);
 
-    // if(jank.get() >= 0.005){
       if(DriverStation.isAutonomous()) {
         if(AprilTagManager.hasLeftTarget()
             && AprilTagManager.getLeftAmbiguity() <= 0.15
