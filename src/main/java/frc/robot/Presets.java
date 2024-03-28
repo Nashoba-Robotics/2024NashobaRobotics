@@ -72,7 +72,7 @@ public class Presets {
         public static final Rotation2d POS_TOLERANCE = Rotation2d.fromDegrees(2);
 
         public static final double AMP_SPEED = -0.9;
-        public static final double INTAKE_SPEED = -0.3;
+        public static final double INTAKE_SPEED = -0.6;
         public static final double SHOOT_SPEED = -1;
         public static final double SOURCE_SPEED = -0.3;
         public static final double SHUTTLE_SPEED = -0.9;

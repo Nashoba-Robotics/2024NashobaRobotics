@@ -73,7 +73,7 @@ public class Constants {
             public static final int SHOOTER_PORT = 10;
             public static final int SHOOTER_PORT_2 = 11;
 
-            public static final int LEFT_SERVO_CHANNEL = 8;
+            public static final int LEFT_SERVO_CHANNEL = 0;
             public static final int RIGHT_SERVO_CHANNEL = 6;
 
             public static final int ENCODER_PORT = 4;
@@ -152,10 +152,15 @@ public class Constants {
             new Translation2d(-WIDTH/2, -LENGTH/2)
             );
 
-            public static final double MAX_VELOCITY = 4.20; // MPS
+/*
+ * Auto MAX_VELOCITY = 4.20
+ * Auto MAX_ACCELERATION = 4.20
+ */
+
+            public static final double MAX_VELOCITY = 5; // MPS
             public static final double MAX_ACCELERATION = 0;
 
-            public static final double MAX_ROTATION_VELOCITY = 10.5; // RadPS
+            public static final double MAX_ROTATION_VELOCITY = 12; // RadPS
             public static final double MAX_ROTATION_ACCELERATION = 0;
 
             public static final Slot0Configs steerGains0 = new Slot0Configs()
@@ -180,22 +185,22 @@ public class Constants {
 
 
             private static final Slot0Configs driveGains0 = new Slot0Configs()
-            .withKP(0.27).withKI(0).withKD(0)
+            .withKP(0.3).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.27).withKV(0.1234).withKA(0);
 
             private static final Slot0Configs driveGains1 = new Slot0Configs()
-            .withKP(0.27).withKI(0).withKD(0)
+            .withKP(0.3).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.27).withKV(0.1234).withKA(0);
 
             private static final Slot0Configs driveGains2 = new Slot0Configs()
-            .withKP(0.27).withKI(0).withKD(0)
+            .withKP(0.3).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.27).withKV(0.1234).withKA(0);
 
             private static final Slot0Configs driveGains3 = new Slot0Configs()
-            .withKP(0.27).withKI(0).withKD(0)
+            .withKP(0.3).withKI(0).withKD(0)
             // .withKP(0).withKI(0).withKD(0)
             .withKS(0.27).withKV(0.1234).withKA(0);
 
@@ -210,7 +215,7 @@ public class Constants {
             // private static final double kCoupleRatio = 3.5714285714285716;
             private static final double kCoupleRatio = 0;
 
-            public static final double kDriveGearRatio = 50./14 * 16/28 * 45/15;
+            public static final double kDriveGearRatio = 50./16 * 16/28 * 45/15;
             public static final double kSteerGearRatio = 21.428571428571427;
             private static final double kWheelRadiusInches = 1.94425; //Comp
 
