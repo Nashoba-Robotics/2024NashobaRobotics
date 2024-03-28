@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.lib.math.NRUnits;
 import frc.robot.lib.math.SwerveMath;
 
@@ -69,7 +70,7 @@ public class DriveSubsystem extends SubsystemBase{
             getSwerveModulePositions(),
             new Pose2d(0, 0, getGyroAngle()),
             VecBuilder.fill(0.1, 0.1, 0.1),
-            VecBuilder.fill(0.9, 0.9, 10)
+            VecBuilder.fill(3, 3, 10)
             );
 
         AutoBuilder.configureHolonomic(
@@ -80,6 +81,8 @@ public class DriveSubsystem extends SubsystemBase{
                 new HolonomicPathFollowerConfig(
                         new PIDConstants(2.0, 0.0, 0.0),
                         new PIDConstants(8.0, 0.0, 0.0),
+                        // new PIDConstants(0.0, 0.0, 0.0),
+                        // new PIDConstants(0.0, 0.0, 0.0),
                         Constants.Drive.MAX_VELOCITY,
                         Constants.Drive.DIAGONAL,
                         new ReplanningConfig()
@@ -93,7 +96,6 @@ public class DriveSubsystem extends SubsystemBase{
                 },
                 this
         );
-
 
         state = DriveState.DRIVER;
     }
@@ -166,7 +168,10 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
     public void resetPose(Pose2d pose) {
-        resetOdometryManualAngle(pose, getGyroAngle());
+        if(!RobotContainer.odometryFlag) {
+            RobotContainer.odometryFlag = true;
+            resetOdometryManualAngle(pose, getGyroAngle());
+        }
     }
 
     public void resetOdometryManualAngle(Pose2d pose, Rotation2d angle) {

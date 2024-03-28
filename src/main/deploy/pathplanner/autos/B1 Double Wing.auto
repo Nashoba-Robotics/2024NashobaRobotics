@@ -12,12 +12,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "ShootPrep"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "b1-s1"
