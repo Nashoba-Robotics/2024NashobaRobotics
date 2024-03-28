@@ -89,13 +89,13 @@ public class President extends Command {
                 if(drivePos.getX() <= Constants.Field.LENGTH/2 && RobotContainer.sensors.getShooterSensor()){
                     RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
                 }
-                else if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean())RobotContainer.arm.setShooterPercent(0.2);
+                else if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean() && !RobotContainer.sHooterInterruptTrigger.getAsBoolean())RobotContainer.arm.setShooterPercent(0.2);
                 break;
             case Red:
                 if(drivePos.getX() >= Constants.Field.LENGTH/2 && RobotContainer.sensors.getShooterSensor()){
                     RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
                 }
-                else if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean())RobotContainer.arm.setShooterPercent(0.2);
+                else if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean() && !RobotContainer.sHooterInterruptTrigger.getAsBoolean())RobotContainer.arm.setShooterPercent(0.2);
                 break;
         }
         switch (Governor.getRobotState()) {

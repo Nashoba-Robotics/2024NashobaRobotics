@@ -114,6 +114,7 @@ public class RobotContainer {
 
   private Trigger prep90 = joysticks.getOperatorController().button(10);
   public static Trigger cleanupUnscoredNotesTrigger = joysticks.getOperatorController().button(8);  //RT (Runs the shooter)
+  public static Trigger sHooterInterruptTrigger = joysticks.getOperatorController().button(7);
 
 
   // private Trigger resetOdometryFromCamera = joysticks.getDriverController.button(11);
@@ -249,6 +250,7 @@ public class RobotContainer {
     // armAimOverride.onFalse(new InstantCommand(()->aimOverrideTriggered = false));
     // shootOveride.onTrue(new GrabberToShoot());
     cleanupUnscoredNotesTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED)));
+    sHooterInterruptTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterPercent(0)));
 
     aimedToHigh.onTrue(new InstantCommand(() -> {
       DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(lastModelForShot);
