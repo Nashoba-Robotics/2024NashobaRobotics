@@ -93,17 +93,6 @@ public class RobotContainer {
   public static ToShuttle lowShuttleCmd = new ToShuttle(false);
   private boolean thingRan = false;
 
-  private Trigger cleanUpMode = joysticks.getDriverController().button(11);
-
-  private Trigger increaseSpeed = joysticks.getOperatorController().button(6);  //rb
-  private Trigger decreaseSpeed = joysticks.getOperatorController().button(5);  //lb
-
-  private boolean aimOverrideTriggered = false;
-  // private Trigger armAimOverride = joysticks.getOperatorController().button(-1).debounce(0.1);
-  // private Trigger shootOveride = joysticks.getOperatorController().button(8);
-  //Drive override -> B
-  // Arm override -> Y
-
   // private Trigger deployClimb = joysticks.getOperatorController().button(0);
   // private Trigger climb = joysticks.getOperatorController().button(0);
 
@@ -213,8 +202,6 @@ public class RobotContainer {
 
     lowShuttle.or(()->highShuttle.getAsBoolean()).onTrue(new AimToSpeakerCommand(drive, joysticks));
 
-    increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
-    decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() - 10)));
     cleanupUnscoredNotesTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED)));
     sHooterInterruptTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterPercent(0)));
 

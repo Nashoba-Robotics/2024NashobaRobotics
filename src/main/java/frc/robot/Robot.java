@@ -34,7 +34,6 @@ import frc.robot.subsystems.apriltags.AprilTagManager;
 public class Robot extends LoggedRobot {
 
   public RobotContainer robotContainer;
-  private Timer jank = new Timer();
 
   @Override
   public void robotInit() {
@@ -54,10 +53,9 @@ public class Robot extends LoggedRobot {
     Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
     
     robotContainer = new RobotContainer();
-    Tabs.addTab("April Tags");
 
-    jank.start();
-
+    SmartDashboard.putNumber("High Shuttle Speed", 200);
+    SmartDashboard.putNumber("Low Shuttle Speed", 200);
     RobotContainer.odometryFlag = false;
   }
 
