@@ -10,7 +10,6 @@ import frc.robot.Governor.RobotState;
 import frc.robot.RobotContainer;
 import frc.robot.commands.setters.units.StopAllRollers;
 import frc.robot.commands.setters.units.arm.ArmToAmp;
-import frc.robot.commands.setters.units.loader.LoaderToAmp;
 import frc.robot.commands.setters.units.loader.NoteToAmpOut;
 
 public class ToAmpAdj extends SequentialCommandGroup{
@@ -26,9 +25,6 @@ public class ToAmpAdj extends SequentialCommandGroup{
                         }
                     }),
                     new NoteToAmpOut()
-                    // new LoaderToAmp()
-                    // new NoteToAmpIn()
-                    
                 )
             ),
             Governor.getSetStateCommand(RobotState.AMP_ADJ)

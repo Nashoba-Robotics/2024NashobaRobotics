@@ -1,12 +1,10 @@
 package frc.robot.commands.setters.units.intake;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Presets;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.loader.LoaderSubsystem;
-import frc.robot.subsystems.sensors.SensorManager;
 
 public class IntakeToIntake extends Command{
     IntakeSubsystem intake = RobotContainer.intake;
