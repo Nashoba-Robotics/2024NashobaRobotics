@@ -36,10 +36,11 @@ public class ToClimbPrep extends SequentialCommandGroup {
                             return RobotContainer.arm.getArmPivotAngle().getDegrees() > -30;
                         }
                     }),
-                    new NoteToAmpOut()
+                    new NoteToAmpOut(),
+                    new LoaderToClimbPrep()
                 )
             ),
-            new LoaderToClimbPrep(),
+            
             // Governor.getSetStateCommand(RobotState.CLIMB_PREP),
             new ClimbToManual()
         );
