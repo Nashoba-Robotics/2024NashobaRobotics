@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -160,10 +161,12 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void disabledInit() {
-
-    RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_CLOSE);
-    RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_AMP);
-    RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_SOURCE);
+    for(String fileName : Constants.FileNames.ArmAngleFiles) {
+      RobotContainer.writeRegressionFile((DriverStation.getAlliance().orElse(Alliance.Blue)==Alliance.Blue ? "blue/" : "red/") + fileName);
+    }
+    // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_CLOSE);
+    // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_AMP);
+    // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_SOURCE);
   }
 
   @Override
