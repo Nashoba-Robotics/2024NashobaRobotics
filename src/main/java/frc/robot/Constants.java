@@ -472,7 +472,7 @@ public class Constants {
             public static final int SHOOTER_PORT_1 = 1;
             public static final int SHOOTER_PORT_2 = 3;
             public static final int LOADER_PORT = 0;
-            public static final int INTAKE_PORT = 2;
+            public static final int INTAKE_PORT = 4;
       }
 
 }

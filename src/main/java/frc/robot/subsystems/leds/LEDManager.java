@@ -85,7 +85,7 @@ public class LEDManager extends SubsystemBase{
             if(currState != lastState){
                 switch (currState) {
                     case NEUTRAL:
-                        if(RobotContainer.sensors.getShooterSensor()){
+                        if(RobotContainer.sensors.getShooterSensor() || RobotContainer.sensors.getIntakeSensor()){
                             if(RobotContainer.sensors.getLoaderSensor()){
                                 setColor(new Color(0, 255, 0));
                             }
@@ -97,7 +97,8 @@ public class LEDManager extends SubsystemBase{
                         else setColor(new Color(255, 255, 255));
                         break;
                     case INTAKE:
-                        setColor(intake);
+                        if(RobotContainer.sensors.getIntakeSensor() || RobotContainer.sensors.getLoaderSensor()) setColor(green);
+                        else setColor(intake);
                         break;
                     case SOURCE:
                         setColor(source);

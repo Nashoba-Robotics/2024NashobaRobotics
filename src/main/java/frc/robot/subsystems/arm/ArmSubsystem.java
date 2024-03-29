@@ -16,8 +16,10 @@ public class ArmSubsystem extends SubsystemBase{
     private ArmIOInputsAutoLogged armInputs = new ArmIOInputsAutoLogged();
 
     private double lastTime;
+    private double startSpeed;
     private boolean rampDown = false;
     private boolean rampUp = false;
+    private boolean ramping = false;
     private boolean ramped = false;
 
 
@@ -63,29 +65,55 @@ public class ArmSubsystem extends SubsystemBase{
     }
 
     public void setShooterPercent(double speed){
+        rampDown = false;
+        rampUp = false;
         armIO.setShooterPercent(speed);
     }
 
-    public void setIdleSpeed(double speed){
-        if(!rampDown) ramped = true;
-        rampDown = true;
-        rampUp = false;
+    public void setIdleSpeed(double idleSpeed){
+        if(!rampDown){
+            rampDown = true;
+            rampUp = false;
+
+            startSpeed = getShooterSpeed().getRadians()/500;
+            lastTime = System.currentTimeMillis();
+        } 
+
+        double time = System.currentTimeMillis() - lastTime;
+        final double rampTime = 3000;
+
+        double speed = idleSpeed * 500;
+        double targetSpeed = 500 * (startSpeed - (startSpeed-idleSpeed)/rampTime * time);
+
+        if (targetSpeed > speed){
+            speed = targetSpeed;
+            armIO.setShooterSpeed(Rotation2d.fromRadians(speed));
+        } 
+        else if(targetSpeed <= speed){
+            armIO.setShooterPercent(idleSpeed);
+        }
+
+        
     }
 
     public void rampToSpeed(){
         if(!rampUp){
-            ramped = true;
+            rampUp = true;
+            rampDown = false;
+            startSpeed = getShooterSpeed().getRadians()/500;
             lastTime = System.currentTimeMillis();
         } 
-        rampUp = true;
-        rampDown = false;
         
+        double time = (System.currentTimeMillis() - lastTime);
+        final double rampTime = 3000;
+        double speed = Presets.Arm.SPEAKER_SPEED.getRadians();
+        double targetSpeed = 500 * (startSpeed + Presets.Arm.SPEAKER_SPEED.getRadians()/500/rampTime * time);
         //Ramp from idle speed = 
-        if (rampUp) double time = System.currentTimeMillis() - lastTime;
-        double speed = 500 * (0.2 + 0.75/3 * time);
-        if(speed >= Presets.Arm.SPEAKER_SPEED.getRadians()){
+        if (targetSpeed < speed){
+            speed = targetSpeed;
+        } 
+        if(targetSpeed >= Presets.Arm.SPEAKER_SPEED.getRadians()){
             speed = Presets.Arm.SPEAKER_SPEED.getRadians();
-            rampUp = false;
         }
 
         armIO.setShooterSpeed(Rotation2d.fromRadians(speed));

@@ -84,19 +84,34 @@ public class President extends Command {
         }
 
         Pose2d drivePos = RobotContainer.drive.getPose();
-        switch (DriverStation.getAlliance().orElse(Alliance.Blue)) {
+        if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean() && !RobotContainer.sHooterInterruptTrigger.getAsBoolean()){
+            switch (DriverStation.getAlliance().orElse(Alliance.Blue)) {
             case Blue:
-                if(drivePos.getX() <= Constants.Field.LENGTH/2 && RobotContainer.sensors.getShooterSensor()){
-                    RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+                if(RobotContainer.sensors.getShooterSensor()){
+                    if(drivePos.getX() <= Constants.Field.LENGTH/2) RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+                    else RobotContainer.arm.setIdleSpeed(0.2);
+                    // RobotContainer.arm.setShooterPercent(0.2);
                 }
-                else if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean() && !RobotContainer.sHooterInterruptTrigger.getAsBoolean())RobotContainer.arm.setShooterPercent(0.2);
+                else{
+                    // RobotContainer.arm.setShooterPercent(0.05);
+                    RobotContainer.arm.setIdleSpeed(0.05);
+                }
                 break;
             case Red:
-                if(drivePos.getX() >= Constants.Field.LENGTH/2 && RobotContainer.sensors.getShooterSensor()){
-                    RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+                if(RobotContainer.sensors.getShooterSensor()){
+                    if(drivePos.getX() >= Constants.Field.LENGTH/2){
+                        // RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+                        RobotContainer.arm.rampToSpeed();
+                    }
+                    else RobotContainer.arm.setIdleSpeed(0.2);
+                    // RobotContainer.arm.setShooterPercent(0.2);
                 }
-                else if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean() && !RobotContainer.sHooterInterruptTrigger.getAsBoolean())RobotContainer.arm.setShooterPercent(0.2);
+                else{
+                    // RobotContainer.arm.setShooterPercent(0.05);
+                    RobotContainer.arm.setIdleSpeed(0.05);
+                }
                 break;
+        }
         }
         switch (Governor.getRobotState()) {
             case NEUTRAL:
