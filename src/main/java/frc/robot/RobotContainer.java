@@ -28,6 +28,8 @@ import frc.robot.commands.AimToStation;
 import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.remaps.P3Check;
 import frc.robot.commands.auto.remaps.P4Check;
+import frc.robot.commands.auto.remaps.P6Check;
+import frc.robot.commands.auto.remaps.P7Check;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
@@ -326,6 +328,8 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("P3Check", new P3Check());
     NamedCommands.registerCommand("P4Check", new P4Check());
+    NamedCommands.registerCommand("P6Check", new P6Check());
+    NamedCommands.registerCommand("P7Check", new P7Check());
   }
 
   private int sourceIndex;

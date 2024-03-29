@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.294247829236399,
+        "x": 8.3,
         "y": 2.432265355271452
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.6047952311008,
+        "x": 6.610547401864402,
         "y": 3.570176379074498
       },
       "isLocked": false,
@@ -42,6 +42,23 @@
               "type": "named",
               "data": {
                 "name": "ShootPrep"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "P6Check",
+      "waypointRelativePos": 0.25,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "P6Check"
               }
             }
           ]
