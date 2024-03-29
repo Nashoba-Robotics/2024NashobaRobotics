@@ -20,7 +20,7 @@ public class ClimberToTrap extends Command {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(climber.getLeftRad() - Presets.Climber.TRAP_POS.getRadians()) < Presets.Climber.POS_TOLERANCE;
+        return Math.abs(climber.getLeftClimberPos().getRadians() - Presets.Climber.TRAP_POS.getRadians()) < Presets.Climber.POS_TOLERANCE;
     }
 
 }
