@@ -1,5 +1,8 @@
 package frc.robot;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.ClosedLoopOutputType;
@@ -454,12 +457,33 @@ public class Constants {
 
         public static final double DELETE_DISTANCE_RANGE = 0.5; //m
         public static final double OPERATOR_ANGLE_CORRECTION = 0.1; //rad
+
+        public static final double CLOSE_FAR_CUTOFF = 3.15;
+        public static final double SOURCE_AMP_CUTOFF = 4.1;
       }
 
       public static final class FileNames {
-            public static final String ARM_ANGLE_CLOSE = "armAngleClose.eq";
-            public static final String ARM_ANGLE_FAR_AMP = "armAngleFarAmp.eq";
-            public static final String ARM_ANGLE_FAR_SOURCE = "armAngleFarSource.eq";
+            // private static final String ARM_ANGLE_CLOSE = "armAngleClose.eq";
+            // private static final String ARM_ANGLE_FAR_AMP = "armAngleFarAmp.eq";
+            // private static final String ARM_ANGLE_FAR_SOURCE = "armAngleFarSource.eq";
+
+            public static final String[] ArmAngleFiles = new String[] {
+                  "armAngleClose.eq",
+                  "armAngleFarAmp.eq",
+                  "armAngleFarSource.eq"
+            };
+
+            public static String getClose() {
+                  return (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? "blue/": "red/") + ArmAngleFiles[0];
+            }
+
+            public static String getFarAmp() {
+                  return (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? "blue/": "red/") + ArmAngleFiles[1];
+            }
+
+            public static String getFarSource() {
+                  return (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? "blue/": "red/") + ArmAngleFiles[2];
+            }
       }
 
       public static final class Robot{

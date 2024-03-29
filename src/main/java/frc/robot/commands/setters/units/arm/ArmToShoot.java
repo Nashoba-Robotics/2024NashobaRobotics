@@ -33,20 +33,20 @@ public class ArmToShoot extends Command{
         
         double dist = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
         if(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
-            if(RobotContainer.drive.getPose().getX() < 3.15) {
-                angle = DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_CLOSE).applyFunction(dist);
+            if(RobotContainer.drive.getPose().getX() < Constants.Misc.CLOSE_FAR_CUTOFF) {
+                angle = DistanceToArmAngleModel.getInstance(Constants.FileNames.getClose()).applyFunction(dist);
             } else {
-                angle = RobotContainer.drive.getPose().getY() > 4.1 ?
-                DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_FAR_AMP).applyFunction(dist) :
-                DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_FAR_SOURCE).applyFunction(dist);
+                angle = RobotContainer.drive.getPose().getY() > Constants.Misc.SOURCE_AMP_CUTOFF ?
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarAmp()).applyFunction(dist) :
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarSource()).applyFunction(dist);
             }
         } else {
-            if(RobotContainer.drive.getPose().getX() > Constants.Field.LENGTH - 3.15) {
-                angle = DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_CLOSE).applyFunction(dist);
+            if(RobotContainer.drive.getPose().getX() > Constants.Field.LENGTH - Constants.Misc.CLOSE_FAR_CUTOFF) {
+                angle = DistanceToArmAngleModel.getInstance(Constants.FileNames.getClose()).applyFunction(dist);
             } else {
-                angle = RobotContainer.drive.getPose().getY() > 4.1 ?
-                DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_FAR_AMP).applyFunction(dist) :
-                DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_FAR_SOURCE).applyFunction(dist);
+                angle = RobotContainer.drive.getPose().getY() > Constants.Misc.SOURCE_AMP_CUTOFF ?
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarAmp()).applyFunction(dist) :
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarSource()).applyFunction(dist);
             }
         }
         

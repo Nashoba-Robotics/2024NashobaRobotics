@@ -64,7 +64,7 @@ public class RobotContainer {
   public static final ClimberSubsytem climber = new ClimberSubsytem();
   public static final SensorManager sensors = new SensorManager();
 
-  public static String lastModelForShot = Constants.FileNames.ARM_ANGLE_CLOSE;
+  public static String lastModelForShot = Constants.FileNames.getClose();
   
   private static SendableChooser<Command> autoChooser;
 
@@ -385,7 +385,7 @@ public class RobotContainer {
     try {
       ArrayList<double[]> points = DistanceToArmAngleModel.getInstance(fileName).getUntransformedPoints();
 
-            FileWriter fileWriter = new FileWriter(new File("U/regressionModel/" + fileName.split("\\.")[0] + Timer.getFPGATimestamp() + ".txt"));
+            FileWriter fileWriter = new FileWriter(new File("U/regressionModel/" + fileName.split("\\.")[0] + System.currentTimeMillis() + ".txt"));
 
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
