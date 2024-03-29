@@ -7,7 +7,6 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
-import frc.robot.RobotContainer.NoteState;
 
 public class LoaderSubsystem extends SubsystemBase{
     private LoaderIO loaderIO;

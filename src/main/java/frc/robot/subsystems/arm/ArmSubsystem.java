@@ -19,19 +19,15 @@ public class ArmSubsystem extends SubsystemBase{
     private double startSpeed;
     private boolean rampDown = false;
     private boolean rampUp = false;
-    private boolean ramping = false;
-    private boolean ramped = false;
+    final double rampUpTime = 3000;//ms
+    final double rampDownTime = 3000;//ms
+
 
 
     @Override
     public void periodic() {
         armIO.updateInputs(armInputs);
         Logger.processInputs("Arm", armInputs);
-
-        if(ramped){
-            lastTime = System.currentTimeMillis();
-            ramped = false;
-        }
     }
 
     public ArmSubsystem() {
@@ -80,10 +76,9 @@ public class ArmSubsystem extends SubsystemBase{
         } 
 
         double time = System.currentTimeMillis() - lastTime;
-        final double rampTime = 3000;
 
         double speed = idleSpeed * 500;
-        double targetSpeed = 500 * (startSpeed - (startSpeed-idleSpeed)/rampTime * time);
+        double targetSpeed = 500 * (startSpeed - (startSpeed-idleSpeed)/rampDownTime * time);
 
         if (targetSpeed > speed){
             speed = targetSpeed;
@@ -105,10 +100,9 @@ public class ArmSubsystem extends SubsystemBase{
         } 
         
         double time = (System.currentTimeMillis() - lastTime);
-        final double rampTime = 3000;
         double speed = Presets.Arm.SPEAKER_SPEED.getRadians();
-        double targetSpeed = 500 * (startSpeed + Presets.Arm.SPEAKER_SPEED.getRadians()/500/rampTime * time);
-        //Ramp from idle speed = 
+        double targetSpeed = 500 * (startSpeed + Presets.Arm.SPEAKER_SPEED.getRadians()/500/rampUpTime * time);
+        
         if (targetSpeed < speed){
             speed = targetSpeed;
         } 

@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Governor.RobotState;
 import frc.robot.commands.AimToSpeakerCommand;
 import frc.robot.commands.AimToStation;
-import frc.robot.commands.ToggleCleanUpCommand;
 import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.remaps.P3Check;
 import frc.robot.commands.auto.remaps.P4Check;
@@ -90,8 +89,6 @@ public class RobotContainer {
   public static ToShuttlePrep lowShuttlePrep = new ToShuttlePrep(false);
   public static ToShuttle highShuttleCmd = new ToShuttle(true);
   public static ToShuttle lowShuttleCmd = new ToShuttle(false);
-  public static boolean lowButtonPressed = false;
-  private boolean highButtonPressed = false;
   private boolean thingRan = false;
 
   private Trigger cleanUpMode = joysticks.getDriverController().button(11);
@@ -123,14 +120,6 @@ public class RobotContainer {
 
   public static boolean disruptFlag = false;
 
-  public static enum NoteState{
-    NONE,
-    SHOOTER,
-    LOADER
-  }
-
-  public static NoteState noteState = NoteState.NONE;
-
   public static boolean odometryFlag = false;
 
   public RobotContainer() {
@@ -161,7 +150,6 @@ public class RobotContainer {
     toAmpPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP_ADJ)));
     toAmpPrep.onTrue(new SequentialCommandGroup(
       new ToAmpCommand()
-      // new InstantCommand(() -> Governor.setRobotState(RobotState.AMP))
     ).until(new BooleanSupplier() {
       @Override
       public boolean getAsBoolean() {
@@ -170,13 +158,12 @@ public class RobotContainer {
     })
     );
 
-    toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE))); // TODO: check if we can call onTrue twice and have both commands still work
+    toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE)));
 
     puke.onTrue(new ToPuke());
     shootPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP)));
     shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
 
-    // highShuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE)));
     highShuttle.and(new BooleanSupplier() {
       @Override
       public boolean getAsBoolean(){
@@ -220,35 +207,12 @@ public class RobotContainer {
       thingRan = true;
     }));
 
-    // lowShuttle.onTrue(new InstantCommand(()->lowButtonPressed = true));
     lowShuttle.onFalse(new InstantCommand(()->thingRan = false));
 
-    
-
-    
-
-
-    // lowShuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE_ADJ)));
     lowShuttle.or(()->highShuttle.getAsBoolean()).onTrue(new AimToSpeakerCommand(drive, joysticks));
 
     increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
     decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() - 10)));
-
-    //TODO: Test this.
-    // armAimOverride.onTrue(new InstantCommand(()->{Presets.Arm.OVERRIDE_AUTOMATIC_AIM = true; aimOverrideTriggered = true;})).and(new BooleanSupplier() {
-    //   @Override
-    //   public boolean getAsBoolean() {
-    //       return !Presets.Arm.OVERRIDE_AUTOMATIC_AIM && !aimOverrideTriggered;
-    //   } 
-    // });
-    // armAimOverride.onTrue(new InstantCommand(()->{Presets.Arm.OVERRIDE_AUTOMATIC_AIM = false; aimOverrideTriggered = true;})).and(new BooleanSupplier() {
-    //   @Override
-    //   public boolean getAsBoolean() {
-    //       return Presets.Arm.OVERRIDE_AUTOMATIC_AIM && !aimOverrideTriggered;
-    //   } 
-    // });
-    // armAimOverride.onFalse(new InstantCommand(()->aimOverrideTriggered = false));
-    // shootOveride.onTrue(new GrabberToShoot());
     cleanupUnscoredNotesTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED)));
     sHooterInterruptTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterPercent(0)));
 
@@ -279,8 +243,6 @@ public class RobotContainer {
     
     prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));   
     
-    //TODO: Does this work?
-    cleanUpMode.toggleOnTrue(new ToggleCleanUpCommand());
   }
 
   private void addShuffleBoardData() {
