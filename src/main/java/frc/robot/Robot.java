@@ -59,6 +59,7 @@ public class Robot extends LoggedRobot {
     jank.start();
 
     RobotContainer.odometryFlag = false;
+    RobotContainer.drive.overrideVisionOdo = false;
   }
 
   @Override
@@ -112,7 +113,7 @@ public class Robot extends LoggedRobot {
             && backRightPose2d.getX() > 0 && backRightPose2d.getX() < Constants.Field.LENGTH
             && backRightPose2d.getY() > 0 && backRightPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(backRightPose2d, AprilTagManager.getBackRightTimestamp());
-      } else {
+      } else if (!RobotContainer.drive.overrideVisionOdo){
         if(AprilTagManager.hasLeftTarget()
             && AprilTagManager.getLeftAmbiguity() <= 0.15
             && AprilTagManager.getLeftRobotPos() != null

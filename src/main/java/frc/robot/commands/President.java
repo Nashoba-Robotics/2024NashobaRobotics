@@ -107,8 +107,8 @@ public class President extends Command {
                     // RobotContainer.arm.setShooterPercent(0.2);
                 }
                 else{
-                    RobotContainer.arm.setShooterPercent(0.05);
-                    // RobotContainer.arm.setIdleSpeed(0.05);
+                    // RobotContainer.arm.setShooterPercent(0.05);
+                    RobotContainer.arm.setIdleSpeed(0.05);
                 }
                 break;
         }

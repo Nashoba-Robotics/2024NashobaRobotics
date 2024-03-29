@@ -77,14 +77,14 @@ public class ArmSubsystem extends SubsystemBase{
 
         double time = System.currentTimeMillis() - lastTime;
 
-        double speed = idleSpeed * 500;
-        double targetSpeed = 500 * (startSpeed - (startSpeed-idleSpeed)/rampDownTime * time);
+        double targetSpeed = idleSpeed * 500;
+        double calculatedSpeed = 500 * (startSpeed - (startSpeed-idleSpeed)/rampDownTime * time);
 
-        if (targetSpeed > speed){
-            speed = targetSpeed;
-            armIO.setShooterSpeed(Rotation2d.fromRadians(speed));
+        if (calculatedSpeed > targetSpeed){
+            targetSpeed = calculatedSpeed;
+            armIO.setShooterSpeed(Rotation2d.fromRadians(targetSpeed));
         } 
-        else if(targetSpeed <= speed){
+        else if(calculatedSpeed <= targetSpeed){
             armIO.setShooterPercent(idleSpeed);
         }
 

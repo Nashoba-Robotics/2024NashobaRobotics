@@ -43,6 +43,8 @@ public class DriveSubsystem extends SubsystemBase{
     private boolean fieldCentric;
 
     private Field2d field;
+    
+    public boolean overrideVisionOdo = false;
 
     public static enum DriveState {
         DRIVER,
