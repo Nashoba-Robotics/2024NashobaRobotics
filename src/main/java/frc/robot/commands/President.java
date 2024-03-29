@@ -145,29 +145,29 @@ public class President extends Command {
                 && !RobotContainer.sensors.getShooterSensor()){
 
                     if(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
-                        if(RobotContainer.drive.getPose().getX() < 3.15) {
-                            RobotContainer.lastModelForShot = Constants.FileNames.ARM_ANGLE_CLOSE;
-                            DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_CLOSE).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                        if(RobotContainer.drive.getPose().getX() < Constants.Misc.CLOSE_FAR_CUTOFF) {
+                            RobotContainer.lastModelForShot = Constants.FileNames.getClose();
+                            DistanceToArmAngleModel.getInstance(Constants.FileNames.getClose()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
                         } else {
-                            if(drive.getPose().getTranslation().getY() < 4.1) {
-                            RobotContainer.lastModelForShot = Constants.FileNames.ARM_ANGLE_FAR_SOURCE;
-                            DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_FAR_SOURCE).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                            if(drive.getPose().getTranslation().getY() < Constants.Misc.SOURCE_AMP_CUTOFF) {
+                            RobotContainer.lastModelForShot = Constants.FileNames.getFarSource();
+                            DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarSource()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
                             } else {
-                                RobotContainer.lastModelForShot = Constants.FileNames.ARM_ANGLE_FAR_AMP;
-                                DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_FAR_AMP).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                                RobotContainer.lastModelForShot = Constants.FileNames.getFarAmp();
+                                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarSource()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
                             }
                         }
                     } else {
-                        if(RobotContainer.drive.getPose().getX() > Constants.Field.LENGTH - 3.15) {
-                            RobotContainer.lastModelForShot = Constants.FileNames.ARM_ANGLE_CLOSE;
-                            DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_CLOSE).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                        if(RobotContainer.drive.getPose().getX() > Constants.Field.LENGTH - Constants.Misc.CLOSE_FAR_CUTOFF) {
+                            RobotContainer.lastModelForShot = Constants.FileNames.getClose();
+                            DistanceToArmAngleModel.getInstance(Constants.FileNames.getClose()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
                         } else {
-                            if(drive.getPose().getTranslation().getY() < 4.1) {
-                            RobotContainer.lastModelForShot = Constants.FileNames.ARM_ANGLE_FAR_SOURCE;
-                            DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_FAR_SOURCE).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                            if(drive.getPose().getTranslation().getY() < Constants.Misc.SOURCE_AMP_CUTOFF) {
+                            RobotContainer.lastModelForShot = Constants.FileNames.getFarSource();
+                            DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarSource()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
                             } else {
-                                RobotContainer.lastModelForShot = Constants.FileNames.ARM_ANGLE_FAR_AMP;
-                                DistanceToArmAngleModel.getInstance(Constants.FileNames.ARM_ANGLE_FAR_AMP).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                                RobotContainer.lastModelForShot = Constants.FileNames.getFarAmp();
+                                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarAmp()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
                             }
                         }
                     }
