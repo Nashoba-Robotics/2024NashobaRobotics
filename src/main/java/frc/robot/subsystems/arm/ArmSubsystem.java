@@ -8,11 +8,20 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Presets;
 
 public class ArmSubsystem extends SubsystemBase{
     
     private ArmIO armIO;
     private ArmIOInputsAutoLogged armInputs = new ArmIOInputsAutoLogged();
+
+    private double lastTime;
+    private double startSpeed;
+    private boolean rampDown = false;
+    private boolean rampUp = false;
+    final double rampUpTime = 3000;//ms
+    final double rampDownTime = 3000;//ms
+
 
 
     @Override
@@ -23,6 +32,7 @@ public class ArmSubsystem extends SubsystemBase{
 
     public ArmSubsystem() {
         armIO = new ArmIOTalonFX();
+        lastTime = System.currentTimeMillis();
     }
 
     //Sets the pivot position. (0 should be horizontal to the ground)
@@ -44,12 +54,63 @@ public class ArmSubsystem extends SubsystemBase{
 
     //Sets the speed of the shooter. Units don't matter b/c Rotation2D
     public void setShooterSpeed(Rotation2d speed) {
+        rampUp = false;
+        rampDown = false;
         Logger.recordOutput("SetShooterSpeed", speed.getRadians());
         armIO.setShooterSpeed(speed);
     }
 
     public void setShooterPercent(double speed){
+        rampDown = false;
+        rampUp = false;
         armIO.setShooterPercent(speed);
+    }
+
+    public void setIdleSpeed(double idleSpeed){
+        if(!rampDown){
+            rampDown = true;
+            rampUp = false;
+
+            startSpeed = getShooterSpeed().getRadians()/500;
+            lastTime = System.currentTimeMillis();
+        } 
+
+        double time = System.currentTimeMillis() - lastTime;
+
+        double speed = idleSpeed * 500;
+        double targetSpeed = 500 * (startSpeed - (startSpeed-idleSpeed)/rampDownTime * time);
+
+        if (targetSpeed > speed){
+            speed = targetSpeed;
+            armIO.setShooterSpeed(Rotation2d.fromRadians(speed));
+        } 
+        else if(targetSpeed <= speed){
+            armIO.setShooterPercent(idleSpeed);
+        }
+
+        
+    }
+
+    public void rampToSpeed(){
+        if(!rampUp){
+            rampUp = true;
+            rampDown = false;
+            startSpeed = getShooterSpeed().getRadians()/500;
+            lastTime = System.currentTimeMillis();
+        } 
+        
+        double time = (System.currentTimeMillis() - lastTime);
+        double speed = Presets.Arm.SPEAKER_SPEED.getRadians();
+        double targetSpeed = 500 * (startSpeed + Presets.Arm.SPEAKER_SPEED.getRadians()/500/rampUpTime * time);
+        
+        if (targetSpeed < speed){
+            speed = targetSpeed;
+        } 
+        if(targetSpeed >= Presets.Arm.SPEAKER_SPEED.getRadians()){
+            speed = Presets.Arm.SPEAKER_SPEED.getRadians();
+        }
+
+        armIO.setShooterSpeed(Rotation2d.fromRadians(speed));
     }
 
     //Returns the speed of the shooter

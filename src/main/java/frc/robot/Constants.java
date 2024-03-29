@@ -9,16 +9,13 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -102,7 +99,7 @@ public class Constants {
             // .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
             // .withKP(80).withKI(0).withKD(0.6);
             .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
-            .withKP(5).withKI(0).withKD(0.0);
+            .withKP(4.5).withKI(0).withKD(0.0);
 
             public static final double SHOOTER_STATOR_CURRENT_LIMIT = 80;
             public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 50;
@@ -122,9 +119,13 @@ public class Constants {
             public static final int RIGHT_CLIMBER_PORT = 14;
 
             public static final InvertedValue leftInvert = InvertedValue.Clockwise_Positive;
+            public static final InvertedValue rightInvert = InvertedValue.CounterClockwise_Positive;
 
             public static final double STATOR_LIMIT = 0;
             public static final double GEAR_RATIO = 4.*4*5*22/32;
+
+            public static final double CRUISE_VELOCITY = 0; //1.1636
+            public static final double ACCELERATION = 0;
 
             public static final double FORWARD_SOFT_LIMIT = 0;
             public static final double REVERSE_SOFT_LIMIT = 0;
@@ -468,7 +469,7 @@ public class Constants {
             public static final int SHOOTER_PORT_1 = 1;
             public static final int SHOOTER_PORT_2 = 3;
             public static final int LOADER_PORT = 0;
-            public static final int INTAKE_PORT = 2;
+            public static final int INTAKE_PORT = 4;
       }
 
 }

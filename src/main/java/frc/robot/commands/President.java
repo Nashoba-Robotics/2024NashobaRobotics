@@ -1,8 +1,10 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -81,6 +83,36 @@ public class President extends Command {
             queueFlag = false;
         }
 
+        Pose2d drivePos = RobotContainer.drive.getPose();
+        if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean() && !RobotContainer.sHooterInterruptTrigger.getAsBoolean()){
+            switch (DriverStation.getAlliance().orElse(Alliance.Blue)) {
+            case Blue:
+                if(RobotContainer.sensors.getShooterSensor()){
+                    if(drivePos.getX() <= Constants.Field.LENGTH/2) RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+                    else RobotContainer.arm.setIdleSpeed(0.2);
+                    // RobotContainer.arm.setShooterPercent(0.2);
+                }
+                else{
+                    // RobotContainer.arm.setShooterPercent(0.05);
+                    RobotContainer.arm.setIdleSpeed(0.05);
+                }
+                break;
+            case Red:
+                if(RobotContainer.sensors.getShooterSensor()){
+                    if(drivePos.getX() >= Constants.Field.LENGTH/2){
+                        // RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+                        RobotContainer.arm.rampToSpeed();
+                    }
+                    else RobotContainer.arm.setIdleSpeed(0.2);
+                    // RobotContainer.arm.setShooterPercent(0.2);
+                }
+                else{
+                    RobotContainer.arm.setShooterPercent(0.05);
+                    // RobotContainer.arm.setIdleSpeed(0.05);
+                }
+                break;
+        }
+        }
         switch (Governor.getRobotState()) {
             case NEUTRAL:
                 // drive.state = DriveState.DRIVER;
@@ -140,15 +172,11 @@ public class President extends Command {
                         }
                     }
 
-
-
-                    
                     Governor.setRobotState(RobotState.NEUTRAL);
                     shootFlag = false;
                     shootTimer.stop();
                 } 
 
-                //TODO: When odometry is in a certain range, go to shoot prep
                 break;
             case AMP:
                 if(!ampFlag){
@@ -164,8 +192,34 @@ public class President extends Command {
                     ampSensorFlag = false;
                     ampTimer.stop();
                 } 
-               break; 
+            break; 
             case SHUTTLE:
+                if(!shuttleFlag){
+                    shuttleTimer.restart();
+                    shuttleFlag = true;
+                }
+                if(shuttleFlag 
+                && !RobotContainer.sensors.getShooterSensor() 
+                && shuttleTimer.get()>0.1){
+                    shuttleFlag = false;
+                    shuttleTimer.stop();
+                    Governor.setRobotState(RobotState.NEUTRAL);
+                }
+                break;
+            case SHUTTLE_HIGH:
+                if(!shuttleFlag){
+                    shuttleTimer.restart();
+                    shuttleFlag = true;
+                }
+                if(shuttleFlag 
+                && !RobotContainer.sensors.getShooterSensor() 
+                && shuttleTimer.get()>0.1){
+                    shuttleFlag = false;
+                    shuttleTimer.stop();
+                    Governor.setRobotState(RobotState.NEUTRAL);
+                }
+                break;
+            case SHUTTLE_LOW:
                 if(!shuttleFlag){
                     shuttleTimer.restart();
                     shuttleFlag = true;
@@ -180,8 +234,7 @@ public class President extends Command {
                 break;
             default:
                 break;
-        }
+            }
     }
-
     
 }

@@ -32,8 +32,11 @@ import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
 import frc.robot.commands.setters.groups.ToPuke;
+import frc.robot.commands.setters.groups.ToShuttle;
+import frc.robot.commands.setters.groups.ToShuttlePrep;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.test.ClimberTestCommand;
+import frc.robot.commands.test.ClimberTuneCommand;
 import frc.robot.commands.test.ManualShootCommand;
 import frc.robot.commands.test.TestServoCommand;
 import frc.robot.lib.util.DistanceToArmAngleModel;
@@ -80,15 +83,22 @@ public class RobotContainer {
   private Trigger puke = joysticks.getDriverController().button(9);
   private Trigger shootPrep = joysticks.getDriverController().button(6);
 
-  private Trigger shuttle = joysticks.getDriverController().button(4);
-  private Trigger shuttlePrep = joysticks.getDriverController().button(1);
+  private Trigger highShuttle = joysticks.getDriverController().button(4);
+  private Trigger lowShuttle = joysticks.getDriverController().button(1);
+  public static ToShuttlePrep highShuttlePrep = new ToShuttlePrep(true);
+  public static ToShuttlePrep lowShuttlePrep = new ToShuttlePrep(false);
+  public static ToShuttle highShuttleCmd = new ToShuttle(true);
+  public static ToShuttle lowShuttleCmd = new ToShuttle(false);
+  private boolean thingRan = false;
+
+  private Trigger cleanUpMode = joysticks.getDriverController().button(11);
 
   private Trigger increaseSpeed = joysticks.getOperatorController().button(6);  //rb
   private Trigger decreaseSpeed = joysticks.getOperatorController().button(5);  //lb
 
   private boolean aimOverrideTriggered = false;
   // private Trigger armAimOverride = joysticks.getOperatorController().button(-1).debounce(0.1);
-  private Trigger shootOveride = joysticks.getOperatorController().button(8);
+  // private Trigger shootOveride = joysticks.getOperatorController().button(8);
   //Drive override -> B
   // Arm override -> Y
 
@@ -100,6 +110,8 @@ public class RobotContainer {
   private Trigger aimedJustRight = joysticks.getOperatorController().button(3); //A
 
   private Trigger prep90 = joysticks.getOperatorController().button(10);
+  public static Trigger cleanupUnscoredNotesTrigger = joysticks.getOperatorController().button(8);  //RT (Runs the shooter)
+  public static Trigger sHooterInterruptTrigger = joysticks.getOperatorController().button(7);
 
 
   // private Trigger resetOdometryFromCamera = joysticks.getDriverController.button(11);
@@ -107,14 +119,6 @@ public class RobotContainer {
   public static AimToSpeakerCommand aimToSpeakerCommand = new AimToSpeakerCommand(drive, joysticks);
 
   public static boolean disruptFlag = false;
-
-  public static enum NoteState{
-    NONE,
-    SHOOTER,
-    LOADER
-  }
-
-  public static NoteState noteState = NoteState.NONE;
 
   public static boolean odometryFlag = false;
 
@@ -146,7 +150,6 @@ public class RobotContainer {
     toAmpPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP_ADJ)));
     toAmpPrep.onTrue(new SequentialCommandGroup(
       new ToAmpCommand()
-      // new InstantCommand(() -> Governor.setRobotState(RobotState.AMP))
     ).until(new BooleanSupplier() {
       @Override
       public boolean getAsBoolean() {
@@ -155,34 +158,63 @@ public class RobotContainer {
     })
     );
 
-    toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE))); // TODO: check if we can call onTrue twice and have both commands still work
+    toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE)));
 
     puke.onTrue(new ToPuke());
     shootPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP)));
     shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
 
-    shuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE)));
-    shuttlePrep.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE_ADJ)));
-    shuttlePrep.onTrue(new AimToStation(drive, joysticks));
+    highShuttle.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean(){
+        return !highShuttlePrep.isScheduled() && !highShuttleCmd.isScheduled() && !thingRan;
+      }
+    }).onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.SHUTTLE_HIGH_ADJ);
+      thingRan = true;
+    }));
+
+    highShuttle.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean(){
+        return highShuttlePrep.isScheduled() &&!highShuttleCmd.isScheduled() && !thingRan;
+      }
+    }).onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.SHUTTLE_HIGH);
+      thingRan = true;
+    }));
+
+    highShuttle.onFalse(new InstantCommand(()->thingRan = false));
+
+    lowShuttle.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean(){
+        return !lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
+      }
+    }).onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.SHUTTLE_LOW_ADJ);
+      thingRan = true;
+    }
+    ));
+
+    lowShuttle.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean(){
+        return lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
+      }
+    }).onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.SHUTTLE_LOW);
+      thingRan = true;
+    }));
+
+    lowShuttle.onFalse(new InstantCommand(()->thingRan = false));
+
+    lowShuttle.or(()->highShuttle.getAsBoolean()).onTrue(new AimToSpeakerCommand(drive, joysticks));
 
     increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
     decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() - 10)));
-
-    //TODO: Test this.
-    // armAimOverride.onTrue(new InstantCommand(()->{Presets.Arm.OVERRIDE_AUTOMATIC_AIM = true; aimOverrideTriggered = true;})).and(new BooleanSupplier() {
-    //   @Override
-    //   public boolean getAsBoolean() {
-    //       return !Presets.Arm.OVERRIDE_AUTOMATIC_AIM && !aimOverrideTriggered;
-    //   } 
-    // });
-    // armAimOverride.onTrue(new InstantCommand(()->{Presets.Arm.OVERRIDE_AUTOMATIC_AIM = false; aimOverrideTriggered = true;})).and(new BooleanSupplier() {
-    //   @Override
-    //   public boolean getAsBoolean() {
-    //       return Presets.Arm.OVERRIDE_AUTOMATIC_AIM && !aimOverrideTriggered;
-    //   } 
-    // });
-    // armAimOverride.onFalse(new InstantCommand(()->aimOverrideTriggered = false));
-    shootOveride.onTrue(new GrabberToShoot());
+    cleanupUnscoredNotesTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED)));
+    sHooterInterruptTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterPercent(0)));
 
     aimedToHigh.onTrue(new InstantCommand(() -> {
       DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(lastModelForShot);
@@ -209,15 +241,16 @@ public class RobotContainer {
     }));
 
     
-    prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));             
+    prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));   
+    
   }
 
   private void addShuffleBoardData() {
     SmartDashboard.putData(new ManualShootCommand(loader, arm));
-    // SmartDashboard.putData(new ClimberTuneCommand(climber));
-    // SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
-    //     SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
-      SmartDashboard.putData(new ClimberTestCommand(climber));
+    SmartDashboard.putData(new ClimberTuneCommand(climber));
+    SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
+    SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
+      // SmartDashboard.putData(new ClimberTestCommand(climber));
     // SmartDashboard.putData("Amp Prep", new ToNewAmpAdj());
     // SmartDashboard.putData("Amp Score", new ToNewAmp());
     // SmartDashboard.putData(new NoteToAmpOut());

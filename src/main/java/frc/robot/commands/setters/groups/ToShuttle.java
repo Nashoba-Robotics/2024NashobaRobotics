@@ -11,13 +11,13 @@ import frc.robot.commands.setters.units.loader.LoaderToNeutral;
 import frc.robot.commands.setters.units.loader.NoteToShooter;
 
 public class ToShuttle extends SequentialCommandGroup{
-    public ToShuttle(){
+    public ToShuttle(boolean high){
         addCommands(
             new LoaderToNeutral(),
             new NoteToShooter(),
-            new ArmToShuttle(),
-            new ShooterToShuttle(),
-            Governor.getSetStateCommand(RobotState.SHUTTLE),
+            new ArmToShuttle(high),
+            new ShooterToShuttle(high),
+            Governor.getSetStateCommand(high ? RobotState.SHUTTLE_HIGH : RobotState.SHUTTLE_LOW),
             new GrabberToShuttle()
         );
     }
