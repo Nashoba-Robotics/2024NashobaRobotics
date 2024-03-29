@@ -59,7 +59,6 @@ public class Robot extends LoggedRobot {
     jank.start();
 
     RobotContainer.odometryFlag = false;
-    RobotContainer.drive.overrideVisionOdo = false;
   }
 
   @Override
@@ -203,6 +202,7 @@ public class Robot extends LoggedRobot {
     CommandScheduler.getInstance().schedule(new President());
     Governor.setRobotState(RobotState.NEUTRAL, true);
 
+    RobotContainer.drive.overrideVisionOdo = false;
 
   }
 
