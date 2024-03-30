@@ -66,7 +66,7 @@ public class Dictator extends Command{
                     shootTimer.restart();
                     shootFlag = true;
                 }
-                if(shootFlag && shootTimer.get() > 0.2
+                if(shootFlag && shootTimer.get() > 0.3
                 ){
                     if(RobotContainer.disruptFlag) Governor.setRobotState(RobotState.INTAKE);
                     else Governor.setRobotState(RobotState.NEUTRAL);

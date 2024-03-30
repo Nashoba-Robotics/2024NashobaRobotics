@@ -162,7 +162,9 @@ public class Robot extends LoggedRobot {
   @Override
   public void disabledInit() {
     for(String fileName : Constants.FileNames.ArmAngleFiles) {
-      RobotContainer.writeRegressionFile((DriverStation.getAlliance().orElse(Alliance.Blue)==Alliance.Blue ? "blue/" : "red/") + fileName);
+      RobotContainer.writeRegressionFile(
+        (DriverStation.getAlliance().orElse(Alliance.Blue)==Alliance.Blue ? "blue/" : "red/") +
+        fileName);
     }
     // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_CLOSE);
     // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_AMP);

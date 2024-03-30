@@ -53,6 +53,7 @@ public class LEDManager extends SubsystemBase{
         if(DriverStation.isDisabled()){
             //TODO: Add check to see if the pivot motor was initizlied correctly
             candle.animate(new LarsonAnimation(0xFF, 0x10, 0x0, 0, 0.4, LED_COUNT, BounceMode.Back, 8, 8), 0);
+            // setColor(new Color(255, 255, 255), 8, LED_COUNT-8);
 
             //Check if we have a note
             if(RobotContainer.sensors.getShooterSensor())

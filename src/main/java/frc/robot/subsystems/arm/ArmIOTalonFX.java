@@ -182,7 +182,7 @@ public class ArmIOTalonFX implements ArmIO{
         shooterConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
         // shooterConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = 5;
         // shooterConfig.ClosedLoopRamps.TorqueClosedLoopRampPeriod = 0;
-        shooterConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = 1;
+        // shooterConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = 1;
         
 
         encoderConfig.MagnetSensor.MagnetOffset = Constants.Arm.ENCODER_OFFSET;
