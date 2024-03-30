@@ -89,18 +89,27 @@ public class President extends Command {
             case Blue:
                 if(RobotContainer.sensors.getShooterSensor()){
                     if(drivePos.getX() <= Constants.Field.LENGTH/2) RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+<<<<<<< HEAD
                     // else RobotContainer.arm.setIdleSpeed(0.2);
                     else RobotContainer.arm.setShooterPercent(0.2);
                 }
                 else{
                     RobotContainer.arm.setShooterPercent(0.05);
                     // RobotContainer.arm.setIdleSpeed(0.05);
+=======
+                    else 
+                    RobotContainer.arm.setShooterPercent(0.2);
+                }
+                else{
+                    RobotContainer.arm.setShooterPercent(0.05);
+>>>>>>> d7f9655dc280cf7993b175ba3e2f5a8c9b5d25f9
                 }
                 break;
             case Red:
                 if(RobotContainer.sensors.getShooterSensor()){
                     if(drivePos.getX() >= Constants.Field.LENGTH/2){
                         RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+<<<<<<< HEAD
                         // RobotContainer.arm.rampToSpeed();
                     }
                     // else RobotContainer.arm.setIdleSpeed(0.2);
@@ -109,6 +118,14 @@ public class President extends Command {
                 else{
                     RobotContainer.arm.setShooterPercent(0.05);
                     // RobotContainer.arm.setIdleSpeed(0.05);
+=======
+                    }
+                    else 
+                    RobotContainer.arm.setShooterPercent(0.2);
+                }
+                else{
+                    RobotContainer.arm.setShooterPercent(0.05);
+>>>>>>> d7f9655dc280cf7993b175ba3e2f5a8c9b5d25f9
                 }
                 break;
         }
