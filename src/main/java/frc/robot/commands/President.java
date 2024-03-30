@@ -85,33 +85,33 @@ public class President extends Command {
 
         Pose2d drivePos = RobotContainer.drive.getPose();
         if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean() && !RobotContainer.sHooterInterruptTrigger.getAsBoolean()){
-            switch (DriverStation.getAlliance().orElse(Alliance.Blue)) {
-            case Blue:
-                if(RobotContainer.sensors.getShooterSensor()){
-                    if(drivePos.getX() <= Constants.Field.LENGTH/2) RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
-                    else RobotContainer.arm.setIdleSpeed(0.2);
-                    // RobotContainer.arm.setShooterPercent(0.2);
-                }
-                else{
-                    // RobotContainer.arm.setShooterPercent(0.05);
-                    RobotContainer.arm.setIdleSpeed(0.05);
-                }
-                break;
-            case Red:
-                if(RobotContainer.sensors.getShooterSensor()){
-                    if(drivePos.getX() >= Constants.Field.LENGTH/2){
-                        // RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
-                        RobotContainer.arm.rampToSpeed();
-                    }
-                    else RobotContainer.arm.setIdleSpeed(0.2);
-                    // RobotContainer.arm.setShooterPercent(0.2);
-                }
-                else{
-                    // RobotContainer.arm.setShooterPercent(0.05);
-                    RobotContainer.arm.setIdleSpeed(0.05);
-                }
-                break;
-        }
+            // switch (DriverStation.getAlliance().orElse(Alliance.Blue)) {
+            // case Blue:
+            //     if(RobotContainer.sensors.getShooterSensor()){
+            //         if(drivePos.getX() <= Constants.Field.LENGTH/2) RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+            //         else RobotContainer.arm.setIdleSpeed(0.2);
+            //         // RobotContainer.arm.setShooterPercent(0.2);
+            //     }
+            //     else{
+            //         // RobotContainer.arm.setShooterPercent(0.05);
+            //         RobotContainer.arm.setIdleSpeed(0.05);
+            //     }
+            //     break;
+            // case Red:
+            //     if(RobotContainer.sensors.getShooterSensor()){
+            //         if(drivePos.getX() >= Constants.Field.LENGTH/2){
+            //             // RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+            //             RobotContainer.arm.rampToSpeed();
+            //         }
+            //         else RobotContainer.arm.setIdleSpeed(0.2);
+            //         // RobotContainer.arm.setShooterPercent(0.2);
+            //     }
+            //     else{
+            //         // RobotContainer.arm.setShooterPercent(0.05);
+            //         RobotContainer.arm.setIdleSpeed(0.05);
+            //     }
+            //     break;
+        // }
         }
         switch (Governor.getRobotState()) {
             case NEUTRAL:
