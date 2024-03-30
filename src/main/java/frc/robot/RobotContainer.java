@@ -67,6 +67,7 @@ public class RobotContainer {
   public static final SensorManager sensors = new SensorManager();
 
   public static String lastModelForShot = Constants.FileNames.getClose();
+  public static ManualShootCommand shootMan = new ManualShootCommand(loader, arm);
   
   private static SendableChooser<Command> autoChooser;
 
@@ -241,7 +242,7 @@ public class RobotContainer {
   }
 
   private void addShuffleBoardData() {
-    SmartDashboard.putData(new ManualShootCommand(loader, arm));
+    SmartDashboard.putData(shootMan);
     SmartDashboard.putData(new ClimberTuneCommand(climber));
     SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
     SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
