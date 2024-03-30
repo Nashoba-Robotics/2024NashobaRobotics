@@ -82,19 +82,8 @@ public class ClimberIOTalonFX implements ClimberIO{
         
         rightClimber.getConfigurator().apply(rightConfig);
 
-        //TODO: Individually tune the motors;
-        // //TODO: MAKE SURE THIS WORKS!!!!
-        // config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-
-        // config.Slot0 = Constants.Climber.rightPID;
-        
-        // rightClimber.getConfigurator().apply(config);
-       // rightClimber.setControl(new Follower(0, true)); //TODO: Figure out if the motors oppose each other
-
         leftMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, false, false);
         rightMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, false, false);
-
-        // rightMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, true, true);
     }
 
     public void updateInputs(ClimberIOInputs inputs){
@@ -107,6 +96,9 @@ public class ClimberIOTalonFX implements ClimberIO{
         inputs.rightClimberSpeed = rightClimber.getRotorVelocity().getValueAsDouble()*Constants.TAU;
         inputs.rightClimberStatorCurrent = rightClimber.getStatorCurrent().getValueAsDouble();
         inputs.rightClimberVoltage = rightClimber.getMotorVoltage().getValueAsDouble();
+
+        inputs.leftServoPos = leftServo.getPosition();
+        inputs.rightServoPos = rightServo.getPosition();
     }
 
     @Override
@@ -137,6 +129,7 @@ public class ClimberIOTalonFX implements ClimberIO{
     @Override
     public void setClimberSpeed(double speed){
         leftClimber.set(speed);
+        rightClimber.set(speed);
     }
 
     public void setkS(double kS){

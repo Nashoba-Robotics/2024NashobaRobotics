@@ -33,9 +33,11 @@ import frc.robot.commands.auto.remaps.P7Check;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
+import frc.robot.commands.setters.groups.ToClimbPrep;
 import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.groups.ToShuttle;
 import frc.robot.commands.setters.groups.ToShuttlePrep;
+import frc.robot.commands.setters.units.climber.ClimbToManual;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.test.ClimberTuneCommand;
@@ -65,6 +67,7 @@ public class RobotContainer {
   public static final SensorManager sensors = new SensorManager();
 
   public static String lastModelForShot = Constants.FileNames.getClose();
+  public static ManualShootCommand shootMan = new ManualShootCommand(loader, arm);
   
   private static SendableChooser<Command> autoChooser;
 
@@ -93,18 +96,8 @@ public class RobotContainer {
   public static ToShuttle lowShuttleCmd = new ToShuttle(false);
   private boolean thingRan = false;
 
-  private Trigger cleanUpMode = joysticks.getDriverController().button(11);
 
-  private Trigger increaseSpeed = joysticks.getOperatorController().button(6);  //rb
-  private Trigger decreaseSpeed = joysticks.getOperatorController().button(5);  //lb
-
-  private boolean aimOverrideTriggered = false;
-  // private Trigger armAimOverride = joysticks.getOperatorController().button(-1).debounce(0.1);
-  // private Trigger shootOveride = joysticks.getOperatorController().button(8);
-  //Drive override -> B
-  // Arm override -> Y
-
-  // private Trigger deployClimb = joysticks.getOperatorController().button(0);
+  private Trigger deployClimb = joysticks.getOperatorController().button(6);
   // private Trigger climb = joysticks.getOperatorController().button(0);
 
   private Trigger aimedToHigh = joysticks.getOperatorController().button(4); //X
@@ -213,8 +206,8 @@ public class RobotContainer {
 
     lowShuttle.or(()->highShuttle.getAsBoolean()).onTrue(new AimToSpeakerCommand(drive, joysticks));
 
-    increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
-    decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() - 10)));
+    // increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
+    // decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() - 10)));
     cleanupUnscoredNotesTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED)));
     sHooterInterruptTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterPercent(0)));
 
@@ -245,10 +238,11 @@ public class RobotContainer {
     
     prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));   
     
+    deployClimb.onTrue(new ToClimbPrep());
   }
 
   private void addShuffleBoardData() {
-    SmartDashboard.putData(new ManualShootCommand(loader, arm));
+    SmartDashboard.putData(shootMan);
     SmartDashboard.putData(new ClimberTuneCommand(climber));
     SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
     SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
@@ -258,6 +252,7 @@ public class RobotContainer {
     // SmartDashboard.putData(new NoteToAmpOut());
 
     SmartDashboard.putData(new TestServoCommand(climber));
+    SmartDashboard.putData(new ClimbToManual());
   }
 
   private void configureEvents() {
