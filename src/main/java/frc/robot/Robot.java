@@ -187,6 +187,8 @@ public class Robot extends LoggedRobot {
     
     CommandScheduler.getInstance().schedule(new Dictator());
     RobotContainer.odometryFlag = true;
+
+    RobotContainer.drive.enableStatorLimits(false);
   }
 
   @Override
@@ -207,6 +209,7 @@ public class Robot extends LoggedRobot {
 
     RobotContainer.drive.overrideVisionOdo = false;
 
+    RobotContainer.drive.enableStatorLimits(true);
   }
 
   @Override

@@ -77,7 +77,7 @@ public class Constants {
             public static final int RIGHT_SERVO_CHANNEL = 6;
 
             public static final int ENCODER_PORT = 4;
-            public static final double ENCODER_OFFSET = -0.483346;
+            public static final double ENCODER_OFFSET = -0.483346 - 0.006631;
 
             public static final int SHOOTER_SENSOR_PORT = 0;
             public static final int LOADER_SENSOR_PORT = 1;
@@ -101,8 +101,8 @@ public class Constants {
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
             // .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
             // .withKP(80).withKI(0).withKD(0.6);
-            .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
-            .withKP(4.5).withKI(0).withKD(0.0);
+            .withKV(0.9).withKS(0.01).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
+            .withKP(5.0).withKI(0).withKD(0.0);
 
             public static final double SHOOTER_STATOR_CURRENT_LIMIT = 80;
             public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 50;

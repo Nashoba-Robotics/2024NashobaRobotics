@@ -39,6 +39,7 @@ import frc.robot.commands.setters.groups.ToShuttle;
 import frc.robot.commands.setters.groups.ToShuttlePrep;
 import frc.robot.commands.setters.units.climber.ClimbToManual;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
+import frc.robot.commands.test.ArmTuneCommand;
 import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.test.ClimberTuneCommand;
 import frc.robot.commands.test.ManualShootCommand;
@@ -251,6 +252,9 @@ public class RobotContainer {
 
     SmartDashboard.putData(new TestServoCommand(climber));
     SmartDashboard.putData(new ClimbToManual());
+    SmartDashboard.putData("TuneArm",
+      new ArmTuneCommand(arm)
+    );
   }
 
   private void configureEvents() {
