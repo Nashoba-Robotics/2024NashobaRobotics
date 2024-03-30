@@ -33,6 +33,8 @@ public interface ModuleIO {
     public abstract SwerveModulePosition getPosition();
     public abstract SwerveModuleState getState();
     public SwerveModule getModule();
+    
+    public abstract void enableMoveStatorLimit(boolean enable);
 
 
 }

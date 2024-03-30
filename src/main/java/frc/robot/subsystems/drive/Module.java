@@ -72,4 +72,7 @@ public class Module {
         return io.getModule();
     }
 
+    public void enableStatorLimits(boolean enable){
+        io.enableMoveStatorLimit(enable);
+    }
 }

@@ -107,4 +107,11 @@ public class ModuleIOTalonFX implements ModuleIO {
         return module;
     }
 
+    public void enableMoveStatorLimit(boolean enable){
+         module.getDriveMotor().getConfigurator().apply(new CurrentLimitsConfigs()
+        .withStatorCurrentLimitEnable(enable)
+        .withStatorCurrentLimit(Constants.Drive.kSlipCurrentA)
+        .withSupplyCurrentLimitEnable(true).
+        withSupplyCurrentLimit(Constants.Drive.kSlipCurrentA));
+    }
 }

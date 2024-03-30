@@ -313,6 +313,12 @@ public class DriveSubsystem extends SubsystemBase{
         Rotation2d.fromRadians(Constants.TAU/2));
     }
 
+    public void enableStatorLimits(boolean enable){
+        for(Module mod : modules){
+            mod.enableStatorLimits(enable);
+        }
+    }
+
     @Override
     public void periodic(){
         gyroIO.updateInputs(gyroInputs);
