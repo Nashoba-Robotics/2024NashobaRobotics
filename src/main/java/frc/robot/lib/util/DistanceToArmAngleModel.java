@@ -39,10 +39,10 @@ public class DistanceToArmAngleModel {
             if(ext.equals("pts")) {
                 instanceMap.put(
                     fileName,
-                    new DistanceToArmAngleModel(new File(Filesystem.getDeployDirectory().getPath() + "/regression/blue/" + fileName), Constants.Misc.DELETE_DISTANCE_RANGE)
+                    new DistanceToArmAngleModel(new File(Filesystem.getDeployDirectory().getPath() + "/regression/" + fileName), Constants.Misc.DELETE_DISTANCE_RANGE)
                 );
             } else if(ext.equals("eq")) {
-                Scanner s = new Scanner(new File(Filesystem.getDeployDirectory().getPath() + "/regression/blue/" + fileName));
+                Scanner s = new Scanner(new File(Filesystem.getDeployDirectory().getPath() + "/regression/" + fileName));
                 String line = s.nextLine();
                 s.close();
                 String[] tokens = line.split(" ");
