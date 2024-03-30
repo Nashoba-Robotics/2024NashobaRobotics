@@ -29,8 +29,8 @@ public class Constants {
 
       public static final class AprilTags{
             public static final String FRONT_RIGHT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
-            public static final String FRONT_LEFT_CAMERA_NAME = "Ben's_Little_Buddy (1)";
-            public static final String BACK_RIGHT_CAMERA_NAME = "Azul's_Little_Buddy";
+            public static final String FRONT_LEFT_CAMERA_NAME = "Azul's_Little_Buddy"; //Azul's_Little_Buddy
+            public static final String BACK_RIGHT_CAMERA_NAME = "Ben's_Little_Buddy (1)"; //Ben's_Little_Buddy (1)
             public static final String BACK_LEFT_CAMERA_NAME = "Eshaan's_Little_Buddy (1)";
 
             /* For PhotonEstimator
@@ -45,10 +45,10 @@ public class Constants {
             *      |            |
             *      --------------
             */
-            public static final Transform3d ROBOT_TO_CAMERA_FRONT_LEFT = new Transform3d(Units.inchesToMeters(11.35),Units.inchesToMeters(9.5),0, new Rotation3d(0, -15./360*TAU, 20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_FRONT_RIGHT = new Transform3d(Units.inchesToMeters(11.35), Units.inchesToMeters(-9.5), 0, new Rotation3d(0, -15./360*TAU, -20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(10.758), 0, new Rotation3d(0, -36./360*TAU, 20./360*TAU + TAU/2));
-            public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(-10.758), 0, new Rotation3d(0, -36./360*TAU, -20./360*TAU-TAU/2));
+            public static final Transform3d ROBOT_TO_CAMERA_FRONT_LEFT = new Transform3d(Units.inchesToMeters(11.35),Units.inchesToMeters(9.5), 0.25, new Rotation3d(0, -15./360*TAU, 20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_FRONT_RIGHT = new Transform3d(Units.inchesToMeters(11.35), Units.inchesToMeters(-9.5), 0.25, new Rotation3d(0, -15./360*TAU, -20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(10.758), 0.32, new Rotation3d(0, -36./360*TAU, 20./360*TAU + TAU/2));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(-10.758), 0.32, new Rotation3d(TAU/2, -36./360*TAU, -20./360*TAU-TAU/2));
             
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
@@ -77,7 +77,7 @@ public class Constants {
             public static final int RIGHT_SERVO_CHANNEL = 6;
 
             public static final int ENCODER_PORT = 4;
-            public static final double ENCODER_OFFSET = -0.483346 - 0.006631;
+            public static final double ENCODER_OFFSET = -0.483346 - 0.006631 + 0.999581;
 
             public static final int SHOOTER_SENSOR_PORT = 0;
             public static final int LOADER_SENSOR_PORT = 1;
@@ -125,7 +125,7 @@ public class Constants {
             public static final InvertedValue rightInvert = InvertedValue.CounterClockwise_Positive;
 
             public static final double STATOR_LIMIT = 0;
-            public static final double GEAR_RATIO = 4.*4*5*22/32;
+            public static final double GEAR_RATIO = 5.*5*5*14/15;
 
             public static final double CRUISE_VELOCITY = 0; //1.1636
             public static final double ACCELERATION = 0;

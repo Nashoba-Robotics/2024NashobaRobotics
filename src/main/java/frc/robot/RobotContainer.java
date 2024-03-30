@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -97,6 +98,8 @@ public class RobotContainer {
   public static ToShuttle lowShuttleCmd = new ToShuttle(false);
   private boolean thingRan = false;
 
+  private Trigger toFieldCentric = joysticks.getDriverController().povDown();
+  private Trigger toRobotCentric = joysticks.getDriverController().povUp();
 
   private Trigger deployClimb = joysticks.getOperatorController().button(6);
   // private Trigger climb = joysticks.getOperatorController().button(0);
@@ -237,7 +240,14 @@ public class RobotContainer {
     
     prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));   
     
-    deployClimb.onTrue(new ToClimbPrep());
+    // deployClimb.onTrue(new ToClimbPrep());
+    deployClimb.onTrue(new ParallelCommandGroup(
+      new InstantCommand(()->arm.setArmPivot(Rotation2d.fromRadians(0.1))),
+      new ClimbToManual()
+    ));
+
+    toFieldCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(true)));
+    toRobotCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(false)));
   }
 
   private void addShuffleBoardData() {
