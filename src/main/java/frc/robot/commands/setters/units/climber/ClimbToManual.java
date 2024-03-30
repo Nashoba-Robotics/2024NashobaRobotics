@@ -26,7 +26,7 @@ public class ClimbToManual extends Command{
 
     @Override
     public void execute() {
-        double operatorInput = operatorController.getY() * -0.3;
+        double operatorInput = operatorController.getY() * -0.5;
         
         if(Math.abs(operatorInput) < 0.01){
             if(!flag){
