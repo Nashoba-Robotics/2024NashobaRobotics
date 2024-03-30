@@ -129,6 +129,7 @@ public class ClimberIOTalonFX implements ClimberIO{
     @Override
     public void setClimberSpeed(double speed){
         leftClimber.set(speed);
+        rightClimber.set(speed);
     }
 
     public void setkS(double kS){
