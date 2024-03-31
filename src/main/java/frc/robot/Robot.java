@@ -55,8 +55,8 @@ public class Robot extends LoggedRobot {
     
     robotContainer = new RobotContainer();
 
-    SmartDashboard.putNumber("High Shuttle Speed", 200);
-    SmartDashboard.putNumber("Low Shuttle Speed", 200);
+    SmartDashboard.putNumber("High Shuttle Speed", Presets.Arm.HIGH_SHUTTLE_SPEED.getRadians());
+    SmartDashboard.putNumber("Low Shuttle Speed", Presets.Arm.LOW_SHUTTLE_SPEED.getRadians());
     RobotContainer.odometryFlag = false;
   }
 
@@ -155,6 +155,7 @@ public class Robot extends LoggedRobot {
     Logger.recordOutput("RobotState/RobotState", Governor.getRobotState().toString());
     Logger.recordOutput("RobotState/QueuedState", Governor.getQueuedState().toString());
     Logger.recordOutput("RobotState/LastState", Governor.getDesiredRobotState().toString());
+    Logger.recordOutput("RobotState/DesiredState", Governor.getDesiredRobotState());
 
     Logger.recordOutput("LastRegressionModel", RobotContainer.lastModelForShot);
   }
