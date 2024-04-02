@@ -8,12 +8,15 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants;
 import frc.robot.Governor;
 import frc.robot.RobotContainer;
+import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.Governor.RobotState;
+import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.loader.LoaderSubsystem;
 import frc.robot.subsystems.sensors.SensorManager;
 
 public class Dictator extends Command{
     private LoaderSubsystem loader = RobotContainer.loader;
+    private DriveSubsystem drive = RobotContainer.drive;
 
     private boolean shootFlag;
     private Timer shootTimer;
@@ -66,8 +69,37 @@ public class Dictator extends Command{
                     shootTimer.restart();
                     shootFlag = true;
                 }
-                if(shootFlag && shootTimer.get() > 0.3
+                if(shootFlag && shootTimer.get() > 0.05
                 ){
+
+                    if(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+                        if(RobotContainer.drive.getPose().getX() < Constants.Misc.CLOSE_FAR_CUTOFF) {
+                            RobotContainer.lastModelForShot = Constants.FileNames.getClose();
+                            DistanceToArmAngleModel.getInstance(Constants.FileNames.getClose()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                        } else {
+                            if(drive.getPose().getTranslation().getY() < Constants.Misc.SOURCE_AMP_CUTOFF) {
+                            RobotContainer.lastModelForShot = Constants.FileNames.getFarSource();
+                            DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarSource()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                            } else {
+                                RobotContainer.lastModelForShot = Constants.FileNames.getFarAmp();
+                                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarAmp()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                            }
+                        }
+                    } else {
+                        if(RobotContainer.drive.getPose().getX() > Constants.Field.LENGTH - Constants.Misc.CLOSE_FAR_CUTOFF) {
+                            RobotContainer.lastModelForShot = Constants.FileNames.getClose();
+                            DistanceToArmAngleModel.getInstance(Constants.FileNames.getClose()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                        } else {
+                            if(drive.getPose().getTranslation().getY() < Constants.Misc.SOURCE_AMP_CUTOFF) {
+                            RobotContainer.lastModelForShot = Constants.FileNames.getFarSource();
+                            DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarSource()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                            } else {
+                                RobotContainer.lastModelForShot = Constants.FileNames.getFarAmp();
+                                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarAmp()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                            }
+                        }
+                    }
+
                     if(RobotContainer.disruptFlag) Governor.setRobotState(RobotState.INTAKE);
                     else Governor.setRobotState(RobotState.NEUTRAL);
                     shootFlag = false;
