@@ -30,30 +30,6 @@ public class ClimberIOTalonFX implements ClimberIO{
         leftServo = new Servo(Constants.Arm.LEFT_SERVO_CHANNEL);
         rightServo = new Servo(Constants.Arm.RIGHT_SERVO_CHANNEL);
 
-<<<<<<< HEAD
-        config = new TalonFXConfiguration();
-        config.Audio.BeepOnBoot = true;
-        config.Audio.BeepOnConfig = false;
-        config.CurrentLimits.StatorCurrentLimitEnable = false;
-        config.CurrentLimits.StatorCurrentLimit = Constants.Climber.STATOR_LIMIT;
-        config.CurrentLimits.SupplyCurrentLimitEnable = false;
-        config.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-        config.Feedback.SensorToMechanismRatio = Constants.Climber.GEAR_RATIO;
-        config.FutureProofConfigs = true;
-        config.MotorOutput.Inverted = Constants.Climber.leftInvert;
-        config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-        config.Voltage.PeakForwardVoltage = 12;
-        config.Voltage.PeakReverseVoltage = -12;
-        config.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
-        config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.Climber.FORWARD_SOFT_LIMIT;
-        config.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
-        config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.Climber.REVERSE_SOFT_LIMIT;
-        config.HardwareLimitSwitch.ForwardLimitEnable = false;
-        config.HardwareLimitSwitch.ReverseLimitEnable = false;
-
-        config.MotionMagic.MotionMagicCruiseVelocity = 0.5;
-        config.MotionMagic.MotionMagicAcceleration = 0.5;
-=======
         leftConfig = new TalonFXConfiguration();
         leftConfig.Audio.BeepOnBoot = true;
         leftConfig.Audio.BeepOnConfig = false;
@@ -75,7 +51,6 @@ public class ClimberIOTalonFX implements ClimberIO{
 
         leftConfig.MotionMagic.MotionMagicCruiseVelocity = Constants.Climber.CRUISE_VELOCITY;
         leftConfig.MotionMagic.MotionMagicAcceleration = Constants.Climber.ACCELERATION;
->>>>>>> 4bdad4454591a3b6c66d89692ca641c217d1a028
         
         leftConfig.Slot0 = Constants.Climber.leftPID;
         //*********************** */
@@ -85,14 +60,8 @@ public class ClimberIOTalonFX implements ClimberIO{
         rightConfig.CurrentLimits.StatorCurrentLimitEnable = false;
         rightConfig.CurrentLimits.StatorCurrentLimit = Constants.Climber.STATOR_LIMIT;
 
-<<<<<<< HEAD
-        // rightClimber.setControl(new Follower(Constants.Climber.LEFT_CLIMBER_PORT, true));
-        leftClimber.getConfigurator().apply(config);
-        // rightClimber.getConfigurator().apply(config);
-=======
         rightConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
         rightConfig.Feedback.SensorToMechanismRatio = Constants.Climber.GEAR_RATIO;
->>>>>>> 4bdad4454591a3b6c66d89692ca641c217d1a028
 
         rightConfig.FutureProofConfigs = true;
         rightConfig.MotorOutput.Inverted = Constants.Climber.rightInvert;
@@ -109,17 +78,12 @@ public class ClimberIOTalonFX implements ClimberIO{
         
         rightConfig.Slot0 = Constants.Climber.rightPID;
 
-<<<<<<< HEAD
-        leftMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, false, false);
-        // rightMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, true, true);
-=======
         leftClimber.getConfigurator().apply(leftConfig);
         
         rightClimber.getConfigurator().apply(rightConfig);
 
         leftMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, false, false);
         rightMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, false, false);
->>>>>>> 4bdad4454591a3b6c66d89692ca641c217d1a028
     }
 
     public void updateInputs(ClimberIOInputs inputs){

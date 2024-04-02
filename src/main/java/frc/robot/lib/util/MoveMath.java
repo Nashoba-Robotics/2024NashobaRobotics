@@ -11,7 +11,7 @@ import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class MoveMath {
     public static DriveSubsystem drive = RobotContainer.drive;
-    private static final double NOTE_SPEED = 1;    //m/s
+    private static final double NOTE_SPEED = 17;    //m/s
     public static Translation3d aimToSpeaker(){
         Translation3d speakerPos = Constants.Field.getSpeakerPos();
         Pose2d drivePos = drive.getPose();
@@ -31,12 +31,9 @@ public class MoveMath {
         double robotVelY = driveSpeeds.vyMetersPerSecond;
 
         double yOffset = (noteVelY + robotVelY) * t;
+        double xOffset = (noteVelX + robotVelX) * t;
 
-        /*
-         * targetAngle = Rotation2d.fromRadians(Math.atan2(
-            Constants.Field.getSpeakerPos().getY() - drive.getPose().getY(),
-            Constants.Field.getSpeakerPos().getX() - drive.getPose().getX()));
-         */
-        return null;
+        Translation3d aimPos = new Translation3d(speakerPos.getX()-xOffset, speakerPos.getY()-yOffset, speakerPos.getZ());
+        return aimPos;
     }
 }
