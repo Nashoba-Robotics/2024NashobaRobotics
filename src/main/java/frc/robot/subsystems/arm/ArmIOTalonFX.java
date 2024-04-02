@@ -138,6 +138,10 @@ public class ArmIOTalonFX implements ArmIO{
         return shooter;
     }
 
+    public TalonFX getPivotMotor() {
+        return pivot;
+    }
+
     private void config() {
         pivotConfig.Audio.BeepOnBoot = true;
         pivotConfig.Audio.BeepOnConfig = true;

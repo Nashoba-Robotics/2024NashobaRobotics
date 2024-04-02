@@ -77,7 +77,7 @@ public class Constants {
             public static final int RIGHT_SERVO_CHANNEL = 6;
 
             public static final int ENCODER_PORT = 4;
-            public static final double ENCODER_OFFSET = -0.483346 - 0.006631 + 0.999581;
+            public static final double ENCODER_OFFSET = -0.483346 - 0.006631 + 0.999581 + 0.01383463514515; //-0.02607767339
 
             public static final int SHOOTER_SENSOR_PORT = 0;
             public static final int LOADER_SENSOR_PORT = 1;
@@ -91,7 +91,7 @@ public class Constants {
             public static final Rotation2d PIVOT_FORWARD_SOFT_LIMIT = Rotation2d.fromDegrees(120);
             public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromRadians(-0.86);
 
-            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 1.5;
+            public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 1.3;
             public static final double PIVOT_MOTION_MAGIC_CRUISE_VELOCITY = 0.95;
             public static final double PIVOT_MOTION_MAGIC_JERK = 0;
 
@@ -101,8 +101,8 @@ public class Constants {
             public static final Slot0Configs PIVOT_PID = new Slot0Configs()
             // .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
             // .withKP(80).withKI(0).withKD(0.6);
-            .withKV(0.9).withKS(0.01).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
-            .withKP(5.0).withKI(0).withKD(0.0);
+            .withKV(0.975).withKS(0.009).withKG(0.035).withGravityType(GravityTypeValue.Arm_Cosine)
+            .withKP(5.5).withKI(0).withKD(0.001);
 
             public static final double SHOOTER_STATOR_CURRENT_LIMIT = 80;
             public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 50;

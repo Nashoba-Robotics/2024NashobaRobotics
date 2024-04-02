@@ -37,6 +37,7 @@ public class ArmSubsystem extends SubsystemBase{
 
     //Sets the pivot position. (0 should be horizontal to the ground)
     public void setArmPivot(Rotation2d position) {
+        Logger.recordOutput("ArmSetAngle", position);
         armIO.setAngle(position);
     }
 
@@ -142,5 +143,9 @@ public class ArmSubsystem extends SubsystemBase{
     }
     public void setShooterPercentOutput(double speed){
         armIO.setShooterPercentOutput(speed);
+    }
+
+    public TalonFX getPivotMotor() {
+        return armIO.getPivotMotor();
     }
 }

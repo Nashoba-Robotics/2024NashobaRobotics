@@ -43,6 +43,7 @@ import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.test.ArmTuneCommand;
 import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.test.ClimberTuneCommand;
+import frc.robot.commands.test.FindArmZeroCommand;
 import frc.robot.commands.test.ManualShootCommand;
 import frc.robot.commands.test.TestServoCommand;
 import frc.robot.lib.util.DistanceToArmAngleModel;
@@ -265,6 +266,7 @@ public class RobotContainer {
     SmartDashboard.putData("TuneArm",
       new ArmTuneCommand(arm)
     );
+    SmartDashboard.putData(new FindArmZeroCommand());
   }
 
   private void configureEvents() {
