@@ -12,12 +12,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "ShootPrep"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "b2-shootPos"
@@ -69,6 +63,24 @@
           "type": "path",
           "data": {
             "pathName": "p6-shootPos"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "shootPos'-p5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p5-shootPos"
           }
         },
         {

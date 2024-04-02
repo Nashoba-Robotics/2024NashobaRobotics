@@ -15,10 +15,12 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.Odometry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -33,7 +35,6 @@ import frc.robot.subsystems.apriltags.AprilTagManager;
 public class Robot extends LoggedRobot {
 
   public RobotContainer robotContainer;
-  private Timer jank = new Timer();
 
   @Override
   public void robotInit() {
@@ -53,9 +54,10 @@ public class Robot extends LoggedRobot {
     Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
     
     robotContainer = new RobotContainer();
-    Tabs.addTab("April Tags");
 
-    jank.start();    
+    SmartDashboard.putNumber("High Shuttle Speed", Presets.Arm.HIGH_SHUTTLE_SPEED.getRadians());
+    SmartDashboard.putNumber("Low Shuttle Speed", Presets.Arm.LOW_SHUTTLE_SPEED.getRadians());
+    RobotContainer.odometryFlag = false;
   }
 
   @Override
@@ -77,7 +79,6 @@ public class Robot extends LoggedRobot {
     Logger.recordOutput("LeftErrorDist", leftError);
     Logger.recordOutput("rightErrorDist", rightError);
 
-    // if(jank.get() >= 0.005){
       if(DriverStation.isAutonomous()) {
         if(AprilTagManager.hasLeftTarget()
             && AprilTagManager.getLeftAmbiguity() <= 0.15
@@ -110,7 +111,7 @@ public class Robot extends LoggedRobot {
             && backRightPose2d.getX() > 0 && backRightPose2d.getX() < Constants.Field.LENGTH
             && backRightPose2d.getY() > 0 && backRightPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(backRightPose2d, AprilTagManager.getBackRightTimestamp());
-      } else {
+      } else if (!RobotContainer.drive.overrideVisionOdo){
         if(AprilTagManager.hasLeftTarget()
             && AprilTagManager.getLeftAmbiguity() <= 0.15
             && AprilTagManager.getLeftRobotPos() != null
@@ -138,48 +139,37 @@ public class Robot extends LoggedRobot {
             && AprilTagManager.getBackRightAmbiguity() <= 0.15
             && AprilTagManager.getBackRightPos() != null
             && backRightError < 2
-            
             && backRightPose2d.getX() > 0 && backRightPose2d.getX() < Constants.Field.LENGTH
             && backRightPose2d.getY() > 0 && backRightPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(backRightPose2d, AprilTagManager.getBackRightTimestamp());
       }
-    //   jank.restart();
-    // }
+    
+      SmartDashboard.putBoolean("ODOFlag", RobotContainer.odometryFlag);
 
     double dist = RobotContainer.drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
     Logger.recordOutput("Regression/Aim Distance", dist);
-    Logger.recordOutput("Regression/ArmSetAngle", DistanceToArmAngleModel.getInstance().applyFunction(dist));
+    Logger.recordOutput("Regression/ArmSetAngle", DistanceToArmAngleModel.getInstance(RobotContainer.lastModelForShot).applyFunction(dist));
 
     SmartDashboard.putString("RobotState", Governor.getRobotState().toString());
     SmartDashboard.putString("QueuedState", Governor.getQueuedState().toString());
     Logger.recordOutput("RobotState/RobotState", Governor.getRobotState().toString());
     Logger.recordOutput("RobotState/QueuedState", Governor.getQueuedState().toString());
     Logger.recordOutput("RobotState/LastState", Governor.getDesiredRobotState().toString());
+    Logger.recordOutput("RobotState/DesiredState", Governor.getDesiredRobotState());
+
+    Logger.recordOutput("LastRegressionModel", RobotContainer.lastModelForShot);
   }
 
   @Override
   public void disabledInit() {
-    try {
-      ArrayList<double[]> points = DistanceToArmAngleModel.getInstance().getUntransformedPoints();
-
-            FileWriter fileWriter = new FileWriter(new File("U/distanceToArmAngle" + Timer.getFPGATimestamp() + ".txt"));
-
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-            bufferedWriter.flush();
-
-            bufferedWriter.write(DistanceToArmAngleModel.getInstance().getEquation() + "\n");
-
-            for(int i = 0; i < points.size(); i++) {
-                bufferedWriter.write(points.get(i)[0] + " " + points.get(i)[1]);
-                if(i != points.size() - 1) bufferedWriter.write("\n");
-            }
-
-            bufferedWriter.close();
-            System.out.println("yay");
-        } catch(Exception e) {
-            System.out.println("UH OH");
-        }
+    for(String fileName : Constants.FileNames.ArmAngleFiles) {
+      RobotContainer.writeRegressionFile(
+        (DriverStation.getAlliance().orElse(Alliance.Blue)==Alliance.Blue ? "blue/" : "red/") +
+        fileName);
+    }
+    // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_CLOSE);
+    // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_AMP);
+    // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_SOURCE);
   }
 
   @Override
@@ -197,6 +187,9 @@ public class Robot extends LoggedRobot {
     
     
     CommandScheduler.getInstance().schedule(new Dictator());
+    RobotContainer.odometryFlag = true;
+
+    RobotContainer.drive.enableStatorLimits(false);
   }
 
   @Override
@@ -215,12 +208,13 @@ public class Robot extends LoggedRobot {
     // CommandScheduler.getInstance().schedule(new President());
     // Governor.setRobotState(RobotState.NEUTRAL, true);
 
+    RobotContainer.drive.overrideVisionOdo = false;
 
+    RobotContainer.drive.enableStatorLimits(true);
   }
 
   @Override
   public void teleopPeriodic() {
-
   }
 
   @Override

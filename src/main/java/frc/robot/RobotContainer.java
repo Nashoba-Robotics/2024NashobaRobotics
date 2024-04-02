@@ -1,5 +1,9 @@
 package frc.robot;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.function.BooleanSupplier;
 
 import org.littletonrobotics.junction.Logger;
@@ -9,10 +13,12 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -21,16 +27,20 @@ import frc.robot.Governor.RobotState;
 import frc.robot.commands.AimToSpeakerCommand;
 import frc.robot.commands.AimToStation;
 import frc.robot.commands.auto.amp.ToAmpCommand;
+import frc.robot.commands.auto.remaps.P3Check;
+import frc.robot.commands.auto.remaps.P4Check;
+import frc.robot.commands.auto.remaps.P6Check;
+import frc.robot.commands.auto.remaps.P7Check;
 import frc.robot.commands.auto.source.ToSource0Command;
 import frc.robot.commands.auto.source.ToSource1Command;
 import frc.robot.commands.auto.source.ToSource2Command;
-import frc.robot.commands.setters.groups.ToAmp;
-import frc.robot.commands.setters.groups.ToAmpAdj;
+import frc.robot.commands.setters.groups.ToClimbPrep;
 import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.groups.ToShuttle;
 import frc.robot.commands.setters.groups.ToShuttlePrep;
+import frc.robot.commands.setters.units.climber.ClimbToManual;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
-import frc.robot.commands.setters.units.loader.NoteToAmpOut;
+import frc.robot.commands.test.ArmTuneCommand;
 import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.test.ClimberTuneCommand;
 import frc.robot.commands.test.ManualShootCommand;
@@ -57,6 +67,9 @@ public class RobotContainer {
   public static final LEDManager leds = new LEDManager();
   public static final ClimberSubsytem climber = new ClimberSubsytem();
   public static final SensorManager sensors = new SensorManager();
+
+  public static String lastModelForShot = Constants.FileNames.getClose();
+  public static ManualShootCommand shootMan = new ManualShootCommand(loader, arm);
   
   private static SendableChooser<Command> autoChooser;
 
@@ -77,19 +90,18 @@ public class RobotContainer {
   private Trigger puke = joysticks.getDriverController().button(9);
   private Trigger shootPrep = joysticks.getDriverController().button(6);
 
-  private Trigger shuttle = joysticks.getDriverController().button(4);
-  private Trigger shuttlePrep = joysticks.getDriverController().button(1);
+  private Trigger highShuttle = joysticks.getDriverController().button(4);
+  private Trigger lowShuttle = joysticks.getDriverController().button(1);
+  public static ToShuttlePrep highShuttlePrep = new ToShuttlePrep(true);
+  public static ToShuttlePrep lowShuttlePrep = new ToShuttlePrep(false);
+  public static ToShuttle highShuttleCmd = new ToShuttle(true);
+  public static ToShuttle lowShuttleCmd = new ToShuttle(false);
+  private boolean thingRan = false;
 
-  private Trigger increaseSpeed = joysticks.getOperatorController().button(6);  //rb
-  private Trigger decreaseSpeed = joysticks.getOperatorController().button(5);  //lb
+  private Trigger toFieldCentric = joysticks.getDriverController().povDown();
+  private Trigger toRobotCentric = joysticks.getDriverController().povUp();
 
-  private boolean aimOverrideTriggered = false;
-  // private Trigger armAimOverride = joysticks.getOperatorController().button(-1).debounce(0.1);
-  private Trigger shootOveride = joysticks.getOperatorController().button(8);
-  //Drive override -> B
-  // Arm override -> Y
-
-  // private Trigger deployClimb = joysticks.getOperatorController().button(0);
+  private Trigger deployClimb = joysticks.getOperatorController().button(6);
   // private Trigger climb = joysticks.getOperatorController().button(0);
 
   private Trigger aimedToHigh = joysticks.getOperatorController().button(4); //X
@@ -97,19 +109,17 @@ public class RobotContainer {
   private Trigger aimedJustRight = joysticks.getOperatorController().button(3); //A
 
   private Trigger prep90 = joysticks.getOperatorController().button(10);
+  public static Trigger cleanupUnscoredNotesTrigger = joysticks.getOperatorController().button(8);  //RT (Runs the shooter)
+  public static Trigger sHooterInterruptTrigger = joysticks.getOperatorController().button(7);
 
 
   // private Trigger resetOdometryFromCamera = joysticks.getDriverController.button(11);
 
   public static AimToSpeakerCommand aimToSpeakerCommand = new AimToSpeakerCommand(drive, joysticks);
 
-  public static enum NoteState{
-    NONE,
-    SHOOTER,
-    LOADER
-  }
+  public static boolean disruptFlag = false;
 
-  public static NoteState noteState = NoteState.NONE;
+  public static boolean odometryFlag = false;
 
   public RobotContainer() {
     addShuffleBoardData();
@@ -139,7 +149,6 @@ public class RobotContainer {
     toAmpPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP_ADJ)));
     toAmpPrep.onTrue(new SequentialCommandGroup(
       new ToAmpCommand()
-      // new InstantCommand(() -> Governor.setRobotState(RobotState.AMP))
     ).until(new BooleanSupplier() {
       @Override
       public boolean getAsBoolean() {
@@ -148,89 +157,129 @@ public class RobotContainer {
     })
     );
 
-    toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE))); // TODO: check if we can call onTrue twice and have both commands still work
+    toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE)));
 
     puke.onTrue(new ToPuke());
     shootPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP)));
     shootPrep.onTrue(new AimToSpeakerCommand(drive, joysticks));
 
-    shuttle.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE)));
-    shuttlePrep.onTrue(new InstantCommand(()->Governor.setRobotState(RobotState.SHUTTLE_ADJ)));
-    shuttlePrep.onTrue(new AimToStation(drive, joysticks));
+    highShuttle.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean(){
+        return !highShuttlePrep.isScheduled() && !highShuttleCmd.isScheduled() && !thingRan;
+      }
+    }).onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.SHUTTLE_HIGH_ADJ);
+      thingRan = true;
+    }));
 
-    increaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 10)));
-    decreaseSpeed.onTrue(new InstantCommand(()->Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() - 10)));
+    highShuttle.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean(){
+        return highShuttlePrep.isScheduled() &&!highShuttleCmd.isScheduled() && !thingRan;
+      }
+    }).onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.SHUTTLE_HIGH);
+      thingRan = true;
+    }));
 
-    //TODO: Test this.
-    // armAimOverride.onTrue(new InstantCommand(()->{Presets.Arm.OVERRIDE_AUTOMATIC_AIM = true; aimOverrideTriggered = true;})).and(new BooleanSupplier() {
-    //   @Override
-    //   public boolean getAsBoolean() {
-    //       return !Presets.Arm.OVERRIDE_AUTOMATIC_AIM && !aimOverrideTriggered;
-    //   } 
-    // });
-    // armAimOverride.onTrue(new InstantCommand(()->{Presets.Arm.OVERRIDE_AUTOMATIC_AIM = false; aimOverrideTriggered = true;})).and(new BooleanSupplier() {
-    //   @Override
-    //   public boolean getAsBoolean() {
-    //       return Presets.Arm.OVERRIDE_AUTOMATIC_AIM && !aimOverrideTriggered;
-    //   } 
-    // });
-    // armAimOverride.onFalse(new InstantCommand(()->aimOverrideTriggered = false));
-    shootOveride.onTrue(new GrabberToShoot());
+    highShuttle.onFalse(new InstantCommand(()->thingRan = false));
+
+    lowShuttle.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean(){
+        return !lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
+      }
+    }).onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.SHUTTLE_LOW_ADJ);
+      thingRan = true;
+    }
+    ));
+
+    lowShuttle.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean(){
+        return lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
+      }
+    }).onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.SHUTTLE_LOW);
+      thingRan = true;
+    }));
+
+    lowShuttle.onFalse(new InstantCommand(()->thingRan = false));
+
+    lowShuttle.or(()->highShuttle.getAsBoolean()).onTrue(new AimToSpeakerCommand(drive, joysticks));
+
+    cleanupUnscoredNotesTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED)));
+    sHooterInterruptTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterPercent(0)));
 
     aimedToHigh.onTrue(new InstantCommand(() -> {
-      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(lastModelForShot);
       double distance = instance.lastDistanceToShoot;
-      DistanceToArmAngleModel.getInstance().updateModel(
+      DistanceToArmAngleModel.getInstance(lastModelForShot).updateModel(
         new double[] {distance, instance.applyFunction(distance) + Constants.Misc.OPERATOR_ANGLE_CORRECTION},
         true);
     }));
 
     aimedToLow.onTrue(new InstantCommand(() -> {
-      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(lastModelForShot);
       double distance = instance.lastDistanceToShoot;
-      DistanceToArmAngleModel.getInstance().updateModel(
+      DistanceToArmAngleModel.getInstance(lastModelForShot).updateModel(
         new double[] {distance, instance.applyFunction(distance) - Constants.Misc.OPERATOR_ANGLE_CORRECTION},
         true);
     }));
 
     aimedJustRight.onTrue(new InstantCommand(() -> {
-      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance();
+      DistanceToArmAngleModel instance = DistanceToArmAngleModel.getInstance(lastModelForShot);
       double distance = instance.lastDistanceToShoot;
-      DistanceToArmAngleModel.getInstance().updateModel(
+      DistanceToArmAngleModel.getInstance(lastModelForShot).updateModel(
         new double[] {distance, instance.applyFunction(distance)},
         false);
     }));
 
     
-    prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));             
+    prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));   
+    
+    // deployClimb.onTrue(new ToClimbPrep());
+    deployClimb.onTrue(new ParallelCommandGroup(
+      new InstantCommand(()->arm.setArmPivot(Rotation2d.fromRadians(0.1))),
+      new ClimbToManual()
+    ));
+
+    toFieldCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(true)));
+    toRobotCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(false)));
   }
 
   private void addShuffleBoardData() {
-    SmartDashboard.putData(new ManualShootCommand(loader, arm));
-    // SmartDashboard.putData(new ClimberTuneCommand(climber));
-    // SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
-    //     SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
-      SmartDashboard.putData(new ClimberTestCommand(climber));
+    SmartDashboard.putData(shootMan);
+    SmartDashboard.putData(new ClimberTuneCommand(climber));
+    SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
+    SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
+      // SmartDashboard.putData(new ClimberTestCommand(climber));
     // SmartDashboard.putData("Amp Prep", new ToNewAmpAdj());
     // SmartDashboard.putData("Amp Score", new ToNewAmp());
     // SmartDashboard.putData(new NoteToAmpOut());
 
     SmartDashboard.putData(new TestServoCommand(climber));
+    SmartDashboard.putData(new ClimbToManual());
+    SmartDashboard.putData("TuneArm",
+      new ArmTuneCommand(arm)
+    );
   }
 
-  private void configureEvents() {   
+  private void configureEvents() {
+    NamedCommands.registerCommand("Neutral", new InstantCommand(() -> Governor.setRobotState(RobotState.NEUTRAL, true)));
     NamedCommands.registerCommand("ShootPrep", new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true)));
     NamedCommands.registerCommand("Intake", new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true)));
     NamedCommands.registerCommand("ShootWait", new SequentialCommandGroup(
       new WaitUntilCommand(new BooleanSupplier() {
       @Override
       public boolean getAsBoolean() {
-          return sensors.getShooterSensor() && Governor.getRobotState() == RobotState.SHOOT_PREP;
+          return sensors.getShooterSensor() && Governor.getRobotState() == RobotState.NEUTRAL;
       }
     }).withTimeout(3),
       new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
-      new WaitCommand(0.2),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
         public boolean getAsBoolean() {
@@ -242,15 +291,52 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
       new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
-      new WaitCommand(0.2),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
         public boolean getAsBoolean() {
             return Governor.getDesiredRobotState() != RobotState.SHOOT;
         }
-      }).withTimeout(3), //Consider adding additional loader sensor
-      new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true))
+      }).withTimeout(3)
     ));
+    NamedCommands.registerCommand("ShootDisrupt", new SequentialCommandGroup(
+      new InstantCommand(() -> disruptFlag = true),
+      new AimToSpeakerCommand(drive, joysticks),
+      new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
+      new WaitUntilCommand(new BooleanSupplier() {
+        @Override
+        public boolean getAsBoolean() {
+            return Governor.getDesiredRobotState() != RobotState.SHOOT;
+        }
+      }).withTimeout(3),
+      new InstantCommand(() -> disruptFlag = false)
+    ));
+
+    NamedCommands.registerCommand("Disrupt", new SequentialCommandGroup(
+      new InstantCommand(() -> Governor.setRobotState(RobotState.MISC, true)),
+      new InstantCommand(() -> {
+        intake.setSpeed(Presets.Intake.INTAKE_SPEED);
+        loader.setRollerSpeed(-0.9);
+        arm.setShooterPercent(0.2);
+        arm.setArmPivot(Presets.Arm.NEUTRAL_POS);
+      })
+      )
+    );
+
+    NamedCommands.registerCommand("Disrupt2", new SequentialCommandGroup(
+      new InstantCommand(() -> Governor.setRobotState(RobotState.MISC, true)),
+      new InstantCommand(() -> {
+        intake.setSpeed(Presets.Intake.INTAKE_SPEED);
+        loader.setRollerSpeed(-0.9);
+        arm.setShooterPercent(0.5);
+        arm.setArmPivot(Presets.Arm.NEUTRAL_POS);
+      })
+      )
+    );
+
+    NamedCommands.registerCommand("P3Check", new P3Check());
+    NamedCommands.registerCommand("P4Check", new P4Check());
+    NamedCommands.registerCommand("P6Check", new P6Check());
+    NamedCommands.registerCommand("P7Check", new P7Check());
   }
 
   private int sourceIndex;
@@ -300,6 +386,31 @@ public class RobotContainer {
 
   public Command getAutoCommand() {
     return autoChooser.getSelected();
+  }
+
+  public static void writeRegressionFile(String fileName) {
+    try {
+      ArrayList<double[]> points = DistanceToArmAngleModel.getInstance(fileName).getUntransformedPoints();
+
+            FileWriter fileWriter = new FileWriter(new File("U/regressionModel/" + fileName.split("\\.")[0] + System.currentTimeMillis() + ".txt"));
+
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            bufferedWriter.flush();
+
+            bufferedWriter.write(DistanceToArmAngleModel.getInstance(fileName).getEquation() + "\n");
+
+            for(int i = 0; i < points.size(); i++) {
+                bufferedWriter.write(points.get(i)[0] + " " + points.get(i)[1]);
+                if(i != points.size() - 1) bufferedWriter.write("\n");
+            }
+
+            bufferedWriter.close();
+            System.out.println("yay");
+        } catch(Exception e) {
+            System.out.println("UH OH");
+            System.out.println(e);
+        }
   }
 
 }

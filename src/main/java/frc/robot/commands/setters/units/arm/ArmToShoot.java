@@ -1,5 +1,7 @@
 package frc.robot.commands.setters.units.arm;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -30,7 +32,26 @@ public class ArmToShoot extends Command{
     public void execute() {
         
         double dist = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
-        angle = DistanceToArmAngleModel.getInstance().applyFunction(dist);
+        if(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+            if(RobotContainer.drive.getPose().getX() < Constants.Misc.CLOSE_FAR_CUTOFF) {
+                angle = DistanceToArmAngleModel.getInstance(Constants.FileNames.getClose()).applyFunction(dist);
+            } else {
+                angle = RobotContainer.drive.getPose().getY() > Constants.Misc.SOURCE_AMP_CUTOFF ?
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarAmp()).applyFunction(dist) :
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarSource()).applyFunction(dist);
+            }
+        } else {
+            if(RobotContainer.drive.getPose().getX() > Constants.Field.LENGTH - Constants.Misc.CLOSE_FAR_CUTOFF) {
+                angle = DistanceToArmAngleModel.getInstance(Constants.FileNames.getClose()).applyFunction(dist);
+            } else {
+                angle = RobotContainer.drive.getPose().getY() > Constants.Misc.SOURCE_AMP_CUTOFF ?
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarAmp()).applyFunction(dist) :
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarSource()).applyFunction(dist);
+            }
+        }
+        
+
+        Logger.recordOutput("SetAngle", angle);
 
        if(Presets.Arm.OVERRIDE_AUTOMATIC_AIM) angle = Presets.Arm.PODIUM_SHOOTER_POS.getRadians();
 

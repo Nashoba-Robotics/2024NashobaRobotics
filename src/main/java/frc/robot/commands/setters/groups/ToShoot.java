@@ -5,12 +5,10 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Governor;
 import frc.robot.Governor.RobotState;
-import frc.robot.Presets;
 import frc.robot.RobotContainer;
 import frc.robot.commands.setters.units.arm.ArmMaintainPos;
 import frc.robot.commands.setters.units.arm.ArmToShoot;
 import frc.robot.commands.setters.units.arm.ShooterToShoot;
-import frc.robot.commands.setters.units.intake.IntakeToShoot;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
 
 public class ToShoot extends SequentialCommandGroup {
@@ -20,11 +18,10 @@ public class ToShoot extends SequentialCommandGroup {
             new InstantCommand(() -> RobotContainer.loader.setRollerSpeed(0), RobotContainer.loader),
             new ArmToShoot().withTimeout(2),
             new ArmMaintainPos(),
-            new ShooterToShoot().withTimeout(2),
+            new ShooterToShoot().withTimeout(0.7),
             Governor.getSetStateCommand(RobotState.SHOOT),
             new ParallelCommandGroup(
                 new GrabberToShoot()
-                // new IntakeToShoot()
             )
         );
     }

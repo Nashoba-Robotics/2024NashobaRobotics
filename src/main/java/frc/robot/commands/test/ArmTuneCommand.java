@@ -5,7 +5,10 @@ import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
+import frc.robot.Governor;
 import frc.robot.Tabs;
+import frc.robot.Governor.RobotState;
 import frc.robot.subsystems.arm.ArmSubsystem;
 
 public class ArmTuneCommand extends Command{
@@ -18,13 +21,19 @@ public class ArmTuneCommand extends Command{
 
     @Override
     public void initialize() {
-        // SmartDashboard.putNumber("kG", lastkG);
-        // SmartDashboard.putNumber("kS", lastkS);
-        // SmartDashboard.putNumber("kV", lastkV);
-        // SmartDashboard.putNumber("kP", lastkP);
-        // SmartDashboard.putNumber("kD", lastkD);
+        lastkG = Constants.Arm.PIVOT_PID.kG;
+        lastkV = Constants.Arm.PIVOT_PID.kV;
+        lastkS = Constants.Arm.PIVOT_PID.kS;
+        lastkP = Constants.Arm.PIVOT_PID.kP;
+        lastkD = Constants.Arm.PIVOT_PID.kD;
 
-        SmartDashboard.putNumber("Arm Deg", 0);
+        SmartDashboard.putNumber("kG", lastkG);
+        SmartDashboard.putNumber("kS", lastkS);
+        SmartDashboard.putNumber("kV", lastkV);
+        SmartDashboard.putNumber("kP", lastkP);
+        SmartDashboard.putNumber("kD", lastkD);
+
+        SmartDashboard.putNumber("Arm Deg", arm.getArmPivotAngle().getDegrees());
         SmartDashboard.putNumber("Shoot Speed", 0);
 
         // Tabs.addTab("Arm");
@@ -42,36 +51,36 @@ public class ArmTuneCommand extends Command{
 
     @Override
     public void execute() {
-        // // double kG = SmartDashboard.getNumber("kG", 0);
+        double kG = SmartDashboard.getNumber("kG", 0);
         // double kG = Tabs.getNumber("Arm", "kG");
-        // if(kG != lastkG){
-        //     arm.setArmPivotkG(kG);
-        //     lastkG = kG;
-        // }
-        // // double kS = SmartDashboard.getNumber("kS", 0);
+        if(kG != lastkG){
+            arm.setArmPivotkG(kG);
+            lastkG = kG;
+        }
+        double kS = SmartDashboard.getNumber("kS", 0);
         // double kS = Tabs.getNumber("Arm", "kS");
-        // if(kS != lastkS){
-        //     arm.setArmPivotkS(kS);
-        //     lastkS = kS;
-        // }
-        // // double kV = SmartDashboard.getNumber("kV", 0);
+        if(kS != lastkS){
+            arm.setArmPivotkS(kS);
+            lastkS = kS;
+        }
+        double kV = SmartDashboard.getNumber("kV", 0);
         // double kV = Tabs.getNumber("Arm", "kV");
-        // if(kV != lastkV){
-        //     arm.setArmPivotkV(kV);
-        //     lastkV = kV;
-        // }
-        // // double kP = SmartDashboard.getNumber("kP", 0);
+        if(kV != lastkV){
+            arm.setArmPivotkV(kV);
+            lastkV = kV;
+        }
+        double kP = SmartDashboard.getNumber("kP", 0);
         // double kP = Tabs.getNumber("Arm", "kP");
-        // if(kP != lastkP){
-        //     arm.setArmPivotkP(kP);
-        //     lastkP = kP;
-        // }
-        // // double kD = SmartDashboard.getNumber("kD", 0);
+        if(kP != lastkP){
+            arm.setArmPivotkP(kP);
+            lastkP = kP;
+        }
+        double kD = SmartDashboard.getNumber("kD", 0);
         // double kD = Tabs.getNumber("Arm", "kD");
-        // if(kD != lastkD){
-        //     arm.setArmPivotkD(kD);
-        //     lastkD = kD;
-        // }
+        if(kD != lastkD){
+            arm.setArmPivotkD(kD);
+            lastkD = kD;
+        }
 
         double angle = SmartDashboard.getNumber("Arm Deg", 0);
         // double angle = Tabs.getNumber("Arm", "Arm Deg");

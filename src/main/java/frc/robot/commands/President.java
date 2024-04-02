@@ -1,6 +1,10 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -78,13 +82,43 @@ public class President extends Command {
         } else {
             queueFlag = false;
         }
-
+        
         switch (Governor.getRobotState()) {
             case NEUTRAL:
                 // drive.state = DriveState.DRIVER;
                 // if(loader.getShooterSensor()) Governor.setRobotState(RobotState.SHOOT_PREP);
                 // if(RobotContainer.sensors.getShooterSensor() && Governor.getLastRobotState()==RobotState.INTAKE) 
                 //     CommandScheduler.getInstance().schedule(new InstantCommand(()->RobotContainer.intake.setSpeed(-0.1), RobotContainer.intake));
+                Pose2d drivePos = RobotContainer.drive.getPose();
+                if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean() && !RobotContainer.sHooterInterruptTrigger.getAsBoolean()){
+                    switch (DriverStation.getAlliance().orElse(Alliance.Blue)) {
+                        case Blue:
+                            if(RobotContainer.sensors.getShooterSensor()){
+                                if(drivePos.getX() <= Constants.Field.LENGTH/2) RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+                                // else RobotContainer.arm.setIdleSpeed(0.2);
+                                else RobotContainer.arm.setShooterPercent(0.2);
+                            }
+                            else{
+                                RobotContainer.arm.setShooterPercent(0.05);
+                                // RobotContainer.arm.setIdleSpeed(0.05);
+                            }
+                            break;
+                        case Red:
+                            if(RobotContainer.sensors.getShooterSensor()){
+                                if(drivePos.getX() >= Constants.Field.LENGTH/2){
+                                    RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+                                    // RobotContainer.arm.rampToSpeed();
+                                }
+                                // else RobotContainer.arm.setIdleSpeed(0.2);
+                                else RobotContainer.arm.setShooterPercent(0.2);
+                            }
+                    else{
+                        RobotContainer.arm.setShooterPercent(0.05);
+                        // RobotContainer.arm.setIdleSpeed(0.05);
+                    }
+                    break;
+                    }
+                }
                 break;
             case TRANSITION:
                 //TODO:
@@ -109,13 +143,40 @@ public class President extends Command {
                 if(shootFlag && shootTimer.get() > 0.1
                 && !RobotContainer.sensors.getLoaderSensor()
                 && !RobotContainer.sensors.getShooterSensor()){
-                    DistanceToArmAngleModel.getInstance().lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+
+                    if(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+                        if(RobotContainer.drive.getPose().getX() < Constants.Misc.CLOSE_FAR_CUTOFF) {
+                            RobotContainer.lastModelForShot = Constants.FileNames.getClose();
+                            DistanceToArmAngleModel.getInstance(Constants.FileNames.getClose()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                        } else {
+                            if(drive.getPose().getTranslation().getY() < Constants.Misc.SOURCE_AMP_CUTOFF) {
+                            RobotContainer.lastModelForShot = Constants.FileNames.getFarSource();
+                            DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarSource()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                            } else {
+                                RobotContainer.lastModelForShot = Constants.FileNames.getFarAmp();
+                                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarAmp()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                            }
+                        }
+                    } else {
+                        if(RobotContainer.drive.getPose().getX() > Constants.Field.LENGTH - Constants.Misc.CLOSE_FAR_CUTOFF) {
+                            RobotContainer.lastModelForShot = Constants.FileNames.getClose();
+                            DistanceToArmAngleModel.getInstance(Constants.FileNames.getClose()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                        } else {
+                            if(drive.getPose().getTranslation().getY() < Constants.Misc.SOURCE_AMP_CUTOFF) {
+                            RobotContainer.lastModelForShot = Constants.FileNames.getFarSource();
+                            DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarSource()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                            } else {
+                                RobotContainer.lastModelForShot = Constants.FileNames.getFarAmp();
+                                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarAmp()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                            }
+                        }
+                    }
+
                     Governor.setRobotState(RobotState.NEUTRAL);
                     shootFlag = false;
                     shootTimer.stop();
                 } 
 
-                //TODO: When odometry is in a certain range, go to shoot prep
                 break;
             case AMP:
                 if(!ampFlag){
@@ -131,8 +192,34 @@ public class President extends Command {
                     ampSensorFlag = false;
                     ampTimer.stop();
                 } 
-               break; 
+            break; 
             case SHUTTLE:
+                if(!shuttleFlag){
+                    shuttleTimer.restart();
+                    shuttleFlag = true;
+                }
+                if(shuttleFlag 
+                && !RobotContainer.sensors.getShooterSensor() 
+                && shuttleTimer.get()>0.1){
+                    shuttleFlag = false;
+                    shuttleTimer.stop();
+                    Governor.setRobotState(RobotState.NEUTRAL);
+                }
+                break;
+            case SHUTTLE_HIGH:
+                if(!shuttleFlag){
+                    shuttleTimer.restart();
+                    shuttleFlag = true;
+                }
+                if(shuttleFlag 
+                && !RobotContainer.sensors.getShooterSensor() 
+                && shuttleTimer.get()>0.1){
+                    shuttleFlag = false;
+                    shuttleTimer.stop();
+                    Governor.setRobotState(RobotState.NEUTRAL);
+                }
+                break;
+            case SHUTTLE_LOW:
                 if(!shuttleFlag){
                     shuttleTimer.restart();
                     shuttleFlag = true;
@@ -147,8 +234,7 @@ public class President extends Command {
                 break;
             default:
                 break;
-        }
+            }
     }
-
     
 }

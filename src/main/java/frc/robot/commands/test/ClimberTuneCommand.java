@@ -31,8 +31,8 @@ public class ClimberTuneCommand extends Command{
 
     @Override
     public void execute() {
-        double pos = SmartDashboard.getNumber("Climber Pos", 0);
-        climber.setClimberPos(Rotation2d.fromRadians(pos));
+        Rotation2d pos = Rotation2d.fromRadians(SmartDashboard.getNumber("Climber Pos", 0));
+        climber.setClimberPos(pos);
 
         double kS = SmartDashboard.getNumber("Climber kS", 0);
         if(kS != lastkS){

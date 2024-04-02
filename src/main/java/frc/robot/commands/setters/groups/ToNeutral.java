@@ -13,8 +13,6 @@ import frc.robot.Governor.RobotState;
 import frc.robot.commands.setters.units.StopAllRollers;
 import frc.robot.commands.setters.units.arm.ArmToNeutral;
 import frc.robot.commands.setters.units.loader.LoaderToNeutral;
-import frc.robot.commands.setters.units.loader.NoteToLoader;
-import frc.robot.commands.setters.units.loader.NoteToLoaderOut;
 import frc.robot.commands.setters.units.loader.NoteToShooter;
 
 public class ToNeutral extends SequentialCommandGroup {
@@ -25,7 +23,7 @@ public class ToNeutral extends SequentialCommandGroup {
         nShoot = new NoteToShooter();
         addCommands(
             new StopAllRollers(),
-            // new NoteToLoaderOut(),
+            new InstantCommand(()->Governor.cleanUp=false),
             new ParallelCommandGroup(
                 new SequentialCommandGroup(
                     lNeut,
