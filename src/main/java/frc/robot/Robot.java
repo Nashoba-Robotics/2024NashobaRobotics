@@ -35,7 +35,6 @@ import frc.robot.subsystems.apriltags.AprilTagManager;
 public class Robot extends LoggedRobot {
 
   public RobotContainer robotContainer;
-  private Timer jank = new Timer();
 
   @Override
   public void robotInit() {
@@ -55,10 +54,9 @@ public class Robot extends LoggedRobot {
     Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
     
     robotContainer = new RobotContainer();
-    Tabs.addTab("April Tags");
 
-    jank.start();
-
+    SmartDashboard.putNumber("High Shuttle Speed", Presets.Arm.HIGH_SHUTTLE_SPEED.getRadians());
+    SmartDashboard.putNumber("Low Shuttle Speed", Presets.Arm.LOW_SHUTTLE_SPEED.getRadians());
     RobotContainer.odometryFlag = false;
   }
 
@@ -157,6 +155,7 @@ public class Robot extends LoggedRobot {
     Logger.recordOutput("RobotState/RobotState", Governor.getRobotState().toString());
     Logger.recordOutput("RobotState/QueuedState", Governor.getQueuedState().toString());
     Logger.recordOutput("RobotState/LastState", Governor.getDesiredRobotState().toString());
+    Logger.recordOutput("RobotState/DesiredState", Governor.getDesiredRobotState());
 
     Logger.recordOutput("LastRegressionModel", RobotContainer.lastModelForShot);
   }
@@ -164,7 +163,9 @@ public class Robot extends LoggedRobot {
   @Override
   public void disabledInit() {
     for(String fileName : Constants.FileNames.ArmAngleFiles) {
-      RobotContainer.writeRegressionFile((DriverStation.getAlliance().orElse(Alliance.Blue)==Alliance.Blue ? "blue/" : "red/") + fileName);
+      RobotContainer.writeRegressionFile(
+        (DriverStation.getAlliance().orElse(Alliance.Blue)==Alliance.Blue ? "blue/" : "red/") +
+        fileName);
     }
     // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_CLOSE);
     // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_AMP);
@@ -187,6 +188,8 @@ public class Robot extends LoggedRobot {
     
     CommandScheduler.getInstance().schedule(new Dictator());
     RobotContainer.odometryFlag = true;
+
+    RobotContainer.drive.enableStatorLimits(false);
   }
 
   @Override
@@ -207,6 +210,7 @@ public class Robot extends LoggedRobot {
 
     RobotContainer.drive.overrideVisionOdo = false;
 
+    RobotContainer.drive.enableStatorLimits(true);
   }
 
   @Override

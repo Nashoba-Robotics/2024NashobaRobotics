@@ -82,40 +82,43 @@ public class President extends Command {
         } else {
             queueFlag = false;
         }
-
-        Pose2d drivePos = RobotContainer.drive.getPose();
-        if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean() && !RobotContainer.sHooterInterruptTrigger.getAsBoolean()){
-            switch (DriverStation.getAlliance().orElse(Alliance.Blue)) {
-            case Blue:
-                if(RobotContainer.sensors.getShooterSensor()){
-                    if(drivePos.getX() <= Constants.Field.LENGTH/2) RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
-                    else 
-                    RobotContainer.arm.setShooterPercent(0.2);
-                }
-                else{
-                    RobotContainer.arm.setShooterPercent(0.05);
-                }
-                break;
-            case Red:
-                if(RobotContainer.sensors.getShooterSensor()){
-                    if(drivePos.getX() >= Constants.Field.LENGTH/2){
-                        RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
-                    }
-                    else 
-                    RobotContainer.arm.setShooterPercent(0.2);
-                }
-                else{
-                    RobotContainer.arm.setShooterPercent(0.05);
-                }
-                break;
-        }
-        }
+        
         switch (Governor.getRobotState()) {
             case NEUTRAL:
                 // drive.state = DriveState.DRIVER;
                 // if(loader.getShooterSensor()) Governor.setRobotState(RobotState.SHOOT_PREP);
                 // if(RobotContainer.sensors.getShooterSensor() && Governor.getLastRobotState()==RobotState.INTAKE) 
                 //     CommandScheduler.getInstance().schedule(new InstantCommand(()->RobotContainer.intake.setSpeed(-0.1), RobotContainer.intake));
+                Pose2d drivePos = RobotContainer.drive.getPose();
+                if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean() && !RobotContainer.sHooterInterruptTrigger.getAsBoolean()){
+                    switch (DriverStation.getAlliance().orElse(Alliance.Blue)) {
+                        case Blue:
+                            if(RobotContainer.sensors.getShooterSensor()){
+                                if(drivePos.getX() <= Constants.Field.LENGTH/2) RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+                                // else RobotContainer.arm.setIdleSpeed(0.2);
+                                else RobotContainer.arm.setShooterPercent(0.2);
+                            }
+                            else{
+                                RobotContainer.arm.setShooterPercent(0.05);
+                                // RobotContainer.arm.setIdleSpeed(0.05);
+                            }
+                            break;
+                        case Red:
+                            if(RobotContainer.sensors.getShooterSensor()){
+                                if(drivePos.getX() >= Constants.Field.LENGTH/2){
+                                    RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
+                                    // RobotContainer.arm.rampToSpeed();
+                                }
+                                // else RobotContainer.arm.setIdleSpeed(0.2);
+                                else RobotContainer.arm.setShooterPercent(0.2);
+                            }
+                    else{
+                        RobotContainer.arm.setShooterPercent(0.05);
+                        // RobotContainer.arm.setIdleSpeed(0.05);
+                    }
+                    break;
+                    }
+                }
                 break;
             case TRANSITION:
                 //TODO:
@@ -151,7 +154,7 @@ public class President extends Command {
                             DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarSource()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
                             } else {
                                 RobotContainer.lastModelForShot = Constants.FileNames.getFarAmp();
-                                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarSource()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarAmp()).lastDistanceToShoot = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
                             }
                         }
                     } else {

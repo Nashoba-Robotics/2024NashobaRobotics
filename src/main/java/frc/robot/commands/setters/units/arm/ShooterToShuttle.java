@@ -1,6 +1,7 @@
 package frc.robot.commands.setters.units.arm;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Governor;
 import frc.robot.Presets;
@@ -20,7 +21,9 @@ public class ShooterToShuttle extends Command{
 
     @Override
     public void execute() {
-        speed = high ? Presets.Arm.HIGH_SHUTTLE_SPEED : Presets.Arm.LOW_SHUTTLE_SPEED;
+        // speed = high ? Presets.Arm.HIGH_SHUTTLE_SPEED : Presets.Arm.LOW_SHUTTLE_SPEED;
+        speed = Rotation2d.fromRadians(high ? SmartDashboard.getNumber("High Shuttle Speed", 0) : SmartDashboard.getNumber("Low Shuttle Speed", 0));
+
         arm.setShooterSpeed(speed);
     }
 

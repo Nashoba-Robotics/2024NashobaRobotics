@@ -72,7 +72,7 @@ public class DriveSubsystem extends SubsystemBase{
             getSwerveModulePositions(),
             new Pose2d(0, 0, getGyroAngle()),
             VecBuilder.fill(0.1, 0.1, 0.1),
-            VecBuilder.fill(3, 3, 10)
+            VecBuilder.fill(0.9, 0.9, 10)
             );
 
         AutoBuilder.configureHolonomic(
@@ -311,6 +311,12 @@ public class DriveSubsystem extends SubsystemBase{
     public void zeroAngle() {
         setAngle(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? Rotation2d.fromRadians(0) :
         Rotation2d.fromRadians(Constants.TAU/2));
+    }
+
+    public void enableStatorLimits(boolean enable){
+        for(Module mod : modules){
+            mod.enableStatorLimits(enable);
+        }
     }
 
     @Override

@@ -46,8 +46,8 @@ public class ModuleIOTalonFX implements ModuleIO {
         .withMotionMagicExpo_kV(0.12 * Constants.Drive.kSteerGearRatio)
         .withMotionMagicExpo_kA(0.1));
         module.getDriveMotor().getConfigurator().apply(new CurrentLimitsConfigs()
-        .withStatorCurrentLimitEnable(false)
-        .withStatorCurrentLimit(0)
+        .withStatorCurrentLimitEnable(true)
+        .withStatorCurrentLimit(Constants.Drive.kSlipCurrentA)
         .withSupplyCurrentLimitEnable(true).
         withSupplyCurrentLimit(Constants.Drive.kSlipCurrentA));
     }    
@@ -107,4 +107,11 @@ public class ModuleIOTalonFX implements ModuleIO {
         return module;
     }
 
+    public void enableMoveStatorLimit(boolean enable){
+         module.getDriveMotor().getConfigurator().apply(new CurrentLimitsConfigs()
+        .withStatorCurrentLimitEnable(enable)
+        .withStatorCurrentLimit(Constants.Drive.kSlipCurrentA)
+        .withSupplyCurrentLimitEnable(true).
+        withSupplyCurrentLimit(Constants.Drive.kSlipCurrentA));
+    }
 }

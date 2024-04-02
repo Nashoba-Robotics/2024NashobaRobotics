@@ -22,14 +22,14 @@ public class Presets {
         // public static final Rotation2d SHOOT_POS = Rotation2d.fromRadians(0);
         public static final Rotation2d SOURCE_POS = Rotation2d.fromDegrees(42);
         public static final Rotation2d LOW_SHUTTLE_POS = Rotation2d.fromDegrees(5);
-        public static final Rotation2d HIGH_SHUTTLE_POS = Rotation2d.fromDegrees(-30);
+        public static final Rotation2d HIGH_SHUTTLE_POS = Rotation2d.fromDegrees(-54);
 
         public static final Rotation2d CLIMB_PREP_POS = Rotation2d.fromRadians(0);
         public static final Rotation2d CLIMB_POS = Rotation2d.fromRadians(0);
         public static final Rotation2d TRAP_POS = Rotation2d.fromRadians(0);
 
 
-        public static final Rotation2d POS_TOLERANCE = Rotation2d.fromRadians(0.02);
+        public static final Rotation2d POS_TOLERANCE = Rotation2d.fromRadians(0.035);
 
 
 
@@ -40,7 +40,7 @@ public class Presets {
         public static final Rotation2d AMP_SPEED = Rotation2d.fromRadians(62.0);
         public static final Rotation2d SHUTTLE_SPEED = Rotation2d.fromRadians(300);
         public static final Rotation2d LOW_SHUTTLE_SPEED = Rotation2d.fromRadians(250);
-        public static final Rotation2d HIGH_SHUTTLE_SPEED = Rotation2d.fromRadians(225);
+        public static final Rotation2d HIGH_SHUTTLE_SPEED = Rotation2d.fromRadians(275);
 
         public static final Rotation2d SPEED_TOLERANCE = Rotation2d.fromRadians(2);
     }

@@ -107,7 +107,7 @@ public class DistanceToArmAngleModel {
         this.transformedPoints = new ArrayList<>();
         this.deleteRange = deleteRange;
 
-        for(double i = 1.25; i <= 5.25; i+= 0.25) {
+        for(double i = 1.5; i <= 5.00; i+= 0.5) {
             double x = Math.atan(i);
             untransformedPoints.add(new double[] {i, slope*x + intercept});
             transformedPoints.add(new double[] {x, slope*x + intercept});

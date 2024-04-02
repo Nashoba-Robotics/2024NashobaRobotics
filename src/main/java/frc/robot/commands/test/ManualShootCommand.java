@@ -22,7 +22,7 @@ public class ManualShootCommand extends Command {
 
     @Override
     public void initialize() {
-        Governor.setRobotState(RobotState.MISC, true);
+        // Governor.setRobotState(RobotState.MISC, true);
 
         SmartDashboard.putNumber("ShooterSpeed", 0);
         SmartDashboard.putNumber("LoaderSpeed", 0);
