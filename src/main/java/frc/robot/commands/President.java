@@ -140,7 +140,7 @@ public class President extends Command {
                     shootTimer.restart();
                     shootFlag = true;
                 }
-                if(shootFlag && shootTimer.get() > 0.1
+                if(shootFlag && shootTimer.get() > 0.05
                 && !RobotContainer.sensors.getLoaderSensor()
                 && !RobotContainer.sensors.getShooterSensor()){
 
