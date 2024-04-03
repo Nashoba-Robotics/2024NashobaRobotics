@@ -46,15 +46,15 @@ public class Constants {
             *      |            |
             *      --------------
             */
-            public static final Transform3d ROBOT_TO_CAMERA_FRONT_LEFT = new Transform3d(Units.inchesToMeters(13.25),Units.inchesToMeters(9.3), 0.25, new Rotation3d(0, -25./360*TAU, 20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_FRONT_RIGHT = new Transform3d(Units.inchesToMeters(13.25), Units.inchesToMeters(-9.3), 0.25, new Rotation3d(0, -25./360*TAU, -20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(10.758), 0.32, new Rotation3d(0, -40./360*TAU, 20./360*TAU + TAU/2));
-            public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(-10.758), 0.32, new Rotation3d(TAU/2, -40./360*TAU, -20./360*TAU-TAU/2));
+            public static final Transform3d ROBOT_TO_CAMERA_FRONT_LEFT = new Transform3d(Units.inchesToMeters(13.25)-0.04,Units.inchesToMeters(9.3), 0.25, new Rotation3d(0, -25./360*TAU, 20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_FRONT_RIGHT = new Transform3d(Units.inchesToMeters(13.25)+0.04, Units.inchesToMeters(-9.3), 0.25, new Rotation3d(0, -25./360*TAU, -20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(10.758), 0.32, new Rotation3d(-15./360*TAU, -40./360*TAU, 26./360*TAU + TAU/2));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(-10.758), 0.32, new Rotation3d(TAU/2 + 15./360*TAU, -40./360*TAU, -18./360*TAU-TAU/2));
             
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
-            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/WPIPracticePositions.json";
+            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/TestPositions.json";
 
             public static final double getXSD(double distance) {
                   return 0.0312*distance - 0.0494;
