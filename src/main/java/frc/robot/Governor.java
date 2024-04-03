@@ -30,6 +30,8 @@ public class Governor {
     private static RobotState queuedState = RobotState.UNKNOWN;
     private static RobotState desiredState = RobotState.UNKNOWN;
     private static RobotState lastState = RobotState.UNKNOWN;
+
+    public static boolean cleanUp = false;
     
     public enum RobotState {
         NEUTRAL,    //Wyoming
@@ -46,8 +48,13 @@ public class Governor {
         SHOOT,  //Texas
         AMP, //California
         AMP_ADJ,
+
         SHUTTLE,
         SHUTTLE_ADJ,
+        SHUTTLE_HIGH,
+        SHUTTLE_HIGH_ADJ,
+        SHUTTLE_LOW,
+        SHUTTLE_LOW_ADJ,
 
         CLIMB,
         CLIMB_PREP,
@@ -64,7 +71,8 @@ public class Governor {
         if(state == RobotState.TRANSITION && !override) queuedState = robotState;
         if(robotState == RobotState.UNKNOWN || robotState == RobotState.MISC) override = true;
         if(override || state != RobotState.TRANSITION) {
-            if(robotState != RobotState.UNKNOWN && robotState != RobotState.MISC) state = RobotState.TRANSITION;
+            if(robotState != RobotState.UNKNOWN) state = RobotState.TRANSITION;
+            if(robotState == RobotState.MISC) state = RobotState.MISC;
             switch (robotState) {
                 case NEUTRAL:
                     toNeutral();
@@ -74,6 +82,8 @@ public class Governor {
                 case UNKNOWN:
                     break;
                 case MISC:
+                    state = RobotState.MISC;
+                    CommandScheduler.getInstance().schedule(new InstantCommand(()->{}, RobotContainer.arm, RobotContainer.loader, RobotContainer.intake));
                     break;
                 case TRANSITION:
                     System.out.println("How did I get here?");
@@ -96,11 +106,17 @@ public class Governor {
                 case AMP_ADJ:
                     toAmpAdj();
                     break;
-                case SHUTTLE:
-                    toShuttle();
+                case SHUTTLE_HIGH:
+                    toShuttleHigh();
                     break;
-                case SHUTTLE_ADJ:
-                    toShuttleAdj();
+                case SHUTTLE_HIGH_ADJ:
+                    toShuttleHighAdj();
+                    break;
+                case SHUTTLE_LOW:
+                    toShuttleLow();
+                    break;
+                case SHUTTLE_LOW_ADJ:
+                    toShuttleLowAdj();
                     break;
                 case CLIMB:
                     toClimb();
@@ -154,11 +170,17 @@ public class Governor {
     private static void toAmpAdj() {
         CommandScheduler.getInstance().schedule(new ToAmpAdj());
     }
-    private static void toShuttle(){
-        CommandScheduler.getInstance().schedule(new ToShuttle());
+    private static void toShuttleHigh(){
+        CommandScheduler.getInstance().schedule(RobotContainer.highShuttleCmd);
     }
-    private static void toShuttleAdj(){
-        CommandScheduler.getInstance().schedule(new ToShuttlePrep());
+    private static void toShuttleHighAdj(){
+        CommandScheduler.getInstance().schedule(RobotContainer.highShuttlePrep);
+    }
+    private static void toShuttleLow(){
+        CommandScheduler.getInstance().schedule(RobotContainer.lowShuttleCmd);
+    }
+    private static void toShuttleLowAdj(){
+        CommandScheduler.getInstance().schedule(RobotContainer.lowShuttlePrep);
     }
     private static void toClimb() {
         CommandScheduler.getInstance().schedule(new ToClimb());
@@ -175,5 +197,7 @@ public class Governor {
         return new InstantCommand(() -> Governor.state = state);
     }
 
-
+    public static void setCleanupMode(boolean clean){
+        cleanUp = clean;
+    }
 }

@@ -21,6 +21,6 @@ public class SensorIOPhotoswitch implements SensorIO{
 
         io.loader = !loader.get();
 
-        io.intake = !loader.get();
+        io.intake = intake.get();
     }
 }

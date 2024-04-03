@@ -2,6 +2,7 @@ package frc.robot.lib.util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import edu.wpi.first.wpilibj.Filesystem;
@@ -10,32 +11,56 @@ import frc.robot.Constants;
 public class DistanceToArmAngleModel {
     
     private ArrayList<double[]> untransformedPoints;
-    private ArrayList<double[]> transformedPoints;;
+    private ArrayList<double[]> transformedPoints;
     private LinearRegressionModel distanceToAngleRegressionModel;
 
     private double deleteRange;
 
     public double lastDistanceToShoot;
 
-    private static DistanceToArmAngleModel instance;
 
-    public static DistanceToArmAngleModel getInstance() {
+    private static HashMap<String, DistanceToArmAngleModel> instanceMap;
+
+    public static DistanceToArmAngleModel getInstance(String fileName) {
+        if(instanceMap == null) instanceMap = new HashMap<>();
         
-        if(instance == null) {
-            newInstance();
+        if(!instanceMap.containsKey(fileName)) {
+            newInstance(fileName);
         }
 
-        return instance;
+        return instanceMap.get(fileName);
     }
 
-    public static DistanceToArmAngleModel newInstance() {
+    public static DistanceToArmAngleModel newInstance(String fileName) {
+        if(instanceMap == null) instanceMap = new HashMap<>();
+
         try {
-            instance = new DistanceToArmAngleModel(new File(Filesystem.getDeployDirectory().getPath() + "/distanceToArmAngle.txt"), Constants.Misc.DELETE_DISTANCE_RANGE);
+            String ext = fileName.split("\\.")[1];
+            if(ext.equals("pts")) {
+                instanceMap.put(
+                    fileName,
+                    new DistanceToArmAngleModel(new File(Filesystem.getDeployDirectory().getPath() + "/regression/" + fileName), Constants.Misc.DELETE_DISTANCE_RANGE)
+                );
+            } else if(ext.equals("eq")) {
+                Scanner s = new Scanner(new File(Filesystem.getDeployDirectory().getPath() + "/regression/" + fileName));
+                String line = s.nextLine();
+                s.close();
+                String[] tokens = line.split(" ");
+                double slope = Double.parseDouble(tokens[2]);
+                double intercept = Double.parseDouble(tokens[6]);
+                instanceMap.put(
+                    fileName,
+                    new DistanceToArmAngleModel(slope, intercept, Constants.Misc.DELETE_DISTANCE_RANGE)
+                );
+            }
         } catch(Exception e) {
-            instance = new DistanceToArmAngleModel(new ArrayList<>(), Constants.Misc.DELETE_DISTANCE_RANGE);
+            instanceMap.put(
+                fileName, 
+                new DistanceToArmAngleModel(new ArrayList<>(), Constants.Misc.DELETE_DISTANCE_RANGE)
+            );
         }
 
-        return instance;
+        return instanceMap.get(fileName);
     }
 
     public DistanceToArmAngleModel(ArrayList<double[]> distanceToAnglePoints, double deleteRange) {
@@ -71,6 +96,21 @@ public class DistanceToArmAngleModel {
             s.close();
         } catch(Exception e) {
             System.out.println("Whoops: " + e);
+        }
+
+        distanceToAngleRegressionModel = new LinearRegressionModel(transformedPoints);
+    }
+
+    public DistanceToArmAngleModel(double slope, double intercept, double deleteRange) {
+        lastDistanceToShoot = 0;
+        this.untransformedPoints = new ArrayList<>();
+        this.transformedPoints = new ArrayList<>();
+        this.deleteRange = deleteRange;
+
+        for(double i = 1.5; i <= 5.00; i+= 0.5) {
+            double x = Math.atan(i);
+            untransformedPoints.add(new double[] {i, slope*x + intercept});
+            transformedPoints.add(new double[] {x, slope*x + intercept});
         }
 
         distanceToAngleRegressionModel = new LinearRegressionModel(transformedPoints);

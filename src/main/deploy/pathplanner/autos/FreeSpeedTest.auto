@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.4243660570654477,
+      "y": 4.149542799085599
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "b2-shootPos"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "shootPos-p2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p2-p7"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p7-shootPos"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Test",
+  "choreoAuto": false
+}

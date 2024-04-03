@@ -15,8 +15,10 @@ public class ToIntake extends SequentialCommandGroup {
     public ToIntake() {
         addCommands(
             new StopAllRollers(),
-            new LoaderToIntake(),
-            new ArmToIntake(),
+            new ParallelCommandGroup(
+                new LoaderToIntake(),
+                new ArmToIntake()
+            ),
             new GrabberToIntake(),
             new IntakeToIntake(),
             Governor.getSetStateCommand(RobotState.INTAKE)

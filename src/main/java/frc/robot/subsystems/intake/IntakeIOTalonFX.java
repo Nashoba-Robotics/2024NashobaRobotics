@@ -26,6 +26,7 @@ public class IntakeIOTalonFX implements IntakeIO{
         config.FutureProofConfigs = true;
         config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        config.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = 0.1;
         config.Voltage.PeakForwardVoltage = 12;
         config.Voltage.PeakReverseVoltage = -12;
 

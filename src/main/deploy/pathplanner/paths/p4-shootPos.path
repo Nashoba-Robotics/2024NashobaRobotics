@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.294662148822114,
-        "y": 5.67
+        "x": 8.282430338008824,
+        "y": 5.771389547408726
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.116914612941307,
-        "y": 6.378603467680007
+        "x": 7.104682802128017,
+        "y": 6.479993015088732
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.75,
-        "y": 6.460502765976235
+        "x": 4.0,
+        "y": 6.2
       },
       "prevControl": {
-        "x": 5.723587481842932,
-        "y": 6.520697351697438
+        "x": 4.973587481842932,
+        "y": 6.2601945857212025
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,42 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "P4Check",
+      "waypointRelativePos": 0.35,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "P4Check"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "ShootPrep",
+      "waypointRelativePos": 0.6,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ShootPrep"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

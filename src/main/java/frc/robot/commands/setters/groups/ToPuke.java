@@ -7,10 +7,6 @@ import frc.robot.Governor;
 import frc.robot.Presets;
 import frc.robot.RobotContainer;
 import frc.robot.Governor.RobotState;
-import frc.robot.commands.setters.units.StopAllRollers;
-import frc.robot.commands.setters.units.arm.ArmToNeutral;
-import frc.robot.commands.setters.units.loader.LoaderToNeutral;
-import frc.robot.commands.setters.units.loader.NoteToShooter;
 
 public class ToPuke extends SequentialCommandGroup{
     public ToPuke(){

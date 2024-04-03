@@ -21,7 +21,7 @@ public class ClimberToClimb extends Command {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(climber.getLeftRad() - Presets.Climber.CLIMB_POS) < Presets.Climber.POS_TOLERANCE;
+        return Math.abs(climber.getLeftClimberPos().getRadians() - Presets.Climber.CLIMB_POS.getRadians()) < Presets.Climber.POS_TOLERANCE.getRadians();
     }
 
 }

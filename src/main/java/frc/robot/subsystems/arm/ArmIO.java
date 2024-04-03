@@ -49,4 +49,5 @@ public interface ArmIO {
      public abstract void setPivotkD(double kD);
 
      public TalonFX getShooterMotor();
+     public TalonFX getPivotMotor();
 }

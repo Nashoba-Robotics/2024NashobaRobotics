@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.286009678824307,
-        "y": 7.35
+        "x": 8.277204512742358,
+        "y": 7.435399204131742
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.216400883025519,
-        "y": 7.266822518773237
+        "x": 6.20759571694357,
+        "y": 7.3522217229049796
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.75,
-        "y": 6.44
+        "x": 4.0,
+        "y": 6.2
       },
       "prevControl": {
-        "x": 5.561506525492435,
-        "y": 7.06223885150172
+        "x": 4.811506525492435,
+        "y": 6.822238851501719
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,10 +30,45 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "ShootPrep",
+      "waypointRelativePos": 0.4,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ShootPrep"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CheckP3",
+      "waypointRelativePos": 0.15,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "P3Check"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 4.2,
-    "maxAcceleration": 4.2,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.9,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

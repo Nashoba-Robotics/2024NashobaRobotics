@@ -16,12 +16,15 @@ public interface ClimberIO {
         public double rightClimberSpeed = -0;   //rad/s
         public double rightClimberStatorCurrent = 0; //Amps
         public double rightClimberVoltage = 0;   //Volts
+
+        public double leftServoPos = 0; //0-1
+        public double rightServoPos = 0;//0-1
     }
 
     public default void updateInputs(ClimberIOInputs inputs){};
 
-    public abstract void setLeftClimberPos(double pos);
-    public abstract void setRightClimberPos(double pos);
+    public abstract void setLeftClimberPos(Rotation2d pos);
+    public abstract void setRightClimberPos(Rotation2d pos);
 
     public abstract void setClimberSpeed(double speed);
     

@@ -138,6 +138,10 @@ public class ArmIOTalonFX implements ArmIO{
         return shooter;
     }
 
+    public TalonFX getPivotMotor() {
+        return pivot;
+    }
+
     private void config() {
         pivotConfig.Audio.BeepOnBoot = true;
         pivotConfig.Audio.BeepOnConfig = true;
@@ -180,6 +184,10 @@ public class ArmIOTalonFX implements ArmIO{
         shooterConfig.Feedback.SensorToMechanismRatio = Constants.Arm.SHOOTER_GEAR_RATIO;
         shooterConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
         shooterConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
+        // shooterConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = 5;
+        // shooterConfig.ClosedLoopRamps.TorqueClosedLoopRampPeriod = 0;
+        // shooterConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = 1;
+        
 
         encoderConfig.MagnetSensor.MagnetOffset = Constants.Arm.ENCODER_OFFSET;
         encoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
