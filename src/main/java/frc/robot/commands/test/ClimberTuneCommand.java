@@ -8,9 +8,9 @@ import frc.robot.subsystems.climber.ClimberSubsytem;
 public class ClimberTuneCommand extends Command{
     ClimberSubsytem climber;
     
-    double lastkS = 0;
-    double lastkV = 0;
-    double lastkP = 0;
+    double lastkS = 0.02;
+    double lastkV = 1.2;
+    double lastkP = 20;
     double lastkD = 0;
 
     public ClimberTuneCommand(ClimberSubsytem climber){
@@ -22,10 +22,10 @@ public class ClimberTuneCommand extends Command{
     public void initialize() {
         SmartDashboard.putNumber("Climber Pos", 0);
 
-        SmartDashboard.putNumber("Climb kS", lastkS);
-        SmartDashboard.putNumber("Climb kV", lastkV);
-        SmartDashboard.putNumber("Climb kP", lastkP);
-        SmartDashboard.putNumber("Climb kD", lastkD);
+        SmartDashboard.putNumber("Climber kS", lastkS);
+        SmartDashboard.putNumber("Climber kV", lastkV);
+        SmartDashboard.putNumber("Climber kP", lastkP);
+        SmartDashboard.putNumber("Climber kD", lastkD);
 
     }
 

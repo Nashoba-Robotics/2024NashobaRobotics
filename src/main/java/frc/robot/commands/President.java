@@ -232,6 +232,9 @@ public class President extends Command {
                     Governor.setRobotState(RobotState.NEUTRAL);
                 }
                 break;
+            case CLIMB:
+                RobotContainer.arm.setShooterPercent(0);
+                break;
             default:
                 break;
             }

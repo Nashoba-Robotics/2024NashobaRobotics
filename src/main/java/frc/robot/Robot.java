@@ -115,14 +115,14 @@ public class Robot extends LoggedRobot {
         if(AprilTagManager.hasLeftTarget()
             && AprilTagManager.getLeftAmbiguity() <= 0.15
             && AprilTagManager.getLeftRobotPos() != null
-            && leftError < 5
+            // && leftError < 5
             && leftPose2d.getX() > 0 && leftPose2d.getX() < Constants.Field.LENGTH
             && leftPose2d.getY() > 0 && leftPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(leftPose2d, AprilTagManager.getLeftTimestamp());
         if(AprilTagManager.hasRightTarget()
             && AprilTagManager.getRightAmbiguity() <= 0.15
             && AprilTagManager.getRightRobotPos() != null
-            && rightError < 5
+            // && rightError < 5
             && rightPose2d.getX() > 0 && rightPose2d.getX() < Constants.Field.LENGTH
             && rightPose2d.getY() > 0 && rightPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(rightPose2d, AprilTagManager.getRightTimestamp());
@@ -187,6 +187,9 @@ public class Robot extends LoggedRobot {
     RobotContainer.odometryFlag = true;
 
     RobotContainer.drive.enableStatorLimits(false);
+
+    RobotContainer.climber.setLeftRotor(Rotation2d.fromRadians(0));
+    RobotContainer.climber.setRightRotor(Rotation2d.fromRadians(0));
   }
 
   @Override
@@ -202,8 +205,8 @@ public class Robot extends LoggedRobot {
       new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
       );
 
-    CommandScheduler.getInstance().schedule(new President());
-    Governor.setRobotState(RobotState.NEUTRAL, true);
+    // CommandScheduler.getInstance().schedule(new President());
+    // Governor.setRobotState(RobotState.NEUTRAL, true);
 
     RobotContainer.drive.overrideVisionOdo = false;
 

@@ -9,13 +9,13 @@ import frc.robot.Governor.RobotState;
 import frc.robot.subsystems.climber.ClimberSubsytem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
 
-public class ClimbToManual extends Command{
+public class ClimberToManual extends Command{
     ClimberSubsytem climber = RobotContainer.climber;
     CommandJoystick operatorController = RobotContainer.joysticks.getOperatorController();
     boolean flag;
     double leftClimbPos, rightClimbPos;
 
-    public ClimbToManual(){
+    public ClimberToManual(){
         addRequirements(climber);
     }
 
@@ -26,12 +26,13 @@ public class ClimbToManual extends Command{
 
     @Override
     public void execute() {
-        double operatorInput = operatorController.getY() * -0.5;
+        double operatorInput = operatorController.getY() * -1;
         
         if(Math.abs(operatorInput) < 0.01){
             if(!flag){
                 leftClimbPos = climber.getLeftClimberPos().getRadians();
                 rightClimbPos = climber.getRightClibmerPos().getRadians();
+                flag = true;
             }
             climber.setLeftClimberPos(Rotation2d.fromRadians(leftClimbPos));
             climber.setRightClimberPos(Rotation2d.fromRadians(rightClimbPos));
@@ -39,6 +40,7 @@ public class ClimbToManual extends Command{
         else{
             // System.out.println("Mini Ben sux so much");
             climber.setClimberSpeed(operatorInput);
+            flag = false;
         }
     }
 

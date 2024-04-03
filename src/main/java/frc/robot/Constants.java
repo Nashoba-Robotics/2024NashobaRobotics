@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import frc.robot.lib.util.DistanceToArmAngleModel;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class Constants {
@@ -45,15 +46,15 @@ public class Constants {
             *      |            |
             *      --------------
             */
-            public static final Transform3d ROBOT_TO_CAMERA_FRONT_LEFT = new Transform3d(Units.inchesToMeters(11.35),Units.inchesToMeters(9.5), 0.25, new Rotation3d(0, -15./360*TAU, 20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_FRONT_RIGHT = new Transform3d(Units.inchesToMeters(11.35), Units.inchesToMeters(-9.5), 0.25, new Rotation3d(0, -15./360*TAU, -20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(10.758), 0.32, new Rotation3d(0, -36./360*TAU, 20./360*TAU + TAU/2));
-            public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(-10.758), 0.32, new Rotation3d(TAU/2, -36./360*TAU, -20./360*TAU-TAU/2));
+            public static final Transform3d ROBOT_TO_CAMERA_FRONT_LEFT = new Transform3d(Units.inchesToMeters(13.25),Units.inchesToMeters(9.3), 0.25, new Rotation3d(0, -25./360*TAU, 20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_FRONT_RIGHT = new Transform3d(Units.inchesToMeters(13.25), Units.inchesToMeters(-9.3), 0.25, new Rotation3d(0, -25./360*TAU, -20.*Constants.TAU/360));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(10.758), 0.32, new Rotation3d(0, -40./360*TAU, 20./360*TAU + TAU/2));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(-10.758), 0.32, new Rotation3d(TAU/2, -40./360*TAU, -20./360*TAU-TAU/2));
             
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
-            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/WPITagPositions.json";
+            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/WPIPracticePositions.json";
 
             public static final double getXSD(double distance) {
                   return 0.0312*distance - 0.0494;
@@ -127,18 +128,18 @@ public class Constants {
             public static final double STATOR_LIMIT = 0;
             public static final double GEAR_RATIO = 5.*5*5*14/15;
 
-            public static final double CRUISE_VELOCITY = 0; //1.1636
-            public static final double ACCELERATION = 0;
+            public static final double CRUISE_VELOCITY = 0.7; //1.1636
+            public static final double ACCELERATION = 1;
 
             public static final double FORWARD_SOFT_LIMIT = 0;
             public static final double REVERSE_SOFT_LIMIT = 0;
 
             public static final Slot0Configs leftPID = new Slot0Configs()
-            .withKS(0).withKV(0).withKA(0)
-            .withKP(0).withKI(0).withKD(0.0); 
+            .withKS(0.02).withKV(1.2).withKA(0)
+            .withKP(30).withKI(0).withKD(0.0);
             public static final Slot0Configs rightPID = new Slot0Configs()
-            .withKS(0).withKV(0).withKA(0)
-            .withKP(0).withKI(0).withKD(0.0); 
+            .withKS(0.02).withKV(1.2).withKA(0)
+            .withKP(30).withKI(0).withKD(0.0); 
       }
 
 
@@ -362,8 +363,10 @@ public class Constants {
 
       public static final class Field {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
-            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.75, 2.36); //y = 5.75
-            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.55, 2.36); //y = 5.45
+            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.9, 2.36); //y = 5.75
+            public static final Translation3d BLUE_SPEAKER_POSITION_SOURCE = new Translation3d(-0.04, 6.15, 2.36); //y = 5.75  
+            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.0, 2.36); //y = 5.45
+            public static final Translation3d RED_SPEAKER_POSITION_SOURCE = new Translation3d(16.451, 5.0, 2.36); //y = 5.45
             public static final Translation3d BLUE_STATION = new Translation3d(4.37, 4.94, 0);
             public static final Translation3d RED_STATION = new Translation3d(12.081, 4.94, 0);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
@@ -380,7 +383,19 @@ public class Constants {
                   // double xOffset = fieldRelSpeeds.vxMetersPerSecond * t;
                   // double yOffset = fieldRelSpeeds.vyMetersPerSecond * t;
                   // Translation3d newSpeakerPos = new Translation3d(speakerPos.getX()-xOffset, speakerPos.getY()-yOffset, speakerPos.getZ());
-                  return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? BLUE_SPEAKER_POSITION : RED_SPEAKER_POSITION;
+                  if(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+                      if(RobotContainer.drive.getPose().getTranslation().getY() < Constants.Misc.SOURCE_AMP_CUTOFF) {
+                        return BLUE_SPEAKER_POSITION_SOURCE;
+                      } else {
+                        return BLUE_SPEAKER_POSITION;
+                        }
+                    } else {
+                            if(RobotContainer.drive.getPose().getTranslation().getY() < Constants.Misc.SOURCE_AMP_CUTOFF) {
+                              return RED_SPEAKER_POSITION_SOURCE;
+                            } else {
+                              return RED_SPEAKER_POSITION;
+                            }
+                    }
             }
 
             public static final Translation3d getStation(){

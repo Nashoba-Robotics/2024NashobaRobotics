@@ -46,11 +46,11 @@ public class Presets {
     }
 
     public static final class Climber {
-        public static final Rotation2d CLIMB_PREP_POS = Rotation2d.fromRadians(0);
-        public static final Rotation2d CLIMB_POS = Rotation2d.fromRadians(0);
+        public static final Rotation2d CLIMB_PREP_POS = Rotation2d.fromRadians(11.5);
+        public static final Rotation2d CLIMB_POS = Rotation2d.fromRadians(3);
         public static final Rotation2d TRAP_POS = Rotation2d.fromRadians(0);
 
-        public static final double POS_TOLERANCE = 0;
+        public static final Rotation2d POS_TOLERANCE = Rotation2d.fromRadians(1);
 
         public static double SERVO_CLIMB_POS = 0;
     }
@@ -76,7 +76,7 @@ public class Presets {
         public static final Rotation2d POS_TOLERANCE = Rotation2d.fromDegrees(2);
 
         public static final double AMP_SPEED = -0.9;
-        public static final double INTAKE_SPEED = -0.5;
+        public static final double INTAKE_SPEED = -0.45;
         public static final double SHOOT_SPEED = -1;
         public static final double SOURCE_SPEED = -0.3;
         public static final double SHUTTLE_SPEED = -0.9;
