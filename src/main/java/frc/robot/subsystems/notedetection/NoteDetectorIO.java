@@ -14,6 +14,12 @@ public interface NoteDetectorIO {
         public double yaw = 0;
         public double area = 0;
 
+        public boolean p3 = false;
+        public boolean p4 = false;
+        public boolean p5 = false;
+        public boolean p6 = false;
+        public boolean p7 = false;
+
         public Pose2d[] notePos = {new Pose2d(), new Pose2d(), new Pose2d(), new Pose2d(), new Pose2d()};
 
     }

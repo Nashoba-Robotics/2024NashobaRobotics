@@ -27,29 +27,27 @@ public class NoteDetectorIOPhotonVision implements NoteDetectorIO{
     public void updateInputs(NoteDetectorIOInputs inputs) {
         PhotonPipelineResult r = camera.getLatestResult();
 
-        PhotonTrackedTarget target = r.getBestTarget();
-        inputs.area = target.getArea();
-        inputs.yaw = target.getYaw();
-        inputs.pitch = target.getPitch();
-
 
         // Pose3d robotPos = new Pose3d(RobotContainer.drive.getPose());
         Pose3d robotPos = new Pose3d();
 
         
-        // List<PhotonTrackedTarget> targets = r.getTargets();
-        // inputs.noteCount = targets.size();
+        List<PhotonTrackedTarget> targets = r.getTargets();
+        inputs.noteCount = targets.size();
         
-        // int i = 0; 
-        // for(PhotonTrackedTarget target : targets){
-        //     Transform3d cameraToTarget = target.getBestCameraToTarget();
-        //     Transform3d robotToTarget = Constants.Cameras.NoteDetection.ROBOT_TO_CAMERA.plus(cameraToTarget);
-        //     if(i < inputs.notePos.length){
-        //         inputs.notePos[i] = (robotPos.plus(robotToTarget).toPose2d());
-        //         inputs.xs[i] = target.getPitch();
-        //         inputs.ys[i] = target.getYaw();
-        //     } 
-        //     i++;
-        // }
+        int i = 0; 
+        for(PhotonTrackedTarget target : targets){
+            double pitch = target.getPitch();
+            double y = 64.8794 * Math.tan(0.0945988*pitch) + 65.6394;
+
+            double yaw = target.getYaw();
+            double theta = 1.53532*yaw + 1.83981;
+
+            double x = y/Math.tan(theta);
+
+            Pose2d notePose = new Pose2d(robotPos.getX(), yaw, null);
+
+            i++;
+        }
     }
 }

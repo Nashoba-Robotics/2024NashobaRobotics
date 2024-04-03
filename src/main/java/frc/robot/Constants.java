@@ -28,8 +28,6 @@ public class Constants {
       public static final double TAU = 2 * Math.PI;
       public static final double PEAK_VOLTAGE = 12;
 
-<<<<<<< HEAD
-=======
       public static final class AprilTags{
             public static final String FRONT_RIGHT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
             public static final String FRONT_LEFT_CAMERA_NAME = "Azul's_Little_Buddy"; //Azul's_Little_Buddy
@@ -56,7 +54,7 @@ public class Constants {
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
-            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/WPIPracticePositions.json";
+            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/AprilTagPositions.json";
 
             public static final double getXSD(double distance) {
                   return 0.0312*distance - 0.0494;
@@ -67,7 +65,6 @@ public class Constants {
             }
       }
 
->>>>>>> 5bb46bf4688c5bd0ed67a4fa3ad784114d25c9f8
     public static final class Arm{
             public static final String PIVOT_CANBUS = "jerry";
             public static final String CANBUS = "rio";
