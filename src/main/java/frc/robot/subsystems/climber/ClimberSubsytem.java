@@ -29,7 +29,7 @@ public class ClimberSubsytem extends SubsystemBase{
 
     public void setClimberPos(Rotation2d pos){
         io.setLeftClimberPos(pos);
-        // io.setRightClimberPos(pos);
+        io.setRightClimberPos(pos);
     }
 
     public void setLeftClimberPos(Rotation2d pos){

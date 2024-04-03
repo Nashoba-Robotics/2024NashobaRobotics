@@ -8,9 +8,9 @@ import frc.robot.subsystems.climber.ClimberSubsytem;
 public class ClimberTuneCommand extends Command{
     ClimberSubsytem climber;
     
-    double lastkS = 0;
-    double lastkV = 0;
-    double lastkP = 0;
+    double lastkS = 0.02;
+    double lastkV = 1.2;
+    double lastkP = 20;
     double lastkD = 0;
 
     public ClimberTuneCommand(ClimberSubsytem climber){

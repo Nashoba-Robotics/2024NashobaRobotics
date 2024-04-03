@@ -11,7 +11,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Governor.RobotState;
 import frc.robot.commands.setters.units.StopAllRollers;
 import frc.robot.commands.setters.units.arm.ArmToClimbPrep;
-import frc.robot.commands.setters.units.climber.ClimbToManual;
+import frc.robot.commands.setters.units.climber.ClimberToManual;
 import frc.robot.commands.setters.units.climber.ClimberToClimbPrep;
 import frc.robot.commands.setters.units.climber.ServoToClimbPrep;
 import frc.robot.commands.setters.units.loader.LoaderToClimbPrep;
@@ -21,28 +21,24 @@ public class ToClimbPrep extends SequentialCommandGroup {
     
     public ToClimbPrep() {
         addCommands(
-            new InstantCommand(()->Governor.setRobotState(RobotState.MISC)),
+            // new InstantCommand(()->Governor.setRobotState(RobotState.MISC)),
             new StopAllRollers(),
-            new ParallelCommandGroup(
-                new ServoToClimbPrep(),
-                new SequentialCommandGroup(
-                    new ArmToClimbPrep(),
-                    new ClimberToClimbPrep()
-                ),
-                new SequentialCommandGroup(
-                    new WaitUntilCommand(new BooleanSupplier() {
-                        @Override
-                        public boolean getAsBoolean() {
-                            return RobotContainer.arm.getArmPivotAngle().getDegrees() > -30;
-                        }
-                    }),
-                    new NoteToAmpOut(),
-                    new LoaderToClimbPrep()
-                )
-            ),
+            // new ParallelCommandGroup(
+            new ClimberToClimbPrep()
+            //     new SequentialCommandGroup(
+            //         new WaitUntilCommand(new BooleanSupplier() {
+            //             @Override
+            //             public boolean getAsBoolean() {
+            //                 return RobotContainer.arm.getArmPivotAngle().getDegrees() > -30;
+            //             }
+            //         }),
+            //         new NoteToAmpOut(),
+            //         new LoaderToClimbPrep()
+            //     )
+            // ),
             
             // Governor.getSetStateCommand(RobotState.CLIMB_PREP),
-            new ClimbToManual()
+            // new ClimbToManual()
         );
     }
 

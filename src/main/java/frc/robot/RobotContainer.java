@@ -38,7 +38,7 @@ import frc.robot.commands.setters.groups.ToClimbPrep;
 import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.groups.ToShuttle;
 import frc.robot.commands.setters.groups.ToShuttlePrep;
-import frc.robot.commands.setters.units.climber.ClimbToManual;
+import frc.robot.commands.setters.units.climber.ClimberToManual;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.test.ArmTuneCommand;
 import frc.robot.commands.test.ClimberTestCommand;
@@ -102,8 +102,8 @@ public class RobotContainer {
   private Trigger toFieldCentric = joysticks.getDriverController().povDown();
   private Trigger toRobotCentric = joysticks.getDriverController().povUp();
 
-  private Trigger deployClimb = joysticks.getOperatorController().button(6);
-  // private Trigger climb = joysticks.getOperatorController().button(0);
+  private Trigger deployClimb = joysticks.getOperatorController().button(5);
+  private Trigger climb = joysticks.getOperatorController().button(6);
 
   private Trigger aimedToHigh = joysticks.getOperatorController().button(4); //X
   private Trigger aimedToLow = joysticks.getOperatorController().button(2); //B
@@ -241,11 +241,9 @@ public class RobotContainer {
     
     prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));   
     
-    // deployClimb.onTrue(new ToClimbPrep());
-    deployClimb.onTrue(new ParallelCommandGroup(
-      new InstantCommand(()->arm.setArmPivot(Rotation2d.fromRadians(0.1))),
-      new ClimbToManual()
-    ));
+    deployClimb.onTrue(new ToClimbPrep());
+    climb.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.CLIMB)));
+    
 
     toFieldCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(true)));
     toRobotCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(false)));
@@ -262,10 +260,10 @@ public class RobotContainer {
     // SmartDashboard.putData(new NoteToAmpOut());
 
     SmartDashboard.putData(new TestServoCommand(climber));
-    SmartDashboard.putData(new ClimbToManual());
-    SmartDashboard.putData("TuneArm",
-      new ArmTuneCommand(arm)
-    );
+    // SmartDashboard.putData(new ClimbToManual());
+    // SmartDashboard.putData("TuneArm",
+    //   new ArmTuneCommand(arm)
+    // );
     SmartDashboard.putData(new FindArmZeroCommand());
   }
 
