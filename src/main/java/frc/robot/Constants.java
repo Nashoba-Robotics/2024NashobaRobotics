@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import frc.robot.lib.util.DistanceToArmAngleModel;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class Constants {
@@ -362,8 +363,10 @@ public class Constants {
 
       public static final class Field {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
-            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.6, 2.36); //y = 5.75
-            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.6, 2.36); //y = 5.45
+            public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.9, 2.36); //y = 5.75
+            public static final Translation3d BLUE_SPEAKER_POSITION_SOURCE = new Translation3d(-0.04, 6.15, 2.36); //y = 5.75  
+            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.0, 2.36); //y = 5.45
+            public static final Translation3d RED_SPEAKER_POSITION_SOURCE = new Translation3d(16.451, 5.0, 2.36); //y = 5.45
             public static final Translation3d BLUE_STATION = new Translation3d(4.37, 4.94, 0);
             public static final Translation3d RED_STATION = new Translation3d(12.081, 4.94, 0);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
@@ -380,7 +383,19 @@ public class Constants {
                   // double xOffset = fieldRelSpeeds.vxMetersPerSecond * t;
                   // double yOffset = fieldRelSpeeds.vyMetersPerSecond * t;
                   // Translation3d newSpeakerPos = new Translation3d(speakerPos.getX()-xOffset, speakerPos.getY()-yOffset, speakerPos.getZ());
-                  return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? BLUE_SPEAKER_POSITION : RED_SPEAKER_POSITION;
+                  if(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+                      if(RobotContainer.drive.getPose().getTranslation().getY() < Constants.Misc.SOURCE_AMP_CUTOFF) {
+                        return BLUE_SPEAKER_POSITION_SOURCE;
+                      } else {
+                        return BLUE_SPEAKER_POSITION;
+                        }
+                    } else {
+                            if(RobotContainer.drive.getPose().getTranslation().getY() < Constants.Misc.SOURCE_AMP_CUTOFF) {
+                              return RED_SPEAKER_POSITION_SOURCE;
+                            } else {
+                              return RED_SPEAKER_POSITION;
+                            }
+                    }
             }
 
             public static final Translation3d getStation(){
