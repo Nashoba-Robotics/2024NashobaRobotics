@@ -102,6 +102,7 @@ public class RobotContainer {
   private Trigger toFieldCentric = joysticks.getDriverController().povDown();
   private Trigger toRobotCentric = joysticks.getDriverController().povUp();
 
+  private Trigger climbMode = joysticks.getOperatorController().button(1);
   private Trigger deployClimb = joysticks.getOperatorController().button(5);
   private Trigger climb = joysticks.getOperatorController().button(6);
 
@@ -241,9 +242,8 @@ public class RobotContainer {
     
     prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));   
     
-    deployClimb.onTrue(new ToClimbPrep());
-    climb.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.CLIMB)));
-    
+    deployClimb.and(climbMode::getAsBoolean).onTrue(new ToClimbPrep());
+    climb.and(climbMode::getAsBoolean).onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.CLIMB)));
 
     toFieldCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(true)));
     toRobotCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(false)));
