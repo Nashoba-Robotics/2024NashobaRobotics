@@ -78,7 +78,8 @@ public class Constants {
             public static final int RIGHT_SERVO_CHANNEL = 6;
 
             public static final int ENCODER_PORT = 4;
-            public static final double ENCODER_OFFSET = -0.483346 - 0.006631 + 0.999581 + 0.01383463514515; //-0.02607767339
+            public static final double ENCODER_OFFSET = -0.0013047595584239;
+            // -0.0013047595584239
 
             public static final int SHOOTER_SENSOR_PORT = 0;
             public static final int LOADER_SENSOR_PORT = 1;
@@ -105,7 +106,7 @@ public class Constants {
             .withKV(0.975).withKS(0.009).withKG(0.035).withGravityType(GravityTypeValue.Arm_Cosine)
             .withKP(5.5).withKI(0).withKD(0.001);
 
-            public static final double SHOOTER_STATOR_CURRENT_LIMIT = 80;
+            public static final double SHOOTER_STATOR_CURRENT_LIMIT = 75;
             public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 50;
 
             public static final InvertedValue SHOOTER_INVERTED = InvertedValue.CounterClockwise_Positive;
@@ -366,7 +367,7 @@ public class Constants {
             public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.9, 2.36); //y = 5.75
             public static final Translation3d BLUE_SPEAKER_POSITION_SOURCE = new Translation3d(-0.04, 6.15, 2.36); //y = 5.75  
             public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.45, 2.36); //y = 5.45
-            public static final Translation3d RED_SPEAKER_POSITION_SOURCE = new Translation3d(16.451, 5.10, 2.36); //y = 5.45
+            public static final Translation3d RED_SPEAKER_POSITION_SOURCE = new Translation3d(16.451, 5.45, 2.36); //y = 5.45
             public static final Translation3d BLUE_STATION = new Translation3d(4.37, 4.94, 0);
             public static final Translation3d RED_STATION = new Translation3d(12.081, 4.94, 0);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);

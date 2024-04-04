@@ -16,7 +16,6 @@ public class ClimberToClimb extends Command {
     @Override
     public void initialize() {
         climber.setClimberPos(Presets.Climber.CLIMB_POS);
-        climber.setServo(Presets.Climber.SERVO_CLIMB_POS);
     }
 
     @Override
