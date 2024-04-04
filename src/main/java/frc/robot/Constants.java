@@ -48,13 +48,13 @@ public class Constants {
             */
             public static final Transform3d ROBOT_TO_CAMERA_FRONT_LEFT = new Transform3d(Units.inchesToMeters(13.25)-0.04,Units.inchesToMeters(9.3), 0.25, new Rotation3d(0, -25./360*TAU, 20.*Constants.TAU/360));
             public static final Transform3d ROBOT_TO_CAMERA_FRONT_RIGHT = new Transform3d(Units.inchesToMeters(13.25)+0.04, Units.inchesToMeters(-9.3), 0.25, new Rotation3d(0, -25./360*TAU, -20.*Constants.TAU/360));
-            public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(10.758), 0.32, new Rotation3d(-15./360*TAU, -40./360*TAU, 26./360*TAU + TAU/2));
-            public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096), Units.inchesToMeters(-10.758), 0.32, new Rotation3d(TAU/2 + 15./360*TAU, -40./360*TAU, -18./360*TAU-TAU/2));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_LEFT = new Transform3d(Units.inchesToMeters(-13.096)-0.03, Units.inchesToMeters(10.758)+0.03, 0.32, new Rotation3d(-15./360*TAU, -40./360*TAU, 32./360*TAU + TAU/2));
+            public static final Transform3d ROBOT_TO_CAMERA_BACK_RIGHT = new Transform3d(Units.inchesToMeters(-13.096)+0.03, Units.inchesToMeters(-10.758)-0.03, 0.32, new Rotation3d(TAU/2 + 15./360*TAU, -40./360*TAU, -18./360*TAU-TAU/2));
             
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
-            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/TestPositions.json";
+            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/DCMPPositions.json";
 
             public static final double getXSD(double distance) {
                   return 0.0312*distance - 0.0494;
@@ -365,8 +365,8 @@ public class Constants {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
             public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.9, 2.36); //y = 5.75
             public static final Translation3d BLUE_SPEAKER_POSITION_SOURCE = new Translation3d(-0.04, 6.15, 2.36); //y = 5.75  
-            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.0, 2.36); //y = 5.45
-            public static final Translation3d RED_SPEAKER_POSITION_SOURCE = new Translation3d(16.451, 5.0, 2.36); //y = 5.45
+            public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.45, 2.36); //y = 5.45
+            public static final Translation3d RED_SPEAKER_POSITION_SOURCE = new Translation3d(16.451, 5.10, 2.36); //y = 5.45
             public static final Translation3d BLUE_STATION = new Translation3d(4.37, 4.94, 0);
             public static final Translation3d RED_STATION = new Translation3d(12.081, 4.94, 0);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);

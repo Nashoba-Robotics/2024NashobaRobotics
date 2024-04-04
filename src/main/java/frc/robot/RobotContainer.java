@@ -298,6 +298,18 @@ public class RobotContainer {
         }
       }).withTimeout(3)
     ));
+    NamedCommands.registerCommand("ShootClose", new SequentialCommandGroup(
+      new AimToSpeakerCommand(drive, joysticks),
+      new InstantCommand(() -> Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(300)),
+      new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
+      new WaitUntilCommand(new BooleanSupplier() {
+        @Override
+        public boolean getAsBoolean() {
+            return Governor.getDesiredRobotState() != RobotState.SHOOT;
+        }
+      }).withTimeout(3),
+      new InstantCommand(() -> Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(375))
+    ));
     NamedCommands.registerCommand("ShootDisrupt", new SequentialCommandGroup(
       new InstantCommand(() -> disruptFlag = true),
       new AimToSpeakerCommand(drive, joysticks),

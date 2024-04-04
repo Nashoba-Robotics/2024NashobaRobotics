@@ -24,7 +24,8 @@ public class ToClimbPrep extends SequentialCommandGroup {
             // new InstantCommand(()->Governor.setRobotState(RobotState.MISC)),
             new StopAllRollers(),
             // new ParallelCommandGroup(
-            new ClimberToClimbPrep()
+            new ClimberToClimbPrep(),
+            new ClimberToManual()
             //     new SequentialCommandGroup(
             //         new WaitUntilCommand(new BooleanSupplier() {
             //             @Override
