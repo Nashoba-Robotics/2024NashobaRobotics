@@ -56,13 +56,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "shootPos-p3'"
+            "pathName": "shootPos-p5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "p3-shootPos"
+            "pathName": "p5-shootPos"
           }
         },
         {
@@ -74,7 +74,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "shootPos-p5"
+            "pathName": "shootPos5-p6"
           }
         }
       ]
