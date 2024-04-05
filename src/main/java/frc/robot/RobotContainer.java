@@ -92,7 +92,8 @@ public class RobotContainer {
   private Trigger shootPrep = joysticks.getDriverController().button(6);
 
   private Trigger highShuttle = joysticks.getDriverController().button(4);
-  private Trigger lowShuttle = joysticks.getDriverController().button(1);
+  // private Trigger lowShuttle = joysticks.getDriverController().button(1);
+  private Trigger enableSubwoofer = joysticks.getDriverController().button(1);
   public static ToShuttlePrep highShuttlePrep = new ToShuttlePrep(true);
   public static ToShuttlePrep lowShuttlePrep = new ToShuttlePrep(false);
   public static ToShuttle highShuttleCmd = new ToShuttle(true);
@@ -122,6 +123,8 @@ public class RobotContainer {
   public static boolean disruptFlag = false;
 
   public static boolean odometryFlag = false;
+
+  public static boolean subwooferShot = false;
 
   public RobotContainer() {
     addShuffleBoardData();
@@ -187,30 +190,35 @@ public class RobotContainer {
 
     highShuttle.onFalse(new InstantCommand(()->thingRan = false));
 
-    lowShuttle.and(new BooleanSupplier() {
-      @Override
-      public boolean getAsBoolean(){
-        return !lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
-      }
-    }).onTrue(new InstantCommand(()->{
-      Governor.setRobotState(RobotState.SHUTTLE_LOW_ADJ);
-      thingRan = true;
-    }
-    ));
+    // lowShuttle.and(new BooleanSupplier() {
+    //   @Override
+    //   public boolean getAsBoolean(){
+    //     return !lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
+    //   }
+    // }).onTrue(new InstantCommand(()->{
+    //   Governor.setRobotState(RobotState.SHUTTLE_LOW_ADJ);
+    //   thingRan = true;
+    // }
+    // ));
 
-    lowShuttle.and(new BooleanSupplier() {
-      @Override
-      public boolean getAsBoolean(){
-        return lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
-      }
-    }).onTrue(new InstantCommand(()->{
-      Governor.setRobotState(RobotState.SHUTTLE_LOW);
-      thingRan = true;
-    }));
+    // lowShuttle.and(new BooleanSupplier() {
+    //   @Override
+    //   public boolean getAsBoolean(){
+    //     return lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
+    //   }
+    // }).onTrue(new InstantCommand(()->{
+    //   Governor.setRobotState(RobotState.SHUTTLE_LOW);
+    //   thingRan = true;
+    // }));
 
-    lowShuttle.onFalse(new InstantCommand(()->thingRan = false));
+    // lowShuttle.onFalse(new InstantCommand(()->thingRan = false));
 
-    lowShuttle.or(()->highShuttle.getAsBoolean()).onTrue(new AimToSpeakerCommand(drive, joysticks));
+    // lowShuttle.or(highShuttle::getAsBoolean).onTrue(new AimToStation(drive, joysticks));
+    highShuttle.onTrue(new AimToStation(drive, joysticks));
+
+    enableSubwoofer.onTrue(new InstantCommand(()->subwooferShot = true));
+    enableSubwoofer.onFalse(new InstantCommand(()->subwooferShot = false));
+    
 
     cleanupUnscoredNotesTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED)));
     sHooterInterruptTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterPercent(0)));

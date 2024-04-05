@@ -44,7 +44,7 @@ public class Presets {
         public static final Rotation2d AMP_SPEED = Rotation2d.fromRadians(62.0);
         public static final Rotation2d SHUTTLE_SPEED = Rotation2d.fromRadians(300);
         public static final Rotation2d LOW_SHUTTLE_SPEED = Rotation2d.fromRadians(250);
-        public static final Rotation2d HIGH_SHUTTLE_SPEED = Rotation2d.fromRadians(275);
+        public static final Rotation2d HIGH_SHUTTLE_SPEED = Rotation2d.fromRadians(215);
 
         public static final Rotation2d SPEED_TOLERANCE = Rotation2d.fromRadians(2);
     }

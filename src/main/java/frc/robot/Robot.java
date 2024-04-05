@@ -13,6 +13,8 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.Odometry;
@@ -164,9 +166,8 @@ public class Robot extends LoggedRobot {
         (DriverStation.getAlliance().orElse(Alliance.Blue)==Alliance.Blue ? "blue/" : "red/") +
         fileName);
     }
-    // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_CLOSE);
-    // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_AMP);
-    // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_SOURCE);
+    
+    // new PathPlannerAuto("Preload Paths").ignoringDisable(true).schedule();
   }
 
   @Override
@@ -174,12 +175,10 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void autonomousInit() {
-    CommandScheduler.getInstance().schedule(new InstantCommand(
-      ()->{
-        RobotContainer.arm.setArmPivotRotor(Presets.Arm.INTAKE_POS);
-        RobotContainer.loader.setPivotRotor(Presets.Loader.INTAKE_POS);
-      }, RobotContainer.arm, RobotContainer.loader
-    ));
+
+    RobotContainer.arm.setArmPivotRotor(Presets.Arm.INTAKE_POS);
+    RobotContainer.loader.setPivotRotor(Presets.Loader.INTAKE_POS);
+
     robotContainer.getAutoCommand().schedule();
     
     
