@@ -47,6 +47,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "P5Check",
+      "waypointRelativePos": 0.2,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "P5CheckP4"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {

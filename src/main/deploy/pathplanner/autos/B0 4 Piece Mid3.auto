@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4243660570654477,
-      "y": 4.149542799085599
+      "x": 1.47,
+      "y": 6.9
     },
     "rotation": 180.0
   },
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "b2-shootPos"
+            "pathName": "b0-s0"
           }
         },
         {
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "shootPos-p2"
+            "pathName": "s0-p0"
           }
         },
         {
@@ -38,43 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "p2-p7"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "p7-shootPos"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "shootPos-p6"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "p6-shootPos"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "shootPos'-p5"
+            "pathName": "p0-p5"
           }
         },
         {
@@ -87,6 +51,36 @@
           "type": "named",
           "data": {
             "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "shootPos5-p4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p4-shootPos"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "shootPos-p3'"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p3-shootPos"
           }
         }
       ]
