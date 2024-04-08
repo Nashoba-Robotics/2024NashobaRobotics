@@ -21,6 +21,8 @@ public class ClimberToManual extends Command{
 
     @Override
     public void initialize() {
+        climber.setLeftRotor(climber.getLeftClimberPos());
+        climber.setRightClimberPos(climber.getRightClibmerPos());
         flag = false;
     }
 

@@ -38,7 +38,7 @@ public class ShooterToShoot extends Command{
     @Override
     public boolean isFinished() {
         // return Math.abs(arm.getShooterSpeed().getRadians()-Presets.Arm.SPEAKER_SPEED.getRadians()) <= Presets.Arm.SPEED_TOLERANCE.getRadians();
-        return Math.abs(arm.getShooterSpeed().getRadians()) >= Presets.Arm.SPEAKER_SPEED.getRadians();
+        return Math.abs(arm.getShooterSpeed().getRadians()) >= Presets.Arm.SPEAKER_SPEED_CHECK.getRadians();
                 // || timer.get() > 2; 
 
         // return true;

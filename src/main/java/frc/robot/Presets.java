@@ -34,13 +34,17 @@ public class Presets {
 
 
         public static Rotation2d COAST_SPEED = Rotation2d.fromRadians(100);
+
         public static Rotation2d SPEAKER_SPEED = Rotation2d.fromRadians(375); // 375
+        public static Rotation2d SPEAKER_SPEED_CHECK = SPEAKER_SPEED;
+
+
         public static final Rotation2d SPEAKER_SPEED_PREP = Rotation2d.fromRadians(200);
         public static final double SPEAKER_PERCENT = 0.9;
         public static final Rotation2d AMP_SPEED = Rotation2d.fromRadians(62.0);
         public static final Rotation2d SHUTTLE_SPEED = Rotation2d.fromRadians(300);
         public static final Rotation2d LOW_SHUTTLE_SPEED = Rotation2d.fromRadians(250);
-        public static final Rotation2d HIGH_SHUTTLE_SPEED = Rotation2d.fromRadians(275);
+        public static final Rotation2d HIGH_SHUTTLE_SPEED = Rotation2d.fromRadians(215);
 
         public static final Rotation2d SPEED_TOLERANCE = Rotation2d.fromRadians(2);
     }
@@ -50,7 +54,7 @@ public class Presets {
         public static final Rotation2d CLIMB_POS = Rotation2d.fromRadians(3);
         public static final Rotation2d TRAP_POS = Rotation2d.fromRadians(0);
 
-        public static final Rotation2d POS_TOLERANCE = Rotation2d.fromRadians(1);
+        public static final Rotation2d POS_TOLERANCE = Rotation2d.fromRadians(1.5);
 
         public static double SERVO_CLIMB_POS = 0;
     }

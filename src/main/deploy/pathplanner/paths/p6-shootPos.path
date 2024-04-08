@@ -50,7 +50,7 @@
     },
     {
       "name": "P6Check",
-      "waypointRelativePos": 0.25,
+      "waypointRelativePos": 0.15,
       "command": {
         "type": "parallel",
         "data": {
@@ -67,8 +67,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 3.9,
+    "maxVelocity": 4.2,
+    "maxAcceleration": 4.2,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 4.0,
+        "x": 4.7,
         "y": 6.2
       },
       "prevControl": {
-        "x": 4.973587481842932,
+        "x": 5.673587481842932,
         "y": 6.2601945857212025
       },
       "nextControl": null,
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "P4Check",
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 0.25,
       "command": {
         "type": "sequential",
         "data": {
