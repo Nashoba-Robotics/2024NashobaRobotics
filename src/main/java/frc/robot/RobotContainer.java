@@ -248,7 +248,10 @@ public class RobotContainer {
     }));
 
     
-    prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));   
+    prep90.onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.MISC);
+      RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0));
+    }));   
     
     deployClimb.and(climbMode::getAsBoolean).onTrue(new ToClimbPrep());
     climb.and(climbMode::getAsBoolean).onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.CLIMB)));
