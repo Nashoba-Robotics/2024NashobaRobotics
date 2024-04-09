@@ -36,4 +36,6 @@ public class MoveMath {
         Translation3d aimPos = new Translation3d(speakerPos.getX()-xOffset, speakerPos.getY()-yOffset, speakerPos.getZ());
         return aimPos;
     }
+
+    
 }
