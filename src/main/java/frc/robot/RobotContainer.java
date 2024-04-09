@@ -214,7 +214,7 @@ public class RobotContainer {
     // lowShuttle.onFalse(new InstantCommand(()->thingRan = false));
 
     // lowShuttle.or(highShuttle::getAsBoolean).onTrue(new AimToStation(drive, joysticks));
-    highShuttle.onTrue(new AimToStation(drive, joysticks));
+    // highShuttle.onTrue(new AimToStation(drive, joysticks));
 
     enableSubwoofer.onTrue(new InstantCommand(()->subwooferShot = true));
     enableSubwoofer.onFalse(new InstantCommand(()->subwooferShot = false));

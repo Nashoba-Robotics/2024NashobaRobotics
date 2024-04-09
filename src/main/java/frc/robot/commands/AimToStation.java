@@ -125,7 +125,8 @@ public class AimToStation extends Command{
         if(DriverStation.isAutonomous()) {
             return feedForwardProfile.isFinished(t.get());
         } else
-        return Governor.getRobotState() != RobotState.SHOOT && Governor.getRobotState() != RobotState.SHOOT_PREP && Governor.getRobotState() != RobotState.TRANSITION
+        return Governor.getRobotState() != RobotState.SHUTTLE_HIGH && Governor.getRobotState() != RobotState.SHUTTLE_HIGH_ADJ 
+        && Governor.getRobotState() != RobotState.SHUTTLE_LOW && Governor.getRobotState() != RobotState.SHUTTLE_LOW_ADJ && Governor.getRobotState() != RobotState.TRANSITION
         || Math.abs(joysticks.getRightJoystickValues().x) >= 0.03;
     }
 }
