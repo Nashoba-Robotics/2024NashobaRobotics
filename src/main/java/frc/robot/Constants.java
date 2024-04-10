@@ -115,6 +115,9 @@ public class Constants {
             public static final Slot0Configs SHOOTER_PID = new Slot0Configs()
             .withKV(0.0117419).withKS(0.030)
             .withKP(0.05).withKI(0).withKD(0);
+
+            public static final double SPEED_SLOPE = 0;
+            public static final double SPEED_INTERCEPT = 0;
       }
 
       public static class Climber{

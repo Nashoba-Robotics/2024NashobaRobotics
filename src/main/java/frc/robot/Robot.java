@@ -32,6 +32,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.President;
 import frc.robot.commands.auto.Dictator;
 import frc.robot.lib.util.DistanceToArmAngleModel;
+import frc.robot.lib.util.MoveMath;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 
 public class Robot extends LoggedRobot {
@@ -157,6 +158,10 @@ public class Robot extends LoggedRobot {
     Logger.recordOutput("RobotState/DesiredState", Governor.getDesiredRobotState());
 
     Logger.recordOutput("LastRegressionModel", RobotContainer.lastModelForShot);
+
+    Presets.Arm.SPEAKER_SPEED_CHECK = MoveMath.getShooterSpeedFromDistance(
+        RobotContainer.drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d())
+      );
   }
 
   @Override
