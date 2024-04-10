@@ -22,6 +22,7 @@ public class ToNeutral extends SequentialCommandGroup {
         lNeut = new LoaderToNeutral();
         nShoot = new NoteToShooter();
         addCommands(
+            new InstantCommand(() -> RobotContainer.overrideAngle = false),
             new StopAllRollers(),
             new InstantCommand(()->Governor.cleanUp=false),
             new ParallelCommandGroup(

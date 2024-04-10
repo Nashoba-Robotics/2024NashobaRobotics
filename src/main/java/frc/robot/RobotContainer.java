@@ -29,6 +29,8 @@ import frc.robot.commands.AimToStation;
 import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.remaps.P3Check;
 import frc.robot.commands.auto.remaps.P4Check;
+import frc.robot.commands.auto.remaps.P5CheckP4;
+import frc.robot.commands.auto.remaps.P5CheckP6;
 import frc.robot.commands.auto.remaps.P6Check;
 import frc.robot.commands.auto.remaps.P7Check;
 import frc.robot.commands.auto.source.ToSource0Command;
@@ -121,6 +123,8 @@ public class RobotContainer {
   public static boolean disruptFlag = false;
 
   public static boolean odometryFlag = false;
+
+  public static boolean overrideAngle = false;
 
   public RobotContainer() {
     addShuffleBoardData();
@@ -335,6 +339,8 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("P3Check", new P3Check());
     NamedCommands.registerCommand("P4Check", new P4Check());
+    NamedCommands.registerCommand("P5CheckP4", new P5CheckP4());
+    NamedCommands.registerCommand("P5CheckP6", new P5CheckP6());
     NamedCommands.registerCommand("P6Check", new P6Check());
     NamedCommands.registerCommand("P7Check", new P7Check());
   }

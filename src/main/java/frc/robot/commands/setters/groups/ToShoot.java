@@ -15,6 +15,7 @@ public class ToShoot extends SequentialCommandGroup {
     
     public ToShoot() {
         addCommands(
+            new InstantCommand(() -> RobotContainer.overrideAngle = true),
             new InstantCommand(() -> RobotContainer.loader.setRollerSpeed(0), RobotContainer.loader),
             new ArmToShoot().withTimeout(2),
             // new ArmMaintainPos(),

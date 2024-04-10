@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.Optional;
+
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -16,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.Governor;
+import frc.robot.RobotContainer;
 import frc.robot.Governor.RobotState;
 import frc.robot.lib.math.NRUnits;
 import frc.robot.lib.util.JoystickValues;
@@ -65,9 +68,7 @@ public class AimToSpeakerCommand extends Command{
 
     @Override
     public void initialize() {
-        targetAngle = Rotation2d.fromRadians(Math.atan2(
-            Constants.Field.getSpeakerPos().getY() - drive.getPose().getY(),
-            Constants.Field.getSpeakerPos().getX() - drive.getPose().getX()));
+        targetAngle = getTargetAngle();
         startStateUnconstrained = new State(drive.getYaw().getRadians(), drive.getZVelocity());
         startAngleConstrained = drive.getPose().getRotation();
         t.restart();
@@ -99,9 +100,7 @@ public class AimToSpeakerCommand extends Command{
 
 
         if(feedForwardProfile.isFinished(t.get())) {
-            targetAngle = Rotation2d.fromRadians(Math.atan2(
-            Constants.Field.getSpeakerPos().getY() - drive.getPose().getY(),
-            Constants.Field.getSpeakerPos().getX() - drive.getPose().getX()));
+            targetAngle = getTargetAngle();
             if(!flag) {
                 pidController.setP(6);
                 flag = true;
@@ -137,5 +136,17 @@ public class AimToSpeakerCommand extends Command{
         } else
         return Governor.getRobotState() != RobotState.SHOOT && Governor.getRobotState() != RobotState.SHOOT_PREP && Governor.getRobotState() != RobotState.TRANSITION
         || Math.abs(joysticks.getRightJoystickValues().x) >= 0.03;
+    }
+
+    private static Rotation2d getTargetAngle() {
+        return Rotation2d.fromRadians(Math.atan2(
+            Constants.Field.getSpeakerPos().getY() - RobotContainer.drive.getPose().getY(),
+            Constants.Field.getSpeakerPos().getX() - RobotContainer.drive.getPose().getX()));
+    }
+
+    public static Optional<Rotation2d> getTargetAngleOptional() {
+        if(RobotContainer.overrideAngle) {
+            return Optional.of(getTargetAngle());
+        } else return Optional.empty();
     }
 }

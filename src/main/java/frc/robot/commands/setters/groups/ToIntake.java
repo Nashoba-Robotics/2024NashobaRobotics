@@ -1,9 +1,11 @@
 package frc.robot.commands.setters.groups;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Governor;
 import frc.robot.Governor.RobotState;
+import frc.robot.RobotContainer;
 import frc.robot.commands.setters.units.StopAllRollers;
 import frc.robot.commands.setters.units.arm.ArmToIntake;
 import frc.robot.commands.setters.units.intake.IntakeToIntake;
@@ -14,6 +16,7 @@ public class ToIntake extends SequentialCommandGroup {
     
     public ToIntake() {
         addCommands(
+            new InstantCommand(() -> RobotContainer.overrideAngle = false),
             new StopAllRollers(),
             new ParallelCommandGroup(
                 new LoaderToIntake(),

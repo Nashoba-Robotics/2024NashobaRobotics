@@ -8,6 +8,7 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
@@ -29,6 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.AimToSpeakerCommand;
 import frc.robot.lib.math.NRUnits;
 import frc.robot.lib.math.SwerveMath;
 
@@ -98,6 +100,8 @@ public class DriveSubsystem extends SubsystemBase{
                 },
                 this
         );
+
+        PPHolonomicDriveController.setRotationTargetOverride(AimToSpeakerCommand::getTargetAngleOptional);
 
         state = DriveState.DRIVER;
     }
