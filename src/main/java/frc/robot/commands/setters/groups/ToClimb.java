@@ -21,7 +21,7 @@ public class ToClimb extends SequentialCommandGroup {
         addCommands(
             new StopAllRollers(),
             new ArmToClimb(),
-            new ClimberToClimb(),
+            new ClimberToClimb().withTimeout(2),
             Governor.getSetStateCommand(RobotState.CLIMB),
             new ClimberToManual()
         );

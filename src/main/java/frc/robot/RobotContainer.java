@@ -94,7 +94,8 @@ public class RobotContainer {
   private Trigger shootPrep = joysticks.getDriverController().button(6);
 
   private Trigger highShuttle = joysticks.getDriverController().button(4);
-  private Trigger lowShuttle = joysticks.getDriverController().button(1);
+  // private Trigger lowShuttle = joysticks.getDriverController().button(1);
+  private Trigger enableSubwoofer = joysticks.getDriverController().button(1);
   public static ToShuttlePrep highShuttlePrep = new ToShuttlePrep(true);
   public static ToShuttlePrep lowShuttlePrep = new ToShuttlePrep(false);
   public static ToShuttle highShuttleCmd = new ToShuttle(true);
@@ -104,6 +105,7 @@ public class RobotContainer {
   private Trigger toFieldCentric = joysticks.getDriverController().povDown();
   private Trigger toRobotCentric = joysticks.getDriverController().povUp();
 
+  private Trigger climbMode = joysticks.getOperatorController().button(1);
   private Trigger deployClimb = joysticks.getOperatorController().button(5);
   private Trigger climb = joysticks.getOperatorController().button(6);
 
@@ -125,6 +127,7 @@ public class RobotContainer {
   public static boolean odometryFlag = false;
 
   public static boolean overrideAngle = false;
+  public static boolean subwooferShot = false;
 
   public RobotContainer() {
     addShuffleBoardData();
@@ -190,30 +193,35 @@ public class RobotContainer {
 
     highShuttle.onFalse(new InstantCommand(()->thingRan = false));
 
-    lowShuttle.and(new BooleanSupplier() {
-      @Override
-      public boolean getAsBoolean(){
-        return !lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
-      }
-    }).onTrue(new InstantCommand(()->{
-      Governor.setRobotState(RobotState.SHUTTLE_LOW_ADJ);
-      thingRan = true;
-    }
-    ));
+    // lowShuttle.and(new BooleanSupplier() {
+    //   @Override
+    //   public boolean getAsBoolean(){
+    //     return !lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
+    //   }
+    // }).onTrue(new InstantCommand(()->{
+    //   Governor.setRobotState(RobotState.SHUTTLE_LOW_ADJ);
+    //   thingRan = true;
+    // }
+    // ));
 
-    lowShuttle.and(new BooleanSupplier() {
-      @Override
-      public boolean getAsBoolean(){
-        return lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
-      }
-    }).onTrue(new InstantCommand(()->{
-      Governor.setRobotState(RobotState.SHUTTLE_LOW);
-      thingRan = true;
-    }));
+    // lowShuttle.and(new BooleanSupplier() {
+    //   @Override
+    //   public boolean getAsBoolean(){
+    //     return lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
+    //   }
+    // }).onTrue(new InstantCommand(()->{
+    //   Governor.setRobotState(RobotState.SHUTTLE_LOW);
+    //   thingRan = true;
+    // }));
 
-    lowShuttle.onFalse(new InstantCommand(()->thingRan = false));
+    // lowShuttle.onFalse(new InstantCommand(()->thingRan = false));
 
-    lowShuttle.or(()->highShuttle.getAsBoolean()).onTrue(new AimToSpeakerCommand(drive, joysticks));
+    // lowShuttle.or(highShuttle::getAsBoolean).onTrue(new AimToStation(drive, joysticks));
+    // highShuttle.onTrue(new AimToStation(drive, joysticks));
+
+    enableSubwoofer.onTrue(new InstantCommand(()->subwooferShot = true));
+    enableSubwoofer.onFalse(new InstantCommand(()->subwooferShot = false));
+    
 
     cleanupUnscoredNotesTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED)));
     sHooterInterruptTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterPercent(0)));
@@ -243,11 +251,13 @@ public class RobotContainer {
     }));
 
     
-    prep90.onTrue(new InstantCommand(()->RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0))));   
+    prep90.onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.MISC);
+      RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0));
+    }));   
     
-    deployClimb.onTrue(new ToClimbPrep());
-    climb.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.CLIMB)));
-    
+    deployClimb.and(climbMode::getAsBoolean).onTrue(new ToClimbPrep());
+    climb.and(climbMode::getAsBoolean).onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.CLIMB)));
 
     toFieldCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(true)));
     toRobotCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(false)));
@@ -301,6 +311,18 @@ public class RobotContainer {
             return Governor.getDesiredRobotState() != RobotState.SHOOT;
         }
       }).withTimeout(3)
+    ));
+    NamedCommands.registerCommand("ShootClose", new SequentialCommandGroup(
+      new AimToSpeakerCommand(drive, joysticks),
+      new InstantCommand(() -> Presets.Arm.SPEAKER_SPEED_CHECK = Rotation2d.fromRadians(280)),
+      new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
+      new WaitUntilCommand(new BooleanSupplier() {
+        @Override
+        public boolean getAsBoolean() {
+            return Governor.getDesiredRobotState() != RobotState.SHOOT;
+        }
+      }).withTimeout(3),
+      new InstantCommand(() -> Presets.Arm.SPEAKER_SPEED_CHECK = Presets.Arm.SPEAKER_SPEED)
     ));
     NamedCommands.registerCommand("ShootDisrupt", new SequentialCommandGroup(
       new InstantCommand(() -> disruptFlag = true),

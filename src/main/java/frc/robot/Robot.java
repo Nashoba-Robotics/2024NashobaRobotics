@@ -13,6 +13,8 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.Odometry;
@@ -115,14 +117,14 @@ public class Robot extends LoggedRobot {
         if(AprilTagManager.hasLeftTarget()
             && AprilTagManager.getLeftAmbiguity() <= 0.15
             && AprilTagManager.getLeftRobotPos() != null
-            // && leftError < 5
+            && leftError < 5
             && leftPose2d.getX() > 0 && leftPose2d.getX() < Constants.Field.LENGTH
             && leftPose2d.getY() > 0 && leftPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(leftPose2d, AprilTagManager.getLeftTimestamp());
         if(AprilTagManager.hasRightTarget()
             && AprilTagManager.getRightAmbiguity() <= 0.15
             && AprilTagManager.getRightRobotPos() != null
-            // && rightError < 5
+            && rightError < 5
             && rightPose2d.getX() > 0 && rightPose2d.getX() < Constants.Field.LENGTH
             && rightPose2d.getY() > 0 && rightPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(rightPose2d, AprilTagManager.getRightTimestamp());
@@ -164,9 +166,8 @@ public class Robot extends LoggedRobot {
         (DriverStation.getAlliance().orElse(Alliance.Blue)==Alliance.Blue ? "blue/" : "red/") +
         fileName);
     }
-    // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_CLOSE);
-    // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_AMP);
-    // RobotContainer.writeRegressionFile(Constants.FileNames.ARM_ANGLE_FAR_SOURCE);
+    
+    // new PathPlannerAuto("Preload Paths").ignoringDisable(true).schedule();
   }
 
   @Override
@@ -174,12 +175,10 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void autonomousInit() {
-    CommandScheduler.getInstance().schedule(new InstantCommand(
-      ()->{
-        RobotContainer.arm.setArmPivotRotor(Presets.Arm.INTAKE_POS);
-        RobotContainer.loader.setPivotRotor(Presets.Loader.INTAKE_POS);
-      }, RobotContainer.arm, RobotContainer.loader
-    ));
+
+    RobotContainer.arm.setArmPivotRotor(Presets.Arm.INTAKE_POS);
+    RobotContainer.loader.setPivotRotor(Presets.Loader.INTAKE_POS);
+
     robotContainer.getAutoCommand().schedule();
     
     
@@ -205,8 +204,8 @@ public class Robot extends LoggedRobot {
       new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
       );
 
-    // CommandScheduler.getInstance().schedule(new President());
-    // Governor.setRobotState(RobotState.NEUTRAL, true);
+    CommandScheduler.getInstance().schedule(new President());
+    Governor.setRobotState(RobotState.NEUTRAL, true);
 
     RobotContainer.drive.overrideVisionOdo = false;
 

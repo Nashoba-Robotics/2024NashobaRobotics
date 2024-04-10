@@ -76,18 +76,6 @@
           "data": {
             "pathName": "shootPos5-p6"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "p6-shootPos"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
         }
       ]
     }

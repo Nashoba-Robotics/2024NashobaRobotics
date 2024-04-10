@@ -54,8 +54,8 @@ public class ArmToShoot extends Command{
         Logger.recordOutput("SetAngle", angle);
 
        if(Presets.Arm.OVERRIDE_AUTOMATIC_AIM) angle = Presets.Arm.PODIUM_SHOOTER_POS.getRadians();
-
-        arm.setArmPivot(Rotation2d.fromRadians(angle));
+        if(RobotContainer.subwooferShot) arm.setArmPivot(Presets.Arm.NEUTRAL_POS);
+        else arm.setArmPivot(Rotation2d.fromRadians(angle));
     }
     @Override
     public boolean isFinished() {

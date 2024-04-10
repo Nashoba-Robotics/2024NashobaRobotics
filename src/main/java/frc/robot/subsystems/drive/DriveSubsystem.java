@@ -174,7 +174,7 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
     public void resetPose(Pose2d pose) {
-        if(!RobotContainer.odometryFlag) {
+        if(!RobotContainer.odometryFlag && DriverStation.isEnabled()) {
             RobotContainer.odometryFlag = true;
             resetOdometryManualAngle(pose, getGyroAngle());
         }
