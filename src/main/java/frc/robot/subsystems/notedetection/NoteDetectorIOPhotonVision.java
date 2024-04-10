@@ -9,6 +9,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -30,6 +31,21 @@ public class NoteDetectorIOPhotonVision implements NoteDetectorIO{
 
         // Pose3d robotPos = new Pose3d(RobotContainer.drive.getPose());
         Pose3d robotPos = new Pose3d();
+
+        PhotonTrackedTarget bestTarget = r.getBestTarget();
+        inputs.yaw = bestTarget.getYaw();
+        inputs.pitch = bestTarget.getPitch();
+
+        double cameraToNoteY = (64.8794*Math.tan(0.0945988*inputs.pitch) + 65.6394)/100;
+        double cameraToNoteX = Math.tan(1.68617*inputs.yaw-0.432508) * cameraToNoteY;
+
+        Transform2d cameraToNote = new Transform2d(
+            cameraToNoteX,
+            cameraToNoteY,
+            Rotation2d.fromRadians(Math.atan2(cameraToNoteX, cameraToNoteY)));  //Does this work?
+        Transform2d robotToNote = Constants.Cameras.NoteDetection.ROBOT_TO_CAMERA.plus(cameraToNote);
+
+        Pose2d notePos = robotPos.toPose2d().plus(robotToNote);
 
         
         List<PhotonTrackedTarget> targets = r.getTargets();

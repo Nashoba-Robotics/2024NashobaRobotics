@@ -14,6 +14,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -154,7 +155,7 @@ public class Constants {
 
             public static class NoteDetection{
                   public static final String CAMERA_NAME = "HD_USB_Camera";
-                  public static final Transform3d ROBOT_TO_CAMERA = new Transform3d(0, 0, 0, new Rotation3d());
+                  public static final Transform2d ROBOT_TO_CAMERA = new Transform2d(0, 0, new Rotation2d());
             }
       }
 
