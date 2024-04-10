@@ -62,8 +62,8 @@ public class RobotContainer {
 
   public static final DriveSubsystem drive = new DriveSubsystem();
   public static final JoystickSubsystem joysticks = new JoystickSubsystem();
-  private static final AprilTagManager aprilTags = new AprilTagManager();
-  // private static final NoteDetector noteDetector = new NoteDetector();
+  // private static final AprilTagManager aprilTags = new AprilTagManager();
+  private static final NoteDetector noteDetector = new NoteDetector();
   public static final ArmSubsystem arm = new ArmSubsystem();
   public static final IntakeSubsystem intake = new IntakeSubsystem();
   public static final LoaderSubsystem loader = new LoaderSubsystem();

@@ -27,43 +27,53 @@ public class NoteDetectorIOPhotonVision implements NoteDetectorIO{
     @Override
     public void updateInputs(NoteDetectorIOInputs inputs) {
         PhotonPipelineResult r = camera.getLatestResult();
+        Pose3d robotPos = new Pose3d();
+
+
+        if(r.hasTargets()){
+
+            PhotonTrackedTarget bestTarget = r.getBestTarget();
+            inputs.yaw = bestTarget.getYaw();
+            inputs.pitch = bestTarget.getPitch();
+
+            // double cameraToNoteY = (64.8794*Math.tan(0.0945988*inputs.pitch) + 65.6394)/100;
+            double cameraToNoteY = (0.0312994*inputs.pitch*inputs.pitch*inputs.pitch + 0.390463*inputs.pitch*inputs.pitch + 2.73336*inputs.pitch + 65.1811)/100;
+            double cameraToNoteX = Math.tan((1.68617*inputs.yaw-0.432508)*Constants.TAU/360) * cameraToNoteY;
+
+            inputs.bestX = cameraToNoteX;
+            inputs.bestY = cameraToNoteY;
+
+            Transform2d cameraToNote = new Transform2d(
+                cameraToNoteX,
+                cameraToNoteY,
+                Rotation2d.fromRadians(Math.atan2(cameraToNoteX, cameraToNoteY)));  //Does this work?
+            Transform2d robotToNote = Constants.Cameras.NoteDetection.ROBOT_TO_CAMERA.plus(cameraToNote);
+
+            Pose2d notePos = robotPos.toPose2d().plus(robotToNote);
+            inputs.bestPos = notePos;   //Does this work?
+        }
 
 
         // Pose3d robotPos = new Pose3d(RobotContainer.drive.getPose());
-        Pose3d robotPos = new Pose3d();
-
-        PhotonTrackedTarget bestTarget = r.getBestTarget();
-        inputs.yaw = bestTarget.getYaw();
-        inputs.pitch = bestTarget.getPitch();
-
-        double cameraToNoteY = (64.8794*Math.tan(0.0945988*inputs.pitch) + 65.6394)/100;
-        double cameraToNoteX = Math.tan(1.68617*inputs.yaw-0.432508) * cameraToNoteY;
-
-        Transform2d cameraToNote = new Transform2d(
-            cameraToNoteX,
-            cameraToNoteY,
-            Rotation2d.fromRadians(Math.atan2(cameraToNoteX, cameraToNoteY)));  //Does this work?
-        Transform2d robotToNote = Constants.Cameras.NoteDetection.ROBOT_TO_CAMERA.plus(cameraToNote);
-
-        Pose2d notePos = robotPos.toPose2d().plus(robotToNote);
+        
 
         
-        List<PhotonTrackedTarget> targets = r.getTargets();
-        inputs.noteCount = targets.size();
+        // List<PhotonTrackedTarget> targets = r.getTargets();
+        // inputs.noteCount = targets.size();
         
-        int i = 0; 
-        for(PhotonTrackedTarget target : targets){
-            double pitch = target.getPitch();
-            double y = 64.8794 * Math.tan(0.0945988*pitch) + 65.6394;
+        // int i = 0; 
+        // for(PhotonTrackedTarget target : targets){
+        //     double pitch = target.getPitch();
+        //     double y = 64.8794 * Math.tan(0.0945988*pitch) + 65.6394;
 
-            double yaw = target.getYaw();
-            double theta = 1.53532*yaw + 1.83981;
+        //     double yaw = target.getYaw();
+        //     double theta = 1.53532*yaw + 1.83981;
 
-            double x = y/Math.tan(theta);
+        //     double x = y/Math.tan(theta);
 
-            Pose2d notePose = new Pose2d(robotPos.getX(), yaw, null);
+        //     Pose2d notePose = new Pose2d(robotPos.getX(), yaw, null);
 
-            i++;
-        }
+        //     i++;
+        // }
     }
 }

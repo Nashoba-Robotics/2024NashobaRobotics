@@ -14,8 +14,8 @@ public interface NoteDetectorIO {
         public double yaw = 0;
         public double area = 0;
 
-        // public double bestX = 0;
-        // public double bestY = 0;
+        public double bestX = 0;
+        public double bestY = 0;
         public Pose2d bestPos = new Pose2d();
 
         public boolean p3 = false;
