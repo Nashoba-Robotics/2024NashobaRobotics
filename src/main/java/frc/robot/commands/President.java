@@ -178,8 +178,13 @@ public class President extends Command {
                 } 
 
                 break;
+            case AMP_ADJ:
+                RobotContainer.arm.setShooterPercent(0);
+
+                break;
             case AMP:
                 if(!ampFlag){
+                        RobotContainer.arm.setShooterPercent(0);
                         ampTimer.restart();
                         ampFlag = true;
                 }

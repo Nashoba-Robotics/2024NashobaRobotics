@@ -89,6 +89,12 @@ public class ArmIOTalonFX implements ArmIO{
         pivotControl.Position = angle.getRotations();
         pivot.setControl(pivotControl);
     }
+    public void configMotionMagic(double cruiseVelocity, double acceleration){
+        pivotConfig.MotionMagic.MotionMagicCruiseVelocity = cruiseVelocity;
+        pivotConfig.MotionMagic.MotionMagicAcceleration = acceleration;
+
+        pivotConfigurator.apply(pivotConfig);
+    }
     @Override
     public void setPivotRotorPos(Rotation2d pos){
         pivot.setPosition(pos.getRotations());

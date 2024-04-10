@@ -48,6 +48,7 @@ public interface ArmIO {
      public abstract void setPivotkP(double kP);
      public abstract void setPivotkD(double kD);
 
+     public void configMotionMagic(double cruiseVelocity, double acceleration);
      public TalonFX getShooterMotor();
      public TalonFX getPivotMotor();
 }

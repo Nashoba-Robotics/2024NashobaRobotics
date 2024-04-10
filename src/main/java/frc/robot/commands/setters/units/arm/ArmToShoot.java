@@ -13,6 +13,7 @@ import frc.robot.Presets;
 import frc.robot.RobotContainer;
 import frc.robot.Governor.RobotState;
 import frc.robot.lib.util.DistanceToArmAngleModel;
+import frc.robot.lib.util.MoveMath;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.sensors.SensorManager;
@@ -32,6 +33,9 @@ public class ArmToShoot extends Command{
     public void execute() {
         
         double dist = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+
+        // dist = MoveMath.getShootWhileMoveBallistics2()[1];
+
         if(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
             if(RobotContainer.drive.getPose().getX() < Constants.Misc.CLOSE_FAR_CUTOFF) {
                 angle = DistanceToArmAngleModel.getInstance(Constants.FileNames.getClose()).applyFunction(dist);

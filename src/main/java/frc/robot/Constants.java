@@ -54,7 +54,7 @@ public class Constants {
 
             //With the Layout paths, REMEMBER you need to also upload the json file to the Photonvision GUI
             //This layout for some reason only works for the single tag estimation (as of 02/11/24) 
-            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/DCMPPositions.json";
+            public static final String LAYOUT_PATH = Filesystem.getDeployDirectory().getPath() + "/tagPositions/WPIPracticePositions.json";
 
             public static final double getXSD(double distance) {
                   return 0.0312*distance - 0.0494;

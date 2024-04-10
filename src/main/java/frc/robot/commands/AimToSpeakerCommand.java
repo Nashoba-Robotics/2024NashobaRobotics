@@ -4,6 +4,7 @@ import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -19,6 +20,7 @@ import frc.robot.Governor;
 import frc.robot.Governor.RobotState;
 import frc.robot.lib.math.NRUnits;
 import frc.robot.lib.util.JoystickValues;
+import frc.robot.lib.util.MoveMath;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem.DriveState;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
@@ -65,9 +67,20 @@ public class AimToSpeakerCommand extends Command{
 
     @Override
     public void initialize() {
+        Translation3d noteVector = MoveMath.getBallisticTrajectory();
+
+        Logger.recordOutput("Note Pos Vector", noteVector);
+        Translation3d targetPos = new Translation3d(
+            Constants.Field.getSpeakerPos().getX()-noteVector.getX(), 
+            Constants.Field.getSpeakerPos().getY()-noteVector.getY(), 
+            Constants.Field.getSpeakerPos().getZ()-noteVector.getZ());
+
+
         targetAngle = Rotation2d.fromRadians(Math.atan2(
-            Constants.Field.getSpeakerPos().getY() - drive.getPose().getY(),
-            Constants.Field.getSpeakerPos().getX() - drive.getPose().getX()));
+            targetPos.getY() - drive.getPose().getY(),
+            targetPos.getX() - drive.getPose().getX()));
+
+
         startStateUnconstrained = new State(drive.getYaw().getRadians(), drive.getZVelocity());
         startAngleConstrained = drive.getPose().getRotation();
         t.restart();
@@ -98,15 +111,27 @@ public class AimToSpeakerCommand extends Command{
         chassisSpeeds.vyMetersPerSecond = leftJoystickValues.y * Constants.Drive.MAX_VELOCITY;
 
 
-        if(feedForwardProfile.isFinished(t.get())) {
-            targetAngle = Rotation2d.fromRadians(Math.atan2(
-            Constants.Field.getSpeakerPos().getY() - drive.getPose().getY(),
-            Constants.Field.getSpeakerPos().getX() - drive.getPose().getX()));
+        // if(feedForwardProfile.isFinished(t.get())) {
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
+                targetAngle = Rotation2d.fromRadians(MoveMath.getShootWhileMoveBallistics2()[0] + Math.PI);
+        } else {
+            targetAngle = Rotation2d.fromRadians(MoveMath.getShootWhileMoveBallistics2()[0]);
+        }
+        Translation3d noteVector = MoveMath.getBallisticTrajectory();
+        Translation3d targetPos = new Translation3d(
+            Constants.Field.getSpeakerPos().getX()-noteVector.getX(), 
+            Constants.Field.getSpeakerPos().getY()-noteVector.getY(), 
+            Constants.Field.getSpeakerPos().getZ()-noteVector.getZ());
+
+
+            // targetAngle = Rotation2d.fromRadians(Math.atan2(
+            // targetPos.getY() - drive.getPose().getY(),
+            // targetPos.getX() - drive.getPose().getX()));
             if(!flag) {
                 pidController.setP(6);
                 flag = true;
             }
-        }
+        // }
 
         double diff = targetAngle.getRadians() - startAngleConstrained.getRadians();
 
@@ -116,7 +141,7 @@ public class AimToSpeakerCommand extends Command{
 
         State setState = feedForwardProfile.calculate(t.get(), startStateUnconstrained, goalState);
 
-        double rotSpeed = feedForwardProfile.isFinished(t.get()) ? pidController.calculate(drive.getPose().getRotation().getRadians(), targetAngle.getRadians()) :
+        double rotSpeed = feedForwardProfile.isFinished(t.get()) || true ? pidController.calculate(drive.getPose().getRotation().getRadians(), targetAngle.getRadians()) :
         setState.velocity
         + pidController.calculate(drive.getYaw().getRadians(), setState.position);
 
@@ -135,7 +160,9 @@ public class AimToSpeakerCommand extends Command{
         if(DriverStation.isAutonomous()) {
             return feedForwardProfile.isFinished(t.get());
         } else
-        return Governor.getRobotState() != RobotState.SHOOT && Governor.getRobotState() != RobotState.SHOOT_PREP && Governor.getRobotState() != RobotState.TRANSITION
-        || Math.abs(joysticks.getRightJoystickValues().x) >= 0.03;
+        return 
+        // Governor.getRobotState() != RobotState.SHOOT && Governor.getRobotState() != RobotState.SHOOT_PREP && Governor.getRobotState() != RobotState.TRANSITION
+        // || 
+        Math.abs(joysticks.getRightJoystickValues().x) >= 0.03;
     }
 }

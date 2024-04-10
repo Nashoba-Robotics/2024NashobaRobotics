@@ -30,6 +30,7 @@ public class Presets {
 
 
         public static final Rotation2d POS_TOLERANCE = Rotation2d.fromRadians(0.015);
+        public static final Rotation2d AMP_POS_TOLERANCE = Rotation2d.fromDegrees(5);
 
 
 

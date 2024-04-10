@@ -16,9 +16,6 @@ public class AprilTagManager extends SubsystemBase {
     public void periodic() {
         io.updateInputs(inputs);
         Logger.processInputs("Camera", inputs);
-
-        if(inputs.frontLeftHasTarget && inputs.frontLeftPos != null)
-            Logger.recordOutput("RobotPos (Camera)", inputs.frontLeftPos.toPose2d());
     }
 
     //Returns whether or not we can see at least 1 april tag

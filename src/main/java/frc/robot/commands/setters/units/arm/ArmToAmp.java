@@ -20,7 +20,7 @@ public class ArmToAmp extends Command {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(arm.getArmPivotAngle().getRadians() - Presets.Arm.AMP_POS.getRadians()) < Presets.Arm.POS_TOLERANCE.getRadians(); 
+        return Math.abs(arm.getArmPivotAngle().getRadians() - Presets.Arm.AMP_POS.getRadians()) < Presets.Arm.AMP_POS_TOLERANCE.getRadians(); 
     }
 
 }

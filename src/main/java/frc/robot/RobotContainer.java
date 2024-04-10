@@ -45,6 +45,7 @@ import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.test.ClimberTuneCommand;
 import frc.robot.commands.test.FindArmZeroCommand;
 import frc.robot.commands.test.ManualShootCommand;
+import frc.robot.commands.test.SourceShuttleTest;
 import frc.robot.commands.test.TestServoCommand;
 import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.subsystems.apriltags.AprilTagManager;
@@ -189,32 +190,7 @@ public class RobotContainer {
     }));
 
     highShuttle.onFalse(new InstantCommand(()->thingRan = false));
-
-    // lowShuttle.and(new BooleanSupplier() {
-    //   @Override
-    //   public boolean getAsBoolean(){
-    //     return !lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
-    //   }
-    // }).onTrue(new InstantCommand(()->{
-    //   Governor.setRobotState(RobotState.SHUTTLE_LOW_ADJ);
-    //   thingRan = true;
-    // }
-    // ));
-
-    // lowShuttle.and(new BooleanSupplier() {
-    //   @Override
-    //   public boolean getAsBoolean(){
-    //     return lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
-    //   }
-    // }).onTrue(new InstantCommand(()->{
-    //   Governor.setRobotState(RobotState.SHUTTLE_LOW);
-    //   thingRan = true;
-    // }));
-
-    // lowShuttle.onFalse(new InstantCommand(()->thingRan = false));
-
-    // lowShuttle.or(highShuttle::getAsBoolean).onTrue(new AimToStation(drive, joysticks));
-    // highShuttle.onTrue(new AimToStation(drive, joysticks));
+    highShuttle.onTrue(new AimToStation(drive, joysticks));
 
     enableSubwoofer.onTrue(new InstantCommand(()->subwooferShot = true));
     enableSubwoofer.onFalse(new InstantCommand(()->subwooferShot = false));
@@ -276,6 +252,10 @@ public class RobotContainer {
     //   new ArmTuneCommand(arm)
     // );
     SmartDashboard.putData(new FindArmZeroCommand());
+    SmartDashboard.putData(new SequentialCommandGroup(
+      Governor.getSetStateCommand(RobotState.MISC),
+      new SourceShuttleTest()
+    ));
   }
 
   private void configureEvents() {
