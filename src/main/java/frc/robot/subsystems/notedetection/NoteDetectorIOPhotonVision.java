@@ -46,7 +46,7 @@ public class NoteDetectorIOPhotonVision implements NoteDetectorIO{
             Transform2d cameraToNote = new Transform2d(
                 cameraToNoteX,
                 cameraToNoteY,
-                Rotation2d.fromRadians(Math.atan2(cameraToNoteX, cameraToNoteY)));  //Does this work?
+                Rotation2d.fromRadians(0));  //Does this work?
             Transform2d robotToNote = Constants.Cameras.NoteDetection.ROBOT_TO_CAMERA.plus(cameraToNote);
 
             Pose2d notePos = robotPos.toPose2d().plus(robotToNote);
