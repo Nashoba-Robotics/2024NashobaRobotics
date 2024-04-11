@@ -130,21 +130,21 @@ public class Robot extends LoggedRobot {
             && rightPose2d.getY() > 0 && rightPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(rightPose2d, AprilTagManager.getRightTimestamp());
 
-        // if(AprilTagManager.hasBackLeftTarget()
-        //     && AprilTagManager.getBackLeftAmbiguity() <= 0.15
-        //     && AprilTagManager.getBackLeftPos() != null
-        //     && backLeftError < 2
-        //     && backLeftPose2d.getX() > 0 && backLeftPose2d.getX() < Constants.Field.LENGTH
-        //     && backLeftPose2d.getY() > 0 && backLeftPose2d.getY() < Constants.Field.WIDTH)
-        //       RobotContainer.drive.updateOdometryWithVision(backLeftPose2d, AprilTagManager.getBackLeftTimestamp());
+        if(AprilTagManager.hasBackLeftTarget()
+            && AprilTagManager.getBackLeftAmbiguity() <= 0.15
+            && AprilTagManager.getBackLeftPos() != null
+            && backLeftError < 2
+            && backLeftPose2d.getX() > 0 && backLeftPose2d.getX() < Constants.Field.LENGTH
+            && backLeftPose2d.getY() > 0 && backLeftPose2d.getY() < Constants.Field.WIDTH)
+              RobotContainer.drive.updateOdometryWithVision(backLeftPose2d, AprilTagManager.getBackLeftTimestamp());
 
-        //       if(AprilTagManager.hasBackRightTarget()
-        //     && AprilTagManager.getBackRightAmbiguity() <= 0.15
-        //     && AprilTagManager.getBackRightPos() != null
-        //     && backRightError < 2
-        //     && backRightPose2d.getX() > 0 && backRightPose2d.getX() < Constants.Field.LENGTH
-        //     && backRightPose2d.getY() > 0 && backRightPose2d.getY() < Constants.Field.WIDTH)
-        //       RobotContainer.drive.updateOdometryWithVision(backRightPose2d, AprilTagManager.getBackRightTimestamp());
+              if(AprilTagManager.hasBackRightTarget()
+            && AprilTagManager.getBackRightAmbiguity() <= 0.15
+            && AprilTagManager.getBackRightPos() != null
+            && backRightError < 2
+            && backRightPose2d.getX() > 0 && backRightPose2d.getX() < Constants.Field.LENGTH
+            && backRightPose2d.getY() > 0 && backRightPose2d.getY() < Constants.Field.WIDTH)
+              RobotContainer.drive.updateOdometryWithVision(backRightPose2d, AprilTagManager.getBackRightTimestamp());
       }
     
       SmartDashboard.putBoolean("ODOFlag", RobotContainer.odometryFlag);

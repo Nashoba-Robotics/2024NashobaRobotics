@@ -20,9 +20,9 @@ public class StopAllRollers extends Command{
 
     @Override
     public void initialize() {
-        if(DriverStation.isTeleop()) {
-            // arm.setShooterSpeed(Rotation2d.fromDegrees(0));
-        }
+        // if(DriverStation.isAutonomous()) {
+        //     arm.setShooterPercent(0);
+        // }
         loader.setRollerSpeed(0);
         intake.setSpeed(0);
     }
