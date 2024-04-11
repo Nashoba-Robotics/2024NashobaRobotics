@@ -34,7 +34,7 @@ public class ArmToShoot extends Command{
         
         double dist = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
 
-        // dist = MoveMath.getShootWhileMoveBallistics2()[1];
+        dist = MoveMath.getShootWhileMoveBallistics2()[1];
 
         if(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
             if(RobotContainer.drive.getPose().getX() < Constants.Misc.CLOSE_FAR_CUTOFF) {

@@ -114,6 +114,7 @@ public class MoveMath {
         ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(drive.getRobotRelativeSpeeds(), drive.getPose().getRotation());
         // ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
         Logger.recordOutput("chassisspeeds", chassisSpeeds);
+        Pose2d robotPos = drive.getPose();
         Translation3d speakerPose = Constants.Field.getSpeakerPos();
 
         // A lot of the code from this point forward is from here:
@@ -125,9 +126,9 @@ public class MoveMath {
         double target_vel_x = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red ? chassisSpeeds.vxMetersPerSecond : -chassisSpeeds.vxMetersPerSecond;
         double target_vel_y = 0;
         double target_vel_z = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red ? chassisSpeeds.vyMetersPerSecond : -chassisSpeeds.vyMetersPerSecond;
-        double proj_pos_x = drive.getPose().getX();
+        double proj_pos_x = robotPos.getX();
         double proj_pos_y = 0.6;
-        double proj_pos_z = drive.getPose().getY();
+        double proj_pos_z = robotPos.getY();
         double proj_speed = NOTE_SPEED;
 
         double A = proj_pos_x;
@@ -176,13 +177,21 @@ public class MoveMath {
                 continue;
             }
 
+            float x_note_speed = (float)((H + P * t) / t);
+            float z_note_speed = (float) ((K + Q * t - L * t * t) / t);
+            float y_note_speed = (float) ((J + R * t) / t);
+
             solution_poses[num_sols] = new Translation3d(
-                    (float) ((H + P * t) / t),
-                    (float) ((K + Q * t - L * t * t) / t),
-                    (float) ((J + R * t) / t));
+                    x_note_speed,   //Order doesn't really matter.
+                    z_note_speed,
+                    y_note_speed);
+            
+
+
+            Pose2d newPos = new Pose2d(robotPos.getX() + x_note_speed*t, robotPos.getY() + chassisSpeeds.vyMetersPerSecond*t, drive.getPose().getRotation());
             new_dist[num_sols] = 
-                drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d())
-                + 2*Math.hypot(target_vel_x, target_vel_z);
+                // newPos.getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+                Math.hypot(x_note_speed*t, y_note_speed*t);
             num_sols++;
         }
         Translation3d sol_pose = solution_poses[0];
