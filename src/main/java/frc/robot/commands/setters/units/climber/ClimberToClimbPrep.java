@@ -16,12 +16,11 @@ public class ClimberToClimbPrep extends Command {
     @Override
     public void initialize() {
         climber.setClimberPos(Presets.Climber.CLIMB_PREP_POS);
-        climber.setServo(Presets.Climber.SERVO_CLIMB_POS);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(climber.getLeftClimberPos().getRadians() - Presets.Climber.CLIMB_PREP_POS.getRadians()) < Presets.Climber.POS_TOLERANCE.getRadians();
+        return Math.abs(climber.getClimberPos().getRadians() - Presets.Climber.CLIMB_PREP_POS.getRadians()) < Presets.Climber.POS_TOLERANCE.getRadians();
     }
 
 }

@@ -187,8 +187,7 @@ public class Robot extends LoggedRobot {
 
     RobotContainer.drive.enableStatorLimits(false);
 
-    RobotContainer.climber.setLeftRotor(Rotation2d.fromRadians(0));
-    RobotContainer.climber.setRightRotor(Rotation2d.fromRadians(0));
+    RobotContainer.climber.setRotor(Rotation2d.fromRadians(0));
   }
 
   @Override
@@ -204,8 +203,8 @@ public class Robot extends LoggedRobot {
       new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
       );
 
-    CommandScheduler.getInstance().schedule(new President());
-    Governor.setRobotState(RobotState.NEUTRAL, true);
+    // CommandScheduler.getInstance().schedule(new President());
+    // Governor.setRobotState(RobotState.NEUTRAL, true);
 
     RobotContainer.drive.overrideVisionOdo = false;
 

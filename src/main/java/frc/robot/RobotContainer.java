@@ -45,7 +45,6 @@ import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.test.ClimberTuneCommand;
 import frc.robot.commands.test.FindArmZeroCommand;
 import frc.robot.commands.test.ManualShootCommand;
-import frc.robot.commands.test.TestServoCommand;
 import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -261,21 +260,19 @@ public class RobotContainer {
   }
 
   private void addShuffleBoardData() {
-    SmartDashboard.putData(shootMan);
+    // SmartDashboard.putData(shootMan);
     SmartDashboard.putData(new ClimberTuneCommand(climber));
-    SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
-    SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
+    SmartDashboard.putData("Zero Climber", new InstantCommand(()->climber.setRotor(Rotation2d.fromDegrees(0))));
       // SmartDashboard.putData(new ClimberTestCommand(climber));
     // SmartDashboard.putData("Amp Prep", new ToNewAmpAdj());
     // SmartDashboard.putData("Amp Score", new ToNewAmp());
     // SmartDashboard.putData(new NoteToAmpOut());
 
-    SmartDashboard.putData(new TestServoCommand(climber));
     // SmartDashboard.putData(new ClimbToManual());
     // SmartDashboard.putData("TuneArm",
     //   new ArmTuneCommand(arm)
     // );
-    SmartDashboard.putData(new FindArmZeroCommand());
+    // SmartDashboard.putData(new FindArmZeroCommand());
   }
 
   private void configureEvents() {

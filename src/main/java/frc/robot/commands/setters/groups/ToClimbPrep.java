@@ -13,7 +13,6 @@ import frc.robot.commands.setters.units.StopAllRollers;
 import frc.robot.commands.setters.units.arm.ArmToClimbPrep;
 import frc.robot.commands.setters.units.climber.ClimberToManual;
 import frc.robot.commands.setters.units.climber.ClimberToClimbPrep;
-import frc.robot.commands.setters.units.climber.ServoToClimbPrep;
 import frc.robot.commands.setters.units.loader.LoaderToClimbPrep;
 import frc.robot.commands.setters.units.loader.NoteToAmpOut;
 
