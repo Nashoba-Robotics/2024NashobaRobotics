@@ -316,6 +316,7 @@ public class RobotContainer {
       }).withTimeout(3)
     ));
     NamedCommands.registerCommand("ShootClose", new SequentialCommandGroup(
+      new InstantCommand(() -> Presets.Arm.SPEAKER_SPEED_CHECK = Rotation2d.fromRadians(Constants.Arm.MIN_SPEED)),
       new ParallelCommandGroup(
         new AimToSpeakerCommand(drive, joysticks),
         new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true))
@@ -326,7 +327,8 @@ public class RobotContainer {
         public boolean getAsBoolean() {
             return Governor.getDesiredRobotState() != RobotState.SHOOT;
         }
-      }).withTimeout(3)
+      }).withTimeout(3),
+      new InstantCommand(() -> Presets.Arm.SPEAKER_SPEED_CHECK = Presets.Arm.SPEAKER_SPEED)
     ));
     NamedCommands.registerCommand("ShootDisrupt", new SequentialCommandGroup(
       new InstantCommand(() -> disruptFlag = true),

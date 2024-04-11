@@ -159,11 +159,7 @@ public class Robot extends LoggedRobot {
 
     Logger.recordOutput("LastRegressionModel", RobotContainer.lastModelForShot);
 
-    Presets.Arm.SPEAKER_SPEED = MoveMath.getShooterSpeedFromDistance(
-        RobotContainer.drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d())
-      );
-
-      Presets.Arm.SPEAKER_SPEED_CHECK = Presets.Arm.SPEAKER_SPEED;
+    
   }
 
   @Override
@@ -196,6 +192,9 @@ public class Robot extends LoggedRobot {
 
     RobotContainer.climber.setLeftRotor(Rotation2d.fromRadians(0));
     RobotContainer.climber.setRightRotor(Rotation2d.fromRadians(0));
+
+    Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(375);
+    Presets.Arm.SPEAKER_SPEED_CHECK = Rotation2d.fromRadians(375);
   }
 
   @Override
@@ -217,6 +216,12 @@ public class Robot extends LoggedRobot {
     RobotContainer.drive.overrideVisionOdo = false;
 
     RobotContainer.drive.enableStatorLimits(true);
+
+    Presets.Arm.SPEAKER_SPEED = MoveMath.getShooterSpeedFromDistance(
+        RobotContainer.drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d())
+      );
+
+      Presets.Arm.SPEAKER_SPEED_CHECK = Presets.Arm.SPEAKER_SPEED;
   }
 
   @Override
