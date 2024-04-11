@@ -32,7 +32,7 @@ public class Constants {
             public static final String FRONT_RIGHT_CAMERA_NAME = "Yi's_Little_Buddy (1) (2)";
             public static final String FRONT_LEFT_CAMERA_NAME = "Azul's_Little_Buddy"; //Azul's_Little_Buddy
             public static final String BACK_RIGHT_CAMERA_NAME = "Ben's_Little_Buddy (1)"; //Ben's_Little_Buddy (1)
-            public static final String BACK_LEFT_CAMERA_NAME = "Eshaan's_Little_Buddy (1)";
+            public static final String BACK_LEFT_CAMERA_NAME = "Eshaan's_Little_Buddy (1) (2)";
 
             /* For PhotonEstimator
             *             ^ 
@@ -116,8 +116,11 @@ public class Constants {
             .withKV(0.0117419).withKS(0.030)
             .withKP(0.05).withKI(0).withKD(0);
 
-            public static final double SPEED_SLOPE = 0;
-            public static final double SPEED_INTERCEPT = 0;
+            public static final double SPEED_SLOPE = 57.1429;
+            public static final double SPEED_INTERCEPT = 80;
+
+            public static final double MIN_SPEED = 250;
+            public static final double MAX_SPEED = 500;
       }
 
       public static class Climber{
@@ -475,7 +478,7 @@ public class Constants {
         public static final String PIGEON_CANBUS = "jerry";
 
         public static final double DELETE_DISTANCE_RANGE = 0.5; //m
-        public static final double OPERATOR_ANGLE_CORRECTION = 0.1; //rad
+        public static final double OPERATOR_ANGLE_CORRECTION = 0.01; //rad
 
         public static final double CLOSE_FAR_CUTOFF = 3.15;
         public static final double SOURCE_AMP_CUTOFF = 4.1;

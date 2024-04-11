@@ -7,6 +7,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Governor.RobotState;
 import frc.robot.commands.setters.units.StopAllRollers;
 import frc.robot.commands.setters.units.arm.ArmToShoot;
+import frc.robot.commands.setters.units.arm.ArmToShootPrep;
 import frc.robot.commands.setters.units.arm.ShooterToShootPrep;
 import frc.robot.commands.setters.units.loader.LoaderToNeutral;
 import frc.robot.commands.setters.units.loader.NoteToShooter;
@@ -18,9 +19,9 @@ public class ToShootPrep extends SequentialCommandGroup {
             new StopAllRollers(),
             new LoaderToNeutral(),
             new NoteToShooter(),
-            new ShooterToShootPrep(),
+            // new ShooterToShootPrep(),
             Governor.getSetStateCommand(RobotState.SHOOT_PREP),
-            new ArmToShoot()
+            new ArmToShootPrep()
         );
     }
 
