@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Governor.RobotState;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.President;
+import frc.robot.commands.ZeroClimberCommand;
 import frc.robot.commands.auto.Dictator;
 import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.subsystems.apriltags.AprilTagManager;
@@ -181,7 +182,7 @@ public class Robot extends LoggedRobot {
 
     robotContainer.getAutoCommand().schedule();
     
-    
+    CommandScheduler.getInstance().schedule(new ZeroClimberCommand(RobotContainer.climber));
     CommandScheduler.getInstance().schedule(new Dictator());
     RobotContainer.odometryFlag = true;
 
@@ -203,8 +204,8 @@ public class Robot extends LoggedRobot {
       new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
       );
 
-    // CommandScheduler.getInstance().schedule(new President());
-    // Governor.setRobotState(RobotState.NEUTRAL, true);
+    CommandScheduler.getInstance().schedule(new President());
+    Governor.setRobotState(RobotState.NEUTRAL, true);
 
     RobotContainer.drive.overrideVisionOdo = false;
 

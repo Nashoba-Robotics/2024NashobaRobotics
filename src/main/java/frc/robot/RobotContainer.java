@@ -265,19 +265,9 @@ public class RobotContainer {
 
   private void addShuffleBoardData() {
     // SmartDashboard.putData(shootMan);
-    SmartDashboard.putData(new ClimberTuneCommand(climber));
     SmartDashboard.putData("Zero Climber", new InstantCommand(()->climber.setRotor(Rotation2d.fromDegrees(0))));
     SmartDashboard.putData(new ZeroClimberCommand(climber));
-      // SmartDashboard.putData(new ClimberTestCommand(climber));
-    // SmartDashboard.putData("Amp Prep", new ToNewAmpAdj());
-    // SmartDashboard.putData("Amp Score", new ToNewAmp());
-    // SmartDashboard.putData(new NoteToAmpOut());
 
-    // SmartDashboard.putData(new ClimbToManual());
-    // SmartDashboard.putData("TuneArm",
-    //   new ArmTuneCommand(arm)
-    // );
-    // SmartDashboard.putData(new FindArmZeroCommand());
   }
 
   private void configureEvents() {
