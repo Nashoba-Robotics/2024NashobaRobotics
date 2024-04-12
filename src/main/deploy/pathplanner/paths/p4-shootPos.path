@@ -35,13 +35,19 @@
       "name": "P4Check",
       "waypointRelativePos": 0.25,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
                 "name": "P4Check"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Aim"
               }
             }
           ]
@@ -52,7 +58,7 @@
       "name": "ShootPrep",
       "waypointRelativePos": 0.6,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {

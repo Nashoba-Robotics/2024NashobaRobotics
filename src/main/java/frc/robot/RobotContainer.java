@@ -10,6 +10,7 @@ import org.littletonrobotics.junction.Logger;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.EventMarker;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -130,9 +131,9 @@ public class RobotContainer {
   public static boolean subwooferShot = false;
 
   public RobotContainer() {
+    configureEvents();
     addShuffleBoardData();
     configureBindings();
-    configureEvents();
     // Logging callback for target robot pose
       PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
           Logger.recordOutput("TargetPose", pose);
@@ -303,7 +304,7 @@ public class RobotContainer {
       new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true))
     ));
     NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
-      new AimToSpeakerCommand(drive, joysticks),
+      // new AimToSpeakerCommand(drive, joysticks),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
@@ -365,6 +366,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("P5CheckP6", new P5CheckP6());
     NamedCommands.registerCommand("P6Check", new P6Check());
     NamedCommands.registerCommand("P7Check", new P7Check());
+
+    NamedCommands.registerCommand("Aim", new InstantCommand(()->{RobotContainer.overrideAngle = true; SmartDashboard.putBoolean("A", true);}));
+    NamedCommands.registerCommand("Stop Aim", new InstantCommand((()->{RobotContainer.overrideAngle = false; SmartDashboard.putBoolean("A", false);})));
+    
   }
 
   private int sourceIndex;

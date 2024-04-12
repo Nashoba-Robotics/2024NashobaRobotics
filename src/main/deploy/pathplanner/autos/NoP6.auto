@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 7.570481909411657,
-      "y": 2.7573209344891976
+      "x": 3.0,
+      "y": 7.1
     },
     "rotation": 180.0
   },
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "p6Check-p5"
+            "pathName": "p0-p5"
           }
         },
         {

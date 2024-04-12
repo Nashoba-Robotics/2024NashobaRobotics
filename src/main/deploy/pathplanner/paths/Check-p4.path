@@ -49,6 +49,29 @@
               "data": {
                 "name": "Intake"
               }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Stop Aim"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Stop Aim",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Stop Aim"
+              }
             }
           ]
         }

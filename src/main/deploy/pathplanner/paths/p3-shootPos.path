@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.20759571694357,
-        "y": 7.3522217229049796
+        "x": 6.15706873169381,
+        "y": 6.953069564502119
       },
       "isLocked": false,
       "linkedName": null
@@ -59,6 +59,12 @@
               "type": "named",
               "data": {
                 "name": "P3Check"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Aim"
               }
             }
           ]

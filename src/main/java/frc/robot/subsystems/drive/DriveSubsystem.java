@@ -1,5 +1,7 @@
 package frc.robot.subsystems.drive;
 
+import java.util.Optional;
+
 import org.littletonrobotics.junction.Logger;
 
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -101,9 +103,17 @@ public class DriveSubsystem extends SubsystemBase{
                 this
         );
 
-        PPHolonomicDriveController.setRotationTargetOverride(AimToSpeakerCommand::getTargetAngleOptional);
+        PPHolonomicDriveController.setRotationTargetOverride(this::getTargetAngle);
 
         state = DriveState.DRIVER;
+    }
+
+    private Optional<Rotation2d> getTargetAngle() {
+        if(RobotContainer.overrideAngle && RobotContainer.sensors.getShooterSensor())
+            return Optional.of(Rotation2d.fromRadians(Math.atan2(
+                Constants.Field.getSpeakerPos().getY() - RobotContainer.drive.getPose().getY(),
+                Constants.Field.getSpeakerPos().getX() - RobotContainer.drive.getPose().getX())));
+        return Optional.empty();
     }
 
     /*
