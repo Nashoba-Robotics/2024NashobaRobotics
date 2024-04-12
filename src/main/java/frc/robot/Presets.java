@@ -50,13 +50,11 @@ public class Presets {
     }
 
     public static final class Climber {
-        public static final Rotation2d CLIMB_PREP_POS = Rotation2d.fromRadians(11.5);
+        public static final Rotation2d CLIMB_PREP_POS = Rotation2d.fromRadians(19);
         public static final Rotation2d CLIMB_POS = Rotation2d.fromRadians(3);
         public static final Rotation2d TRAP_POS = Rotation2d.fromRadians(0);
 
-        public static final Rotation2d POS_TOLERANCE = Rotation2d.fromRadians(1.5);
-
-        public static double SERVO_CLIMB_POS = 0;
+        public static final Rotation2d POS_TOLERANCE = Rotation2d.fromRadians(0.5);
     }
 
     public static final class Intake {

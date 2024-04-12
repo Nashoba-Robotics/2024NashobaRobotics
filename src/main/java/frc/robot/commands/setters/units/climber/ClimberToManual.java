@@ -13,7 +13,7 @@ public class ClimberToManual extends Command{
     ClimberSubsytem climber = RobotContainer.climber;
     CommandJoystick operatorController = RobotContainer.joysticks.getOperatorController();
     boolean flag;
-    double leftClimbPos, rightClimbPos;
+    Rotation2d climbPos;
 
     public ClimberToManual(){
         addRequirements(climber);
@@ -21,7 +21,7 @@ public class ClimberToManual extends Command{
 
     @Override
     public void initialize() {
-        climber.setRotor(climber.getClimberPos());
+        climber.setPos(climber.getPos());
         flag = false;
     }
 
@@ -29,25 +29,24 @@ public class ClimberToManual extends Command{
     public void execute() {
         double operatorInput = operatorController.getY() * -1;
         
-        if(Math.abs(operatorInput) < 0.01){
+        if(Math.abs(operatorInput) < 0.01 && Math.abs(climber.getSpeed().getRadians()) < 0.1){
             if(!flag){
-                leftClimbPos = climber.getClimberPos().getRadians();
+                climbPos = climber.getPos();
                 flag = true;
             }
-            climber.setClimberPos(Rotation2d.fromRadians(leftClimbPos));
+            climber.setPos(climbPos);
         }
         else{
-            // System.out.println("Mini Ben sux so much");
-            climber.setClimberSpeed(operatorInput);
+            climber.setSpeed(operatorInput);
             flag = false;
         }
     }
 
     @Override
     public void end(boolean interrupted) {
-        leftClimbPos = climber.getClimberPos().getRadians();
+        climbPos = climber.getPos();
 
-        climber.setClimberPos(Rotation2d.fromRadians(leftClimbPos));
+        climber.setPos(climbPos);
     }
 
     @Override

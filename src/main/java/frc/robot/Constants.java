@@ -128,14 +128,14 @@ public class Constants {
             public static final double STATOR_LIMIT = 0;
             public static final double GEAR_RATIO = 100;
 
-            public static final double CRUISE_VELOCITY = 0.5; //1.1636
-            public static final double ACCELERATION = 1;
+            public static final double CRUISE_VELOCITY = 0.9; //1.1636
+            public static final double ACCELERATION = 1.5;
 
-            public static final double FORWARD_SOFT_LIMIT = 0;
-            public static final double REVERSE_SOFT_LIMIT = 0;
+            public static final double FORWARD_SOFT_LIMIT = 20./TAU;
+            public static final double REVERSE_SOFT_LIMIT = -0.1;
 
             public static final Slot0Configs pid = new Slot0Configs()
-            .withKS(0.02).withKV(1.2).withKA(0)
+            .withKS(0.02).withKV(0.91).withKA(0)
             .withKP(30).withKI(0).withKD(0.0);
              
       }

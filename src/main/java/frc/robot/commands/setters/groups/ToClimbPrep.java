@@ -20,25 +20,9 @@ public class ToClimbPrep extends SequentialCommandGroup {
     
     public ToClimbPrep() {
         addCommands(
-            // new InstantCommand(()->Governor.setRobotState(RobotState.MISC)),
-            new StopAllRollers(),
-            // new ParallelCommandGroup(
+
             new ClimberToClimbPrep(),
             new ClimberToManual()
-            //     new SequentialCommandGroup(
-            //         new WaitUntilCommand(new BooleanSupplier() {
-            //             @Override
-            //             public boolean getAsBoolean() {
-            //                 return RobotContainer.arm.getArmPivotAngle().getDegrees() > -30;
-            //             }
-            //         }),
-            //         new NoteToAmpOut(),
-            //         new LoaderToClimbPrep()
-            //     )
-            // ),
-            
-            // Governor.getSetStateCommand(RobotState.CLIMB_PREP),
-            // new ClimbToManual()
         );
     }
 

@@ -34,9 +34,9 @@ public class ClimberIOTalonFX implements ClimberIO{
         climberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         climberConfig.Voltage.PeakForwardVoltage = 12;
         climberConfig.Voltage.PeakReverseVoltage = -12;
-        climberConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+        climberConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
         climberConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Constants.Climber.FORWARD_SOFT_LIMIT;
-        climberConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
+        climberConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
         climberConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Constants.Climber.REVERSE_SOFT_LIMIT;
 
         climberConfig.MotionMagic.MotionMagicCruiseVelocity = Constants.Climber.CRUISE_VELOCITY;
@@ -51,7 +51,7 @@ public class ClimberIOTalonFX implements ClimberIO{
 
     public void updateInputs(ClimberIOInputs inputs){
         inputs.climberRotorPos = clibmer.getPosition().getValueAsDouble()*Constants.TAU;
-        inputs.climberSpeed = clibmer.getRotorVelocity().getValueAsDouble()*Constants.TAU;
+        inputs.climberSpeed = clibmer.getVelocity().getValueAsDouble()*Constants.TAU;
         inputs.climberStatorCurrent = clibmer.getStatorCurrent().getValueAsDouble();
         inputs.climberVoltage = clibmer.getMotorVoltage().getValueAsDouble();
     }

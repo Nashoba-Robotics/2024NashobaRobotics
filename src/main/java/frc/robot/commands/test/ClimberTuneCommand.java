@@ -8,9 +8,9 @@ import frc.robot.subsystems.climber.ClimberSubsytem;
 public class ClimberTuneCommand extends Command{
     ClimberSubsytem climber;
     
-    double lastkS = 0.0;
-    double lastkV = 0;
-    double lastkP = 0;
+    double lastkS = 0.02;
+    double lastkV = 0.91;
+    double lastkP = 20;
     double lastkD = 0;
 
     public ClimberTuneCommand(ClimberSubsytem climber){
@@ -36,7 +36,7 @@ public class ClimberTuneCommand extends Command{
     @Override
     public void execute() {
         Rotation2d pos = Rotation2d.fromRadians(SmartDashboard.getNumber("Climber Pos", 0));
-        climber.setClimberPos(pos);
+        climber.setPos(pos);
 
         double kS = SmartDashboard.getNumber("Climber kS", 0);
         if(kS != lastkS){
@@ -61,7 +61,7 @@ public class ClimberTuneCommand extends Command{
 
     @Override
     public void end(boolean interrupted) {
-        climber.setClimberSpeed(0);
+        climber.setSpeed(0);
     }
 
     @Override
