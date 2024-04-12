@@ -119,28 +119,25 @@ public class Constants {
 
       public static class Climber{
             public static final String CANBUS = "jerry";
-            
-            public static final int LEFT_CLIMBER_PORT = 15;
-            public static final int RIGHT_CLIMBER_PORT = 14;
+
+            public static final int CLIMBER_PORT = 15;
 
             public static final InvertedValue leftInvert = InvertedValue.Clockwise_Positive;
             public static final InvertedValue rightInvert = InvertedValue.CounterClockwise_Positive;
 
             public static final double STATOR_LIMIT = 0;
-            public static final double GEAR_RATIO = 5.*5*5*14/15;
+            public static final double GEAR_RATIO = 100;
 
-            public static final double CRUISE_VELOCITY = 0.7; //1.1636
-            public static final double ACCELERATION = 1;
+            public static final double CRUISE_VELOCITY = 0.9; //1.1636
+            public static final double ACCELERATION = 1.5;
 
-            public static final double FORWARD_SOFT_LIMIT = 0;
-            public static final double REVERSE_SOFT_LIMIT = 0;
+            public static final double FORWARD_SOFT_LIMIT = 20./TAU;
+            public static final double REVERSE_SOFT_LIMIT = -0.1;
 
-            public static final Slot0Configs leftPID = new Slot0Configs()
-            .withKS(0.02).withKV(1.2).withKA(0)
+            public static final Slot0Configs pid = new Slot0Configs()
+            .withKS(0.02).withKV(0.91).withKA(0)
             .withKP(30).withKI(0).withKD(0.0);
-            public static final Slot0Configs rightPID = new Slot0Configs()
-            .withKS(0.02).withKV(1.2).withKA(0)
-            .withKP(30).withKI(0).withKD(0.0); 
+             
       }
 
 
