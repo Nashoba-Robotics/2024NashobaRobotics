@@ -13,6 +13,8 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,6 +40,7 @@ import frc.robot.commands.setters.groups.ToClimbPrep;
 import frc.robot.commands.setters.groups.ToPuke;
 import frc.robot.commands.setters.groups.ToShuttle;
 import frc.robot.commands.setters.groups.ToShuttlePrep;
+import frc.robot.commands.setters.units.arm.ArmToShoot;
 import frc.robot.commands.setters.units.climber.ClimberToManual;
 import frc.robot.commands.setters.units.loader.GrabberToShoot;
 import frc.robot.commands.test.ArmTuneCommand;
@@ -48,6 +51,7 @@ import frc.robot.commands.test.ManualShootCommand;
 import frc.robot.commands.test.SourceShuttleTest;
 import frc.robot.commands.test.TestServoCommand;
 import frc.robot.lib.util.DistanceToArmAngleModel;
+import frc.robot.lib.util.MoveMath;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.climber.ClimberSubsytem;
@@ -301,6 +305,44 @@ public class RobotContainer {
       }).withTimeout(3),
       new InstantCommand(() -> Presets.Arm.SPEAKER_SPEED_CHECK = Presets.Arm.SPEAKER_SPEED)
     ));
+
+
+
+    NamedCommands.registerCommand("ShootMove", new SequentialCommandGroup(
+      new WaitUntilCommand(new BooleanSupplier() {
+        @Override
+        public boolean getAsBoolean(){
+          double dist = drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d());
+
+          dist = MoveMath.getShootWhileMoveBallistics2()[1];
+          double angle = 0;
+
+        if(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+            if(RobotContainer.drive.getPose().getX() < Constants.Misc.CLOSE_FAR_CUTOFF) {
+                angle = DistanceToArmAngleModel.getInstance(Constants.FileNames.getClose()).applyFunction(dist);
+            } else {
+                angle = RobotContainer.drive.getPose().getY() > Constants.Misc.SOURCE_AMP_CUTOFF ?
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarAmp()).applyFunction(dist) :
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarSource()).applyFunction(dist);
+            }
+        } else {
+            if(RobotContainer.drive.getPose().getX() > Constants.Field.LENGTH - Constants.Misc.CLOSE_FAR_CUTOFF) {
+                angle = DistanceToArmAngleModel.getInstance(Constants.FileNames.getClose()).applyFunction(dist);
+            } else {
+                angle = RobotContainer.drive.getPose().getY() > Constants.Misc.SOURCE_AMP_CUTOFF ?
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarAmp()).applyFunction(dist) :
+                DistanceToArmAngleModel.getInstance(Constants.FileNames.getFarSource()).applyFunction(dist);
+            }
+        }
+          return Math.abs(arm.getArmPivotAngle().getRadians()-angle) <= Presets.Arm.POS_TOLERANCE.getRadians();
+        }
+      }),
+      Governor.getSetStateCommand(RobotState.SHOOT),
+      new InstantCommand(()->loader.setRollerSpeed(Presets.Loader.SHOOT_SPEED))
+    ));
+
+
+
     NamedCommands.registerCommand("ShootDisrupt", new SequentialCommandGroup(
       new InstantCommand(() -> disruptFlag = true),
       new AimToSpeakerCommand(drive, joysticks),

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 3.3579214056576263,
-      "y": 4.1
+      "x": 1.47,
+      "y": 6.9
     },
     "rotation": 180.0
   },
@@ -11,6 +11,18 @@
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "b0-s0"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootClose"
+          }
+        },
         {
           "type": "path",
           "data": {

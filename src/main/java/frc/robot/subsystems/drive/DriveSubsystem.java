@@ -1,5 +1,7 @@
 package frc.robot.subsystems.drive;
 
+import java.util.Optional;
+
 import org.littletonrobotics.junction.Logger;
 
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -8,6 +10,7 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
@@ -31,6 +34,7 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.lib.math.NRUnits;
 import frc.robot.lib.math.SwerveMath;
+import frc.robot.lib.util.MoveMath;
 
 public class DriveSubsystem extends SubsystemBase{
 
@@ -99,9 +103,23 @@ public class DriveSubsystem extends SubsystemBase{
                 this
         );
 
+        PPHolonomicDriveController.setRotationTargetOverride(this::getRotationOverride);
+
         state = DriveState.DRIVER;
     }
 
+    private Optional<Rotation2d> getRotationOverride(){
+        if(true){
+            Rotation2d targetAngle;
+            if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
+                targetAngle = Rotation2d.fromRadians(MoveMath.getShootWhileMoveBallistics2()[0] + Math.PI);
+            } else {
+                targetAngle = Rotation2d.fromRadians(MoveMath.getShootWhileMoveBallistics2()[0]);
+            }
+            return Optional.of(targetAngle);
+        }
+        return Optional.empty();
+    }
     /*
      * xSpeed: speed of the robot (Forward) (m/s)
      * ySpeed: speed of the robot (Side) (m/s)
