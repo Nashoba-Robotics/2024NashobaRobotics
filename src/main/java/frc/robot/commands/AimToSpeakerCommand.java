@@ -43,6 +43,7 @@ public class AimToSpeakerCommand extends Command{
     JoystickValues rightJoystickValues;
 
     boolean flag;
+    boolean autoOverride;
 
 
     public AimToSpeakerCommand(DriveSubsystem drive, JoystickSubsystem joysticks){
@@ -62,18 +63,36 @@ public class AimToSpeakerCommand extends Command{
         rightJoystickValues = new JoystickValues(0, 0);
 
         flag = false;
+        this.autoOverride = false;
+    }
 
+    public AimToSpeakerCommand(DriveSubsystem drive, JoystickSubsystem joysticks, boolean autoOverride){
+        targetAngle = new Rotation2d();
+        this.drive = drive;
+        this.joysticks = joysticks;
+
+        feedForwardProfile = new TrapezoidProfile(new Constraints(5, 20));
+        t = new Timer();
+
+        pidController = new PIDController(0.5, 0, 0);
+        pidController.enableContinuousInput(-Constants.TAU/2, Constants.TAU/2);
+
+        addRequirements(drive);
+
+        leftJoystickValues = new JoystickValues(0, 0);
+        rightJoystickValues = new JoystickValues(0, 0);
+
+        flag = false;
+        this.autoOverride = autoOverride;
     }
 
     @Override
     public void initialize() {
-        Translation3d noteVector = MoveMath.getBallisticTrajectory();
 
-        Logger.recordOutput("Note Pos Vector", noteVector);
         Translation3d targetPos = new Translation3d(
-            Constants.Field.getSpeakerPos().getX()-noteVector.getX(), 
-            Constants.Field.getSpeakerPos().getY()-noteVector.getY(), 
-            Constants.Field.getSpeakerPos().getZ()-noteVector.getZ());
+            Constants.Field.getSpeakerPos().getX(), 
+            Constants.Field.getSpeakerPos().getY(), 
+            Constants.Field.getSpeakerPos().getZ());
 
 
         targetAngle = Rotation2d.fromRadians(Math.atan2(
@@ -100,38 +119,21 @@ public class AimToSpeakerCommand extends Command{
         rightJoystickValues = joysticks.getRightJoystickValues()
             .shape(Constants.Joystick.TURN_DEAD_ZONE, Constants.Joystick.TURN_SENSITIVITY);
 
-        // leftJoystickValues = joysticks.getLeftOperatorValues()
-        //     .shape(Constants.Joystick.MOVE_DEAD_ZONE, Constants.Joystick.TURN_SENSITIVITY)
-        //     .swap()
-        //     .applyAngleDeadzone(Constants.Joystick.ANGLE_DEAD_ZONE);
-        // rightJoystickValues = joysticks.getRightOperatorValues()
-        //     .shape(Constants.Joystick.TURN_DEAD_ZONE, Constants.Joystick.TURN_SENSITIVITY);
-
         chassisSpeeds.vxMetersPerSecond = leftJoystickValues.x * Constants.Drive.MAX_VELOCITY;
         chassisSpeeds.vyMetersPerSecond = leftJoystickValues.y * Constants.Drive.MAX_VELOCITY;
 
 
-        // if(feedForwardProfile.isFinished(t.get())) {
-        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
-                targetAngle = Rotation2d.fromRadians(MoveMath.getShootWhileMoveBallistics2()[0] + Math.PI);
-        } else {
-            targetAngle = Rotation2d.fromRadians(MoveMath.getShootWhileMoveBallistics2()[0]);
-        }
-        Translation3d noteVector = MoveMath.getBallisticTrajectory();
-        Translation3d targetPos = new Translation3d(
-            Constants.Field.getSpeakerPos().getX()-noteVector.getX(), 
-            Constants.Field.getSpeakerPos().getY()-noteVector.getY(), 
-            Constants.Field.getSpeakerPos().getZ()-noteVector.getZ());
-
-
-            // targetAngle = Rotation2d.fromRadians(Math.atan2(
-            // targetPos.getY() - drive.getPose().getY(),
-            // targetPos.getX() - drive.getPose().getX()));
+        if(feedForwardProfile.isFinished(t.get()) || autoOverride) {
+            if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
+                    targetAngle = Rotation2d.fromRadians(MoveMath.getShootWhileMoveBallistics2()[0] + Math.PI);
+            } else {
+                targetAngle = Rotation2d.fromRadians(MoveMath.getShootWhileMoveBallistics2()[0]);
+            }
             if(!flag) {
                 pidController.setP(6);
                 flag = true;
             }
-        // }
+        }
 
         double diff = targetAngle.getRadians() - startAngleConstrained.getRadians();
 
@@ -141,7 +143,7 @@ public class AimToSpeakerCommand extends Command{
 
         State setState = feedForwardProfile.calculate(t.get(), startStateUnconstrained, goalState);
 
-        double rotSpeed = feedForwardProfile.isFinished(t.get()) || true ? pidController.calculate(drive.getPose().getRotation().getRadians(), targetAngle.getRadians()) :
+        double rotSpeed = feedForwardProfile.isFinished(t.get()) ? pidController.calculate(drive.getPose().getRotation().getRadians(), targetAngle.getRadians()) :
         setState.velocity
         + pidController.calculate(drive.getYaw().getRadians(), setState.position);
 
@@ -158,12 +160,9 @@ public class AimToSpeakerCommand extends Command{
     @Override
     public boolean isFinished() {
         if(DriverStation.isAutonomous()) {
-            // return feedForwardProfile.isFinished(t.get());
-            return t.get() > 0.5;
+            return feedForwardProfile.isFinished(t.get());
         } else
-        return 
-        // Governor.getRobotState() != RobotState.SHOOT && Governor.getRobotState() != RobotState.SHOOT_PREP && Governor.getRobotState() != RobotState.TRANSITION
-        // || 
-        Math.abs(joysticks.getRightJoystickValues().x) >= 0.03;
+        return Governor.getRobotState() != RobotState.SHOOT && Governor.getRobotState() != RobotState.SHOOT_PREP && Governor.getRobotState() != RobotState.TRANSITION
+        || Math.abs(joysticks.getRightJoystickValues().x) >= 0.03;
     }
 }
