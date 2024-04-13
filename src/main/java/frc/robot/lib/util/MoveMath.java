@@ -44,7 +44,6 @@ public class MoveMath {
         return aimPos;
     }
 
-<<<<<<< HEAD
     //https://www.forrestthewoods.com/blog/solving_ballistic_trajectories/
     public static Translation3d getBallisticTrajectory(){
         //Use Fixed Speed with Moving Target:
@@ -209,7 +208,8 @@ public class MoveMath {
         Logger.recordOutput("ShootOnTheFly/angle", Math.toDegrees(ret_val[0]));
         Logger.recordOutput("ShootOnTheFly/retval", ret_val);
         return ret_val;
-=======
+    }
+    
     public static Rotation2d getShooterSpeedFromDistance(double dist) {
         return Rotation2d.fromRadians(
             Math.min(
@@ -219,6 +219,5 @@ public class MoveMath {
                 Constants.Arm.MAX_SPEED
             )
             );
->>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
     }
 }
