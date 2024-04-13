@@ -94,34 +94,53 @@ public class President extends Command {
                     switch (DriverStation.getAlliance().orElse(Alliance.Blue)) {
                         case Blue:
                             if(RobotContainer.sensors.getShooterSensor()){
-                                if(drivePos.getX() <= Constants.Field.LENGTH/2) RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
-                                // else RobotContainer.arm.setIdleSpeed(0.2);
-                                else RobotContainer.arm.setShooterPercent(0.2);
+                                if(drivePos.getX() <= Constants.Field.LENGTH/2) RobotContainer.arm.setShooterSpeed(Presets.Arm.IDLE_SHOOT_SPEED);
+                                else RobotContainer.arm.setShooterPercent(Presets.Arm.IDLE_NOTE);
                             }
                             else{
-                                RobotContainer.arm.setShooterPercent(0.05);
-                                // RobotContainer.arm.setIdleSpeed(0.05);
+                                RobotContainer.arm.setShooterPercent(Presets.Arm.IDLE_NO_NOTE);
                             }
                             break;
                         case Red:
                             if(RobotContainer.sensors.getShooterSensor()){
                                 if(drivePos.getX() >= Constants.Field.LENGTH/2){
-                                    RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
-                                    // RobotContainer.arm.rampToSpeed();
+                                    RobotContainer.arm.setShooterSpeed(Presets.Arm.IDLE_SHOOT_SPEED);
                                 }
-                                // else RobotContainer.arm.setIdleSpeed(0.2);
-                                else RobotContainer.arm.setShooterPercent(0.2);
+                                else RobotContainer.arm.setShooterPercent(Presets.Arm.IDLE_NOTE);
                             }
-                    else{
-                        RobotContainer.arm.setShooterPercent(0.05);
-                        // RobotContainer.arm.setIdleSpeed(0.05);
-                    }
-                    break;
+                            else{
+                                RobotContainer.arm.setShooterPercent(Presets.Arm.IDLE_NO_NOTE);
+                            }
+                            break;
                     }
                 }
                 break;
             case TRANSITION:
-                //TODO:
+                drivePos = RobotContainer.drive.getPose();
+                if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean() && !RobotContainer.sHooterInterruptTrigger.getAsBoolean()){
+                    switch (DriverStation.getAlliance().orElse(Alliance.Blue)) {
+                        case Blue:
+                            if(RobotContainer.sensors.getShooterSensor()){
+                                if(drivePos.getX() <= Constants.Field.LENGTH/2) RobotContainer.arm.setShooterSpeed(Presets.Arm.IDLE_SHOOT_SPEED);
+                                else RobotContainer.arm.setShooterPercent(Presets.Arm.IDLE_NOTE);
+                            }
+                            else{
+                                RobotContainer.arm.setShooterPercent(Presets.Arm.IDLE_NO_NOTE);
+                            }
+                            break;
+                        case Red:
+                            if(RobotContainer.sensors.getShooterSensor()){
+                                if(drivePos.getX() >= Constants.Field.LENGTH/2){
+                                    RobotContainer.arm.setShooterSpeed(Presets.Arm.IDLE_SHOOT_SPEED);
+                                }
+                                else RobotContainer.arm.setShooterPercent(Presets.Arm.IDLE_NOTE);
+                            }
+                            else{
+                                RobotContainer.arm.setShooterPercent(Presets.Arm.IDLE_NO_NOTE);
+                            }
+                            break;
+                    }
+                }
                 break;
             case INTAKE:
                 if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);

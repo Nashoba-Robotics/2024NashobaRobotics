@@ -19,7 +19,7 @@ public class ToShootPrep extends SequentialCommandGroup {
             new StopAllRollers(),
             new LoaderToNeutral(),
             new NoteToShooter(),
-            // new ShooterToShootPrep(),
+            new ShooterToShootPrep(),
             Governor.getSetStateCommand(RobotState.SHOOT_PREP),
             new ArmToShootPrep()
         );
