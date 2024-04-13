@@ -260,7 +260,7 @@ public class RobotContainer {
     climb.and(climbMode::getAsBoolean).onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.CLIMB, true)));
 
     toFieldCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(true)));
-    toRobotCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(false)));
+    toRobotCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(false)));  
   }
 
   private void addShuffleBoardData() {
