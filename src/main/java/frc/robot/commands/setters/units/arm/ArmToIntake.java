@@ -27,7 +27,7 @@ public class ArmToIntake extends Command {
     @Override
     public boolean isFinished() {
         if(DriverStation.isAutonomous() && t.get() > 0.5) return true;
-        return Math.abs(arm.getArmPivotAngle().getRadians() - Presets.Arm.INTAKE_POS.getRadians()) < Presets.Arm.POS_TOLERANCE.getRadians();
+        return Math.abs(arm.getArmPivotAngle().getRadians() - Presets.Arm.INTAKE_POS.getRadians()) < 0.05;
     }
 
 }

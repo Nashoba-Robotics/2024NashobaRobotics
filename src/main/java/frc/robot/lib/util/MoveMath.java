@@ -36,4 +36,15 @@ public class MoveMath {
         Translation3d aimPos = new Translation3d(speakerPos.getX()-xOffset, speakerPos.getY()-yOffset, speakerPos.getZ());
         return aimPos;
     }
+
+    public static Rotation2d getShooterSpeedFromDistance(double dist) {
+        return Rotation2d.fromRadians(
+            Math.min(
+                Math.max(
+                    Constants.Arm.SPEED_SLOPE * dist + Constants.Arm.SPEED_INTERCEPT, Constants.Arm.MIN_SPEED
+                    ),
+                Constants.Arm.MAX_SPEED
+            )
+            );
+    }
 }
