@@ -22,7 +22,7 @@ public class ClimberToManual extends Command{
     @Override
     public void initialize() {
         climber.setLeftRotor(climber.getLeftClimberPos());
-        climber.setRightClimberPos(climber.getRightClibmerPos());
+        // climber.setRightClimberPos(climber.getRightClibmerPos());
         flag = false;
     }
 
@@ -33,11 +33,11 @@ public class ClimberToManual extends Command{
         if(Math.abs(operatorInput) < 0.01){
             if(!flag){
                 leftClimbPos = climber.getLeftClimberPos().getRadians();
-                rightClimbPos = climber.getRightClibmerPos().getRadians();
+                // rightClimbPos = climber.getRightClibmerPos().getRadians();
                 flag = true;
             }
             climber.setLeftClimberPos(Rotation2d.fromRadians(leftClimbPos));
-            climber.setRightClimberPos(Rotation2d.fromRadians(rightClimbPos));
+            // climber.setRightClimberPos(Rotation2d.fromRadians(rightClimbPos));
         }
         else{
             // System.out.println("Mini Ben sux so much");
@@ -49,10 +49,10 @@ public class ClimberToManual extends Command{
     @Override
     public void end(boolean interrupted) {
         leftClimbPos = climber.getLeftClimberPos().getRadians();
-        rightClimbPos = climber.getRightClibmerPos().getRadians();
+        // rightClimbPos = climber.getRightClibmerPos().getRadians();
 
         climber.setLeftClimberPos(Rotation2d.fromRadians(leftClimbPos));
-        climber.setRightClimberPos(Rotation2d.fromRadians(rightClimbPos));
+        // climber.setRightClimberPos(Rotation2d.fromRadians(rightClimbPos));
     }
 
     @Override

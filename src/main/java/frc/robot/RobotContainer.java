@@ -244,7 +244,7 @@ public class RobotContainer {
     SmartDashboard.putData(shootMan);
     SmartDashboard.putData(new ClimberTuneCommand(climber));
     SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
-    SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
+    // SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
       // SmartDashboard.putData(new ClimberTestCommand(climber));
     // SmartDashboard.putData("Amp Prep", new ToNewAmpAdj());
     // SmartDashboard.putData("Amp Score", new ToNewAmp());

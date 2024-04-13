@@ -13,7 +13,7 @@ import frc.robot.Constants;
 
 public class ClimberIOTalonFX implements ClimberIO{
     private TalonFX leftClimber;
-    private TalonFX rightClimber;
+    // private TalonFX rightClimber;
 
     private Servo leftServo;
     private Servo rightServo;
@@ -25,7 +25,7 @@ public class ClimberIOTalonFX implements ClimberIO{
 
     public ClimberIOTalonFX(){
         leftClimber = new TalonFX(Constants.Climber.LEFT_CLIMBER_PORT, Constants.Climber.CANBUS);
-        rightClimber = new TalonFX(Constants.Climber.RIGHT_CLIMBER_PORT, Constants.Climber.CANBUS);
+        // rightClimber = new TalonFX(Constants.Climber.RIGHT_CLIMBER_PORT, Constants.Climber.CANBUS);
 
         leftServo = new Servo(Constants.Arm.LEFT_SERVO_CHANNEL);
         rightServo = new Servo(Constants.Arm.RIGHT_SERVO_CHANNEL);
@@ -80,7 +80,7 @@ public class ClimberIOTalonFX implements ClimberIO{
 
         leftClimber.getConfigurator().apply(leftConfig);
         
-        rightClimber.getConfigurator().apply(rightConfig);
+        // rightClimber.getConfigurator().apply(rightConfig);
 
         leftMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, false, false);
         rightMotionMagic = new MotionMagicDutyCycle(0, true, 0, 0, true, false, false);
@@ -92,10 +92,10 @@ public class ClimberIOTalonFX implements ClimberIO{
         inputs.leftClimberStatorCurrent = leftClimber.getStatorCurrent().getValueAsDouble();
         inputs.leftClimberVoltage = leftClimber.getMotorVoltage().getValueAsDouble();
 
-        inputs.rightClimberRotorPos = rightClimber.getPosition().getValueAsDouble()*Constants.TAU;
-        inputs.rightClimberSpeed = rightClimber.getRotorVelocity().getValueAsDouble()*Constants.TAU;
-        inputs.rightClimberStatorCurrent = rightClimber.getStatorCurrent().getValueAsDouble();
-        inputs.rightClimberVoltage = rightClimber.getMotorVoltage().getValueAsDouble();
+        // inputs.rightClimberRotorPos = rightClimber.getPosition().getValueAsDouble()*Constants.TAU;
+        // inputs.rightClimberSpeed = rightClimber.getRotorVelocity().getValueAsDouble()*Constants.TAU;
+        // inputs.rightClimberStatorCurrent = rightClimber.getStatorCurrent().getValueAsDouble();
+        // inputs.rightClimberVoltage = rightClimber.getMotorVoltage().getValueAsDouble();
 
         inputs.leftServoPos = leftServo.getPosition();
         inputs.rightServoPos = rightServo.getPosition();
@@ -107,19 +107,19 @@ public class ClimberIOTalonFX implements ClimberIO{
         leftClimber.setControl(leftMotionMagic);
     }
 
-    @Override
-    public void setRightClimberPos(Rotation2d pos){
-        rightMotionMagic.Position = pos.getRotations();
-        rightClimber.setControl(rightMotionMagic);
-    }
+    // @Override
+    // public void setRightClimberPos(Rotation2d pos){
+    //     rightMotionMagic.Position = pos.getRotations();
+    //     rightClimber.setControl(rightMotionMagic);
+    // }
 
     public void setLeftClimberRotor(Rotation2d pos){
         leftClimber.setPosition(pos.getRotations());
     }
 
-    public void setRightClimberRotor(Rotation2d pos){
-        rightClimber.setPosition(pos.getRotations());
-    }
+    // public void setRightClimberRotor(Rotation2d pos){
+    //     rightClimber.setPosition(pos.getRotations());
+    // }
 
     public void setServo(double pos) {
         leftServo.set(pos);
@@ -129,31 +129,31 @@ public class ClimberIOTalonFX implements ClimberIO{
     @Override
     public void setClimberSpeed(double speed){
         leftClimber.set(speed);
-        rightClimber.set(speed);
+        // rightClimber.set(speed);
     }
 
     public void setkS(double kS){
         leftConfig.Slot0.kS = kS;
         rightConfig.Slot0.kS = kS;
         leftClimber.getConfigurator().apply(leftConfig);
-        rightClimber.getConfigurator().apply(rightConfig);
+        // rightClimber.getConfigurator().apply(rightConfig);
     }
     public void setkV(double kV){
         leftConfig.Slot0.kV = kV;
         rightConfig.Slot0.kV = kV;
         leftClimber.getConfigurator().apply(leftConfig);
-        rightClimber.getConfigurator().apply(rightConfig);
+        // rightClimber.getConfigurator().apply(rightConfig);
     }
     public void setkP(double kP){
         leftConfig.Slot0.kP = kP;
         rightConfig.Slot0.kP = kP;
         leftClimber.getConfigurator().apply(leftConfig);
-        rightClimber.getConfigurator().apply(rightConfig);
+        // rightClimber.getConfigurator().apply(rightConfig);
     }
     public void setKD(double kD){
         leftConfig.Slot0.kD = kD;
         rightConfig.Slot0.kD = kD;
         leftClimber.getConfigurator().apply(leftConfig);
-        rightClimber.getConfigurator().apply(rightConfig);
+        // rightClimber.getConfigurator().apply(rightConfig);
     }
 }

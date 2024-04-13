@@ -24,12 +24,12 @@ public interface ClimberIO {
     public default void updateInputs(ClimberIOInputs inputs){};
 
     public abstract void setLeftClimberPos(Rotation2d pos);
-    public abstract void setRightClimberPos(Rotation2d pos);
+    // public abstract void setRightClimberPos(Rotation2d pos);
 
     public abstract void setClimberSpeed(double speed);
     
     public abstract void setLeftClimberRotor(Rotation2d pos);
-    public abstract void setRightClimberRotor(Rotation2d pos);
+    // public abstract void setRightClimberRotor(Rotation2d pos);
 
     public void setServo(double pos);
 

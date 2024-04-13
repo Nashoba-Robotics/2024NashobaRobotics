@@ -190,7 +190,7 @@ public class Robot extends LoggedRobot {
     RobotContainer.drive.enableStatorLimits(false);
 
     RobotContainer.climber.setLeftRotor(Rotation2d.fromRadians(0));
-    RobotContainer.climber.setRightRotor(Rotation2d.fromRadians(0));
+    // RobotContainer.climber.setRightRotor(Rotation2d.fromRadians(0));
   }
 
   @Override
