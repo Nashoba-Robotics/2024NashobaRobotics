@@ -119,14 +119,14 @@ public class Robot extends LoggedRobot {
         if(AprilTagManager.hasLeftTarget()
             && AprilTagManager.getLeftAmbiguity() <= 0.15
             && AprilTagManager.getLeftRobotPos() != null
-            // && leftError < 5
+            && leftError < 5
             && leftPose2d.getX() > 0 && leftPose2d.getX() < Constants.Field.LENGTH
             && leftPose2d.getY() > 0 && leftPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(leftPose2d, AprilTagManager.getLeftTimestamp());
         if(AprilTagManager.hasRightTarget()
             && AprilTagManager.getRightAmbiguity() <= 0.15
             && AprilTagManager.getRightRobotPos() != null
-            // && rightError < 5
+            && rightError < 5
             && rightPose2d.getX() > 0 && rightPose2d.getX() < Constants.Field.LENGTH
             && rightPose2d.getY() > 0 && rightPose2d.getY() < Constants.Field.WIDTH)
               RobotContainer.drive.updateOdometryWithVision(rightPose2d, AprilTagManager.getRightTimestamp());
@@ -212,15 +212,16 @@ public class Robot extends LoggedRobot {
 
     RobotContainer.drive.enableStatorLimits(true);
 
+    
+  }
+
+  @Override
+  public void teleopPeriodic() {
     Presets.Arm.SPEAKER_SPEED = MoveMath.getShooterSpeedFromDistance(
         RobotContainer.drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d())
       );
 
       Presets.Arm.SPEAKER_SPEED_CHECK = Presets.Arm.SPEAKER_SPEED;
-  }
-
-  @Override
-  public void teleopPeriodic() {
   }
 
   @Override
