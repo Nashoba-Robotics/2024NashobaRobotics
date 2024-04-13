@@ -153,15 +153,15 @@ public class RobotContainer {
 
     scoreAmp.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP, true)));
     toAmpPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP_ADJ)));
-    toAmpPrep.onTrue(new SequentialCommandGroup(
-      new ToAmpCommand()
-    ).until(new BooleanSupplier() {
-      @Override
-      public boolean getAsBoolean() {
-          return joysticks.getRightJoystickValues().x > 0.2 || (Governor.getRobotState() != RobotState.AMP_ADJ && Governor.getRobotState() != RobotState.TRANSITION);
-      }
-    })
-    );
+    // toAmpPrep.onTrue(new SequentialCommandGroup(
+    //   new ToAmpCommand()
+    // ).until(new BooleanSupplier() {
+    //   @Override
+    //   public boolean getAsBoolean() {
+    //       return joysticks.getRightJoystickValues().x > 0.2 || (Governor.getRobotState() != RobotState.AMP_ADJ && Governor.getRobotState() != RobotState.TRANSITION);
+    //   }
+    // })
+    // );
 
     toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE)));
 
