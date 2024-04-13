@@ -20,8 +20,8 @@ public class ToClimb extends SequentialCommandGroup {
     public ToClimb() {
         addCommands(
             new StopAllRollers(),
-            new ArmToClimb(),
-            new ClimberToClimb().withTimeout(2),
+            // new ArmToClimb(),
+            new ClimberToClimb().withTimeout(5),
             Governor.getSetStateCommand(RobotState.CLIMB),
             new ClimberToManual()
         );

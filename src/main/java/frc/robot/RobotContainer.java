@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -26,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Governor.RobotState;
 import frc.robot.commands.AimToSpeakerCommand;
 import frc.robot.commands.AimToStation;
+import frc.robot.commands.ZeroClimberCommand;
 import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.remaps.P3Check;
 import frc.robot.commands.auto.remaps.P4Check;
@@ -45,7 +47,6 @@ import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.test.ClimberTuneCommand;
 import frc.robot.commands.test.FindArmZeroCommand;
 import frc.robot.commands.test.ManualShootCommand;
-import frc.robot.commands.test.TestServoCommand;
 import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -253,29 +254,20 @@ public class RobotContainer {
       RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0));
     }));   
     
-    deployClimb.and(climbMode::getAsBoolean).onTrue(new ToClimbPrep());
-    climb.and(climbMode::getAsBoolean).onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.CLIMB)));
+    ToClimbPrep climbPrepCmd = new ToClimbPrep();
+    deployClimb.and(climbMode::getAsBoolean).onTrue(new InstantCommand(()->CommandScheduler.getInstance().cancel(climbPrepCmd)));
+    deployClimb.and(climbMode::getAsBoolean).onTrue(climbPrepCmd);
+    climb.and(climbMode::getAsBoolean).onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.CLIMB, true)));
 
     toFieldCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(true)));
     toRobotCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(false)));
   }
 
   private void addShuffleBoardData() {
-    SmartDashboard.putData(shootMan);
-    SmartDashboard.putData(new ClimberTuneCommand(climber));
-    SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
-    SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
-      // SmartDashboard.putData(new ClimberTestCommand(climber));
-    // SmartDashboard.putData("Amp Prep", new ToNewAmpAdj());
-    // SmartDashboard.putData("Amp Score", new ToNewAmp());
-    // SmartDashboard.putData(new NoteToAmpOut());
+    // SmartDashboard.putData(shootMan);
+    SmartDashboard.putData("Zero Climber", new InstantCommand(()->climber.setRotor(Rotation2d.fromDegrees(0))));
+    SmartDashboard.putData(new ZeroClimberCommand(climber));
 
-    SmartDashboard.putData(new TestServoCommand(climber));
-    // SmartDashboard.putData(new ClimbToManual());
-    // SmartDashboard.putData("TuneArm",
-    //   new ArmTuneCommand(arm)
-    // );
-    SmartDashboard.putData(new FindArmZeroCommand());
   }
 
   private void configureEvents() {

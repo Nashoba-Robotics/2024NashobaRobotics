@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Governor.RobotState;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.President;
+import frc.robot.commands.ZeroClimberCommand;
 import frc.robot.commands.auto.Dictator;
 import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.lib.util.MoveMath;
@@ -184,17 +185,21 @@ public class Robot extends LoggedRobot {
 
     robotContainer.getAutoCommand().schedule();
     
-    
+    CommandScheduler.getInstance().schedule(new ZeroClimberCommand(RobotContainer.climber));
     CommandScheduler.getInstance().schedule(new Dictator());
     RobotContainer.odometryFlag = true;
 
     RobotContainer.drive.enableStatorLimits(false);
 
+<<<<<<< HEAD
     RobotContainer.climber.setLeftRotor(Rotation2d.fromRadians(0));
     RobotContainer.climber.setRightRotor(Rotation2d.fromRadians(0));
 
     Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(375);
     Presets.Arm.SPEAKER_SPEED_CHECK = Rotation2d.fromRadians(375);
+=======
+    RobotContainer.climber.setRotor(Rotation2d.fromRadians(0));
+>>>>>>> 742febe80a0201929fdf7f5d29f5e2ab2e73ab7f
   }
 
   @Override
