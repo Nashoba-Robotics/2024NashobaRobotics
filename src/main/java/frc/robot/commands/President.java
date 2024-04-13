@@ -85,43 +85,34 @@ public class President extends Command {
         
         switch (Governor.getRobotState()) {
             case NEUTRAL:
-                // drive.state = DriveState.DRIVER;
-                // if(loader.getShooterSensor()) Governor.setRobotState(RobotState.SHOOT_PREP);
-                // if(RobotContainer.sensors.getShooterSensor() && Governor.getLastRobotState()==RobotState.INTAKE) 
-                //     CommandScheduler.getInstance().schedule(new InstantCommand(()->RobotContainer.intake.setSpeed(-0.1), RobotContainer.intake));
                 Pose2d drivePos = RobotContainer.drive.getPose();
                 if(!RobotContainer.cleanupUnscoredNotesTrigger.getAsBoolean() && !RobotContainer.sHooterInterruptTrigger.getAsBoolean()){
                     switch (DriverStation.getAlliance().orElse(Alliance.Blue)) {
                         case Blue:
                             if(RobotContainer.sensors.getShooterSensor()){
-                                if(drivePos.getX() <= Constants.Field.LENGTH/2) RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
-                                // else RobotContainer.arm.setIdleSpeed(0.2);
-                                else RobotContainer.arm.setShooterPercent(0.2);
+                                if(drivePos.getX() <= Constants.Field.LENGTH/2) RobotContainer.arm.setShooterSpeed(Presets.Arm.IDLE_SHOOT_SPEED);
+                                else RobotContainer.arm.setShooterPercent(Presets.Arm.IDLE_NOTE);
                             }
                             else{
-                                RobotContainer.arm.setShooterPercent(0.05);
-                                // RobotContainer.arm.setIdleSpeed(0.05);
+                                RobotContainer.arm.setShooterPercent(Presets.Arm.IDLE_NO_NOTE);
                             }
                             break;
                         case Red:
                             if(RobotContainer.sensors.getShooterSensor()){
                                 if(drivePos.getX() >= Constants.Field.LENGTH/2){
-                                    RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
-                                    // RobotContainer.arm.rampToSpeed();
+                                    RobotContainer.arm.setShooterSpeed(Presets.Arm.IDLE_SHOOT_SPEED);
                                 }
-                                // else RobotContainer.arm.setIdleSpeed(0.2);
-                                else RobotContainer.arm.setShooterPercent(0.2);
+                                else RobotContainer.arm.setShooterPercent(Presets.Arm.IDLE_NOTE);
                             }
-                    else{
-                        RobotContainer.arm.setShooterPercent(0.05);
-                        // RobotContainer.arm.setIdleSpeed(0.05);
-                    }
-                    break;
+                            else{
+                                RobotContainer.arm.setShooterPercent(Presets.Arm.IDLE_NO_NOTE);
+                            }
+                            break;
                     }
                 }
                 break;
             case TRANSITION:
-                //TODO:
+                
                 break;
             case INTAKE:
                 if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
@@ -177,6 +168,9 @@ public class President extends Command {
                     shootTimer.stop();
                 } 
 
+                break;
+            case AMP_ADJ:
+                RobotContainer.arm.setShooterPercent(Presets.Arm.IDLE_NO_NOTE);
                 break;
             case AMP:
                 if(!ampFlag){

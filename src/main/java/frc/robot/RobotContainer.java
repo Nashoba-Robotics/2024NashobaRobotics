@@ -153,15 +153,15 @@ public class RobotContainer {
 
     scoreAmp.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP, true)));
     toAmpPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP_ADJ)));
-    toAmpPrep.onTrue(new SequentialCommandGroup(
-      new ToAmpCommand()
-    ).until(new BooleanSupplier() {
-      @Override
-      public boolean getAsBoolean() {
-          return joysticks.getRightJoystickValues().x > 0.2 || (Governor.getRobotState() != RobotState.AMP_ADJ && Governor.getRobotState() != RobotState.TRANSITION);
-      }
-    })
-    );
+    // toAmpPrep.onTrue(new SequentialCommandGroup(
+    //   new ToAmpCommand()
+    // ).until(new BooleanSupplier() {
+    //   @Override
+    //   public boolean getAsBoolean() {
+    //       return joysticks.getRightJoystickValues().x > 0.2 || (Governor.getRobotState() != RobotState.AMP_ADJ && Governor.getRobotState() != RobotState.TRANSITION);
+    //   }
+    // })
+    // );
 
     toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE)));
 
@@ -281,7 +281,10 @@ public class RobotContainer {
           return sensors.getShooterSensor() && Governor.getRobotState() == RobotState.NEUTRAL;
       }
     }).withTimeout(3),
-      new AimToSpeakerCommand(drive, joysticks),
+      new ParallelCommandGroup(
+        new AimToSpeakerCommand(drive, joysticks),
+        new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true))
+      ),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
@@ -292,7 +295,10 @@ public class RobotContainer {
       new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true))
     ));
     NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
-      new AimToSpeakerCommand(drive, joysticks),
+      new ParallelCommandGroup(
+        new AimToSpeakerCommand(drive, joysticks),
+        new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true))
+      ),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
@@ -302,8 +308,11 @@ public class RobotContainer {
       }).withTimeout(3)
     ));
     NamedCommands.registerCommand("ShootClose", new SequentialCommandGroup(
-      new AimToSpeakerCommand(drive, joysticks),
-      new InstantCommand(() -> Presets.Arm.SPEAKER_SPEED_CHECK = Rotation2d.fromRadians(280)),
+      new InstantCommand(() -> Presets.Arm.SPEAKER_SPEED_CHECK = Rotation2d.fromRadians(Constants.Arm.MIN_SPEED)),
+      new ParallelCommandGroup(
+        new AimToSpeakerCommand(drive, joysticks),
+        new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true))
+      ),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
