@@ -1,0 +1,67 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.42,
+      "y": 4.15
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootPrep"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "b2-shootMove"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "shootMove-p7"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p7-shootPos"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "shootPos-p6"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p6-shootPos"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Autos",
+  "choreoAuto": false
+}

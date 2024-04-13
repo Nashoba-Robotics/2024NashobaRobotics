@@ -50,11 +50,6 @@ import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.test.ClimberTuneCommand;
 import frc.robot.commands.test.FindArmZeroCommand;
 import frc.robot.commands.test.ManualShootCommand;
-<<<<<<< HEAD
-import frc.robot.commands.test.SourceShuttleTest;
-import frc.robot.commands.test.TestServoCommand;
-=======
->>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
 import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.lib.util.MoveMath;
 import frc.robot.subsystems.apriltags.AprilTagManager;
@@ -135,6 +130,8 @@ public class RobotContainer {
   public static boolean odometryFlag = false;
 
   public static boolean subwooferShot = false;
+
+  public static boolean autoAimOverride = false;
 
   public RobotContainer() {
     addShuffleBoardData();
@@ -248,32 +245,10 @@ public class RobotContainer {
   }
 
   private void addShuffleBoardData() {
-<<<<<<< HEAD
-    SmartDashboard.putData(shootMan);
-    SmartDashboard.putData(new ClimberTuneCommand(climber));
-    SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
-    // SmartDashboard.putData("Zero Right", new InstantCommand(()->climber.setRightRotor(Rotation2d.fromDegrees(0))));
-      // SmartDashboard.putData(new ClimberTestCommand(climber));
-    // SmartDashboard.putData("Amp Prep", new ToNewAmpAdj());
-    // SmartDashboard.putData("Amp Score", new ToNewAmp());
-    // SmartDashboard.putData(new NoteToAmpOut());
-
-    SmartDashboard.putData(new TestServoCommand(climber));
-    // SmartDashboard.putData(new ClimbToManual());
-    // SmartDashboard.putData("TuneArm",
-    //   new ArmTuneCommand(arm)
-    // );
-    SmartDashboard.putData(new FindArmZeroCommand());
-    SmartDashboard.putData(new SequentialCommandGroup(
-      Governor.getSetStateCommand(RobotState.MISC),
-      new SourceShuttleTest()
-    ));
-=======
     // SmartDashboard.putData(shootMan);
     SmartDashboard.putData("Zero Climber", new InstantCommand(()->climber.setRotor(Rotation2d.fromDegrees(0))));
     SmartDashboard.putData(new ZeroClimberCommand(climber));
 
->>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
   }
 
   private void configureEvents() {
@@ -405,6 +380,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("P4Check", new P4Check());
     NamedCommands.registerCommand("P6Check", new P6Check());
     NamedCommands.registerCommand("P7Check", new P7Check());
+
+    NamedCommands.registerCommand("AimOverride", new InstantCommand(()->autoAimOverride = true));
+    NamedCommands.registerCommand("StopAimOverride", new InstantCommand(()->autoAimOverride = false));
   }
 
   private int sourceIndex;
