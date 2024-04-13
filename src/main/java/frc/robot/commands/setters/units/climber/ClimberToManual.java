@@ -21,12 +21,7 @@ public class ClimberToManual extends Command{
 
     @Override
     public void initialize() {
-<<<<<<< HEAD
-        climber.setLeftRotor(climber.getLeftClimberPos());
-        // climber.setRightClimberPos(climber.getRightClibmerPos());
-=======
         climber.setPos(climber.getPos());
->>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
         flag = false;
     }
 
@@ -36,19 +31,10 @@ public class ClimberToManual extends Command{
         
         if(Math.abs(operatorInput) < 0.01 && Math.abs(climber.getSpeed().getRadians()) < 0.1){
             if(!flag){
-<<<<<<< HEAD
-                leftClimbPos = climber.getLeftClimberPos().getRadians();
-                // rightClimbPos = climber.getRightClibmerPos().getRadians();
-                flag = true;
-            }
-            climber.setLeftClimberPos(Rotation2d.fromRadians(leftClimbPos));
-            // climber.setRightClimberPos(Rotation2d.fromRadians(rightClimbPos));
-=======
                 climbPos = climber.getPos();
                 flag = true;
             }
             climber.setPos(climbPos);
->>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
         }
         else{
             climber.setSpeed(operatorInput);
@@ -58,17 +44,9 @@ public class ClimberToManual extends Command{
 
     @Override
     public void end(boolean interrupted) {
-<<<<<<< HEAD
-        leftClimbPos = climber.getLeftClimberPos().getRadians();
-        // rightClimbPos = climber.getRightClibmerPos().getRadians();
-
-        climber.setLeftClimberPos(Rotation2d.fromRadians(leftClimbPos));
-        // climber.setRightClimberPos(Rotation2d.fromRadians(rightClimbPos));
-=======
         climbPos = climber.getPos();
 
         climber.setPos(climbPos);
->>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
     }
 
     @Override

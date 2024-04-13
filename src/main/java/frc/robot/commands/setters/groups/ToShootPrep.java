@@ -25,4 +25,16 @@ public class ToShootPrep extends SequentialCommandGroup {
         );
     }
 
+    public ToShootPrep(boolean move){
+        addCommands(
+            Governor.getSetStateCommand(RobotState.TRANSITION),
+            new StopAllRollers(),
+            new LoaderToNeutral(),
+            new NoteToShooter(),
+            new ShooterToShootPrep(move),
+            Governor.getSetStateCommand(RobotState.SHOOT_PREP),
+            new ArmToShootPrep()
+        );
+    }
+
 }

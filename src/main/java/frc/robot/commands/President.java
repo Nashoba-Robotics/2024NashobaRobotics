@@ -170,12 +170,7 @@ public class President extends Command {
 
                 break;
             case AMP_ADJ:
-<<<<<<< HEAD
-                RobotContainer.arm.setShooterPercent(0);
-
-=======
                 RobotContainer.arm.setShooterPercent(Presets.Arm.IDLE_NO_NOTE);
->>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
                 break;
             case AMP:
                 if(!ampFlag){

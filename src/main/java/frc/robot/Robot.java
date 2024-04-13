@@ -192,12 +192,6 @@ public class Robot extends LoggedRobot {
     RobotContainer.odometryFlag = true;
 
     RobotContainer.drive.enableStatorLimits(false);
-<<<<<<< HEAD
-
-    RobotContainer.climber.setLeftRotor(Rotation2d.fromRadians(0));
-    // RobotContainer.climber.setRightRotor(Rotation2d.fromRadians(0));
-=======
->>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
   }
 
   @Override

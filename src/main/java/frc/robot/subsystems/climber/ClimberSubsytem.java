@@ -27,33 +27,6 @@ public class ClimberSubsytem extends SubsystemBase{
         //setClimberPos(SOME CONVERSION);
     }
 
-<<<<<<< HEAD
-    public void setClimberPos(Rotation2d pos){
-        io.setLeftClimberPos(pos);
-        // io.setRightClimberPos(pos);
-    }
-
-    public void setLeftClimberPos(Rotation2d pos){
-        io.setLeftClimberPos(pos);
-    }
-    // public void setRightClimberPos(Rotation2d pos){
-    //     io.setRightClimberPos(pos);
-    // }
-
-    public void setLeftRotor(Rotation2d pos){
-        io.setLeftClimberRotor(pos);
-    }
-    // public void setRightRotor(Rotation2d pos){
-    //     io.setRightClimberRotor(pos);
-    // }
-
-    public Rotation2d getLeftClimberPos(){
-        return Rotation2d.fromRadians(inputs.leftClimberRotorPos);
-    }
-    // public Rotation2d getRightClibmerPos(){
-    //     return Rotation2d.fromRadians(inputs.rightClimberRotorPos);
-    // }
-=======
     public void setPos(Rotation2d pos){
         io.setClimberPos(pos);
     }
@@ -61,7 +34,6 @@ public class ClimberSubsytem extends SubsystemBase{
     public void setRotor(Rotation2d pos){
         io.setClimberRotor(pos);
     }
->>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
 
 
     public Rotation2d getPos(){
