@@ -41,7 +41,13 @@
             {
               "type": "named",
               "data": {
-                "name": "ShootPrep"
+                "name": "ShootMovePrep"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "AimOverride"
               }
             }
           ]
@@ -59,6 +65,23 @@
               "type": "named",
               "data": {
                 "name": "ShootMove"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "StopAimOverride",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "StopAimOverride"
               }
             }
           ]

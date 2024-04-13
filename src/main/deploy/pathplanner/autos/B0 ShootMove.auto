@@ -24,6 +24,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ShootClose"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "s0-shootMove"

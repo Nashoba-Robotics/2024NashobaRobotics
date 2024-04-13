@@ -11,7 +11,7 @@
         "x": 2.748701298114341,
         "y": 7.430241005203245
       },
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": null
     },
     {
@@ -24,7 +24,7 @@
         "y": 7.021236913173707
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": null
     }
   ],
@@ -52,13 +52,19 @@
       "name": "Shoot prep",
       "waypointRelativePos": 0.3,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "ShootPrep"
+                "name": "ShootMovePrep"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "AimOverride"
               }
             }
           ]
@@ -76,6 +82,23 @@
               "type": "named",
               "data": {
                 "name": "ShootMove"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "StopOverride",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "StopAimOverride"
               }
             }
           ]
