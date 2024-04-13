@@ -19,12 +19,12 @@ public class ClimberTestCommand extends Command{
         CommandJoystick controller = RobotContainer.joysticks.getOperatorController();
 
         double speed = -controller.getY() * 0.3;
-        climber.setClimberSpeed(speed);
+        climber.setSpeed(speed);
     }
 
     @Override
     public void end(boolean interrupted) {
-        climber.setClimberSpeed(0);
+        climber.setSpeed(0);
     }
 
     @Override

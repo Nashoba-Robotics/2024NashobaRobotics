@@ -30,8 +30,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Governor.RobotState;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.President;
+import frc.robot.commands.ZeroClimberCommand;
 import frc.robot.commands.auto.Dictator;
 import frc.robot.lib.util.DistanceToArmAngleModel;
+import frc.robot.lib.util.MoveMath;
 import frc.robot.subsystems.apriltags.AprilTagManager;
 
 public class Robot extends LoggedRobot {
@@ -159,6 +161,8 @@ public class Robot extends LoggedRobot {
     Logger.recordOutput("Speaker Dist", RobotContainer.drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d()));
 
     Logger.recordOutput("LastRegressionModel", RobotContainer.lastModelForShot);
+
+    
   }
 
   @Override
@@ -183,14 +187,17 @@ public class Robot extends LoggedRobot {
 
     robotContainer.getAutoCommand().schedule();
     
-    
+    CommandScheduler.getInstance().schedule(new ZeroClimberCommand(RobotContainer.climber));
     CommandScheduler.getInstance().schedule(new Dictator());
     RobotContainer.odometryFlag = true;
 
     RobotContainer.drive.enableStatorLimits(false);
+<<<<<<< HEAD
 
     RobotContainer.climber.setLeftRotor(Rotation2d.fromRadians(0));
     // RobotContainer.climber.setRightRotor(Rotation2d.fromRadians(0));
+=======
+>>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
   }
 
   @Override
@@ -212,10 +219,17 @@ public class Robot extends LoggedRobot {
     RobotContainer.drive.overrideVisionOdo = false;
 
     RobotContainer.drive.enableStatorLimits(true);
+
+    
   }
 
   @Override
   public void teleopPeriodic() {
+    Presets.Arm.SPEAKER_SPEED = MoveMath.getShooterSpeedFromDistance(
+        RobotContainer.drive.getPose().getTranslation().getDistance(Constants.Field.getSpeakerPos().toTranslation2d())
+      );
+
+      Presets.Arm.SPEAKER_SPEED_CHECK = Presets.Arm.SPEAKER_SPEED;
   }
 
   @Override

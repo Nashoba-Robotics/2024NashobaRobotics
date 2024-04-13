@@ -78,7 +78,11 @@ public class Constants {
             public static final int RIGHT_SERVO_CHANNEL = 6;
 
             public static final int ENCODER_PORT = 4;
+<<<<<<< HEAD
             public static final double ENCODER_OFFSET = -0.0013047595584239 - 0.920101251;
+=======
+            public static final double ENCODER_OFFSET = -0.0013047595584239 - 0.19938577 + 0.060567297787749 - 0.012038303056645+0.042553168715067-0.813630131686131;
+>>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
             // -0.0013047595584239
 
             public static final int SHOOTER_SENSOR_PORT = 0;
@@ -115,32 +119,35 @@ public class Constants {
             public static final Slot0Configs SHOOTER_PID = new Slot0Configs()
             .withKV(0.0117419).withKS(0.030)
             .withKP(0.05).withKI(0).withKD(0);
+
+            public static final double SPEED_SLOPE = 57.1429;
+            public static final double SPEED_INTERCEPT = 80;
+
+            public static final double MIN_SPEED = 250;
+            public static final double MAX_SPEED = 500;
       }
 
       public static class Climber{
             public static final String CANBUS = "jerry";
-            
-            public static final int LEFT_CLIMBER_PORT = 15;
-            public static final int RIGHT_CLIMBER_PORT = 14;
+
+            public static final int CLIMBER_PORT = 15;
 
             public static final InvertedValue leftInvert = InvertedValue.Clockwise_Positive;
             public static final InvertedValue rightInvert = InvertedValue.CounterClockwise_Positive;
 
             public static final double STATOR_LIMIT = 0;
-            public static final double GEAR_RATIO = 5.*5*5*14/15;
+            public static final double GEAR_RATIO = 100;
 
-            public static final double CRUISE_VELOCITY = 0.7; //1.1636
-            public static final double ACCELERATION = 1;
+            public static final double CRUISE_VELOCITY = 0.9; //1.1636
+            public static final double ACCELERATION = 1.5;
 
-            public static final double FORWARD_SOFT_LIMIT = 0;
-            public static final double REVERSE_SOFT_LIMIT = 0;
+            public static final double FORWARD_SOFT_LIMIT = 20./TAU;
+            public static final double REVERSE_SOFT_LIMIT = -0.1;
 
-            public static final Slot0Configs leftPID = new Slot0Configs()
-            .withKS(0.02).withKV(1.2).withKA(0)
+            public static final Slot0Configs pid = new Slot0Configs()
+            .withKS(0.02).withKV(0.91).withKA(0)
             .withKP(30).withKI(0).withKD(0.0);
-            public static final Slot0Configs rightPID = new Slot0Configs()
-            .withKS(0.02).withKV(1.2).withKA(0)
-            .withKP(30).withKI(0).withKD(0.0); 
+             
       }
 
 
@@ -472,7 +479,7 @@ public class Constants {
         public static final String PIGEON_CANBUS = "jerry";
 
         public static final double DELETE_DISTANCE_RANGE = 0.5; //m
-        public static final double OPERATOR_ANGLE_CORRECTION = 0.1; //rad
+        public static final double OPERATOR_ANGLE_CORRECTION = 0.01; //rad
 
         public static final double CLOSE_FAR_CUTOFF = 3.15;
         public static final double SOURCE_AMP_CUTOFF = 4.1;

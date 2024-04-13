@@ -15,7 +15,11 @@ import frc.robot.commands.setters.units.loader.NoteToAmpOut;
 
 public class ToAmpAdj extends SequentialCommandGroup{
     public ToAmpAdj(){
+<<<<<<< HEAD
         if(RobotContainer.sensors.getLoaderSensor())
+=======
+        if(RobotContainer.sensors.getLoaderSensor()){
+>>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
             addCommands(
                 new StopAllRollers(),
                 new ParallelCommandGroup(
@@ -32,6 +36,7 @@ public class ToAmpAdj extends SequentialCommandGroup{
                 ),
                 Governor.getSetStateCommand(RobotState.AMP_ADJ)
             );
+<<<<<<< HEAD
         else
             addCommands(
             new StopAllRollers(),
@@ -48,5 +53,25 @@ public class ToAmpAdj extends SequentialCommandGroup{
             ),
             Governor.getSetStateCommand(RobotState.AMP_ADJ)
         );
+=======
+        }
+        else{
+            addCommands(
+                new StopAllRollers(),
+                new ParallelCommandGroup(
+                    new ArmToAmp(),
+                    new SequentialCommandGroup(
+                        new WaitUntilCommand(new BooleanSupplier() {
+                            public boolean getAsBoolean(){
+                                return RobotContainer.arm.getArmPivotAngle().getDegrees() >= -30;
+                            }
+                        }),
+                        new NoteToAmpOut()
+                    )
+                ),
+                Governor.getSetStateCommand(RobotState.AMP_ADJ)
+            );
+        }
+>>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
     }
 }

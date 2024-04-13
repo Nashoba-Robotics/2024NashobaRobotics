@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -28,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Governor.RobotState;
 import frc.robot.commands.AimToSpeakerCommand;
 import frc.robot.commands.AimToStation;
+import frc.robot.commands.ZeroClimberCommand;
 import frc.robot.commands.auto.amp.ToAmpCommand;
 import frc.robot.commands.auto.remaps.P3Check;
 import frc.robot.commands.auto.remaps.P4Check;
@@ -48,8 +50,11 @@ import frc.robot.commands.test.ClimberTestCommand;
 import frc.robot.commands.test.ClimberTuneCommand;
 import frc.robot.commands.test.FindArmZeroCommand;
 import frc.robot.commands.test.ManualShootCommand;
+<<<<<<< HEAD
 import frc.robot.commands.test.SourceShuttleTest;
 import frc.robot.commands.test.TestServoCommand;
+=======
+>>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
 import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.lib.util.MoveMath;
 import frc.robot.subsystems.apriltags.AprilTagManager;
@@ -157,15 +162,15 @@ public class RobotContainer {
 
     scoreAmp.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP, true)));
     toAmpPrep.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.AMP_ADJ)));
-    toAmpPrep.onTrue(new SequentialCommandGroup(
-      new ToAmpCommand()
-    ).until(new BooleanSupplier() {
-      @Override
-      public boolean getAsBoolean() {
-          return joysticks.getRightJoystickValues().x > 0.2 || (Governor.getRobotState() != RobotState.AMP_ADJ && Governor.getRobotState() != RobotState.TRANSITION);
-      }
-    })
-    );
+    // toAmpPrep.onTrue(new SequentialCommandGroup(
+    //   new ToAmpCommand()
+    // ).until(new BooleanSupplier() {
+    //   @Override
+    //   public boolean getAsBoolean() {
+    //       return joysticks.getRightJoystickValues().x > 0.2 || (Governor.getRobotState() != RobotState.AMP_ADJ && Governor.getRobotState() != RobotState.TRANSITION);
+    //   }
+    // })
+    // );
 
     toSource.onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.SOURCE)));
 
@@ -233,14 +238,17 @@ public class RobotContainer {
       RobotContainer.arm.setArmPivot(Rotation2d.fromDegrees(0));
     }));   
     
-    deployClimb.and(climbMode::getAsBoolean).onTrue(new ToClimbPrep());
-    climb.and(climbMode::getAsBoolean).onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.CLIMB)));
+    ToClimbPrep climbPrepCmd = new ToClimbPrep();
+    deployClimb.and(climbMode::getAsBoolean).onTrue(new InstantCommand(()->CommandScheduler.getInstance().cancel(climbPrepCmd)));
+    deployClimb.and(climbMode::getAsBoolean).onTrue(climbPrepCmd);
+    climb.and(climbMode::getAsBoolean).onTrue(new InstantCommand(() -> Governor.setRobotState(RobotState.CLIMB, true)));
 
     toFieldCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(true)));
-    toRobotCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(false)));
+    toRobotCentric.onTrue(new InstantCommand(()->drive.setFieldCentric(false)));  
   }
 
   private void addShuffleBoardData() {
+<<<<<<< HEAD
     SmartDashboard.putData(shootMan);
     SmartDashboard.putData(new ClimberTuneCommand(climber));
     SmartDashboard.putData("Zero Left", new InstantCommand(()->climber.setLeftRotor(Rotation2d.fromDegrees(0))));
@@ -260,6 +268,12 @@ public class RobotContainer {
       Governor.getSetStateCommand(RobotState.MISC),
       new SourceShuttleTest()
     ));
+=======
+    // SmartDashboard.putData(shootMan);
+    SmartDashboard.putData("Zero Climber", new InstantCommand(()->climber.setRotor(Rotation2d.fromDegrees(0))));
+    SmartDashboard.putData(new ZeroClimberCommand(climber));
+
+>>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
   }
 
   private void configureEvents() {
@@ -273,7 +287,10 @@ public class RobotContainer {
           return sensors.getShooterSensor() && Governor.getRobotState() == RobotState.NEUTRAL;
       }
     }).withTimeout(3),
-      new AimToSpeakerCommand(drive, joysticks),
+      new ParallelCommandGroup(
+        new AimToSpeakerCommand(drive, joysticks),
+        new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true))
+      ),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
@@ -284,7 +301,10 @@ public class RobotContainer {
       new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true))
     ));
     NamedCommands.registerCommand("Shoot", new SequentialCommandGroup(
-      new AimToSpeakerCommand(drive, joysticks),
+      new ParallelCommandGroup(
+        new AimToSpeakerCommand(drive, joysticks),
+        new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true))
+      ),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override
@@ -294,8 +314,11 @@ public class RobotContainer {
       }).withTimeout(3)
     ));
     NamedCommands.registerCommand("ShootClose", new SequentialCommandGroup(
-      new AimToSpeakerCommand(drive, joysticks),
-      new InstantCommand(() -> Presets.Arm.SPEAKER_SPEED_CHECK = Rotation2d.fromRadians(280)),
+      new InstantCommand(() -> Presets.Arm.SPEAKER_SPEED_CHECK = Rotation2d.fromRadians(Constants.Arm.MIN_SPEED)),
+      new ParallelCommandGroup(
+        new AimToSpeakerCommand(drive, joysticks),
+        new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true))
+      ),
       new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT, true)),
       new WaitUntilCommand(new BooleanSupplier() {
         @Override

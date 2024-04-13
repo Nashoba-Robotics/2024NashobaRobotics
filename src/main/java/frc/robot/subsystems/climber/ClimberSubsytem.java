@@ -19,14 +19,15 @@ public class ClimberSubsytem extends SubsystemBase{
         Logger.processInputs("Climber", inputs);
     }
 
-    public void setClimberSpeed(double speed){
+    public void setSpeed(double speed){
         io.setClimberSpeed(speed);
     }
 
-    public void setClimberM(double m){
+    public void setPosMeters(double m){
         //setClimberPos(SOME CONVERSION);
     }
 
+<<<<<<< HEAD
     public void setClimberPos(Rotation2d pos){
         io.setLeftClimberPos(pos);
         // io.setRightClimberPos(pos);
@@ -52,16 +53,25 @@ public class ClimberSubsytem extends SubsystemBase{
     // public Rotation2d getRightClibmerPos(){
     //     return Rotation2d.fromRadians(inputs.rightClimberRotorPos);
     // }
+=======
+    public void setPos(Rotation2d pos){
+        io.setClimberPos(pos);
+    }
+
+    public void setRotor(Rotation2d pos){
+        io.setClimberRotor(pos);
+    }
+>>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
 
 
-    public void setServo(double pos) {
-        io.setServo(pos);
+    public Rotation2d getPos(){
+        return Rotation2d.fromRadians(inputs.climberRotorPos);
     }
-    public double getLeftServoPos(){
-        return inputs.leftServoPos;
+    public Rotation2d getSpeed(){
+        return Rotation2d.fromRadians(inputs.climberSpeed);
     }
-    public double gteRightServoPos(){
-        return inputs.rightServoPos;
+    public double getStatorCurrent(){
+        return inputs.climberStatorCurrent;
     }
 
     public void setkS(double kS){

@@ -15,12 +15,14 @@ public class ClimberToClimb extends Command {
 
     @Override
     public void initialize() {
-        climber.setClimberPos(Presets.Climber.CLIMB_POS);
+        climber.setPos(Presets.Climber.CLIMB_POS);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(climber.getLeftClimberPos().getRadians() - Presets.Climber.CLIMB_POS.getRadians()) < Presets.Climber.POS_TOLERANCE.getRadians();
+        return 
+        Math.abs(climber.getPos().getRadians() - Presets.Climber.CLIMB_POS.getRadians()) < Presets.Climber.POS_TOLERANCE.getRadians()
+        || Math.abs(RobotContainer.joysticks.getOperatorController().getY()) > 0.1;
     }
 
 }

@@ -13,7 +13,7 @@ public class ClimberToManual extends Command{
     ClimberSubsytem climber = RobotContainer.climber;
     CommandJoystick operatorController = RobotContainer.joysticks.getOperatorController();
     boolean flag;
-    double leftClimbPos, rightClimbPos;
+    Rotation2d climbPos;
 
     public ClimberToManual(){
         addRequirements(climber);
@@ -21,8 +21,12 @@ public class ClimberToManual extends Command{
 
     @Override
     public void initialize() {
+<<<<<<< HEAD
         climber.setLeftRotor(climber.getLeftClimberPos());
         // climber.setRightClimberPos(climber.getRightClibmerPos());
+=======
+        climber.setPos(climber.getPos());
+>>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
         flag = false;
     }
 
@@ -30,29 +34,41 @@ public class ClimberToManual extends Command{
     public void execute() {
         double operatorInput = operatorController.getY() * -1;
         
-        if(Math.abs(operatorInput) < 0.01){
+        if(Math.abs(operatorInput) < 0.01 && Math.abs(climber.getSpeed().getRadians()) < 0.1){
             if(!flag){
+<<<<<<< HEAD
                 leftClimbPos = climber.getLeftClimberPos().getRadians();
                 // rightClimbPos = climber.getRightClibmerPos().getRadians();
                 flag = true;
             }
             climber.setLeftClimberPos(Rotation2d.fromRadians(leftClimbPos));
             // climber.setRightClimberPos(Rotation2d.fromRadians(rightClimbPos));
+=======
+                climbPos = climber.getPos();
+                flag = true;
+            }
+            climber.setPos(climbPos);
+>>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
         }
         else{
-            // System.out.println("Mini Ben sux so much");
-            climber.setClimberSpeed(operatorInput);
+            climber.setSpeed(operatorInput);
             flag = false;
         }
     }
 
     @Override
     public void end(boolean interrupted) {
+<<<<<<< HEAD
         leftClimbPos = climber.getLeftClimberPos().getRadians();
         // rightClimbPos = climber.getRightClibmerPos().getRadians();
 
         climber.setLeftClimberPos(Rotation2d.fromRadians(leftClimbPos));
         // climber.setRightClimberPos(Rotation2d.fromRadians(rightClimbPos));
+=======
+        climbPos = climber.getPos();
+
+        climber.setPos(climbPos);
+>>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
     }
 
     @Override

@@ -27,7 +27,7 @@ public class ShooterToShoot extends Command{
     @Override
     public void execute() {
         // arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED.plus(Rotation2d.fromRadians(10)));
-        Rotation2d speed = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians() + 20);
+        Rotation2d speed = Rotation2d.fromRadians(Presets.Arm.SPEAKER_SPEED.getRadians());
         // arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED.plus(Rotation2d.fromRadians(20)));
         arm.setShooterSpeed(speed);
 

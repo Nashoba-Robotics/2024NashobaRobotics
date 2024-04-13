@@ -19,6 +19,11 @@ public class ToShoot extends SequentialCommandGroup {
             new ShooterToShoot().withTimeout(0.7),
             new ArmToShoot().withTimeout(2),
             // new ArmMaintainPos(),
+<<<<<<< HEAD
+=======
+            new ShooterToShoot().withTimeout(0.7),
+            new ShooterToShoot(),
+>>>>>>> bfd02cea78a316241c4434205d8cb26349dda1b7
             Governor.getSetStateCommand(RobotState.SHOOT),
             new ParallelCommandGroup(
                 new GrabberToShoot()

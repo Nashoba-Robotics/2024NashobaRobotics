@@ -38,6 +38,9 @@ public class Presets {
 
         public static Rotation2d SPEAKER_SPEED = Rotation2d.fromRadians(375); // 375
         public static Rotation2d SPEAKER_SPEED_CHECK = SPEAKER_SPEED;
+        public static Rotation2d IDLE_SHOOT_SPEED = Rotation2d.fromRadians(200);
+        public static double IDLE_NO_NOTE = 0.05;
+        public static double IDLE_NOTE = 0.2;
 
 
         public static final Rotation2d SPEAKER_SPEED_PREP = Rotation2d.fromRadians(200);
@@ -51,13 +54,11 @@ public class Presets {
     }
 
     public static final class Climber {
-        public static final Rotation2d CLIMB_PREP_POS = Rotation2d.fromRadians(11.5);
+        public static final Rotation2d CLIMB_PREP_POS = Rotation2d.fromRadians(19);
         public static final Rotation2d CLIMB_POS = Rotation2d.fromRadians(3);
         public static final Rotation2d TRAP_POS = Rotation2d.fromRadians(0);
 
-        public static final Rotation2d POS_TOLERANCE = Rotation2d.fromRadians(1.5);
-
-        public static double SERVO_CLIMB_POS = 0;
+        public static final Rotation2d POS_TOLERANCE = Rotation2d.fromRadians(0.5);
     }
 
     public static final class Intake {
