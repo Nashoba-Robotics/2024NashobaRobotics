@@ -192,6 +192,9 @@ public class Robot extends LoggedRobot {
     RobotContainer.odometryFlag = true;
 
     RobotContainer.drive.enableStatorLimits(false);
+
+    Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(375);
+    Presets.Arm.SPEAKER_SPEED_CHECK = Presets.Arm.SPEAKER_SPEED;
   }
 
   @Override

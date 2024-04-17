@@ -19,96 +19,96 @@ import frc.robot.subsystems.drive.DriveSubsystem;
 public class MoveMath {
     public static DriveSubsystem drive = RobotContainer.drive;
     private static final double NOTE_SPEED = 17;    //m/s
-    public static Translation3d aimToSpeaker(){
-        Translation3d speakerPos = Constants.Field.getSpeakerPos();
-        Pose2d drivePos = drive.getPose();
-        ChassisSpeeds driveSpeeds = drive.getFieldRelativeSpeeds();
-        Rotation2d robotToSpeakerAngle = Rotation2d.fromRadians(Math.atan2(
-            speakerPos.getY() - drivePos.getY(),
-            speakerPos.getX() - drivePos.getX())
-        );
+    // public static Translation3d aimToSpeaker(){
+    //     Translation3d speakerPos = Constants.Field.getSpeakerPos();
+    //     Pose2d drivePos = drive.getPose();
+    //     ChassisSpeeds driveSpeeds = drive.getFieldRelativeSpeeds();
+    //     Rotation2d robotToSpeakerAngle = Rotation2d.fromRadians(Math.atan2(
+    //         speakerPos.getY() - drivePos.getY(),
+    //         speakerPos.getX() - drivePos.getX())
+    //     );
 
-        double noteVelX = NOTE_SPEED*robotToSpeakerAngle.getCos();
-        double robotVelX = driveSpeeds.vxMetersPerSecond;
+    //     double noteVelX = NOTE_SPEED*robotToSpeakerAngle.getCos();
+    //     double robotVelX = driveSpeeds.vxMetersPerSecond;
 
-        //Hotdog
-        double t = Math.abs(noteVelX + robotVelX)/drivePos.getX();
+    //     //Hotdog
+    //     double t = Math.abs(noteVelX + robotVelX)/drivePos.getX();
         
-        double noteVelY = NOTE_SPEED * robotToSpeakerAngle.getCos();
-        double robotVelY = driveSpeeds.vyMetersPerSecond;
+    //     double noteVelY = NOTE_SPEED * robotToSpeakerAngle.getCos();
+    //     double robotVelY = driveSpeeds.vyMetersPerSecond;
 
-        double yOffset = (noteVelY + robotVelY) * t;
-        double xOffset = (noteVelX + robotVelX) * t;
+    //     double yOffset = (noteVelY + robotVelY) * t;
+    //     double xOffset = (noteVelX + robotVelX) * t;
 
-        Translation3d aimPos = new Translation3d(speakerPos.getX()-xOffset, speakerPos.getY()-yOffset, speakerPos.getZ());
-        return aimPos;
-    }
+    //     Translation3d aimPos = new Translation3d(speakerPos.getX()-xOffset, speakerPos.getY()-yOffset, speakerPos.getZ());
+    //     return aimPos;
+    // }
 
     //https://www.forrestthewoods.com/blog/solving_ballistic_trajectories/
-    public static Translation3d getBallisticTrajectory(){
-        //Use Fixed Speed with Moving Target:
-        //  Treat the speaker as a moving target and the robot as a stationary one
-        Pose2d robotPos = drive.getPose();
-        double robotPosX = robotPos.getX();
-        double robotPosY = robotPos.getY();
-        double robotPosZ = 0.6;   //TODO: Find height of robot
+    // public static Translation3d getBallisticTrajectory(){
+    //     //Use Fixed Speed with Moving Target:
+    //     //  Treat the speaker as a moving target and the robot as a stationary one
+    //     Pose2d robotPos = drive.getPose();
+    //     double robotPosX = robotPos.getX();
+    //     double robotPosY = robotPos.getY();
+    //     double robotPosZ = 0.6;   //TODO: Find height of robot
 
-        Translation3d targetPos = Constants.Field.getSpeakerPos();
-        double targetPosX = targetPos.getX();
-        double targetPosY = targetPos.getY();   //TODO: Check that x, y, z are where i think they are
-        double targetPosZ = targetPos.getZ();
+    //     Translation3d targetPos = Constants.Field.getSpeakerPos();
+    //     double targetPosX = targetPos.getX();
+    //     double targetPosY = targetPos.getY();   //TODO: Check that x, y, z are where i think they are
+    //     double targetPosZ = targetPos.getZ();
 
-        ChassisSpeeds targetSpeeds = drive.getFieldRelativeSpeeds();
-        double targetSpeedX = targetSpeeds.vxMetersPerSecond * (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? -1 : 1);
-        double targetSpeedY = targetSpeeds.vyMetersPerSecond * (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? -1 : 1);
-        double targetSpeedZ = 0;
-        Logger.recordOutput("Field Relative Speeds", targetSpeeds);
+    //     ChassisSpeeds targetSpeeds = drive.getFieldRelativeSpeeds();
+    //     double targetSpeedX = targetSpeeds.vxMetersPerSecond * (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? -1 : 1);
+    //     double targetSpeedY = targetSpeeds.vyMetersPerSecond * (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? -1 : 1);
+    //     double targetSpeedZ = 0;
+    //     Logger.recordOutput("Field Relative Speeds", targetSpeeds);
 
-        double G = 9.81;
+    //     double G = 9.81;
 
-        double A = robotPosX;
-        double B = robotPosZ;
-        double C = robotPosY;
-        double M = targetPosX;
-        double N = targetPosZ;
-        double O = targetPosY;
-        double P = targetSpeedX;
-        double Q = targetSpeedZ;
-        double R = targetSpeedY;
-        double S = NOTE_SPEED;
+    //     double A = robotPosX;
+    //     double B = robotPosZ;
+    //     double C = robotPosY;
+    //     double M = targetPosX;
+    //     double N = targetPosZ;
+    //     double O = targetPosY;
+    //     double P = targetSpeedX;
+    //     double Q = targetSpeedZ;
+    //     double R = targetSpeedY;
+    //     double S = NOTE_SPEED;
 
-        double H = M - A;
-        double J = O - C;
-        double K = N - B;
-        double L = -.5f * G;
+    //     double H = M - A;
+    //     double J = O - C;
+    //     double K = N - B;
+    //     double L = -.5f * G;
 
-        // Quartic Coeffecients
-        double c0 = G * G;
-        double c1 = 0;
-        double c2 = (P * P + R * R) + (K * -G) - S * S;
-        double c3 = 2 * (H * P + K * R);
-        double c4 = K * K + H * H + J * J;
+    //     // Quartic Coeffecients
+    //     double c0 = G * G;
+    //     double c1 = 0;
+    //     double c2 = (P * P + R * R) + (K * -G) - S * S;
+    //     double c3 = 2 * (H * P + K * R);
+    //     double c4 = K * K + H * H + J * J;
 
-        double[] times = Quartic.solveQuartic(c0, c1, c2, c3, c4);
-        Logger.recordOutput("Possible times", times);
-        double time = 0;
+    //     double[] times = Quartic.solveQuartic(c0, c1, c2, c3, c4);
+    //     Logger.recordOutput("Possible times", times);
+    //     double time = 0;
 
-        for(double t : times){
-            if(t > 0){
-                time = t;
-                break;
-            }
-        }
+    //     for(double t : times){
+    //         if(t > 0){
+    //             time = t;
+    //             break;
+    //         }
+    //     }
         
-        Translation3d notePosVector = new Translation3d(
-            ((H+P*time)),  //X
-            ((J+R*time)),  //Y
-            ((K+Q*time-L*time*time))   //Z (Up down)
-        );
+    //     Translation3d notePosVector = new Translation3d(
+    //         ((H+P*time)),  //X
+    //         ((J+R*time)),  //Y
+    //         ((K+Q*time-L*time*time))   //Z (Up down)
+    //     );
 
 
-        return notePosVector;
-    }
+    //     return notePosVector;
+    // }
 
     public static double[] getShootWhileMoveBallistics2() {
         ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(drive.getRobotRelativeSpeeds(), drive.getPose().getRotation());

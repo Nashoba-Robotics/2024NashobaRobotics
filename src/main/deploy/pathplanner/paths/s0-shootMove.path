@@ -50,7 +50,7 @@
     },
     {
       "name": "Shoot prep",
-      "waypointRelativePos": 0.3,
+      "waypointRelativePos": 0.35,
       "command": {
         "type": "parallel",
         "data": {
@@ -59,12 +59,6 @@
               "type": "named",
               "data": {
                 "name": "ShootMovePrep"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "AimOverride"
               }
             }
           ]

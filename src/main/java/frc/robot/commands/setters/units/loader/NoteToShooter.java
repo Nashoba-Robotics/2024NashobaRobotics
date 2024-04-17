@@ -43,9 +43,8 @@ public class NoteToShooter extends Command{
     @Override
     public boolean isFinished() {
         // return loader.getShooterSensor() || timer.get() > 0.5 || override;   //TODO: Check initially if we actually have a note
-        return RobotContainer.sensors.getShooterSensor() || (timer.get() > 0.2 
-        // && !RobotContainer.sensors.getLoaderSensor()
-        );   //TODO: Check initially if we actually have a note
+        return RobotContainer.sensors.getShooterSensor() || (timer.get() > 0.3 
+        && !RobotContainer.sensors.getLoaderSensor());   //TODO: Check initially if we actually have a note
 
     }
 }

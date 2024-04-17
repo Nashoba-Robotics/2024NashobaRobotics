@@ -254,8 +254,13 @@ public class RobotContainer {
 
   private void configureEvents() {
     NamedCommands.registerCommand("Neutral", new InstantCommand(() -> Governor.setRobotState(RobotState.NEUTRAL, true)));
-    NamedCommands.registerCommand("ShootPrep", new InstantCommand(() -> Governor.setRobotState(RobotState.SHOOT_PREP, true)));
-    NamedCommands.registerCommand("ShootMovePrep", new ToShootPrep(true));
+    NamedCommands.registerCommand("ShootPrep", new InstantCommand(() -> {
+      Governor.setRobotState(RobotState.SHOOT_PREP, true);
+    }));
+    NamedCommands.registerCommand("ShootMovePrep", new InstantCommand(() -> {
+      autoAimOverride = true;
+      Governor.setRobotState(RobotState.SHOOT_PREP);
+    }));
     NamedCommands.registerCommand("Intake", new InstantCommand(() -> Governor.setRobotState(RobotState.INTAKE, true)));
     NamedCommands.registerCommand("ShootWait", new SequentialCommandGroup(
       new WaitUntilCommand(new BooleanSupplier() {

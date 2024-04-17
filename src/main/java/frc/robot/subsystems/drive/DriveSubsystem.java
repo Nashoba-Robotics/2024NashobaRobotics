@@ -112,7 +112,7 @@ public class DriveSubsystem extends SubsystemBase{
         if(RobotContainer.autoAimOverride && RobotContainer.sensors.getShooterSensor()){
             Rotation2d targetAngle;
             if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
-                targetAngle = Rotation2d.fromRadians(MoveMath.getShootWhileMoveBallistics2()[0] + Math.PI);
+                targetAngle = Rotation2d.fromRadians(MoveMath.getShootWhileMoveBallistics2()[0]);
             } else {
                 targetAngle = Rotation2d.fromRadians(MoveMath.getShootWhileMoveBallistics2()[0]);
             }
