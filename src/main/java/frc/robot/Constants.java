@@ -409,7 +409,7 @@ public class Constants {
 
       public static final class Intake{
             public static final String CANBUS = "jerry";
-            
+
 
             public static final int PORT = 8;
 
@@ -480,6 +480,9 @@ public class Constants {
 
         public static final double CLOSE_FAR_CUTOFF = 3.15;
         public static final double SOURCE_AMP_CUTOFF = 4.1;
+
+        public static final boolean BE_BAD = false;
+        public static final boolean BE_GOOD = false;
       }
 
       public static final class FileNames {
