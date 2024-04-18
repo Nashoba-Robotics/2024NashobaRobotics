@@ -368,11 +368,11 @@ public class Constants {
       public static final class Field {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
             public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.9, 2.36); //y = 5.75
-            public static final Translation3d BLUE_SPEAKER_POSITION_SOURCE = new Translation3d(-0.04, 5.95, 2.36); //y = 5.75  
+            public static final Translation3d BLUE_SPEAKER_POSITION_SOURCE = new Translation3d(-0.04, 5.9, 2.36); //y = 5.75  
             public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.45, 2.36); //y = 5.45
             public static final Translation3d RED_SPEAKER_POSITION_SOURCE = new Translation3d(16.451, 5.4, 2.36); //y = 5.45
             public static final Translation3d BLUE_STATION = new Translation3d(0, 4.28, 0);
-            public static final Translation3d RED_STATION = new Translation3d(16.451, 4.28, 0);
+            public static final Translation3d RED_STATION = new Translation3d(16.451, 4.18, 0);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
             public static final double LENGTH = 16.451;
             public static final double WIDTH = 8.211;
@@ -409,6 +409,7 @@ public class Constants {
 
       public static final class Intake{
             public static final String CANBUS = "jerry";
+            
 
             public static final int PORT = 8;
 

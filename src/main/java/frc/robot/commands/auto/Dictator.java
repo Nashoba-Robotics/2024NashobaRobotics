@@ -1,5 +1,6 @@
 package frc.robot.commands.auto;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -10,6 +11,7 @@ import frc.robot.Governor;
 import frc.robot.RobotContainer;
 import frc.robot.lib.util.DistanceToArmAngleModel;
 import frc.robot.Governor.RobotState;
+import frc.robot.Presets;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.loader.LoaderSubsystem;
 import frc.robot.subsystems.sensors.SensorManager;
@@ -56,6 +58,8 @@ public class Dictator extends Command{
                 //     if(RobotContainer.sensors.getShooterSensor()
                 //     && RobotContainer.drive.getPose().getX() < Constants.Field.LENGTH - 4) Governor.setRobotState(RobotState.NEUTRAL);
                 // }
+                    Presets.Arm.SPEAKER_SPEED = Rotation2d.fromRadians(418);
+                    // Presets.Arm.SPEAKER_SPEED_CHECK = Rotation2d.fromRadians(418);
                 break;
             case SOURCE:
                 // if(loader.getLoaderSensor()) Governor.setRobotState(RobotState.NEUTRAL);
