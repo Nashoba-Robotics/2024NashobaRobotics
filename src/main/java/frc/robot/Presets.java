@@ -38,7 +38,7 @@ public class Presets {
 
         public static Rotation2d SPEAKER_SPEED = Rotation2d.fromRadians(375); // 375
         public static Rotation2d SPEAKER_SPEED_CHECK = SPEAKER_SPEED;
-        public static Rotation2d IDLE_SHOOT_SPEED = Rotation2d.fromRadians(200);
+        public static Rotation2d IDLE_SHOOT_SPEED = Rotation2d.fromRadians(275);
         public static double IDLE_NO_NOTE = 0.05;
         public static double IDLE_NOTE = 0.2;
 

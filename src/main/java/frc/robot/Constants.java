@@ -368,9 +368,9 @@ public class Constants {
       public static final class Field {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
             public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.9, 2.36); //y = 5.75
-            public static final Translation3d BLUE_SPEAKER_POSITION_SOURCE = new Translation3d(-0.04, 6.05, 2.36); //y = 5.75  
+            public static final Translation3d BLUE_SPEAKER_POSITION_SOURCE = new Translation3d(-0.04, 5.95, 2.36); //y = 5.75  
             public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.45, 2.36); //y = 5.45
-            public static final Translation3d RED_SPEAKER_POSITION_SOURCE = new Translation3d(16.451, 5.5, 2.36); //y = 5.45
+            public static final Translation3d RED_SPEAKER_POSITION_SOURCE = new Translation3d(16.451, 5.4, 2.36); //y = 5.45
             public static final Translation3d BLUE_STATION = new Translation3d(0, 4.28, 0);
             public static final Translation3d RED_STATION = new Translation3d(16.451, 4.28, 0);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
@@ -475,7 +475,7 @@ public class Constants {
         public static final String PIGEON_CANBUS = "jerry";
 
         public static final double DELETE_DISTANCE_RANGE = 0.5; //m
-        public static final double OPERATOR_ANGLE_CORRECTION = 0.05; //rad
+        public static final double OPERATOR_ANGLE_CORRECTION = 0.1; //rad
 
         public static final double CLOSE_FAR_CUTOFF = 3.15;
         public static final double SOURCE_AMP_CUTOFF = 4.1;

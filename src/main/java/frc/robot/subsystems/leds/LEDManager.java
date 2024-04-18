@@ -69,11 +69,11 @@ public class LEDManager extends SubsystemBase{
             clearAnimationFlag = true;
         }
         else if(DriverStation.isAutonomous()){
-            candle.animate(new RainbowAnimation(0.8, 0.6, LED_COUNT-26-8, false, 8), 0);
+            // candle.animate(new RainbowAnimation(0.8, 0.6, LED_COUNT-26-8, false, 8), 0);
             if(RobotContainer.sensors.getShooterSensor() || RobotContainer.sensors.getLoaderSensor())
-                setColor(green, LED_COUNT-26-8, 26);
+                setColor(green);
             else
-                setColor(red, LED_COUNT-26-8, 26);
+                setColor(red);
 
             clearAnimationFlag = true;
         }
