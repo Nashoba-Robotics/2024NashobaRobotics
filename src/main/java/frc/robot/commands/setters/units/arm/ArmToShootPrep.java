@@ -22,12 +22,22 @@ public class ArmToShootPrep extends Command{
     DriveSubsystem drive = RobotContainer.drive;
 
     double angle;
+    boolean move;
 
     public ArmToShootPrep(){
         angle = 0;
+        move = false;
 
         addRequirements(arm);
     }
+
+    public ArmToShootPrep(boolean move){
+        angle = 0;
+        this.move = move;
+
+        addRequirements(arm);
+    }
+
     @Override
     public void execute() {
         arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED);
@@ -60,7 +70,8 @@ public class ArmToShootPrep extends Command{
     }
     @Override
     public boolean isFinished() {
-        if(DriverStation.isAutonomous() && Governor.getDesiredRobotState() == RobotState.SHOOT) return Math.abs(angle - arm.getArmPivotAngle().getRadians()) < Presets.Arm.POS_TOLERANCE.getRadians() || !RobotContainer.sensors.getShooterSensor();
+        if(DriverStation.isAutonomous() && move) return false;
+        else if(DriverStation.isAutonomous() && Governor.getDesiredRobotState() == RobotState.SHOOT) return Math.abs(angle - arm.getArmPivotAngle().getRadians()) < Presets.Arm.POS_TOLERANCE.getRadians() || !RobotContainer.sensors.getShooterSensor();
         else return Governor.getRobotState() != RobotState.SHOOT_PREP;
 
     }

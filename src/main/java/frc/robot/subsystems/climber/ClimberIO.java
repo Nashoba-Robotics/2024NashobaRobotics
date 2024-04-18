@@ -20,6 +20,8 @@ public interface ClimberIO {
 
     public abstract void setClimberRotor(Rotation2d pos);
 
+    public abstract void enableReverseSoftLimit(boolean limit);
+
     public abstract void setkS(double kS);
     public abstract void setkV(double kV);
     public abstract void setkP(double kP);

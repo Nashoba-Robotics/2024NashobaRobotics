@@ -73,6 +73,12 @@ public class ClimberIOTalonFX implements ClimberIO{
         clibmer.set(speed);
     }
 
+    @Override
+    public void enableReverseSoftLimit(boolean limit){
+        climberConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = limit;
+        clibmer.getConfigurator().apply(climberConfig);
+    }
+
     public void setkS(double kS){
         climberConfig.Slot0.kS = kS;
         clibmer.getConfigurator().apply(climberConfig);

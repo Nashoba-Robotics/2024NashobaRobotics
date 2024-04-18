@@ -117,9 +117,9 @@ public class Constants {
             .withKP(0.05).withKI(0).withKD(0);
 
             public static final double SPEED_SLOPE = 57.1429;
-            public static final double SPEED_INTERCEPT = 80;
+            public static final double SPEED_INTERCEPT = 160;
 
-            public static final double MIN_SPEED = 250;
+            public static final double MIN_SPEED = 275;
             public static final double MAX_SPEED = 500;
       }
 
@@ -368,11 +368,11 @@ public class Constants {
       public static final class Field {
             // public static final Translation2d SPEAKER_POSITION = new Translation2d(0, 0);
             public static final Translation3d BLUE_SPEAKER_POSITION = new Translation3d(-0.04, 5.9, 2.36); //y = 5.75
-            public static final Translation3d BLUE_SPEAKER_POSITION_SOURCE = new Translation3d(-0.04, 6.15, 2.36); //y = 5.75  
+            public static final Translation3d BLUE_SPEAKER_POSITION_SOURCE = new Translation3d(-0.04, 6.05, 2.36); //y = 5.75  
             public static final Translation3d RED_SPEAKER_POSITION = new Translation3d(16.451, 5.45, 2.36); //y = 5.45
-            public static final Translation3d RED_SPEAKER_POSITION_SOURCE = new Translation3d(16.451, 5.6, 2.36); //y = 5.45
-            public static final Translation3d BLUE_STATION = new Translation3d(0, 4.48, 0);
-            public static final Translation3d RED_STATION = new Translation3d(16.451, 4.48, 0);
+            public static final Translation3d RED_SPEAKER_POSITION_SOURCE = new Translation3d(16.451, 5.5, 2.36); //y = 5.45
+            public static final Translation3d BLUE_STATION = new Translation3d(0, 4.28, 0);
+            public static final Translation3d RED_STATION = new Translation3d(16.451, 4.28, 0);
             public static final Translation2d AMP_POSITION = new Translation2d(0, 0);
             public static final double LENGTH = 16.451;
             public static final double WIDTH = 8.211;
@@ -475,7 +475,7 @@ public class Constants {
         public static final String PIGEON_CANBUS = "jerry";
 
         public static final double DELETE_DISTANCE_RANGE = 0.5; //m
-        public static final double OPERATOR_ANGLE_CORRECTION = 0.01; //rad
+        public static final double OPERATOR_ANGLE_CORRECTION = 0.05; //rad
 
         public static final double CLOSE_FAR_CUTOFF = 3.15;
         public static final double SOURCE_AMP_CUTOFF = 4.1;

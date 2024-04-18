@@ -12,12 +12,18 @@ public class ZeroClimberCommand extends Command{
     }
 
     @Override
+    public void initialize() {
+        climber.enableReverseSoftLimit(false);
+    }
+
+    @Override
     public void execute() {
         climber.setSpeed(-0.05);
     }
 
     @Override
     public void end(boolean interrupted) {
+        climber.enableReverseSoftLimit(true);
         climber.setRotor(new Rotation2d());
         climber.setSpeed(0);
     }

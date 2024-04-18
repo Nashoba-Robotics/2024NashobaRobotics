@@ -45,6 +45,9 @@ public class ClimberSubsytem extends SubsystemBase{
     public double getStatorCurrent(){
         return inputs.climberStatorCurrent;
     }
+    public void enableReverseSoftLimit(boolean limit){
+        io.enableReverseSoftLimit(limit);
+    }
 
     public void setkS(double kS){
         io.setkS(kS);
