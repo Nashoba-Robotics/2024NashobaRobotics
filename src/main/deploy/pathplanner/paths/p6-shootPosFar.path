@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0,
-        "y": 7.05
+        "x": 8.280700937992206,
+        "y": 2.4439890101154256
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.1581720068283445,
-        "y": 7.0712452754820045
+        "x": 6.526042161499081,
+        "y": 1.7859919689305035
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.29151614784711,
-        "y": 7.444603782726084
+        "x": 4.25,
+        "y": 2.6
       },
       "prevControl": {
-        "x": 5.79151614784711,
-        "y": 7.444603782726084
+        "x": 5.586882877328096,
+        "y": 1.3780054949422882
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,16 +32,40 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
-      "waypointRelativePos": 0.65,
+      "name": "ShootPrep",
+      "waypointRelativePos": 0.55,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "Intake"
+                "name": "ShootPrep"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "P6Check",
+      "waypointRelativePos": 0.2,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "parallel",
+              "data": {
+                "commands": [
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "P6CheckTo7"
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -57,7 +81,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 138.920434057793,
     "rotateFast": false
   },
   "reversed": false,

@@ -15,13 +15,15 @@ public class GrabberToSource extends Command{
 
     @Override
     public void initialize() {
-        double speed = RobotContainer.sensors.getLoaderSensor() ? 0 : Presets.Loader.SOURCE_SPEED;
+        // double speed = RobotContainer.sensors.getLoaderSensor() ? 0 : Presets.Loader.SOURCE_SPEED;
+        double speed = Presets.Loader.SOURCE_SPEED;
         loader.setRollerSpeed(speed);
     }
 
     @Override
     public void execute() {
-        double speed = RobotContainer.sensors.getLoaderSensor() ? 0 : Presets.Loader.SOURCE_SPEED;
+        // double speed = RobotContainer.sensors.getLoaderSensor() ? 0 : Presets.Loader.SOURCE_SPEED;
+        double speed = Presets.Loader.SOURCE_SPEED;
         loader.setRollerSpeed(speed);
     }
 

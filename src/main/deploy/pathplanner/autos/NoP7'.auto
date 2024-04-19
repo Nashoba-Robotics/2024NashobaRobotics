@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 7.3198163699126395,
+      "y": 1.044439747912574
+    },
+    "rotation": 176.37964858153
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p7Check-p6"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "p6-shootPos''"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

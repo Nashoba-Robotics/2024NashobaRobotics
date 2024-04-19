@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Governor;
 import frc.robot.RobotContainer;
+import frc.robot.Governor.RobotState;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.loader.LoaderSubsystem;
@@ -24,7 +25,7 @@ public class StopAllRollers extends Command{
         //     arm.setShooterPercent(0);
         // }
         loader.setRollerSpeed(0);
-        intake.setSpeed(0);
+        if(Governor.getDesiredRobotState() != RobotState.INTAKE) intake.setSpeed(0);
     }
 
     @Override
@@ -33,7 +34,7 @@ public class StopAllRollers extends Command{
             // arm.setShooterPercent(0);
         }
         loader.setRollerSpeed(0);
-        intake.setSpeed(0);
+        if(Governor.getDesiredRobotState() != RobotState.INTAKE) intake.setSpeed(0);
 
     }
 
