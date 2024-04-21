@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.33,
+        "x": 4.5,
         "y": 6.44
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.097541024999013,
+        "x": 6.267541024999013,
         "y": 7.01778209648946
       },
       "isLocked": false,
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.8,
+      "waypointRelativePos": 0.35,
       "command": {
         "type": "parallel",
         "data": {

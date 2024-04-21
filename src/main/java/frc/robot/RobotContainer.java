@@ -99,8 +99,8 @@ public class RobotContainer {
   private Trigger shootPrep = joysticks.getDriverController().button(6);
 
   private Trigger highShuttle = joysticks.getDriverController().button(4);
-  // private Trigger lowShuttle = joysticks.getDriverController().button(1);
-  private Trigger enableSubwoofer = joysticks.getDriverController().button(1);
+  private Trigger lowShuttle = joysticks.getDriverController().button(1);
+  // private Trigger enableSubwoofer = joysticks.getDriverController().button(1);
   public static ToShuttlePrep highShuttlePrep = new ToShuttlePrep(true);
   public static ToShuttlePrep lowShuttlePrep = new ToShuttlePrep(false);
   public static ToShuttle highShuttleCmd = new ToShuttle(true);
@@ -197,11 +197,36 @@ public class RobotContainer {
       thingRan = true;
     }));
 
+    lowShuttle.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean(){
+        return !lowShuttlePrep.isScheduled() && !lowShuttleCmd.isScheduled() && !thingRan;
+      }
+    }).onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.SHUTTLE_LOW_ADJ);
+      thingRan = true;
+    }));
+
+    lowShuttle.and(new BooleanSupplier() {
+      @Override
+      public boolean getAsBoolean(){
+        return lowShuttlePrep.isScheduled() &&!lowShuttleCmd.isScheduled() && !thingRan;
+      }
+    }).onTrue(new InstantCommand(()->{
+      Governor.setRobotState(RobotState.SHUTTLE_LOW);
+      thingRan = true;
+    }));
+
     highShuttle.onFalse(new InstantCommand(()->thingRan = false));
     highShuttle.onTrue(new AimToStation(drive, joysticks));
 
-    enableSubwoofer.onTrue(new InstantCommand(()->subwooferShot = true));
-    enableSubwoofer.onFalse(new InstantCommand(()->subwooferShot = false));
+    lowShuttle.onFalse(new InstantCommand(()->thingRan = false));
+    // lowShuttle.onTrue(new AimToStation(drive, joysticks));
+
+
+
+    // enableSubwoofer.onTrue(new InstantCommand(()->subwooferShot = true));
+    // enableSubwoofer.onFalse(new InstantCommand(()->subwooferShot = false));
     
 
     cleanupUnscoredNotesTrigger.whileTrue(new InstantCommand(()->RobotContainer.arm.setShooterSpeed(Presets.Arm.SPEAKER_SPEED)));
@@ -368,7 +393,7 @@ public class RobotContainer {
         intake.setSpeed(Presets.Intake.INTAKE_SPEED);
         loader.setRollerSpeed(-0.9);
         arm.setShooterPercent(0.2);
-        arm.setArmPivot(Presets.Arm.NEUTRAL_POS);
+        arm.setArmPivot(Presets.Arm.ACTUAL_NEUTRAL_POS);
       })
       )
     );
@@ -379,7 +404,7 @@ public class RobotContainer {
         intake.setSpeed(Presets.Intake.INTAKE_SPEED);
         loader.setRollerSpeed(-0.9);
         arm.setShooterPercent(0.5);
-        arm.setArmPivot(Presets.Arm.NEUTRAL_POS);
+        arm.setArmPivot(Presets.Arm.ACTUAL_NEUTRAL_POS);
       })
       )
     );

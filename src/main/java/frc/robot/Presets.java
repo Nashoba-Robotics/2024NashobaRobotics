@@ -19,7 +19,8 @@ public class Presets {
         public static final Rotation2d AMP_POS = Rotation2d.fromDegrees(105); //60 or 35
         public static final Rotation2d INTAKE_POS = Rotation2d.fromRadians(-1);
         public static final Rotation2d ACTUAL_INTAKE_POS = Rotation2d.fromRadians(-0.89);
-        public static final Rotation2d NEUTRAL_POS = Rotation2d.fromRadians(-0.89);
+        public static final Rotation2d ACTUAL_NEUTRAL_POS = Rotation2d.fromRadians(-0.89);
+        public static final Rotation2d NEUTRAL_POS = Rotation2d.fromRadians(-1);
         // public static final Rotation2d SHOOT_POS = Rotation2d.fromRadians(0);
         public static final Rotation2d SOURCE_POS = Rotation2d.fromDegrees(42);
         public static final Rotation2d LOW_SHUTTLE_POS = Rotation2d.fromDegrees(5);

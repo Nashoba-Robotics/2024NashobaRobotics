@@ -20,6 +20,6 @@ public class ArmToNeutral extends Command{
 
     @Override
     public boolean isFinished() {
-        return DriverStation.isAutonomous() || Math.abs(arm.getArmPivotAngle().getRadians()-Presets.Arm.NEUTRAL_POS.getRadians()) <= 0.05;
+        return DriverStation.isAutonomous() || arm.getArmPivotAngle().getRadians()<Presets.Arm.ACTUAL_NEUTRAL_POS.getRadians();
     }
 }
