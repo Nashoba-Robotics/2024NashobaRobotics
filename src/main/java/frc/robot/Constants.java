@@ -90,7 +90,7 @@ public class Constants {
             public static final double PIVOT_STATOR_CURRENT_LIMIT = 45.0;
             public static final double PIVOT_SUPPLY_CURRENT_LIMIT = 15.0;
 
-            public static final Rotation2d PIVOT_FORWARD_SOFT_LIMIT = Rotation2d.fromDegrees(120);
+            public static final Rotation2d PIVOT_FORWARD_SOFT_LIMIT = Rotation2d.fromDegrees(-0.85);
             public static final Rotation2d PIVOT_REVERSE_SOFT_LIMIT = Rotation2d.fromRadians(-0.86);
 
             public static final double PIVOT_MOTION_MAGIC_ACCELERATION = 1.3;
@@ -104,7 +104,7 @@ public class Constants {
             // .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
             // .withKP(80).withKI(0).withKD(0.6);
             .withKV(0.975).withKS(0.009).withKG(0.035).withGravityType(GravityTypeValue.Arm_Cosine)
-            .withKP(5.5).withKI(0).withKD(0.001);
+            .withKP(0).withKI(0).withKD(0.001);
 
             public static final double SHOOTER_STATOR_CURRENT_LIMIT = 70;
             public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 50;

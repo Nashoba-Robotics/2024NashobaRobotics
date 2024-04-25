@@ -186,7 +186,7 @@ public class Robot extends LoggedRobot {
     robotContainer.getAutoCommand().schedule();
     
     CommandScheduler.getInstance().schedule(new ZeroClimberCommand(RobotContainer.climber));
-    CommandScheduler.getInstance().schedule(new Dictator());
+    // CommandScheduler.getInstance().schedule(new Dictator());
     RobotContainer.odometryFlag = true;
 
     RobotContainer.drive.enableStatorLimits(false);
@@ -205,7 +205,7 @@ public class Robot extends LoggedRobot {
       new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
       );
 
-    CommandScheduler.getInstance().schedule(new President());
+    // CommandScheduler.getInstance().schedule(new President());
     Governor.setRobotState(RobotState.NEUTRAL, true);
 
     RobotContainer.drive.overrideVisionOdo = false;

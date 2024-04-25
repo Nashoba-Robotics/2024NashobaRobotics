@@ -154,7 +154,7 @@ public class DistanceToArmAngleModel {
     }
 
     private double[] transformPoint(double[] point) {
-        return new double[] {Math.atan(point[0]), point[1]};
+        return new double[] {Math.tan(point[0]), point[1]};
     }
 
     private double[] untransformPoint(double[] point) {
