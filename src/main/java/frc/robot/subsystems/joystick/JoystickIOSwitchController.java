@@ -28,12 +28,12 @@ public class JoystickIOSwitchController implements JoystickIO{
 
     @Override
     public JoystickValues getLeftJoystickValues(){
-        int multiplier = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? 1 : 1;
-        return new JoystickValues(driveController.getX() * multiplier, driveController.getY() * multiplier);
+        int multiplier = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? 1 : -1;
+        return new JoystickValues(driveController.getX() * multiplier, -driveController.getY() * multiplier);
     }
     @Override
     public JoystickValues getRightJoystickValues(){
-        return new JoystickValues(driveController.getZ(), -driveController.getTwist());
+        return new JoystickValues(driveController.getZ(), -driveController.getThrottle());
     }
     @Override
     public CommandJoystick getDriverController(){

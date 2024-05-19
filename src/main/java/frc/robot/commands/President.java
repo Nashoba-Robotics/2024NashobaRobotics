@@ -115,10 +115,10 @@ public class President extends Command {
                 
                 break;
             case INTAKE:
-                if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
+                if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL, true);
                 break;
             case SOURCE:
-                if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
+                if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL, true);
                 break;
             case SHOOT_PREP:
                 // drive.state = DriveState.AIM_TO_SPEAKER;
@@ -163,7 +163,7 @@ public class President extends Command {
                         }
                     }
 
-                    Governor.setRobotState(RobotState.NEUTRAL);
+                    Governor.setRobotState(RobotState.NEUTRAL, true);
                     shootFlag = false;
                     shootTimer.stop();
                 } 
