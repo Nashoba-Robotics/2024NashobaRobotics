@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -40,6 +42,7 @@ public class President extends Command {
     private AimToSpeakerCommand aimToSpeakerCommand;
 
     public President() {
+        Logger.recordOutput("isPresidentRunning", true);
         shootFlag = false;
         shootTimer = new Timer();
     
@@ -115,10 +118,10 @@ public class President extends Command {
                 
                 break;
             case INTAKE:
-                if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL, true);
+                if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
                 break;
             case SOURCE:
-                if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL, true);
+                if(RobotContainer.sensors.getShooterSensor()) Governor.setRobotState(RobotState.NEUTRAL);
                 break;
             case SHOOT_PREP:
                 // drive.state = DriveState.AIM_TO_SPEAKER;
@@ -163,7 +166,7 @@ public class President extends Command {
                         }
                     }
 
-                    Governor.setRobotState(RobotState.NEUTRAL, true);
+                    Governor.setRobotState(RobotState.NEUTRAL);
                     shootFlag = false;
                     shootTimer.stop();
                 } 

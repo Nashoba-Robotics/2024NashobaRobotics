@@ -205,7 +205,7 @@ public class Robot extends LoggedRobot {
       new DriveCommand(RobotContainer.drive, RobotContainer.joysticks)
       );
 
-    // CommandScheduler.getInstance().schedule(new President());
+    CommandScheduler.getInstance().schedule(new President());
     Governor.setRobotState(RobotState.NEUTRAL, true);
 
     RobotContainer.drive.overrideVisionOdo = false;
