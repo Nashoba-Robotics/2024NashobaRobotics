@@ -13,7 +13,8 @@ import frc.robot.subsystems.sensors.SensorManager;
 public class GrabberToIntake extends Command {
     private LoaderSubsystem loader = RobotContainer.loader;    
 
-    public GrabberToIntake() {
+    public 
+    GrabberToIntake() {
         addRequirements(loader);
     }
 

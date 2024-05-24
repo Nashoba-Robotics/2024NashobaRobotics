@@ -2,6 +2,8 @@ package frc.robot;
 
 import java.util.ArrayList;
 
+import com.ctre.phoenix.Logger;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;

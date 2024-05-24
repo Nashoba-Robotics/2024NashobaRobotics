@@ -104,7 +104,7 @@ public class Constants {
             // .withKV(1).withKS(0.022).withKG(0.03).withGravityType(GravityTypeValue.Arm_Cosine)
             // .withKP(80).withKI(0).withKD(0.6);
             .withKV(0.975).withKS(0.009).withKG(0.035).withGravityType(GravityTypeValue.Arm_Cosine)
-            .withKP(0).withKI(0).withKD(0.001);
+            .withKP(5).withKI(0).withKD(0.001);
 
             public static final double SHOOTER_STATOR_CURRENT_LIMIT = 70;
             public static final double SHOOTER_SUPPLY_CURRENT_LIMIT = 50;
