@@ -29,7 +29,7 @@ public class Presets {
         public static final Rotation2d TRAP_POS = Rotation2d.fromRadians(0);
 
 
-        public static final Rotation2d POS_TOLERANCE = Rotation2d.fromRadians(0.0);
+        public static final Rotation2d POS_TOLERANCE = Rotation2d.fromRadians(0.0175);
 
 
 
