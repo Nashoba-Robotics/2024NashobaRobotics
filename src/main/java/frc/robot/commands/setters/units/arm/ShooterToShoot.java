@@ -1,5 +1,7 @@
 package frc.robot.commands.setters.units.arm;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -37,6 +39,7 @@ public class ShooterToShoot extends Command{
 
     @Override
     public boolean isFinished() {
+        Logger.recordOutput("Shootertoshoot?", true);
         // return Math.abs(arm.getShooterSpeed().getRadians()-Presets.Arm.SPEAKER_SPEED.getRadians()) <= Presets.Arm.SPEED_TOLERANCE.getRadians();
         return Math.abs(arm.getShooterSpeed().getRadians()) >= Presets.Arm.SPEAKER_SPEED_CHECK.getRadians();
                 // || timer.get() > 2; 
