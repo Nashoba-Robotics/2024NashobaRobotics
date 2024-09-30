@@ -1,0 +1,67 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.43,
+      "y": 5.57
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid Start"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootClose"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid 1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootWait"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootWait"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootWait"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Autos",
+  "choreoAuto": false
+}

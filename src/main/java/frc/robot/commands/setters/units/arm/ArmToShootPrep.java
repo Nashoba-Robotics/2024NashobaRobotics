@@ -68,6 +68,7 @@ public class ArmToShootPrep extends Command{
 
        if(Presets.Arm.OVERRIDE_AUTOMATIC_AIM) angle = Presets.Arm.PODIUM_SHOOTER_POS.getRadians();
         if(RobotContainer.subwooferShot) arm.setArmPivot(Presets.Arm.ACTUAL_NEUTRAL_POS);
+        else if(drive.getPose().getX() > 3.3 && drive.getPose().getY() < 3.56) arm.setArmPivot(Rotation2d.fromRadians(angle - 0.034));
         else arm.setArmPivot(Rotation2d.fromRadians(angle));
     }
     @Override
